@@ -12,7 +12,7 @@ interface ProjectPageProps {
 
 export async function generateStaticParams() {
   const projects = await getProjects();
-  return projects.map((project) => ({
+  return projects.map((project: Project) => ({
     slug: project.slug.current,
   }));
 }
