@@ -1,53 +1,62 @@
 export default function Newsletter() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-20">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Newsletter</h1>
-        <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-          Receive exclusive content, updates on new projects, tutorials, and insights into the world of creative technology.
+    <div className="mx-auto max-w-3xl px-4 py-20">
+      <div className="mb-16 text-center">
+        <h1 className="mb-6 font-bold text-4xl tracking-tight md:text-5xl">
+          Newsletter
+        </h1>
+        <p className="mx-auto max-w-2xl text-xl text-zinc-400">
+          Receive exclusive content, updates on new projects, tutorials, and
+          insights into the world of creative technology.
         </p>
       </div>
 
-      <div className="bg-gradient-to-br from-zinc-800 to-zinc-900 p-10 rounded-2xl border border-zinc-700">
+      <div className="rounded-2xl border border-zinc-700 bg-linear-to-br from-zinc-800 to-zinc-900 p-10">
         <form className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-2">
+            <label
+              className="mb-2 block font-medium text-sm text-zinc-300"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
-              type="email"
+              className="w-full rounded border border-zinc-600 bg-black/50 px-4 py-3 text-white transition-colors focus:border-white focus:outline-none"
               id="email"
               name="email"
               placeholder="your@email.com"
               required
-              className="w-full bg-black/50 border border-zinc-600 rounded px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
+              type="email"
             />
           </div>
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-zinc-300 mb-2">
+            <label
+              className="mb-2 block font-medium text-sm text-zinc-300"
+              htmlFor="name"
+            >
               Name (optional)
             </label>
             <input
-              type="text"
+              className="w-full rounded border border-zinc-600 bg-black/50 px-4 py-3 text-white transition-colors focus:border-white focus:outline-none"
               id="name"
               name="name"
               placeholder="Your name"
-              className="w-full bg-black/50 border border-zinc-600 rounded px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
+              type="text"
             />
           </div>
 
           <div className="flex items-start">
             <input
-              type="checkbox"
+              className="mt-1 mr-3"
               id="privacy"
               name="privacy"
               required
-              className="mt-1 mr-3"
+              type="checkbox"
             />
-            <label htmlFor="privacy" className="text-sm text-zinc-400">
+            <label className="text-sm text-zinc-400" htmlFor="privacy">
               I accept the{" "}
-              <a href="/privacy" className="text-white hover:underline">
+              <a className="text-white hover:underline" href="/privacy">
                 privacy policy
               </a>{" "}
               and the processing of personal data.
@@ -55,15 +64,17 @@ export default function Newsletter() {
           </div>
 
           <button
+            className="w-full rounded bg-white px-6 py-3 font-bold text-black transition-colors hover:bg-zinc-200"
             type="submit"
-            className="w-full bg-white text-black font-bold px-6 py-3 rounded hover:bg-zinc-200 transition-colors"
           >
             Subscribe
           </button>
         </form>
 
-        <div className="mt-8 pt-8 border-t border-zinc-700">
-          <h3 className="text-sm font-semibold text-zinc-300 mb-4">What you'll receive:</h3>
+        <div className="mt-8 border-zinc-700 border-t pt-8">
+          <h3 className="mb-4 font-semibold text-sm text-zinc-300">
+            What you&apos;ll receive:
+          </h3>
           <ul className="space-y-2 text-sm text-zinc-400">
             <li className="flex items-start">
               <span className="mr-2">•</span>
@@ -91,10 +102,10 @@ export default function Newsletter() {
 
       <div className="mt-12 text-center text-sm text-zinc-500">
         <p>
-          You can unsubscribe at any time. We respect your privacy and do not share your data with third parties.
+          You can unsubscribe at any time. We respect your privacy and do not
+          share your data with third parties.
         </p>
       </div>
     </div>
   );
 }
-

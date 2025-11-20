@@ -1,4 +1,4 @@
-import { groq } from 'next-sanity'
+import { groq } from "next-sanity";
 
 export const postQuery = groq`*[_type == "post"] | order(publishedAt desc) {
   _id,
@@ -9,7 +9,7 @@ export const postQuery = groq`*[_type == "post"] | order(publishedAt desc) {
   author,
   publishedAt,
   tags
-}`
+}`;
 
 export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0] {
   _id,
@@ -21,7 +21,7 @@ export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][
   publishedAt,
   body,
   tags
-}`
+}`;
 
 export const projectQuery = groq`*[_type == "project"] | order(_createdAt desc) {
   _id,
@@ -34,7 +34,7 @@ export const projectQuery = groq`*[_type == "project"] | order(_createdAt desc) 
   featured,
   link,
   github
-}`
+}`;
 
 export const projectBySlugQuery = groq`*[_type == "project" && slug.current == $slug][0] {
   _id,
@@ -48,7 +48,7 @@ export const projectBySlugQuery = groq`*[_type == "project" && slug.current == $
   link,
   github,
   content
-}`
+}`;
 
 export const featuredProjectsQuery = groq`*[_type == "project" && featured == true] | order(_createdAt desc) {
   _id,
@@ -59,7 +59,7 @@ export const featuredProjectsQuery = groq`*[_type == "project" && featured == tr
   category,
   tags,
   featured
-}`
+}`;
 
 export const projectsByCategoryQuery = groq`*[_type == "project" && category == $category] | order(_createdAt desc) {
   _id,
@@ -70,5 +70,4 @@ export const projectsByCategoryQuery = groq`*[_type == "project" && category == 
   category,
   tags,
   featured
-}`
-
+}`;

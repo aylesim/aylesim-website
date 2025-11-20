@@ -1,17 +1,20 @@
-import ProjectCard from "@/components/features/ProjectCard";
+import FilterableProjects from "@/components/features/filterable-projects";
 import { getProjects } from "@/lib/sanity";
-import { Project } from "@/types/sanity";
-import FilterableProjects from "@/components/features/FilterableProjects";
+import type { Project } from "@/types/sanity";
 
 export default async function SelectedWorks() {
   const projects: Project[] = await getProjects();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-20">
+    <div className="mx-auto max-w-7xl px-4 py-20">
       <div className="mb-16 max-w-3xl">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Selected Works</h1>
+        <h1 className="mb-6 font-bold text-4xl tracking-tight md:text-5xl">
+          Selected Works
+        </h1>
         <p className="text-xl text-zinc-400">
-          Curated portfolio of selected projects: artworks, installations, and collaborations. Each project includes descriptions, media, and filterable tags.
+          Curated portfolio of selected projects: artworks, installations, and
+          collaborations. Each project includes descriptions, media, and
+          filterable tags.
         </p>
       </div>
 
@@ -19,4 +22,3 @@ export default async function SelectedWorks() {
     </div>
   );
 }
-

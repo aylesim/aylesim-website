@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import Footer from "@/components/layout/footer";
+import Navbar from "@/components/layout/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Aylesim | Creative Technologist & Generative Artist",
-  description: "Exploring the intersection of humans and technology through generative systems, interactive installations, and digital musical tools.",
+  description:
+    "Exploring the intersection of humans and technology through generative systems, interactive installations, and digital musical tools.",
 };
 
 export default function RootLayout({
@@ -27,12 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-black text-gray-200`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-black text-gray-200 antialiased`}
       >
         <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>

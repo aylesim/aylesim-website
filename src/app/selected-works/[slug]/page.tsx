@@ -1,14 +1,15 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
+import { PortableText } from "@portabletext/react";
 import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import type React from "react";
 import { getProjectBySlug, getProjects } from "@/lib/sanity";
 import { urlFor } from "@/sanity/lib/image";
-import { PortableText } from "@portabletext/react";
-import { Project } from "@/types/sanity";
+import type { Project } from "@/types/sanity";
 
-interface ProjectPageProps {
+type ProjectPageProps = {
   params: Promise<{ slug: string }>;
-}
+};
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -27,73 +28,77 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   const portableTextComponents = {
     types: {
-      image: ({ value }: any) => {
+      image: ({
+        value,
+      }: {
+        value: { asset?: { _ref?: string }; alt?: string };
+      }) => {
         if (!value?.asset?._ref) {
           return null;
         }
         return (
           <div className="my-8">
             <Image
-              src={urlFor(value).width(1200).height(800).url()}
               alt={value.alt || "Project image"}
-              width={1200}
-              height={800}
               className="rounded-lg"
+              height={800}
+              src={urlFor(value).width(1200).height(800).url()}
+              width={1200}
             />
           </div>
         );
       },
     },
     block: {
-      h1: ({ children }: any) => (
-        <h1 className="text-4xl font-bold mb-4 mt-8">{children}</h1>
+      h1: ({ children }: { children?: React.ReactNode }) => (
+        <h1 className="mt-8 mb-4 font-bold text-4xl">{children}</h1>
       ),
-      h2: ({ children }: any) => (
-        <h2 className="text-3xl font-bold mb-3 mt-6">{children}</h2>
+      h2: ({ children }: { children?: React.ReactNode }) => (
+        <h2 className="mt-6 mb-3 font-bold text-3xl">{children}</h2>
       ),
-      h3: ({ children }: any) => (
-        <h3 className="text-2xl font-semibold mb-2 mt-4">{children}</h3>
+      h3: ({ children }: { children?: React.ReactNode }) => (
+        <h3 className="mt-4 mb-2 font-semibold text-2xl">{children}</h3>
       ),
-      normal: ({ children }: any) => (
+      normal: ({ children }: { children?: React.ReactNode }) => (
         <p className="mb-4 text-zinc-300 leading-relaxed">{children}</p>
       ),
     },
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-20">
+    <div className="mx-auto max-w-5xl px-4 py-20">
       <Link
+        className="mb-8 inline-block text-zinc-400 transition-colors hover:text-white"
         href="/selected-works"
-        className="text-zinc-400 hover:text-white transition-colors mb-8 inline-block"
       >
         ← Back to works
       </Link>
 
       {project.featuredImage && (
-        <div className="relative h-[60vh] mb-12 rounded-xl overflow-hidden border border-zinc-800">
+        <div className="relative mb-12 h-[60vh] overflow-hidden rounded-xl border border-zinc-800">
           <Image
-            src={urlFor(project.featuredImage).width(1200).height(800).url()}
             alt={project.title}
-            fill
             className="object-cover"
+            fill
+            src={urlFor(project.featuredImage).width(1200).height(800).url()}
           />
         </div>
       )}
 
       <div className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+        <h1 className="mb-4 font-bold text-4xl tracking-tight md:text-5xl">
           {project.title}
         </h1>
         {project.description && (
-          <p className="text-xl text-zinc-400 mb-6">{project.description}</p>
+          <p className="mb-6 text-xl text-zinc-400">{project.description}</p>
         )}
 
         {project.tags && project.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="mb-6 flex flex-wrap gap-2">
             {project.tags.map((tag) => (
               <span
+                className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300"
                 key={tag}
-                className="px-3 py-1 bg-zinc-800 text-sm text-zinc-300 rounded"
               >
                 {tag}
               </span>
@@ -104,20 +109,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <div className="flex flex-wrap gap-4">
           {project.link && (
             <a
+              className="rounded bg-white px-6 py-2 font-bold text-black transition-colors hover:bg-zinc-200"
               href={project.link}
-              target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-2 bg-white text-black font-bold rounded hover:bg-zinc-200 transition-colors"
+              target="_blank"
             >
               View Project
             </a>
           )}
           {project.github && (
             <a
+              className="rounded border border-zinc-700 px-6 py-2 font-bold text-white transition-colors hover:bg-zinc-800"
               href={project.github}
-              target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-2 border border-zinc-700 text-white font-bold rounded hover:bg-zinc-800 transition-colors"
+              target="_blank"
             >
               GitHub
             </a>
@@ -128,12 +133,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {project.content && project.content.length > 0 && (
         <div className="prose prose-invert max-w-none">
           <PortableText
-            value={project.content}
             components={portableTextComponents}
+            value={project.content}
           />
         </div>
       )}
     </div>
   );
 }
-

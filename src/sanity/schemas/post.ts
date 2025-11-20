@@ -1,90 +1,101 @@
 export default {
-  name: 'post',
-  title: 'Blog Post',
-  type: 'document',
+  name: "post",
+  title: "Blog Post",
+  type: "document",
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      name: "title",
+      title: "Title",
+      type: "string",
+      validation: (Rule: unknown) =>
+        (Rule as { required: () => unknown }).required(),
     },
     {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: "slug",
+      title: "Slug",
+      type: "slug",
       options: {
-        source: 'title',
+        source: "title",
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: unknown) =>
+        (Rule as { required: () => unknown }).required(),
     },
     {
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
+      name: "excerpt",
+      title: "Excerpt",
+      type: "text",
       rows: 4,
     },
     {
-      name: 'mainImage',
-      title: 'Main Image',
-      type: 'image',
+      name: "mainImage",
+      title: "Main Image",
+      type: "image",
       options: {
         hotspot: true,
       },
     },
     {
-      name: 'author',
-      title: 'Author',
-      type: 'string',
-      initialValue: 'Aylesim',
+      name: "author",
+      title: "Author",
+      type: "string",
+      initialValue: "Aylesim",
     },
     {
-      name: 'publishedAt',
-      title: 'Published At',
-      type: 'datetime',
+      name: "publishedAt",
+      title: "Published At",
+      type: "datetime",
       initialValue: () => new Date().toISOString(),
     },
     {
-      name: 'body',
-      title: 'Body',
-      type: 'array',
+      name: "body",
+      title: "Body",
+      type: "array",
       of: [
         {
-          type: 'block',
+          type: "block",
         },
         {
-          type: 'image',
+          type: "image",
           fields: [
             {
-              type: 'text',
-              name: 'alt',
-              title: 'Alternative text',
+              type: "text",
+              name: "alt",
+              title: "Alternative text",
             },
           ],
         },
       ],
     },
     {
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [{ type: 'string' }],
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
     },
   ],
   preview: {
     select: {
-      title: 'title',
-      media: 'mainImage',
-      publishedAt: 'publishedAt',
+      title: "title",
+      media: "mainImage",
+      publishedAt: "publishedAt",
     },
-    prepare({ title, media, publishedAt }: any) {
+    prepare({
+      title,
+      media,
+      publishedAt,
+    }: {
+      title: string;
+      media: unknown;
+      publishedAt?: string;
+    }) {
       return {
         title,
         media,
-        subtitle: publishedAt ? new Date(publishedAt).toLocaleDateString() : 'No date',
-      }
+        subtitle: publishedAt
+          ? new Date(publishedAt).toLocaleDateString()
+          : "No date",
+      };
     },
   },
-}
-
+};

@@ -1,51 +1,68 @@
-import Link from "next/link";
 import Image from "next/image";
-import ProjectCard from "@/components/features/ProjectCard";
+import Link from "next/link";
+import ProjectCard from "@/components/features/project-card";
 import { getProjectsByCategory } from "@/lib/sanity";
 import { urlFor } from "@/sanity/lib/image";
-import { Project } from "@/types/sanity";
+import type { Project } from "@/types/sanity";
 
 export default async function GenerativeProjects() {
-  const projects: Project[] = await getProjectsByCategory('generative-projects');
+  const projects: Project[] = await getProjectsByCategory(
+    "generative-projects"
+  );
   return (
-    <div className="max-w-7xl mx-auto px-4 py-20">
+    <div className="mx-auto max-w-7xl px-4 py-20">
       <div className="mb-16 max-w-3xl">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Generative Projects</h1>
+        <h1 className="mb-6 font-bold text-4xl tracking-tight md:text-5xl">
+          Generative Projects
+        </h1>
         <p className="text-xl text-zinc-400">
-          Algorithmic compositions, audiovisual installations, and research experiments where code becomes the medium of expression.
+          Algorithmic compositions, audiovisual installations, and research
+          experiments where code becomes the medium of expression.
         </p>
       </div>
 
       {projects && projects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           {projects.slice(0, 1).map((project) => (
             <Link
-              key={project._id}
+              className="group col-span-1 cursor-pointer md:col-span-2"
               href={`/generative-projects/${project.slug.current}`}
-              className="col-span-1 md:col-span-2 group cursor-pointer"
+              key={project._id}
             >
-              <div className="relative h-[60vh] bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 mb-6">
+              <div className="relative mb-6 h-[60vh] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
                 {project.featuredImage ? (
                   <Image
-                    src={urlFor(project.featuredImage).width(1200).height(800).url()}
                     alt={project.title}
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    src={urlFor(project.featuredImage)
+                      .width(1200)
+                      .height(800)
+                      .url()}
                   />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/0 transition-colors">
-                    <span className="text-4xl font-thin tracking-widest text-zinc-700 group-hover:text-zinc-500">IMMERSIVE INSTALLATION PREVIEW</span>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/0">
+                    <span className="font-thin text-4xl text-zinc-700 tracking-widest group-hover:text-zinc-500">
+                      IMMERSIVE INSTALLATION PREVIEW
+                    </span>
                   </div>
                 )}
               </div>
-              <h2 className="text-3xl font-bold mb-2 group-hover:text-white transition-colors">{project.title}</h2>
-              <p className="text-zinc-400 text-lg mb-4 max-w-2xl">
+              <h2 className="mb-2 font-bold text-3xl transition-colors group-hover:text-white">
+                {project.title}
+              </h2>
+              <p className="mb-4 max-w-2xl text-lg text-zinc-400">
                 {project.description}
               </p>
               {project.tags && project.tags.length > 0 && (
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag: string) => (
-                    <span key={tag} className="px-3 py-1 bg-zinc-800 text-sm text-zinc-300 rounded">{tag}</span>
+                    <span
+                      className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300"
+                      key={tag}
+                    >
+                      {tag}
+                    </span>
                   ))}
                 </div>
               )}
@@ -53,49 +70,57 @@ export default async function GenerativeProjects() {
           ))}
           {projects.slice(1).map((project) => (
             <ProjectCard
-              key={project._id}
-              title={project.title}
-              description={project.description || ''}
-              tags={project.tags || []}
+              description={project.description || ""}
               href={`/generative-projects/${project.slug.current}`}
               image={project.featuredImage}
+              key={project._id}
+              tags={project.tags || []}
+              title={project.title}
             />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div className="col-span-1 md:col-span-2 group cursor-pointer">
-            <div className="relative h-[60vh] bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 mb-6">
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/0 transition-colors">
-                <span className="text-4xl font-thin tracking-widest text-zinc-700 group-hover:text-zinc-500">IMMERSIVE INSTALLATION PREVIEW</span>
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+          <div className="group col-span-1 cursor-pointer md:col-span-2">
+            <div className="relative mb-6 h-[60vh] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/0">
+                <span className="font-thin text-4xl text-zinc-700 tracking-widest group-hover:text-zinc-500">
+                  IMMERSIVE INSTALLATION PREVIEW
+                </span>
               </div>
             </div>
-            <h2 className="text-3xl font-bold mb-2">Echoes of the Machine</h2>
-            <p className="text-zinc-400 text-lg mb-4 max-w-2xl">
-              An immersive audiovisual environment where machine learning algorithms interpret audience movement to generate evolving soundscapes and visual geometry.
+            <h2 className="mb-2 font-bold text-3xl">Echoes of the Machine</h2>
+            <p className="mb-4 max-w-2xl text-lg text-zinc-400">
+              An immersive audiovisual environment where machine learning
+              algorithms interpret audience movement to generate evolving
+              soundscapes and visual geometry.
             </p>
             <div className="flex gap-2">
-              <span className="px-3 py-1 bg-zinc-800 text-sm text-zinc-300 rounded">TouchDesigner</span>
-              <span className="px-3 py-1 bg-zinc-800 text-sm text-zinc-300 rounded">Python</span>
-              <span className="px-3 py-1 bg-zinc-800 text-sm text-zinc-300 rounded">Sensors</span>
+              <span className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300">
+                TouchDesigner
+              </span>
+              <span className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300">
+                Python
+              </span>
+              <span className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300">
+                Sensors
+              </span>
             </div>
           </div>
-          <ProjectCard 
-            title="Cellular Automata Sound"
+          <ProjectCard
             description="A study on using Conway's Game of Life to drive MIDI note generation and velocity mapping, creating self-organizing musical structures."
-            tags={["JavaScript", "Generative Music", "Canvas API"]}
             href="/generative-projects/cellular-automata"
+            tags={["JavaScript", "Generative Music", "Canvas API"]}
+            title="Cellular Automata Sound"
           />
-          <ProjectCard 
-            title="Data Moshing Visualizer"
+          <ProjectCard
             description="Real-time video processing system that intentionally corrupts digital video data to create artistic glitch aesthetics reacting to audio transients."
-            tags={["GLSL", "Shaders", "MaxMSP"]}
             href="/generative-projects/data-moshing"
+            tags={["GLSL", "Shaders", "MaxMSP"]}
+            title="Data Moshing Visualizer"
           />
         </div>
       )}
     </div>
   );
 }
-
-

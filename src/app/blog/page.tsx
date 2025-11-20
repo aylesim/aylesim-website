@@ -1,60 +1,68 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { getPosts } from '@/lib/sanity';
-import { urlFor } from '@/sanity/lib/image';
-import { Post } from '@/types/sanity';
+import Image from "next/image";
+import Link from "next/link";
+import { getPosts } from "@/lib/sanity";
+import { urlFor } from "@/sanity/lib/image";
+import type { Post } from "@/types/sanity";
 
 export default async function Blog() {
   const posts: Post[] = await getPosts();
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-20">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Blog</h1>
-        <p className="text-zinc-400 text-xl max-w-2xl mx-auto">
-          Thoughts on creative coding, sound design, and the future of art technology.
+    <div className="mx-auto max-w-6xl px-4 py-20">
+      <div className="mb-16 text-center">
+        <h1 className="mb-6 font-bold text-4xl tracking-tight md:text-5xl">
+          Blog
+        </h1>
+        <p className="mx-auto max-w-2xl text-xl text-zinc-400">
+          Thoughts on creative coding, sound design, and the future of art
+          technology.
         </p>
       </div>
-      
+
       {posts.length === 0 ? (
-        <div className="p-12 border border-dashed border-zinc-800 rounded-lg text-center">
-          <p className="text-zinc-500 italic">No blog posts yet. Check back soon!</p>
+        <div className="rounded-lg border border-zinc-800 border-dashed p-12 text-center">
+          <p className="text-zinc-500 italic">
+            No blog posts yet. Check back soon!
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <Link
-              key={post._id}
-              href={`/blog/${post.slug.current}`}
               className="group block"
+              href={`/blog/${post.slug.current}`}
+              key={post._id}
             >
-              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg overflow-hidden hover:border-zinc-600 transition-all duration-300 hover:-translate-y-1 h-full flex flex-col">
+              <div className="hover:-translate-y-1 flex h-full flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900/50 transition-all duration-300 hover:border-zinc-600">
                 {post.mainImage && (
-                  <div className="relative h-48 bg-zinc-800 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden bg-zinc-800">
                     <Image
-                      src={urlFor(post.mainImage).width(600).height(400).url()}
                       alt={post.title}
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      src={urlFor(post.mainImage).width(600).height(400).url()}
                     />
                   </div>
                 )}
-                <div className="p-6 flex-1 flex flex-col">
-                  <h2 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">
+                <div className="flex flex-1 flex-col p-6">
+                  <h2 className="mb-2 font-bold text-xl transition-colors group-hover:text-white">
                     {post.title}
                   </h2>
                   {post.excerpt && (
-                    <p className="text-zinc-400 mb-4 text-sm line-clamp-3 flex-1">
+                    <p className="mb-4 line-clamp-3 flex-1 text-sm text-zinc-400">
                       {post.excerpt}
                     </p>
                   )}
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-zinc-800">
+                  <div className="mt-auto flex items-center justify-between border-zinc-800 border-t pt-4">
                     <span className="text-xs text-zinc-500">
-                      {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
+                      {post.publishedAt
+                        ? new Date(post.publishedAt).toLocaleDateString()
+                        : ""}
                     </span>
                     {post.tags && post.tags.length > 0 && (
                       <span className="text-xs text-zinc-500">
-                        {post.tags.length} {post.tags.length === 1 ? 'tag' : 'tags'}
+                        {post.tags.length}{" "}
+                        {post.tags.length === 1 ? "tag" : "tags"}
                       </span>
                     )}
                   </div>
@@ -67,5 +75,3 @@ export default async function Blog() {
     </div>
   );
 }
-
-

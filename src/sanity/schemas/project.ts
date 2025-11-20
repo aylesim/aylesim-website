@@ -1,87 +1,89 @@
 export default {
-  name: 'project',
-  title: 'Project',
-  type: 'document',
+  name: "project",
+  title: "Project",
+  type: "document",
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      name: "title",
+      title: "Title",
+      type: "string",
+      validation: (Rule: unknown) =>
+        (Rule as { required: () => unknown }).required(),
     },
     {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: "slug",
+      title: "Slug",
+      type: "slug",
       options: {
-        source: 'title',
+        source: "title",
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: unknown) =>
+        (Rule as { required: () => unknown }).required(),
     },
     {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
+      name: "description",
+      title: "Description",
+      type: "text",
       rows: 3,
     },
     {
-      name: 'featuredImage',
-      title: 'Featured Image',
-      type: 'image',
+      name: "featuredImage",
+      title: "Featured Image",
+      type: "image",
       options: {
         hotspot: true,
       },
     },
     {
-      name: 'category',
-      title: 'Category',
-      type: 'string',
+      name: "category",
+      title: "Category",
+      type: "string",
       options: {
         list: [
-          { title: 'Interactive Systems', value: 'interactive-systems' },
-          { title: 'Generative Projects', value: 'generative-projects' },
-          { title: 'Code & Technology', value: 'code-technology' },
+          { title: "Interactive Systems", value: "interactive-systems" },
+          { title: "Generative Projects", value: "generative-projects" },
+          { title: "Code & Technology", value: "code-technology" },
         ],
       },
     },
     {
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [{ type: 'string' }],
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
     },
     {
-      name: 'featured',
-      title: 'Featured',
-      type: 'boolean',
+      name: "featured",
+      title: "Featured",
+      type: "boolean",
       initialValue: false,
     },
     {
-      name: 'link',
-      title: 'External Link',
-      type: 'url',
+      name: "link",
+      title: "External Link",
+      type: "url",
     },
     {
-      name: 'github',
-      title: 'GitHub Repository',
-      type: 'url',
+      name: "github",
+      title: "GitHub Repository",
+      type: "url",
     },
     {
-      name: 'content',
-      title: 'Content',
-      type: 'array',
+      name: "content",
+      title: "Content",
+      type: "array",
       of: [
         {
-          type: 'block',
+          type: "block",
         },
         {
-          type: 'image',
+          type: "image",
           fields: [
             {
-              type: 'text',
-              name: 'alt',
-              title: 'Alternative text',
+              type: "text",
+              name: "alt",
+              title: "Alternative text",
             },
           ],
         },
@@ -90,18 +92,27 @@ export default {
   ],
   preview: {
     select: {
-      title: 'title',
-      media: 'featuredImage',
-      category: 'category',
-      featured: 'featured',
+      title: "title",
+      media: "featuredImage",
+      category: "category",
+      featured: "featured",
     },
-    prepare({ title, media, category, featured }: any) {
+    prepare({
+      title,
+      media,
+      category,
+      featured,
+    }: {
+      title: string;
+      media: unknown;
+      category?: string;
+      featured?: boolean;
+    }) {
       return {
         title,
         media,
-        subtitle: `${category || 'No category'}${featured ? ' ⭐' : ''}`,
-      }
+        subtitle: `${category || "No category"}${featured ? " ⭐" : ""}`,
+      };
     },
   },
-}
-
+};
