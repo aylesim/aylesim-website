@@ -20,18 +20,18 @@ export default async function Home() {
         
         <div className="relative z-10 max-w-4xl mx-auto text-center px-4">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-500">
-            Unendo Creatività <br /> & Tecnologia
+            Uniting Creativity <br /> & Technology
           </h1>
           <p className="text-xl md:text-2xl text-zinc-400 mb-8 max-w-2xl mx-auto">
-            Artista Multidisciplinare, Creative Technologist & Sviluppatore di Sistemi Interattivi.
-            Esplorando l'intersezione tra esseri umani e tecnologia attraverso sistemi generativi.
+            Multidisciplinary Artist, Creative Technologist & Interactive Systems Developer.
+            Exploring the intersection of humans and technology through generative systems.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/selected-works" className="px-8 py-3 bg-white text-black font-bold rounded hover:bg-zinc-200 transition-colors">
-              Vedi Lavori
+              View Works
             </Link>
             <Link href="/about" className="px-8 py-3 border border-zinc-700 text-white font-bold rounded hover:bg-zinc-900 transition-colors">
-            Chi Sono
+            About Me
             </Link>
           </div>
         </div>
@@ -41,16 +41,16 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center border-y border-zinc-800 py-12">
           <div>
-            <h3 className="text-lg font-semibold text-white mb-2">Sistemi Generativi</h3>
-            <p className="text-zinc-400 text-sm">Creazione di sistemi complessi e auto-evolutivi che colmano il divario tra codice ed espressione artistica.</p>
+            <h3 className="text-lg font-semibold text-white mb-2">Generative Systems</h3>
+            <p className="text-zinc-400 text-sm">Creating complex and self-evolving systems that bridge the gap between code and artistic expression.</p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white mb-2">Strumenti Interattivi</h3>
-            <p className="text-zinc-400 text-sm">Sviluppo di device Max for Live personalizzati e software che potenziano musicisti e artisti.</p>
+            <h3 className="text-lg font-semibold text-white mb-2">Interactive Tools</h3>
+            <p className="text-zinc-400 text-sm">Developing custom Max for Live devices and software that empower musicians and artists.</p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white mb-2">Installazioni</h3>
-            <p className="text-zinc-400 text-sm">Progettazione di spazi fisici immersivi dove la logica digitale incontra la percezione umana.</p>
+            <h3 className="text-lg font-semibold text-white mb-2">Installations</h3>
+            <p className="text-zinc-400 text-sm">Designing immersive physical spaces where digital logic meets human perception.</p>
           </div>
         </div>
       </section>
@@ -59,11 +59,11 @@ export default async function Home() {
       <section id="work" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-end mb-12">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight mb-2">Lavori Principali</h2>
-            <p className="text-zinc-400">Progetti selezionati, strumenti e installazioni.</p>
+            <h2 className="text-3xl font-bold tracking-tight mb-2">Featured Works</h2>
+            <p className="text-zinc-400">Selected projects, tools, and installations.</p>
           </div>
           <Link href="/selected-works" className="text-sm text-zinc-400 hover:text-white transition-colors hidden md:block">
-            Vedi tutti i lavori →
+            View all works →
           </Link>
         </div>
         
@@ -105,7 +105,7 @@ export default async function Home() {
         
         <div className="mt-8 text-center md:hidden">
           <Link href="/selected-works" className="text-sm text-zinc-400 hover:text-white transition-colors">
-            Vedi tutti i lavori →
+            View all works →
           </Link>
         </div>
       </section>
@@ -113,7 +113,7 @@ export default async function Home() {
       {/* Social Proof / Collaborations */}
       <section className="bg-zinc-900/30 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500 mb-8">Presentato In & Collaborazioni</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500 mb-8">Featured In & Collaborations</h2>
           <div className="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:opacity-80 transition-opacity duration-500">
             {/* Placeholders for logos - using text for now */}
             <span className="text-xl font-bold">Max Berlin Network</span>
@@ -129,13 +129,13 @@ export default async function Home() {
         <div className="bg-gradient-to-br from-zinc-800 to-zinc-900 p-10 rounded-2xl border border-zinc-700">
           <h2 className="text-2xl font-bold mb-4">Newsletter</h2>
           <p className="text-zinc-400 mb-8">
-            Ricevi contenuti esclusivi, aggiornamenti su nuovi progetti, tutorial e approfondimenti sul mondo della creative technology.
+            Receive exclusive content, updates on new projects, tutorials, and insights into the world of creative technology.
           </p>
           <Link
             href="/newsletter"
             className="inline-block bg-white text-black font-bold px-8 py-3 rounded hover:bg-zinc-200 transition-colors"
           >
-            Iscriviti
+            Subscribe
           </Link>
         </div>
       </section>

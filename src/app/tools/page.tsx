@@ -72,7 +72,7 @@ export default function Tools() {
       <div className="mb-16 max-w-3xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Tools</h1>
         <p className="text-xl text-zinc-400">
-          Catalogo dei miei strumenti, device, plugin e software. Ogni tool include dettagli tecnici, demo e accesso ai repository.
+          Catalog of my tools, devices, plugins, and software. Each tool includes technical details, demos, and access to repositories.
         </p>
       </div>
 

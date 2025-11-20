@@ -66,7 +66,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         href="/selected-works"
         className="text-zinc-400 hover:text-white transition-colors mb-8 inline-block"
       >
-        ← Torna ai lavori
+        ← Back to works
       </Link>
 
       {project.featuredImage && (
@@ -109,7 +109,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               rel="noopener noreferrer"
               className="px-6 py-2 bg-white text-black font-bold rounded hover:bg-zinc-200 transition-colors"
             >
-              Vedi Progetto
+              View Project
             </a>
           )}
           {project.github && (

@@ -8,49 +8,49 @@ export default function About() {
       <div className="grid md:grid-cols-[2fr_1fr] gap-12">
         <div className="space-y-8 text-lg text-zinc-300 leading-relaxed">
           <section>
-            <h2 className="text-white font-semibold text-xl mb-4 uppercase tracking-wider text-sm">Il Percorso</h2>
+            <h2 className="text-white font-semibold text-xl mb-4 uppercase tracking-wider text-sm">The Journey</h2>
             <p>
-              Il mio percorso è iniziato nel Sud Italia, radicato nell'arte sonora e nella produzione musicale. Questa iniziale fascinazione per la texture del suono si è rapidamente evoluta in una profonda curiosità per i sistemi che lo generano e lo controllano.
+              My journey began in Southern Italy, rooted in sound art and music production. This initial fascination with the texture of sound quickly evolved into a deep curiosity for the systems that generate and control it.
             </p>
             <p className="mt-4">
-              Il trasferimento a Berlino ha segnato una svolta fondamentale. Immerso in una città che definisce l'avanguardia della musica elettronica e della tecnologia creativa, sono passato dall'essere un utilizzatore di strumenti all'essere un creatore di essi. Oggi opero come <strong>Artista Multidisciplinare, Creative Technologist e Sviluppatore di Sistemi Interattivi</strong>.
+              Moving to Berlin marked a fundamental turning point. Immersed in a city that defines the avant-garde of electronic music and creative technology, I transitioned from being a user of tools to being a creator of them. Today I operate as a <strong>Multidisciplinary Artist, Creative Technologist, and Interactive Systems Developer</strong>.
             </p>
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-xl mb-4 uppercase tracking-wider text-sm">Filosofia & Missione</h2>
+            <h2 className="text-white font-semibold text-xl mb-4 uppercase tracking-wider text-sm">Philosophy & Mission</h2>
             <p>
-              La mia missione è esplorare l'intersezione tra esseri umani e tecnologia. Credo che la tecnologia non debba essere solo un'utilità, ma un partner nella creatività. 
+              My mission is to explore the intersection between humans and technology. I believe that technology should not just be a utility, but a partner in creativity. 
             </p>
             <p className="mt-4">
-              Attraverso <strong>sistemi generativi</strong>, <strong>strumenti musicali personalizzati</strong> e <strong>installazioni interattive</strong>, mi propongo di costruire ponti che permettano alla logica algoritmica complessa di sentirsi organica ed espressiva nelle mani umane.
+              Through <strong>generative systems</strong>, <strong>custom musical instruments</strong>, and <strong>interactive installations</strong>, I aim to build bridges that allow complex algorithmic logic to feel organic and expressive in human hands.
             </p>
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-xl mb-4 uppercase tracking-wider text-sm">Riconoscimenti & Community</h2>
+            <h2 className="text-white font-semibold text-xl mb-4 uppercase tracking-wider text-sm">Recognition & Community</h2>
             <p>
-              Sono un membro attivo del <strong>Max Berlin Network</strong>, collaborando regolarmente con artisti e programmatori per spingere i confini di ciò che è possibile con MaxMSP e codice generativo.
+              I am an active member of the <strong>Max Berlin Network</strong>, regularly collaborating with artists and programmers to push the boundaries of what's possible with MaxMSP and generative code.
             </p>
             <p className="mt-4">
-              Il mio lavoro è stato riconosciuto nella comunità della creative technology, e continuo a contribuire all'innovazione nelle comunità open-source e creative coding. Questi riconoscimenti alimentano la mia spinta a continuare a innovare e condividere conoscenza.
+              My work has been recognized in the creative technology community, and I continue to contribute to innovation in open-source and creative coding communities. These recognitions fuel my drive to continue innovating and sharing knowledge.
             </p>
           </section>
           
           <section>
             <h2 className="text-white font-semibold text-xl mb-4 uppercase tracking-wider text-sm">Storytelling</h2>
             <p>
-              Ogni progetto che creo racconta una storia. Che si tratti di un dispositivo Max for Live che amplifica l'espressione musicale, di un'installazione generativa che risponde all'ambiente, o di codice open-source che abilita altri creatori, il filo conduttore è sempre lo stesso: rendere la tecnologia accessibile, espressiva e profondamente umana.
+              Every project I create tells a story. Whether it's a Max for Live device that amplifies musical expression, a generative installation that responds to the environment, or open-source code that enables other creators, the common thread is always the same: making technology accessible, expressive, and deeply human.
             </p>
             <p className="mt-4">
-              Il mio approccio combina rigore tecnico con sensibilità artistica, esplorando come algoritmi e sistemi possano diventare strumenti di espressione personale e collettiva.
+              My approach combines technical rigor with artistic sensitivity, exploring how algorithms and systems can become tools for personal and collective expression.
             </p>
           </section>
         </div>
 
         <aside className="space-y-10">
           <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800">
-            <h3 className="text-white font-bold mb-6">Skills Tecniche</h3>
+            <h3 className="text-white font-bold mb-6">Technical Skills</h3>
             
             <div className="space-y-4">
               <div>
@@ -100,12 +100,12 @@ export default function About() {
           </div>
 
           <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800">
-            <h3 className="text-white font-bold mb-4">Contatti</h3>
+            <h3 className="text-white font-bold mb-4">Contact</h3>
             <p className="text-zinc-400 text-sm mb-4">
-              Interessato a collaborazioni o sviluppo personalizzato?
+              Interested in collaborations or custom development?
             </p>
             <a href="mailto:contact@aylesim.com" className="block text-center bg-white text-black font-bold py-2 rounded hover:bg-zinc-200 transition-colors">
-              Contattami
+              Contact Me
             </a>
           </div>
         </aside>

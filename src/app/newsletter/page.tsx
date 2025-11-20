@@ -4,7 +4,7 @@ export default function Newsletter() {
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Newsletter</h1>
         <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-          Ricevi contenuti esclusivi, aggiornamenti su nuovi progetti, tutorial e approfondimenti sul mondo della creative technology.
+          Receive exclusive content, updates on new projects, tutorials, and insights into the world of creative technology.
         </p>
       </div>
 
@@ -26,13 +26,13 @@ export default function Newsletter() {
 
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-zinc-300 mb-2">
-              Nome (opzionale)
+              Name (optional)
             </label>
             <input
               type="text"
               id="name"
               name="name"
-              placeholder="Il tuo nome"
+              placeholder="Your name"
               className="w-full bg-black/50 border border-zinc-600 rounded px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
             />
           </div>
@@ -46,11 +46,11 @@ export default function Newsletter() {
               className="mt-1 mr-3"
             />
             <label htmlFor="privacy" className="text-sm text-zinc-400">
-              Accetto la{" "}
+              I accept the{" "}
               <a href="/privacy" className="text-white hover:underline">
                 privacy policy
               </a>{" "}
-              e il trattamento dei dati personali.
+              and the processing of personal data.
             </label>
           </div>
 
@@ -58,32 +58,32 @@ export default function Newsletter() {
             type="submit"
             className="w-full bg-white text-black font-bold px-6 py-3 rounded hover:bg-zinc-200 transition-colors"
           >
-            Iscriviti
+            Subscribe
           </button>
         </form>
 
         <div className="mt-8 pt-8 border-t border-zinc-700">
-          <h3 className="text-sm font-semibold text-zinc-300 mb-4">Cosa riceverai:</h3>
+          <h3 className="text-sm font-semibold text-zinc-300 mb-4">What you'll receive:</h3>
           <ul className="space-y-2 text-sm text-zinc-400">
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              <span>Aggiornamenti su nuovi progetti e installazioni</span>
+              <span>Updates on new projects and installations</span>
             </li>
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              <span>Tutorial e approfondimenti tecnici</span>
+              <span>Tutorials and technical insights</span>
             </li>
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              <span>Dietro le quinte dei processi creativi</span>
+              <span>Behind the scenes of creative processes</span>
             </li>
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              <span>Accesso anticipato a nuovi tool e risorse</span>
+              <span>Early access to new tools and resources</span>
             </li>
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              <span>Inviti a eventi e collaborazioni</span>
+              <span>Invitations to events and collaborations</span>
             </li>
           </ul>
         </div>
@@ -91,7 +91,7 @@ export default function Newsletter() {
 
       <div className="mt-12 text-center text-sm text-zinc-500">
         <p>
-          Puoi disiscriverti in qualsiasi momento. Rispettiamo la tua privacy e non condividiamo i tuoi dati con terze parti.
+          You can unsubscribe at any time. We respect your privacy and do not share your data with third parties.
         </p>
       </div>
     </div>

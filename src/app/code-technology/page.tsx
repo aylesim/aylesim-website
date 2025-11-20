@@ -7,7 +7,7 @@ export default function CodeTechnology() {
         <div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Code & Technology</h1>
           <p className="text-xl text-zinc-400 max-w-2xl">
-            Approfondimenti tecnici, tutorial, risorse, contributi open-source e link ai repository.
+            Technical insights, tutorials, resources, open-source contributions, and links to repositories.
           </p>
         </div>
         <a 
@@ -16,7 +16,7 @@ export default function CodeTechnology() {
           rel="noopener noreferrer"
           className="px-6 py-3 bg-white text-black font-bold rounded hover:bg-zinc-200 transition-colors"
         >
-          Vai al Profilo GitHub
+          Go to GitHub Profile
         </a>
       </div>
 
@@ -43,7 +43,7 @@ export default function CodeTechnology() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-8 pb-4 border-b border-zinc-800">Tutorial & Approfondimenti Tecnici</h2>
+          <h2 className="text-2xl font-bold mb-8 pb-4 border-b border-zinc-800">Tutorials & Technical Insights</h2>
           <div className="space-y-6">
             <article className="group cursor-pointer">
               <span className="text-sm text-zinc-500 mb-2 block">October 12, 2023</span>
@@ -52,7 +52,7 @@ export default function CodeTechnology() {
                 A deep dive into the best practices for patching in MaxMSP to ensure your devices run smoothly in a heavy Ableton Live set. Covering polyphony, MSP signal flow, and UI refresh rates.
               </p>
               <Link href="/blog/optimizing-m4l" className="inline-block mt-4 text-white border-b border-white pb-0.5 hover:text-zinc-300 hover:border-zinc-300 transition-colors">
-                Leggi Articolo
+                Read Article
               </Link>
             </article>
             
@@ -63,7 +63,7 @@ export default function CodeTechnology() {
                 How to bridge physical hardware with web technologies. A tutorial on using Johnny-Five and standard MIDI protocols to control browser-based synths.
               </p>
               <Link href="/blog/arduino-midi-node" className="inline-block mt-4 text-white border-b border-white pb-0.5 hover:text-zinc-300 hover:border-zinc-300 transition-colors">
-                Leggi Articolo
+                Read Article
               </Link>
             </article>
           </div>

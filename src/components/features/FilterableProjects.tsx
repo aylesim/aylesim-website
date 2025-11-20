@@ -70,8 +70,8 @@ export default function FilterableProjects({ projects }: FilterableProjectsProps
         <div className="p-12 border border-dashed border-zinc-800 rounded-lg text-center">
           <p className="text-zinc-500 italic">
             {selectedTag
-              ? `Nessun progetto trovato con il tag "${selectedTag}"`
-              : "Nessun progetto disponibile al momento."}
+              ? `No projects found with the tag "${selectedTag}"`
+              : "No projects available at the moment."}
           </p>
         </div>
       )}

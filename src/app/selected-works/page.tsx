@@ -11,7 +11,7 @@ export default async function SelectedWorks() {
       <div className="mb-16 max-w-3xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Selected Works</h1>
         <p className="text-xl text-zinc-400">
-          Portfolio curato con progetti scelti: artworks, installazioni e collaborazioni. Ogni progetto include descrizioni, media e tag filtrabili.
+          Curated portfolio of selected projects: artworks, installations, and collaborations. Each project includes descriptions, media, and filterable tags.
         </p>
       </div>
 
