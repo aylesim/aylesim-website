@@ -80,20 +80,14 @@ export default {
       media: "mainImage",
       publishedAt: "publishedAt",
     },
-    prepare({
-      title,
-      media,
-      publishedAt,
-    }: {
-      title: string;
-      media: unknown;
-      publishedAt?: string;
-    }) {
+    prepare(value: Record<string, unknown>) {
+      const { title, media, publishedAt } = value;
       return {
-        title,
-        media,
+        title: title as string,
+        // biome-ignore lint/suspicious/noExplicitAny: Sanity PreviewValue media type is not exported
+        media: media as any,
         subtitle: publishedAt
-          ? new Date(publishedAt).toLocaleDateString()
+          ? new Date(publishedAt as string).toLocaleDateString()
           : "No date",
       };
     },

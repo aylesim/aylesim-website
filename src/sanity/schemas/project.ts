@@ -97,21 +97,13 @@ export default {
       category: "category",
       featured: "featured",
     },
-    prepare({
-      title,
-      media,
-      category,
-      featured,
-    }: {
-      title: string;
-      media: unknown;
-      category?: string;
-      featured?: boolean;
-    }) {
+    prepare(value: Record<string, unknown>) {
+      const { title, media, category, featured } = value;
       return {
-        title,
-        media,
-        subtitle: `${category || "No category"}${featured ? " ⭐" : ""}`,
+        title: title as string,
+        // biome-ignore lint/suspicious/noExplicitAny: Sanity PreviewValue media type is not exported
+        media: media as any,
+        subtitle: `${(category as string | undefined) || "No category"}${featured ? " ⭐" : ""}`,
       };
     },
   },

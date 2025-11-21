@@ -4,5 +4,6 @@ import { client } from "./client";
 const builder = imageUrlBuilder(client);
 
 export function urlFor(source: unknown) {
-  return builder.image(source);
+  // biome-ignore lint/suspicious/noExplicitAny: SanityImageSource type is not exported from @sanity/image-url
+  return builder.image(source as any);
 }
