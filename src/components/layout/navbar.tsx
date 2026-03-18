@@ -1,50 +1,47 @@
 import Link from "next/link";
 
-const Navbar = () => (
-  <nav className="sticky top-0 z-50 w-full border-zinc-800 border-b bg-zinc-950">
-    <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-      <Link
-        className="font-serif-display text-xl tracking-tight hover:opacity-80"
-        href="/"
-      >
-        Aylesim
-      </Link>
-      <div className="flex flex-wrap items-center gap-4 text-sm md:gap-8">
-        <Link
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
-          href="/work"
-        >
-          Work
-        </Link>
-        <Link
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
-          href="/devices"
-        >
-          Devices
-        </Link>
-        <Link
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
-          href="/about"
-        >
-          About
-        </Link>
-        <Link
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
-          href="/contact"
-        >
-          Contact
-        </Link>
-        <a
-          className="text-zinc-400 hover:text-zinc-100"
-          href="https://gumroad.com/aylesim"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Store
-        </a>
-      </div>
-    </div>
-  </nav>
-);
+const MASTHEAD = "aylesim";
 
-export default Navbar;
+const navLinks = [
+  { href: "/work", label: "Work" },
+  { href: "/devices", label: "Devices" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default function Navbar() {
+  return (
+    <header className="w-full">
+      <div className="flex items-baseline justify-between pt-6 pb-8 content-width md:pt-8 md:pb-10">
+        <Link className="block" href="/">
+          <h1 className="font-semibold font-serif-display text-5xl text-[var(--foreground)] tracking-wide md:text-6xl lg:text-7xl">
+            {MASTHEAD}
+          </h1>
+        </Link>
+        <nav className="flex items-baseline gap-x-4 gap-y-2 md:gap-x-6">
+          {navLinks.map((item) =>
+            item.external ? (
+              <a
+                className="font-serif-display text-[var(--text-muted)] text-sm transition-colors duration-300 hover:text-[var(--foreground)] md:text-base"
+                href={item.href}
+                key={item.label}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                className="font-serif-display text-[var(--text-muted)] text-sm transition-colors duration-300 hover:text-[var(--foreground)] md:text-base"
+                href={item.href}
+                key={item.label}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
+        </nav>
+      </div>
+    </header>
+  );
+}

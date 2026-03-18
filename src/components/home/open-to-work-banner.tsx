@@ -1,7 +1,7 @@
 export default function OpenToWorkBanner() {
   return (
-    <section className="border-zinc-800 border-y bg-zinc-900/30 py-4">
-      <p className="text-center text-sm text-zinc-500">
+    <section className="border-[var(--border)] border-y bg-[var(--bg-elevated)]/20 py-8">
+      <p className="text-center text-[var(--text-muted)] text-sm content-width">
         Open to studio collaborations and freelance projects
       </p>
     </section>

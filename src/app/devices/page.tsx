@@ -9,18 +9,18 @@ export default function Devices() {
   );
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
-      <h1 className="mb-4 font-serif-display text-4xl md:text-5xl">
+    <div className="py-16 content-width md:py-20">
+      <h1 className="mb-4 font-serif-display text-4xl text-[var(--foreground)] md:text-5xl">
         Aylesim Devices
       </h1>
-      <p className="mb-8 max-w-xl text-zinc-400">
+      <p className="mb-8 max-w-xl text-[var(--text-secondary)]">
         Max4Live instruments for musicians and producers. Generative, FX,
         utility, sequencer.
       </p>
 
       <div className="mb-16 flex gap-6 text-sm">
         <a
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
+          className="text-[var(--text-muted)] transition-colors duration-300 hover:text-[var(--foreground)] hover:underline"
           href="https://gumroad.com/aylesim"
           rel="noopener noreferrer"
           target="_blank"
@@ -28,7 +28,7 @@ export default function Devices() {
           Gumroad
         </a>
         <a
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
+          className="text-[var(--text-muted)] transition-colors duration-300 hover:text-[var(--foreground)] hover:underline"
           href="https://isotonikstudios.com"
           rel="noopener noreferrer"
           target="_blank"
@@ -38,15 +38,15 @@ export default function Devices() {
       </div>
 
       {featuredDevice && (
-        <div className="mb-24 border-zinc-800 border-b pb-24">
-          <p className="mb-2 text-sm text-zinc-500">New</p>
-          <h2 className="mb-4 font-serif-display text-3xl text-zinc-100 md:text-4xl">
+        <div className="mb-24 border-[var(--border)] border-b pb-24">
+          <p className="mb-2 text-[var(--text-muted)] text-sm">New</p>
+          <h2 className="mb-4 font-serif-display text-3xl text-[var(--foreground)] md:text-4xl">
             {featuredDevice.name}
           </h2>
-          <p className="mb-6 max-w-xl text-zinc-400">
+          <p className="mb-6 max-w-xl text-[var(--text-secondary)]">
             {featuredDevice.description}
           </p>
-          <div className="mb-6 aspect-video max-w-xl overflow-hidden rounded-lg bg-zinc-900">
+          <div className="mb-6 aspect-video max-w-xl overflow-hidden bg-[var(--accent)]/20">
             {featuredDevice.demoVideo ? (
               <video
                 autoPlay
@@ -57,13 +57,13 @@ export default function Devices() {
                 src={featuredDevice.demoVideo}
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-zinc-600">
+              <div className="flex h-full w-full items-center justify-center text-[var(--text-muted)]">
                 Demo video
               </div>
             )}
           </div>
           <div className="flex items-center gap-4">
-            <span className="font-medium text-zinc-300">
+            <span className="font-medium text-[var(--foreground)]">
               {featuredDevice.price}
             </span>
             <Link
@@ -86,15 +86,15 @@ export default function Devices() {
 
       <DevicesGrid devices={storeDevices} />
 
-      <div className="mt-24 flex gap-6 border-zinc-800 border-t pt-12 text-sm">
+      <div className="mt-24 flex gap-6 border-[var(--border)] border-t pt-12 text-sm">
         <Link
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
+          className="text-[var(--text-muted)] transition-colors duration-300 hover:text-[var(--foreground)] hover:underline"
           href="/work"
         >
           ← Work
         </Link>
         <a
-          className="text-zinc-400 hover:text-zinc-100 hover:underline"
+          className="text-[var(--text-muted)] transition-colors duration-300 hover:text-[var(--foreground)] hover:underline"
           href="mailto:hello@aylesim.com"
         >
           Questions

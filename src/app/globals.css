@@ -1,20 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --bg-elevated: #18181b;
-  --border: #27272a;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
+  --bg: #5f8fa5;
+  --bg-elevated: #6b9eb2;
+  --bg-warm: #6a9aad;
+  --foreground: #1a1a1a;
+  --foreground-muted: #2d2d2d;
+  --text-secondary: #2a2a2a;
+  --text-muted: #3d3d3d;
+  --accent: #3d6b7d;
+  --accent-dark: #2d4f5d;
+  --border: #4a7a8d;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-serif-cormorant);
+  --content-max: 72rem;
+  --content-px: 1rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --content-px: 1.5rem;
+  }
 }
 
 html,
 body {
-  background: var(--background);
+  background: var(--bg);
   color: var(--foreground);
   font-family: var(--font-sans), Helvetica, sans-serif;
   margin: 0;
@@ -30,9 +42,28 @@ body {
     font-family: var(--font-serif), serif;
   }
   .text-accent {
-    color: rgb(161 161 170);
+    color: var(--accent);
   }
   .bg-accent {
-    background-color: rgb(161 161 170);
+    background-color: var(--accent);
+  }
+  .content-width {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--content-px);
+    padding-right: var(--content-px);
+  }
+}
+
+@keyframes fade-in-print {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

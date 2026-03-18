@@ -8,14 +8,16 @@ export default function FeaturedDevice() {
   }
 
   return (
-    <section className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-      <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-6 md:p-8">
-        <p className="mb-2 text-sm text-zinc-500">New</p>
-        <h2 className="mb-2 font-serif-display text-2xl text-zinc-100 md:text-3xl">
+    <section className="py-16 content-width md:py-20">
+      <div className="border border-[var(--border)] bg-[var(--bg-elevated)]/30 p-8 md:p-10">
+        <p className="mb-2 text-[var(--text-muted)] text-sm">New</p>
+        <h2 className="mb-3 font-serif-display text-2xl text-[var(--foreground)] md:text-3xl">
           {featured.name}
         </h2>
-        <p className="mb-6 max-w-xl text-zinc-400">{featured.description}</p>
-        <div className="mb-6 aspect-video w-full overflow-hidden rounded bg-zinc-900">
+        <p className="mb-8 max-w-xl text-[var(--text-secondary)] leading-relaxed">
+          {featured.description}
+        </p>
+        <div className="mb-8 aspect-video w-full overflow-hidden bg-[var(--accent)]/20">
           {featured.demoVideo ? (
             <video
               autoPlay
@@ -26,21 +28,23 @@ export default function FeaturedDevice() {
               src={featured.demoVideo}
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-zinc-600">
+            <div className="flex h-full w-full items-center justify-center text-[var(--text-muted)]">
               Demo video
             </div>
           )}
         </div>
-        <div className="flex items-center gap-4">
-          <span className="font-medium text-zinc-300">{featured.price}</span>
+        <div className="flex items-center gap-6">
+          <span className="font-medium text-[var(--foreground)]">
+            {featured.price}
+          </span>
           <Link
-            className="border-zinc-600 border-b text-zinc-300 hover:border-zinc-400 hover:text-zinc-100"
+            className="border-[var(--accent)] border-b text-[var(--text-secondary)] transition-colors duration-300 hover:text-[var(--foreground)]"
             href={`/devices/${featured.slug}`}
           >
             View
           </Link>
           <a
-            className="border-zinc-600 border-b text-zinc-300 hover:border-zinc-400 hover:text-zinc-100"
+            className="border-[var(--accent)] border-b text-[var(--text-secondary)] transition-colors duration-300 hover:text-[var(--foreground)]"
             href={featured.buyLink}
             rel="noopener noreferrer"
             target="_blank"

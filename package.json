@@ -19,10 +19,7 @@
     ]
   },
   "dependencies": {
-    "@portabletext/react": "^5.0.0",
-    "@sanity/client": "^7.13.0",
-    "@sanity/image-url": "^1.2.0",
-    "groq": "^4.16.0",
+    "@portabletext/react": "^6.0.3",
     "next": "16.0.3",
     "next-sanity": "^11.6.8",
     "react": "19.2.0",
@@ -31,7 +28,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.6",
-    "@portabletext/types": "^3.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

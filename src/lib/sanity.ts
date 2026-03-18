@@ -1,33 +1,44 @@
-import { client } from "@/sanity/lib/client";
-import {
-  featuredProjectsQuery,
-  postBySlugQuery,
-  postQuery,
-  projectBySlugQuery,
-  projectQuery,
-  projectsByCategoryQuery,
-} from "@/sanity/lib/queries";
+import { createClient } from "next-sanity";
 
-export async function getPosts() {
-  return await client.fetch(postQuery);
-}
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
-export async function getPostBySlug(slug: string) {
-  return await client.fetch(postBySlugQuery, { slug });
-}
+const client =
+  projectId && projectId !== "placeholder"
+    ? createClient({
+        projectId,
+        dataset,
+        apiVersion: "2024-01-01",
+        useCdn: true,
+      })
+    : null;
 
-export async function getProjects() {
-  return await client.fetch(projectQuery);
-}
+export type SanityPost = {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt?: string;
+  publishedAt?: string;
+  image?: string;
+};
 
-export async function getProjectBySlug(slug: string) {
-  return await client.fetch(projectBySlugQuery, { slug });
-}
-
-export async function getFeaturedProjects() {
-  return await client.fetch(featuredProjectsQuery);
-}
-
-export async function getProjectsByCategory(category: string) {
-  return await client.fetch(projectsByCategoryQuery, { category });
+export async function getLatestPosts(limit = 3): Promise<SanityPost[]> {
+  if (!client) {
+    return [];
+  }
+  try {
+    const posts = await client.fetch<SanityPost[]>(
+      `*[_type == "post"] | order(publishedAt desc)[0...${limit}] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        publishedAt,
+        "image": mainImage.asset->url
+      }`
+    );
+    return posts ?? [];
+  } catch {
+    return [];
+  }
 }
