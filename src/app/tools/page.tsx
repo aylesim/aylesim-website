@@ -74,79 +74,86 @@ export default function Tools() {
   const otherTools = tools.filter((t) => !t.featured);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-20">
-      <div className="mb-16 max-w-3xl">
-        <h1 className="mb-6 font-bold text-4xl tracking-tight md:text-5xl">
-          Tools
-        </h1>
-        <p className="text-xl text-zinc-400">
-          Catalog of my tools, devices, plugins, and software. Each tool
-          includes technical details, demos, and access to repositories.
-        </p>
+    <div className="w-full bg-white text-black">
+      {/* Header */}
+      <div className="border-black border-b p-6 md:p-12 lg:p-20">
+        <div className="max-w-4xl">
+          <span className="mb-4 block font-bold text-accent text-xs uppercase tracking-wide">
+            Software Library
+          </span>
+          <h1 className="mb-8 font-serif-display text-5xl md:text-7xl">
+            Tools & Devices
+          </h1>
+          <p className="max-w-2xl font-medium text-xl leading-tight md:text-2xl">
+            A catalog of custom Max for Live devices, audio plugins, and
+            open-source creative coding tools.
+          </p>
+        </div>
       </div>
 
+      {/* Featured Tools Grid */}
       {featuredTools.length > 0 && (
-        <section className="mb-20">
-          <h2 className="mb-8 border-zinc-800 border-b pb-4 font-bold text-2xl">
-            Featured Tools
-          </h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {featuredTools.map((tool) => (
+        <section>
+          <div className="border-black border-b bg-zinc-50 px-6 py-3">
+            <h2 className="font-bold text-xs uppercase tracking-wide">
+              Featured Releases
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {featuredTools.map((tool, i) => (
               <div
-                className="hover:-translate-y-1 rounded-lg border border-zinc-800 bg-zinc-900/50 p-8 transition-all duration-300 hover:border-zinc-600"
+                className={`flex h-full flex-col border-black border-b p-8 md:p-12 ${i % 2 === 0 ? "md:border-r" : ""}`}
                 key={tool.name}
               >
-                <div className="mb-4 flex items-start justify-between">
-                  <div>
-                    <span className="mb-2 block font-semibold text-xs text-zinc-500 uppercase tracking-wider">
+                <div className="mb-8">
+                  <div className="mb-4 flex items-start justify-between">
+                    <span className="rounded-full border border-black px-3 py-1 font-bold text-xs uppercase">
                       {tool.category}
                     </span>
-                    <h3 className="mb-3 font-bold text-2xl">{tool.name}</h3>
+                    {tool.download && tool.download !== "#" && (
+                      <span className="font-mono text-xs text-zinc-500">
+                        v1.0.0
+                      </span>
+                    )}
                   </div>
-                </div>
-                <p className="mb-6 text-zinc-400 leading-relaxed">
-                  {tool.description}
-                </p>
+                  <h3 className="mb-4 font-serif-display text-4xl">
+                    {tool.name}
+                  </h3>
+                  <p className="mb-6 text-lg text-zinc-600 leading-relaxed">
+                    {tool.description}
+                  </p>
 
-                <div className="mb-6">
-                  <h4 className="mb-3 font-semibold text-xs text-zinc-500 uppercase">
-                    Technologies
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="mb-8 flex flex-wrap gap-2">
                     {tool.tech.map((tech) => (
                       <span
-                        className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300"
+                        className="font-bold text-xs text-zinc-400 uppercase"
                         key={tech}
                       >
-                        {tech}
+                        #{tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 border-zinc-800 border-t pt-4">
+                <div className="mt-auto flex gap-4">
                   {tool.demo && tool.demo !== "#" && (
                     <Link
-                      className="rounded bg-white px-4 py-2 font-bold text-black text-sm transition-colors hover:bg-zinc-200"
+                      className="border-black border-b pb-1 font-bold text-sm transition-colors hover:text-accent"
                       href={tool.demo}
                     >
-                      View Demo
+                      View Page
                     </Link>
                   )}
                   {tool.github && (
                     <a
-                      className="rounded border border-zinc-700 px-4 py-2 font-bold text-sm text-white transition-colors hover:bg-zinc-800"
+                      className="border-black border-b pb-1 font-bold text-sm transition-colors hover:text-accent"
                       href={tool.github}
                       rel="noopener noreferrer"
                       target="_blank"
                     >
-                      GitHub
+                      GitHub Repo
                     </a>
-                  )}
-                  {tool.download && tool.download !== "#" && (
-                    <span className="rounded border border-zinc-700 px-4 py-2 font-mono text-sm text-xs text-zinc-400">
-                      {tool.download}
-                    </span>
                   )}
                 </div>
               </div>
@@ -155,54 +162,47 @@ export default function Tools() {
         </section>
       )}
 
+      {/* Other Tools List */}
       <section>
-        <h2 className="mb-8 border-zinc-800 border-b pb-4 font-bold text-2xl">
-          All Tools
-        </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="border-black border-b bg-zinc-50 px-6 py-3">
+          <h2 className="font-bold text-xs uppercase tracking-wide">Archive</h2>
+        </div>
+
+        <div className="grid grid-cols-1">
           {otherTools.map((tool) => (
             <div
-              className="hover:-translate-y-1 flex flex-col rounded-lg border border-zinc-800 bg-zinc-900/50 p-6 transition-all duration-300 hover:border-zinc-600"
+              className="group grid grid-cols-1 items-center gap-6 border-black border-b p-6 transition-colors hover:bg-zinc-50 md:grid-cols-12"
               key={tool.name}
             >
-              <span className="mb-2 block font-semibold text-xs text-zinc-500 uppercase tracking-wider">
-                {tool.category}
-              </span>
-              <h3 className="mb-3 font-bold text-xl">{tool.name}</h3>
-              <p className="mb-4 flex-1 text-sm text-zinc-400">
-                {tool.description}
-              </p>
-
-              <div className="mb-4">
-                <div className="flex flex-wrap gap-2">
-                  {tool.tech.slice(0, 3).map((tech) => (
-                    <span
-                      className="rounded bg-zinc-800 px-2 py-1 text-xs text-zinc-300"
-                      key={tech}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+              <div className="md:col-span-3">
+                <span className="mb-1 block font-bold text-xs text-zinc-500 uppercase">
+                  {tool.category}
+                </span>
+                <h3 className="font-serif-display text-2xl">{tool.name}</h3>
               </div>
 
-              <div className="flex flex-wrap gap-2 border-zinc-800 border-t pt-4">
-                {tool.demo && tool.demo !== "#" && (
-                  <Link
-                    className="text-xs text-zinc-400 transition-colors hover:text-white"
-                    href={tool.demo}
+              <div className="md:col-span-5">
+                <p className="text-sm text-zinc-600">{tool.description}</p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 md:col-span-2">
+                {tool.tech.slice(0, 2).map((tech) => (
+                  <span
+                    className="rounded border border-zinc-300 bg-white px-2 py-1 text-[10px]"
+                    key={tech}
                   >
-                    Demo →
-                  </Link>
-                )}
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex justify-end gap-4 md:col-span-2">
                 {tool.github && (
                   <a
-                    className="text-xs text-zinc-400 transition-colors hover:text-white"
+                    className="font-bold text-sm hover:text-accent"
                     href={tool.github}
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
-                    GitHub →
+                    GitHub ↗
                   </a>
                 )}
               </div>

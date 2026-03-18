@@ -22,41 +22,39 @@ export default function FilterableProjects({
     : projects;
 
   return (
-    <>
+    <div>
       {allTags.length > 0 && (
-        <div className="mb-12 border-zinc-800 border-b pb-8">
-          <div className="flex flex-wrap gap-3">
+        <div className="mb-12 flex flex-wrap gap-4 text-sm">
+          <button
+            className={
+              selectedTag === null
+                ? "font-medium text-zinc-100 underline"
+                : "text-zinc-500 hover:text-zinc-100"
+            }
+            onClick={() => setSelectedTag(null)}
+            type="button"
+          >
+            All
+          </button>
+          {allTags.map((tag) => (
             <button
-              className={`rounded px-4 py-2 font-medium text-sm transition-colors ${
-                selectedTag === null
-                  ? "bg-white text-black"
-                  : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-              }`}
-              onClick={() => setSelectedTag(null)}
+              className={
+                selectedTag === tag
+                  ? "font-medium text-zinc-100 underline"
+                  : "text-zinc-500 hover:text-zinc-100"
+              }
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
               type="button"
             >
-              All
+              {tag}
             </button>
-            {allTags.map((tag) => (
-              <button
-                className={`rounded px-4 py-2 font-medium text-sm transition-colors ${
-                  selectedTag === tag
-                    ? "bg-white text-black"
-                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-                }`}
-                key={tag}
-                onClick={() => setSelectedTag(tag)}
-                type="button"
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
+          ))}
         </div>
       )}
 
       {filteredProjects.length > 0 ? (
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="space-y-12">
           {filteredProjects.map((project) => (
             <ProjectCard
               description={project.description || ""}
@@ -69,14 +67,12 @@ export default function FilterableProjects({
           ))}
         </div>
       ) : (
-        <div className="rounded-lg border border-zinc-800 border-dashed p-12 text-center">
-          <p className="text-zinc-500 italic">
-            {selectedTag
-              ? `No projects found with the tag "${selectedTag}"`
-              : "No projects available at the moment."}
-          </p>
-        </div>
+        <p className="text-zinc-500">
+          {selectedTag
+            ? `No projects with "${selectedTag}"`
+            : "No projects available."}
+        </p>
       )}
-    </>
+    </div>
   );
 }

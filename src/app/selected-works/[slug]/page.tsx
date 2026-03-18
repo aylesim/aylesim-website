@@ -37,10 +37,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           return null;
         }
         return (
-          <div className="my-8">
+          <div className="my-12">
             <Image
               alt={value.alt || "Project image"}
-              className="rounded-lg"
+              className="h-auto w-full"
               height={800}
               src={urlFor(value).width(1200).height(800).url()}
               width={1200}
@@ -51,87 +51,85 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     },
     block: {
       h1: ({ children }: { children?: React.ReactNode }) => (
-        <h1 className="mt-8 mb-4 font-bold text-4xl">{children}</h1>
+        <h1 className="mt-12 mb-6 font-serif-display text-4xl text-zinc-100 md:text-5xl">
+          {children}
+        </h1>
       ),
       h2: ({ children }: { children?: React.ReactNode }) => (
-        <h2 className="mt-6 mb-3 font-bold text-3xl">{children}</h2>
+        <h2 className="mt-10 mb-4 font-serif-display text-3xl text-zinc-100 md:text-4xl">
+          {children}
+        </h2>
       ),
       h3: ({ children }: { children?: React.ReactNode }) => (
-        <h3 className="mt-4 mb-2 font-semibold text-2xl">{children}</h3>
+        <h3 className="mt-8 mb-3 font-serif-display text-2xl text-zinc-100 md:text-3xl">
+          {children}
+        </h3>
       ),
       normal: ({ children }: { children?: React.ReactNode }) => (
-        <p className="mb-4 text-zinc-300 leading-relaxed">{children}</p>
+        <p className="mb-6 text-lg text-zinc-300 leading-relaxed">{children}</p>
       ),
     },
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-20">
+    <div className="mx-auto max-w-2xl px-6 py-16 md:py-24">
       <Link
-        className="mb-8 inline-block text-zinc-400 transition-colors hover:text-white"
+        className="mb-12 block text-sm text-zinc-400 hover:text-zinc-100 hover:underline"
         href="/selected-works"
       >
-        ← Back to works
+        ← Selected Works
       </Link>
 
+      <h1 className="mb-6 font-serif-display text-4xl text-zinc-100 md:text-5xl">
+        {project.title}
+      </h1>
+      {project.description && (
+        <p className="mb-12 text-xl text-zinc-400">{project.description}</p>
+      )}
+
+      {project.tags && project.tags.length > 0 && (
+        <p className="mb-12 text-sm text-zinc-500">
+          {project.tags.join(" · ")}
+        </p>
+      )}
+
+      <div className="mb-12 flex gap-4">
+        {project.link && (
+          <a
+            className="border-zinc-600 border-b text-zinc-300 hover:border-zinc-400 hover:text-zinc-100"
+            href={project.link}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View project
+          </a>
+        )}
+        {project.github && (
+          <a
+            className="border-zinc-600 border-b text-zinc-300 hover:border-zinc-400 hover:text-zinc-100"
+            href={project.github}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            GitHub
+          </a>
+        )}
+      </div>
+
       {project.featuredImage && (
-        <div className="relative mb-12 h-[60vh] overflow-hidden rounded-xl border border-zinc-800">
+        <div className="mb-12">
           <Image
             alt={project.title}
-            className="object-cover"
-            fill
+            className="h-auto w-full"
+            height={800}
             src={urlFor(project.featuredImage).width(1200).height(800).url()}
+            width={1200}
           />
         </div>
       )}
 
-      <div className="mb-8">
-        <h1 className="mb-4 font-bold text-4xl tracking-tight md:text-5xl">
-          {project.title}
-        </h1>
-        {project.description && (
-          <p className="mb-6 text-xl text-zinc-400">{project.description}</p>
-        )}
-
-        {project.tags && project.tags.length > 0 && (
-          <div className="mb-6 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300"
-                key={tag}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="flex flex-wrap gap-4">
-          {project.link && (
-            <a
-              className="rounded bg-white px-6 py-2 font-bold text-black transition-colors hover:bg-zinc-200"
-              href={project.link}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              View Project
-            </a>
-          )}
-          {project.github && (
-            <a
-              className="rounded border border-zinc-700 px-6 py-2 font-bold text-white transition-colors hover:bg-zinc-800"
-              href={project.github}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              GitHub
-            </a>
-          )}
-        </div>
-      </div>
-
       {project.content && project.content.length > 0 && (
-        <div className="prose prose-invert max-w-none">
+        <div>
           <PortableText
             components={portableTextComponents}
             value={project.content}

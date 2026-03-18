@@ -18,37 +18,24 @@ const ProjectCard = ({
   href,
   image,
 }: ProjectCardProps) => (
-  <Link className="group block h-full" href={href}>
-    <div className="hover:-translate-y-1 h-full rounded-lg border border-zinc-800 bg-zinc-900/50 p-6 transition-all duration-300 hover:border-zinc-600">
-      <div className="relative mb-6 flex h-48 w-full items-center justify-center overflow-hidden rounded bg-zinc-800 transition-colors group-hover:bg-zinc-700">
-        {image ? (
-          <Image
-            alt={title}
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            fill
-            src={urlFor(image).width(600).height(400).url()}
-          />
-        ) : (
-          <span className="font-thin text-4xl text-zinc-600 group-hover:text-zinc-500">
-            PREVIEW
-          </span>
-        )}
+  <Link className="group block border-zinc-800 border-b pb-12" href={href}>
+    {image && (
+      <div className="relative mb-6 aspect-video w-full overflow-hidden bg-zinc-900">
+        <Image
+          alt={title}
+          className="object-cover opacity-90 transition-opacity duration-300 group-hover:opacity-100"
+          fill
+          src={urlFor(image).width(800).height(450).url()}
+        />
       </div>
-      <h3 className="mb-2 font-bold text-xl transition-colors group-hover:text-white">
-        {title}
-      </h3>
-      <p className="mb-4 line-clamp-3 text-sm text-zinc-400">{description}</p>
-      <div className="mt-auto flex flex-wrap gap-2">
-        {tags?.map((tag) => (
-          <span
-            className="rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-400"
-            key={tag}
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    </div>
+    )}
+    <h3 className="mb-2 font-serif-display text-2xl text-zinc-100 group-hover:underline md:text-3xl">
+      {title}
+    </h3>
+    <p className="mb-4 max-w-xl text-zinc-400">{description}</p>
+    {tags && tags.length > 0 && (
+      <p className="text-sm text-zinc-500">{tags.join(" · ")}</p>
+    )}
   </Link>
 );
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
@@ -14,10 +14,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const cormorant = Cormorant({
+  variable: "--font-serif-cormorant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Aylesim | Creative Technologist & Generative Artist",
+  title: "Aylesim",
   description:
-    "Exploring the intersection of humans and technology through generative systems, interactive installations, and digital musical tools.",
+    "Max/MSP instrument builder. Berlin-based creative technologist — devices, installations, community.",
+  metadataBase: new URL("https://aylesim.com"),
 };
 
 export default function RootLayout({
@@ -28,10 +35,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-black text-gray-200 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} bg-zinc-950 text-zinc-100 antialiased`}
       >
         <Navbar />
-        <main className="flex-grow">{children}</main>
+        <main className="flex min-h-screen flex-col">{children}</main>
         <Footer />
       </body>
     </html>

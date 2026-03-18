@@ -1,15 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  /* Force dark mode values by default */
   --background: #0a0a0a;
-  --foreground: #ededed;
+  --foreground: #fafafa;
+  --bg-elevated: #18181b;
+  --border: #27272a;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-serif-cormorant);
 }
 
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .font-serif-display {
+    font-family: var(--font-serif), serif;
+  }
+  .text-accent {
+    color: rgb(161 161 170);
+  }
+  .bg-accent {
+    background-color: rgb(161 161 170);
+  }
 }
