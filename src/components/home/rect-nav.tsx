@@ -1,0 +1,223 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useTransition,
+} from "react";
+import {
+  AboutInlineContent,
+  ProjectDetail,
+} from "@/components/home/portfolio-detail";
+import type { SiteContent } from "@/lib/content";
+
+function parseLegacySel(sp: URLSearchParams): {
+  aboutOpen: boolean;
+  projectSlug: string | null;
+} {
+  const raw = sp.get("sel");
+  if (!raw) {
+    return { aboutOpen: false, projectSlug: null };
+  }
+  const decoded = decodeURIComponent(raw);
+  if (decoded === "about" || decoded === "contact" || decoded === "elsewhere") {
+    return { aboutOpen: true, projectSlug: null };
+  }
+  const colon = decoded.indexOf(":");
+  if (colon <= 0) {
+    return { aboutOpen: false, projectSlug: null };
+  }
+  const prefix = decoded.slice(0, colon);
+  const slug = decoded.slice(colon + 1);
+  if (!slug) {
+    return { aboutOpen: false, projectSlug: null };
+  }
+  if (prefix === "project" || prefix === "work" || prefix === "device") {
+    return { aboutOpen: false, projectSlug: slug };
+  }
+  if (prefix === "info") {
+    return { aboutOpen: true, projectSlug: null };
+  }
+  return { aboutOpen: false, projectSlug: null };
+}
+
+function MenuSection({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="mt-3 border-(--index-divider) border-t border-dotted pt-3 first:mt-0 first:border-t-0 first:pt-0">
+      <div className="py-0.5 font-normal text-(--text-muted) text-sm leading-snug">
+        {label}
+      </div>
+      <ul className="m-0 mt-0.5 flex list-none flex-col divide-y divide-dotted divide-(--index-divider) border-(--index-divider) border-t border-dotted p-0 pt-0.5">
+        {children}
+      </ul>
+    </div>
+  );
+}
+
+function MenuItem({
+  title,
+  active,
+  onClick,
+  tag,
+}: {
+  title: string;
+  active: boolean;
+  onClick: () => void;
+  tag?: string;
+}) {
+  return (
+    <li className="py-0.5 first:pt-0">
+      <button
+        className={`flex w-full flex-wrap items-baseline gap-x-1.5 gap-y-0 py-0.5 pl-4 text-left font-normal text-sm leading-snug transition-colors ${
+          active
+            ? "text-(--foreground)"
+            : "text-(--text-muted) hover:text-(--foreground)"
+        }`}
+        onClick={onClick}
+        type="button"
+      >
+        <span>{title}</span>
+        {tag ? (
+          <span className="font-normal text-(--text-muted) text-[10px] tracking-wide">
+            {tag}
+          </span>
+        ) : null}
+      </button>
+    </li>
+  );
+}
+
+export default function RectNav({ content }: { content: SiteContent }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [, startTransition] = useTransition();
+
+  const state = useMemo(() => {
+    const aboutParam = searchParams.get("about");
+    const projectParam = searchParams.get("project");
+    if (aboutParam !== null || projectParam !== null) {
+      return {
+        aboutOpen: aboutParam === "1" || aboutParam === "true",
+        projectSlug: projectParam || null,
+      };
+    }
+    return parseLegacySel(searchParams);
+  }, [searchParams]);
+
+  const setState = useCallback(
+    (next: { aboutOpen: boolean; projectSlug: string | null }) => {
+      const q = new URLSearchParams();
+      if (next.aboutOpen) {
+        q.set("about", "1");
+      }
+      if (next.projectSlug) {
+        q.set("project", next.projectSlug);
+      }
+      startTransition(() => {
+        const qs = q.toString();
+        router.replace(qs ? `/?${qs}` : "/", {
+          scroll: false,
+        });
+      });
+    },
+    [router]
+  );
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setState({ aboutOpen: false, projectSlug: null });
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [setState]);
+
+  const toggleAbout = useCallback(() => {
+    setState({
+      aboutOpen: !state.aboutOpen,
+      projectSlug: state.projectSlug,
+    });
+  }, [setState, state.aboutOpen, state.projectSlug]);
+
+  const pickProject = useCallback(
+    (slug: string) => {
+      setState({
+        aboutOpen: state.aboutOpen,
+        projectSlug: state.projectSlug === slug ? null : slug,
+      });
+    },
+    [setState, state.aboutOpen, state.projectSlug]
+  );
+
+  const aboutOpen = state.aboutOpen;
+
+  return (
+    <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
+      <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-8 pb-4 md:px-5 md:pt-8 md:pb-4">
+        <Link className="text-lg tracking-tight md:text-xl" href="/">
+          Aylesim
+        </Link>
+        <button
+          className={`text-lg tracking-tight transition-colors md:text-xl ${
+            aboutOpen
+              ? "text-(--foreground)"
+              : "text-(--text-muted) hover:text-(--foreground)"
+          }`}
+          onClick={toggleAbout}
+          type="button"
+        >
+          about
+        </button>
+      </header>
+      {aboutOpen ? (
+        <div className="shrink-0 border-(--index-divider) border-t border-b border-dotted px-4 py-5 md:px-5">
+          <AboutInlineContent about={content.about} />
+        </div>
+      ) : null}
+
+      <div className="flex min-h-0 min-w-0 flex-1">
+        <aside className="flex h-full min-h-0 w-[min(100%,20rem)] shrink-0 flex-col px-4 pt-2 pb-5 md:w-[24rem] md:min-w-88 md:px-5 md:pt-2">
+          <nav
+            aria-label="Site"
+            className="flex min-h-0 flex-1 flex-col overflow-y-auto"
+          >
+            <MenuSection label="Projects">
+              {content.projects.map((item) => {
+                return (
+                  <MenuItem
+                    active={state.projectSlug === item.slug}
+                    key={item.slug}
+                    onClick={() => pickProject(item.slug)}
+                    title={item.title}
+                  />
+                );
+              })}
+            </MenuSection>
+          </nav>
+        </aside>
+
+        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+          <div className="mx-auto w-full max-w-5xl px-6 py-10 md:px-10 md:py-12">
+            {state.projectSlug ? (
+              <ProjectDetail
+                projects={content.projects}
+                slug={state.projectSlug}
+              />
+            ) : null}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

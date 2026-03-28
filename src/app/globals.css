@@ -1,69 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  --bg: #5f8fa5;
-  --bg-elevated: #6b9eb2;
-  --bg-warm: #6a9aad;
-  --foreground: #1a1a1a;
-  --foreground-muted: #2d2d2d;
-  --text-secondary: #2a2a2a;
-  --text-muted: #3d3d3d;
-  --accent: #3d6b7d;
-  --accent-dark: #2d4f5d;
-  --border: #4a7a8d;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-serif-cormorant);
-  --content-max: 72rem;
-  --content-px: 1rem;
+@theme {
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
 }
 
-@media (min-width: 768px) {
-  :root {
-    --content-px: 1.5rem;
-  }
+:root {
+  --bg: #000000;
+  --foreground: #ffffff;
+  --text-muted: #8a8a8a;
+  --index-divider: rgba(255, 255, 255, 0.2);
+  --accent: #8fb5a0;
+  --font-sans: "Geist", "Lato", sans-serif;
+  --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 html,
 body {
   background: var(--bg);
   color: var(--foreground);
-  font-family: var(--font-sans), Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-@layer utilities {
-  .font-serif-display {
-    font-family: var(--font-serif), serif;
-  }
-  .text-accent {
-    color: var(--accent);
-  }
-  .bg-accent {
-    background-color: var(--accent);
-  }
-  .content-width {
-    width: 100%;
-    max-width: var(--content-max);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--content-px);
-    padding-right: var(--content-px);
+::selection {
+  background: rgba(143, 181, 160, 0.28);
+  color: var(--foreground);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition:
+    color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+a:hover {
+  opacity: 0.72;
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
   }
 }
 
-@keyframes fade-in-print {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }

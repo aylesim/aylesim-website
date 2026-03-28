@@ -19,12 +19,11 @@
     ]
   },
   "dependencies": {
-    "@portabletext/react": "^6.0.3",
+    "gray-matter": "^4.0.3",
     "next": "16.0.3",
-    "next-sanity": "^11.6.8",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "sanity": "^4.16.0"
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.6",
@@ -32,8 +31,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.3",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4",
