@@ -205,6 +205,9 @@ export default function RectNav({ content }: { content: SiteContent }) {
         >
           about
         </button>
+        <p className="w-full text-(--text-muted) text-sm leading-snug">
+          Since March 28, 2026, the site is under reconstruction.
+        </p>
       </header>
       <div
         className={`shrink-0 overflow-hidden ${
