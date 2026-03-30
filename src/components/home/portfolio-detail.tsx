@@ -186,7 +186,7 @@ export function AboutInlineContent({ about }: { about: AboutData }) {
           >
             Book a call
           </a>
-          <p className="text-(--text-muted) text-xs">
+          <p className="mt-3 border-(--index-divider) border-t border-dotted pt-3 text-(--text-muted) text-sm leading-relaxed">
             Open to studio collaborations, commissions, and freelance projects.
           </p>
         </div>

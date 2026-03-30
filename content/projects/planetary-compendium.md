@@ -7,41 +7,45 @@ client: Berggruen Institute × Dark Matter Labs
 year: 2025
 tech:
   - Next.js
-  - Systems mapping
-  - Editorial platform
+  - Scrollytelling
+  - Spatial data exploration
+  - Audio-driven narratives
+  - Rich content visualization
   - Accessible web interactions
 liveLink: https://governtheplanet.org/
 highlights:
-  - Facilitated remote workshops with live shared canvas
-  - Modular narrative layers participants can reorder
+  - Immersive scrollytelling and spatial data exploration
+  - Audio-driven narrative interfaces
   - Accessibility and reduced-motion paths baked in from v1
+  - Stable rendering during live group sessions and public exhibition
 ---
 
 ## Overview
 
-Planetary Compendium is a digital publication and participatory interface created with the Berggruen Institute and Dark Matter Labs. The project is framed as an evolving "wunderkammer" of planetary governance: a space where ideas, case studies, and media artifacts are assembled to help people reason through planetary-scale challenges.
+Planetary Compendium is a living, interactive platform developed with the Berggruen Institute and Dark Matter Labs — an evolving *wunderkammer* of planetary governance. The project maps the shifting architectures, imaginaries, and experiments shaping how life on Earth may be organized, sustained, and represented.
 
-Built around the live site at governtheplanet.org, the experience combines editorial storytelling with exploratory interaction. Through text, visuals, and sound-oriented narrative structure, visitors can move between case studies and trace how governance ideas emerge across different disciplines and regions.
+Built around [governtheplanet.org](https://governtheplanet.org/), the experience weaves together historic precedents, emerging experiments, and speculative futures. Through scrollytelling, spatial data exploration, and audio-driven narrative, visitors can move across case studies and trace how governance ideas emerge across disciplines, regions, and scales.
 
-## What the platform supports
+## What the platform does
 
-- Reading case studies on planetary governance in a cohesive narrative flow
-- Moving between connected themes, including sovereignty, shared vulnerability, and more-than-human agency
-- Collaborative workshop use, where participants can compare perspectives and surface patterns in real time
-- Layered content that can be rearranged to support different facilitation paths
+- Presents case studies on planetary governance through immersive, long-form editorial flows
+- Connects themes across sovereignty, shared vulnerability, ecology, and more-than-human agency
+- Enables spatial and visual exploration of complex, interconnected governance concepts
+- Supports live facilitation and collaborative workshop contexts with stable group-session rendering
 
-## Interaction and content design
+## My contribution
 
-The frontend architecture was shaped to support both editorial clarity and systems exploration. I focused on:
+I joined the project as a freelance web developer from May to November 2025, working remotely within a multidisciplinary team. My focus was on building engaging and immersive digital environments using modern web technologies:
 
-- Flexible layout modules for long-form and multimodal content
-- Accessible interaction patterns and reduced-motion paths from the first release
-- Consistent visual hierarchy for dense conceptual material
-- Stable rendering and performance during live group sessions
+- **Scrollytelling interfaces** — sequenced narrative experiences tied to content and visual transitions
+- **Spatial data exploration** — interactive layouts for navigating interconnected concepts and case studies
+- **Audio-driven narratives** — sound-integrated content layers for a richer, multimodal reading experience
+- **Rich content visualization** — flexible display modules handling dense conceptual and editorial material
+- **Accessibility** — reduced-motion paths and inclusive interaction patterns from the first release
 
 ## Context and outcome
 
-The public release positioned the Compendium as both a publication and a civic tool: an interface for exploring how planetary governance is already being prototyped through institutions, infrastructures, and place-based experiments.
+The Compendium launched publicly in November 2025 with a virtual event and a physical exhibition in Zürich. It is positioned as both a civic publication and a thinking tool — an interface for exploring how planetary governance is already being prototyped through institutions, infrastructures, and place-based experiments.
 
-> "The Planetary Compendium serves to entangle not only what the Planetary could be but how it is already manifesting regionally and disciplinarily."
-> — Zehra Zaidi, Mission Lead for Planetary Civics, Dark Matter Labs
+> "The Planetary Compendium serves to entangle not only what the Planetary could be but how it is already manifesting regionally and disciplinarily."  
+> — Zehra Zaidi OBE, Mission Lead for Planetary Civics, Dark Matter Labs

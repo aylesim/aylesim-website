@@ -1,19 +1,33 @@
 ---
 type: work
-order: 3
-title: TEDx Barletta
-role: Speaker & live performer
-client: TEDx
-year: 2024
+order: 4
+title: TEDx Barletta — AV Performance
+role: Visual Artist
+client: TEDx Barletta
+year: 2020
 tech:
+  - Live video projection
+  - Generative visuals
   - Max/MSP
-  - Performance
-  - Talk
-  - Audiovisual
 highlights:
-  - Live set with real-time control and improvisation
-  - Bridge from studio practice to narrative for a broad public
-  - Custom performance patch and signal path for the venue
+  - Live AV performance in front of a TEDx audience
+  - Real-time video projections synchronized with an experimental electronic composition
+  - Sensory journey combining percussive music and generative visuals
+liveLink: https://www.youtube.com/watch?v=GJUaN92rx-0
 ---
 
-A TEDx stage appearance combining a short talk with a live performance built in Max/MSP: generative and responsive sound, tight coupling between gesture and DSP, and a focus on making technical process legible to a general audience.
+## Overview
+
+In October 2020, I performed live visuals at TEDx Barletta alongside Regleow & Ozey. The performance was conceived as a sensory journey through experimental electronic music — a percussive, immersive composition paired with real-time video projections designed to draw the audience into a full audiovisual experience.
+
+The visuals were projected live, reacting to and complementing the energy and texture of the music in real time.
+
+## What the performance involved
+
+- Real-time generative video projections synced to a live experimental electronic composition
+- Audiovisual storytelling driven by rhythm, percussion, and sensation
+- A large-format projection experience for a live TEDx audience
+
+## Context
+
+TEDx events are known for ideas and talks, but this performance opened up space for a different kind of communication — one driven by sound, image, and visceral energy rather than words. The collaboration with Regleow & Ozey brought together experimental electronic music and the TEDx stage in a format-pushing audiovisual set.

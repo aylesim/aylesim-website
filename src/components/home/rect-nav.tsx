@@ -7,6 +7,8 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
+  useState,
   useTransition,
 } from "react";
 import {
@@ -133,9 +135,33 @@ export default function RectNav({ content }: { content: SiteContent }) {
     [router]
   );
 
+  const urlAboutOpen = state.aboutOpen;
+  const [panelOpen, setPanelOpen] = useState(urlAboutOpen);
+  const [panelHeight, setPanelHeight] = useState(0);
+  const [readyToAnimate, setReadyToAnimate] = useState(false);
+  const panelContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setPanelOpen(urlAboutOpen);
+  }, [urlAboutOpen]);
+
+  useEffect(() => {
+    const el = panelContentRef.current;
+    if (!el) {
+      return;
+    }
+    const updateHeight = () => setPanelHeight(el.scrollHeight);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(el);
+    setReadyToAnimate(true);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        setPanelOpen(false);
         setState({ aboutOpen: false, projectSlug: null });
       }
     };
@@ -144,11 +170,13 @@ export default function RectNav({ content }: { content: SiteContent }) {
   }, [setState]);
 
   const toggleAbout = useCallback(() => {
+    const next = !panelOpen;
+    setPanelOpen(next);
     setState({
-      aboutOpen: !state.aboutOpen,
+      aboutOpen: next,
       projectSlug: state.projectSlug,
     });
-  }, [setState, state.aboutOpen, state.projectSlug]);
+  }, [panelOpen, setState, state.projectSlug]);
 
   const pickProject = useCallback(
     (slug: string) => {
@@ -160,8 +188,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
     [setState, state.aboutOpen, state.projectSlug]
   );
 
-  const aboutOpen = state.aboutOpen;
-
   return (
     <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
       <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-8 pb-4 md:px-5 md:pt-8 md:pb-4">
@@ -170,7 +196,7 @@ export default function RectNav({ content }: { content: SiteContent }) {
         </Link>
         <button
           className={`text-lg tracking-tight transition-colors md:text-xl ${
-            aboutOpen
+            panelOpen
               ? "text-(--foreground)"
               : "text-(--text-muted) hover:text-(--foreground)"
           }`}
@@ -180,11 +206,25 @@ export default function RectNav({ content }: { content: SiteContent }) {
           about
         </button>
       </header>
-      {aboutOpen ? (
-        <div className="shrink-0 border-(--index-divider) border-t border-b border-dotted px-4 py-5 md:px-5">
-          <AboutInlineContent about={content.about} />
+      <div
+        className={`shrink-0 overflow-hidden ${
+          readyToAnimate ? "transition-[height] duration-420 ease-in-out" : ""
+        }`}
+        style={{
+          height: panelOpen ? `${panelHeight}px` : "0px",
+        }}
+      >
+        <div
+          aria-hidden={!panelOpen}
+          className="overflow-hidden"
+          inert={!panelOpen}
+          ref={panelContentRef}
+        >
+          <div className="border-(--index-divider) border-t border-b border-dotted px-4 py-5 md:px-5">
+            <AboutInlineContent about={content.about} />
+          </div>
         </div>
-      ) : null}
+      </div>
 
       <div className="flex min-h-0 min-w-0 flex-1">
         <aside className="flex h-full min-h-0 w-[min(100%,20rem)] shrink-0 flex-col px-4 pt-2 pb-5 md:w-[24rem] md:min-w-88 md:px-5 md:pt-2">
