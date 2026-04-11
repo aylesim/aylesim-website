@@ -236,17 +236,19 @@ export default function RectNav({ content }: { content: SiteContent }) {
             className="flex min-h-0 flex-1 flex-col overflow-y-auto"
           >
             <MenuSection label="Projects">
-              {content.projects.map((item) => {
-                return (
-                  <MenuItem
-                    active={state.projectSlug === item.slug}
-                    key={item.slug}
-                    onClick={() => pickProject(item.slug)}
-                    tag={item.menuLabel}
-                    title={item.title}
-                  />
-                );
-              })}
+              {content.projects
+                .filter((item) => item.showInMenu)
+                .map((item) => {
+                  return (
+                    <MenuItem
+                      active={state.projectSlug === item.slug}
+                      key={item.slug}
+                      onClick={() => pickProject(item.slug)}
+                      tag={item.menuLabel}
+                      title={item.title}
+                    />
+                  );
+                })}
             </MenuSection>
           </nav>
         </aside>

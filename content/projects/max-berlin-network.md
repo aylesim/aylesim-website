@@ -1,6 +1,7 @@
 ---
 type: work
 order: 3
+menuLabel: community
 title: MaxBerlinNetwork
 role: Co-Founder & Community Manager
 client: Independent

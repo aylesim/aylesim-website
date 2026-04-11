@@ -18,6 +18,7 @@ export interface Project {
   sortYear: number;
   order: number;
   menuLabel?: string;
+  showInMenu: boolean;
 }
 
 export interface AboutData {
@@ -79,6 +80,10 @@ function asStringArray(v: unknown): string[] {
   return v.filter((item): item is string => typeof item === "string");
 }
 
+function showInMenuFromData(data: Record<string, unknown>): boolean {
+  return data.showInMenu !== false;
+}
+
 function mapWorkProject(
   slug: string,
   body: string,
@@ -102,6 +107,7 @@ function mapWorkProject(
     sortYear: sortYear(year),
     order,
     menuLabel: asString(data.menuLabel),
+    showInMenu: showInMenuFromData(data),
   };
 }
 
@@ -132,6 +138,7 @@ function mapDeviceProject(
     sortYear: sortYear(year),
     order,
     menuLabel: asString(data.menuLabel),
+    showInMenu: showInMenuFromData(data),
   };
 }
 

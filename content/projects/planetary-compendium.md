@@ -1,6 +1,7 @@
 ---
 type: work
 order: 1
+menuLabel: web
 title: Planetary Compendium
 role: Frontend Developer
 client: Berggruen Institute × Dark Matter Labs

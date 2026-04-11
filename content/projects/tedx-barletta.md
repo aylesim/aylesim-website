@@ -1,7 +1,8 @@
 ---
 type: work
 order: 4
-title: TEDx Barletta — AV Performance
+menuLabel: AV performance
+title: TEDx Barletta
 role: Visual Artist
 client: TEDx Barletta
 year: 2020

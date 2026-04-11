@@ -1,6 +1,7 @@
 ---
 type: work
 order: 6
+showInMenu: false
 title: Aylesim Devices
 role: Instrument Builder
 client: Product Line
