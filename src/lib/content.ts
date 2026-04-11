@@ -17,6 +17,7 @@ export interface Project {
   highlights: string[];
   sortYear: number;
   order: number;
+  menuLabel?: string;
 }
 
 export interface AboutData {
@@ -100,6 +101,7 @@ function mapWorkProject(
     highlights: asStringArray(data.highlights),
     sortYear: sortYear(year),
     order,
+    menuLabel: asString(data.menuLabel),
   };
 }
 
@@ -129,6 +131,7 @@ function mapDeviceProject(
     highlights: asStringArray(data.highlights),
     sortYear: sortYear(year),
     order,
+    menuLabel: asString(data.menuLabel),
   };
 }
 

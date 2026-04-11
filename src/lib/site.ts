@@ -1,6 +1,4 @@
-export const contactEmail = "hello@aylesim.com";
-
-export const calBookingUrl = "https://cal.com/aylesim";
+export const contactEmail = "ay@alessandromiracapillo.com";
 
 export const contactLinks = [
   {

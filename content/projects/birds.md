@@ -1,6 +1,7 @@
 ---
 type: work
 order: 1
+menuLabel: max4live
 title: Birds
 role: Developer & Designer
 client: Independent

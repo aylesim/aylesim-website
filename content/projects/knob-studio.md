@@ -1,6 +1,7 @@
 ---
 type: work
 order: 2
+menuLabel: max4live
 title: Knob Studio
 role: Developer & Designer
 client: Independent

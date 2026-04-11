@@ -10,4 +10,4 @@ I design interactive systems where sound, software, and physical space overlap: 
 
 I'm Alessandro Miracapillo, based in Berlin. My background is in electronic music, and I work as a programmer across audio software, creative coding, and physical computing.
 
-Instruments and releases go out as Aylesim Devices, available through Isotonik Studios and my personal store. I also founded Max Berlin Network.
+Instruments and releases go out as Aylesim Devices, available through [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/) and [my personal store](https://aylesim.gumroad.com). I also founded [Max Berlin Network](https://www.maxberlin.network).

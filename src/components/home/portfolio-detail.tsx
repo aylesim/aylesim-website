@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import type { AboutData, Project } from "@/lib/content";
-import { calBookingUrl, contactEmail, contactLinks } from "@/lib/site";
+import { contactEmail, contactLinks } from "@/lib/site";
 
 const detailLinkClass =
   "underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
@@ -155,7 +155,25 @@ export function AboutInlineContent({ about }: { about: AboutData }) {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.7fr)_minmax(18rem,1fr)] lg:gap-10">
         <div className="min-w-0 max-w-4xl space-y-3 text-(--foreground)/90 text-sm leading-relaxed">
           {about.bio.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <div key={paragraph}>
+              <ReactMarkdown
+                components={{
+                  a: ({ children, href }) => (
+                    <a
+                      className={detailLinkClass}
+                      href={href}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {children}
+                    </a>
+                  ),
+                  p: ({ children }) => <p>{children}</p>,
+                }}
+              >
+                {paragraph}
+              </ReactMarkdown>
+            </div>
           ))}
         </div>
         <div className="min-w-0 space-y-3 border-(--index-divider) border-t border-dotted pt-4 lg:max-w-sm lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
@@ -178,14 +196,6 @@ export function AboutInlineContent({ about }: { about: AboutData }) {
               </a>
             ))}
           </div>
-          <a
-            className={`block ${embeddedLinkClass}`}
-            href={calBookingUrl}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Book a call
-          </a>
           <p className="mt-3 border-(--index-divider) border-t border-dotted pt-3 text-(--text-muted) text-sm leading-relaxed">
             Open to studio collaborations, commissions, and freelance projects.
           </p>

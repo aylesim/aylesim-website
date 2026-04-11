@@ -1,6 +1,7 @@
 ---
 type: device
 order: 7
+menuLabel: max4live
 title: Freesound4Live
 price: Free
 category: utility

@@ -90,7 +90,7 @@ function MenuItem({
       >
         <span>{title}</span>
         {tag ? (
-          <span className="font-normal text-(--text-muted) text-[10px] tracking-wide">
+          <span className="shrink-0 font-normal text-(--foreground)/45 text-[10px] tracking-wide">
             {tag}
           </span>
         ) : null}
@@ -242,6 +242,7 @@ export default function RectNav({ content }: { content: SiteContent }) {
                     active={state.projectSlug === item.slug}
                     key={item.slug}
                     onClick={() => pickProject(item.slug)}
+                    tag={item.menuLabel}
                     title={item.title}
                   />
                 );
