@@ -4,7 +4,7 @@ order: 1
 menuLabel: max4live
 title: Birds
 role: Developer & Designer
-client: Independent
+client: Aylesim Devices
 year: 2025
 tech:
   - Max/MSP
@@ -12,34 +12,36 @@ tech:
   - Ableton Live
   - Generative MIDI
   - Algorithmic composition
-liveLink: 
+liveLink:
+videos:
+  - title: Carousel demo
+    url: https://www.youtube.com/watch?v=Eax-kVIUId4
+  - title: Full walkthrough
+    url: https://www.youtube.com/watch?v=0-D_bPzaqfo
 highlights:
-  - Generative MIDI sequencer that evolves a phrase in real time without losing its musical identity
-  - Visual interface where each bird is a note, the wire defines pitch, position defines timing
-  - Difference Limit system keeps variation connected to the original reference pattern
+  - Designed a rule-based generative system for melodic variation inside Max for Live
+  - Built a visual mapping where pitch, timing, and note state stay legible while the sequence evolves
+  - Balanced algorithmic behavior with musical constraints through a Difference Limit model
 ---
 
 ## Overview
 
-Birds is a generative MIDI sequencer for Ableton Live, built as a Max for Live device. Instead of programming every note by hand, you give it a starting phrase and let it evolve — producing movement, variation, and surprise while staying true to the musical identity of the original pattern.
+Birds is a generative MIDI sequencer for Ableton Live, developed as a Max for Live device. I built it as a study in algorithmic composition, interface design, and musical constraint: the goal was to create a system that can transform a short MIDI phrase in real time while preserving enough structure to keep the result readable and usable.
 
-The interface turns the sequence into an animated landscape: each bird is a note, the wire defines pitch, and horizontal position defines timing. You're not just hearing the melody evolve — you're watching it happen.
+![Birds — Max for Live interface](/Birdsgr.png)
+
+The interface translates the sequence into an animated score where each bird represents a note, the wire represents pitch, and horizontal position represents timing. This made the project as much about visual communication as sequencing logic: the challenge was to expose generative behavior in a way that feels immediate rather than opaque.
 
 ## How it works
 
-Birds sits between a static sequencer and pure randomness. A **Difference Limit system** controls how far each generation can stray from the reference pattern, keeping the sequence alive without losing coherence. You can run it freely with Ableton's transport or advance it step by step from incoming MIDI.
+At the core of the device is a **Difference Limit system** that measures how far each new generation can move away from a reference pattern. Instead of treating variation as randomness, I approached it as a constrained transformation problem: pitch, rhythm, density, and register can all shift, but only within a controlled distance from the source material.
 
-- **Multiple generation styles** for different flavors of melodic evolution
-- **Real-time pitch and rhythm evolution** with gate chaos controls
-- **Scale-aware note generation** or full chromatic behavior
-- **Controllable density and range** to shape how busy or sparse the sequence feels
-- **Internal clock or MIDI trigger mode** for flexible integration in any setup
+- **Rule-based melodic generation** with different strategies for transforming source material
+- **Real-time pitch and rhythm mutation** with controls for gate behavior and instability
+- **Scale-aware and chromatic modes** to test different harmonic constraints
+- **Density and range controls** to shape both musical output and system responsiveness
+- **Transport-driven or MIDI-triggered playback** to support different performance contexts
 
-## Who it's for
+## Skills involved
 
-Birds is made for producers, composers, and live performers who want something more alive than a static sequencer, but more intentional than pure randomness. Use it for evolving melodies, generative textures, unexpected hooks, and playable sequence design that stays musical.
-
-## Videos
-
-- [Carousel demo](https://www.youtube.com/watch?v=Eax-kVIUId4)
-- [Full walkthrough](https://youtu.be/0-D_bPzaqfo)
+The project brought together several parts of my practice: Max/MSP patch design, generative music systems, parameter mapping, interaction design, and the translation of abstract musical processes into a visual interface. It also reflects how I tend to work more broadly: defining a clear behavioral model first, then designing controls and visuals that make the system understandable in use.

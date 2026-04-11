@@ -4,6 +4,11 @@ import matter from "gray-matter";
 
 const contentDir = path.join(process.cwd(), "content");
 
+export interface ProjectVideo {
+  title: string;
+  url: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -15,6 +20,7 @@ export interface Project {
   linkLabel?: string;
   description: string;
   highlights: string[];
+  videos?: ProjectVideo[];
   sortYear: number;
   order: number;
   menuLabel?: string;
@@ -84,6 +90,25 @@ function showInMenuFromData(data: Record<string, unknown>): boolean {
   return data.showInMenu !== false;
 }
 
+function asVideoList(v: unknown): ProjectVideo[] {
+  if (!Array.isArray(v)) {
+    return [];
+  }
+  const out: ProjectVideo[] = [];
+  for (const item of v) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+    const rec = item as Record<string, unknown>;
+    const url = asString(rec.url);
+    if (!url) {
+      continue;
+    }
+    out.push({ title: asString(rec.title) ?? "Video", url });
+  }
+  return out;
+}
+
 function mapWorkProject(
   slug: string,
   body: string,
@@ -91,6 +116,7 @@ function mapWorkProject(
   order: number,
   data: Record<string, unknown>
 ): Project {
+  const videos = asVideoList(data.videos);
   return {
     slug,
     title: asString(data.title) ?? slug,
@@ -104,6 +130,7 @@ function mapWorkProject(
     linkLabel: "Visit live",
     description: body,
     highlights: asStringArray(data.highlights),
+    videos: videos.length > 0 ? videos : undefined,
     sortYear: sortYear(year),
     order,
     menuLabel: asString(data.menuLabel),
@@ -119,22 +146,41 @@ function mapDeviceProject(
   data: Record<string, unknown>
 ): Project {
   const price = asString(data.price);
+  const client = asString(data.client);
   const category = asString(data.category);
+  const techTags = asStringArray(data.tech);
+  const videos = asVideoList(data.videos);
+  let tags: string[];
+  if (techTags.length > 0) {
+    tags = techTags;
+  } else if (category) {
+    tags = [category];
+  } else {
+    tags = [];
+  }
+  const buyLink = asString(data.buyLink);
+  let linkLabel = "Buy";
+  if (buyLink?.includes("github.com")) {
+    linkLabel = "Repository / download";
+  } else if (price === "Free") {
+    linkLabel = "Download";
+  }
   return {
     slug,
     title: asString(data.title) ?? slug,
     year,
     primaryMeta: [
-      price,
+      client || price,
       year,
       data.featured === true ? "Featured" : undefined,
     ].filter((value): value is string => Boolean(value)),
-    secondaryMeta: undefined,
-    tags: category ? [category] : [],
-    link: asString(data.buyLink),
-    linkLabel: price === "Free" ? "Repository / download" : "Buy",
+    secondaryMeta: asString(data.role),
+    tags,
+    link: buyLink,
+    linkLabel,
     description: body,
     highlights: asStringArray(data.highlights),
+    videos: videos.length > 0 ? videos : undefined,
     sortYear: sortYear(year),
     order,
     menuLabel: asString(data.menuLabel),

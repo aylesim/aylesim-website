@@ -27,6 +27,8 @@ Planetary Compendium is a living, interactive platform developed with the Berggr
 
 Built around [governtheplanet.org](https://governtheplanet.org/), the experience weaves together historic precedents, emerging experiments, and speculative futures. Through scrollytelling, spatial data exploration, and audio-driven narrative, visitors can move across case studies and trace how governance ideas emerge across disciplines, regions, and scales.
 
+![Planetary Compendium — interface](/planetary.png)
+
 ## What the platform does
 
 - Presents case studies on planetary governance through immersive, long-form editorial flows

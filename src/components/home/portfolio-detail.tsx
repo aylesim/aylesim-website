@@ -1,10 +1,12 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import type { AboutData, Project } from "@/lib/content";
+import type { AboutData, Project, ProjectVideo } from "@/lib/content";
 import { contactEmail, contactLinks } from "@/lib/site";
 
 const detailLinkClass =
   "underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
+
+const youtubeEmbedPath = /^\/embed\/([^/?]+)/;
 
 function Meta({ children }: { children: React.ReactNode }) {
   return (
@@ -38,6 +40,69 @@ function HighlightsList({ items }: { items: string[] }) {
   );
 }
 
+function youtubeVideoId(rawUrl: string): string | null {
+  try {
+    const u = new URL(rawUrl);
+    if (u.hostname === "youtu.be") {
+      const id = u.pathname.slice(1).split("/")[0];
+      return id || null;
+    }
+    if (
+      u.hostname === "www.youtube.com" ||
+      u.hostname === "youtube.com" ||
+      u.hostname === "m.youtube.com"
+    ) {
+      const v = u.searchParams.get("v");
+      if (v) {
+        return v;
+      }
+      const m = u.pathname.match(youtubeEmbedPath);
+      return m?.[1] ?? null;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function ProjectVideos({ videos }: { videos: ProjectVideo[] }) {
+  return (
+    <div className="mt-8 space-y-8">
+      <h3 className="text-xl leading-tight tracking-tight">Videos</h3>
+      {videos.map((item) => {
+        const id = youtubeVideoId(item.url);
+        return (
+          <div className="space-y-2" key={item.url}>
+            <p className="text-(--text-muted) text-xs">{item.title}</p>
+            {id ? (
+              <div className="relative aspect-video w-full max-w-full overflow-hidden border border-(--index-divider) bg-black">
+                <iframe
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  src={`https://www.youtube.com/embed/${id}`}
+                  title={item.title}
+                />
+              </div>
+            ) : (
+              <a
+                className={detailLinkClass}
+                href={item.url}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {item.url}
+              </a>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function ProjectDetail({
   slug,
   projects,
@@ -61,10 +126,7 @@ export function ProjectDetail({
       ) : null}
       {project.secondaryMeta ? <Meta>{project.secondaryMeta}</Meta> : null}
       {project.tags.length > 0 ? (
-        <Meta>
-          Filed under:{" "}
-          <span className="capitalize">{project.tags.join(" · ")}</span>
-        </Meta>
+        <Meta>Filed under: {project.tags.join(" · ")}</Meta>
       ) : null}
       <div className="mt-4 text-(--foreground)/90 text-sm leading-relaxed">
         <ReactMarkdown
@@ -128,6 +190,9 @@ export function ProjectDetail({
           {project.description}
         </ReactMarkdown>
       </div>
+      {project.videos && project.videos.length > 0 ? (
+        <ProjectVideos videos={project.videos} />
+      ) : null}
       {project.highlights.length > 0 ? (
         <HighlightsList items={project.highlights} />
       ) : null}

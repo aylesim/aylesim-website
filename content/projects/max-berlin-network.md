@@ -2,33 +2,32 @@
 type: work
 order: 3
 menuLabel: community
-title: MaxBerlinNetwork
+title: Max Berlin Network
 role: Co-Founder & Community Manager
-client: Independent
+client: Max Berlin Network
 year: 2025–ongoing
 tech:
   - Max/MSP
   - Community building
   - Event organization
-liveLink: 
+liveLink: https://www.maxberlin.network/
 highlights:
-  - Co-founded and growing a Berlin-based Max/MSP community from scratch
-  - Organizing regular in-person meetups, workshops, and knowledge-sharing sessions
-  - Bringing together musicians, coders, sound artists, and creative technologists
+  - Co-founded a recurring in-person forum for Max/MSP and creative audio practice in Berlin
+  - Shaped meetup format, hosting, and follow-up so sessions stay accessible across skill levels
+  - Coordinated logistics, venues, and communication channels alongside other core organizers
+  - Built bridges between musicians, coders, sound artists, and creative technologists through shared patching time
 ---
 
 ## Overview
 
-MaxBerlinNetwork is a Berlin-based community co-founded in January 2025 alongside a group of Berlin-based practitioners, dedicated to sharing knowledge and fostering collaboration around Max/MSP, creative coding, and interactive audio technologies. The network connects musicians, sound artists, coders, and creative technologists across the city — from beginners to advanced practitioners.
+Max Berlin Network is a Berlin-based meetup series I co-founded in early 2025 with other local practitioners. The focus is practical: people show work, ask questions, debug patches together, and share approaches to Max/MSP, interactive audio, and adjacent creative tooling. I treat it as community infrastructure, not marketing — the goal is reliable rhythm, clear expectations, and a room where peer learning actually happens.
 
-The mission is simple: open exchange, peer learning, and creative support within the world of music technology and interactive audio.
+The group exists because Max practice benefits from in-person context: short feedback loops, improvised explanations, and the kind of detail that rarely survives a forum thread.
 
-## What the community does
+## How it runs
 
-- Regular in-person meetups and workshops in Berlin
-- Knowledge-sharing sessions on Max/MSP, creative coding, and interactive audio
-- A space for practitioners of all backgrounds to connect, collaborate, and grow
+Meetups are in-person, on a regular cadence, and intentionally lightweight in format: enough structure to start and end on time, enough openness for demos, breakout questions, and informal pairing. Topics drift across patching style, DSP intuition, performance setups, and tooling around Live — whatever the room brings that month.
 
-## Why it exists
-
-Berlin has one of the most active creative technology scenes in Europe, but dedicated spaces for Max/MSP practitioners were missing. MaxBerlinNetwork fills that gap — grounded in the idea that the best learning happens in community, face to face.
+- **Recurring sessions** with announced time and place so people can plan around them
+- **Peer-led content** rather than a fixed curriculum: demos, walkthroughs, troubleshooting blocks
+- **Cross-disciplinary attendance** from music, code, installation, and sound art backgrounds
