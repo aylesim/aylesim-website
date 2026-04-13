@@ -14,7 +14,7 @@ highlights:
   - Live AV performance in front of a TEDx audience
   - Real-time video projections synchronized with an experimental electronic composition
   - Sensory journey combining percussive music and generative visuals
-liveLink: https://www.youtube.com/watch?v=GJUaN92rx-0
+liveLink:
 videos:
   - title: Performance
     url: https://www.youtube.com/watch?v=GJUaN92rx-0
