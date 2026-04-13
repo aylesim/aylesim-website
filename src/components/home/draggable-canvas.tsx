@@ -179,37 +179,6 @@ function addCanvasCoverItem(
   );
 }
 
-function ensureCanvasCoverDuplicate(
-  p: Project,
-  items: CanvasItem[],
-  seen: Set<string>,
-  ordMap: Map<string, number>
-): void {
-  if (countItemsForSlug(items, p.slug) > 0) {
-    return;
-  }
-  const cover = p.canvasCover;
-  if (!cover) {
-    return;
-  }
-  const key = `${p.slug}::coverdup::${cover}`;
-  if (seen.has(key)) {
-    return;
-  }
-  seen.add(key);
-  pushCanvasItem(
-    items,
-    p,
-    {
-      id: `${p.slug}--coverdup--${cover}`,
-      src: cover,
-      label: p.title,
-      projectSlug: p.slug,
-    },
-    ordMap
-  );
-}
-
 function countItemsForSlug(items: CanvasItem[], slug: string): number {
   let n = 0;
   for (const it of items) {
@@ -272,9 +241,6 @@ function buildItems(projects: Project[]): CanvasItem[] {
     if (countItemsForSlug(items, p.slug) === 0) {
       ensureFallbackVideoItem(p, items, seen, usedSrc, ordMap);
     }
-  }
-  for (const p of projects) {
-    ensureCanvasCoverDuplicate(p, items, seen, ordMap);
   }
   items.sort((a, b) => {
     if (a.stackKey < b.stackKey) {
