@@ -16,6 +16,14 @@ highlights:
   - Built a visual field that reads as both familiar and estranged, aimed at the dehumanising distance introduced by military imaging systems
   - "Residency: Con.divisione Residenza 2022 — Maul"
 liveLink:
+videos:
+  - title: There Will Be No More Determination
+    url: https://vimeo.com/783690002
+videosAfterHeading: How it works
+galleryAfterVideo:
+  - /tw0.jpg
+  - /tw1.jpg
+  - /tw2.jpg
 ---
 
 ## Overview

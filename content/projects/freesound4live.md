@@ -14,7 +14,7 @@ buyLink: https://github.com/aylesim/freesound4live
 year: "2023"
 videos:
   - title: Demo
-    url: https://www.youtube.com/watch?v=6SrgBE_nJJM
+    url: https://www.youtube.com/watch?v=x8-n1uze24s
 highlights:
   - Integrated the Freesound.org HTTP API inside a Max for Live patch with search, preview, and download paths
   - Implemented filtering by tag, duration, and license metadata so results stay usable in a live set
@@ -25,6 +25,8 @@ highlights:
 ## Overview
 
 Freesound4Live is a free Max for Live utility I built to browse [Freesound.org](https://freesound.org/) from inside Ableton Live: search, audition, and pull samples into the session without context-switching to a browser. The motivation was practical — community sound libraries are only useful in production if the retrieval loop is short — but the work also sits at the intersection of API integration, UI constraints inside Max, and Live’s object model for where a sample file may land.
+
+![Freesound4Live — Max for Live interface](/ffl.png)
 
 The patch treats Freesound as a remote catalog with strict metadata: licensing and duration are not optional niceties when you are importing audio into a project someone might publish.
 

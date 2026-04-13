@@ -7,6 +7,10 @@ const detailLinkClass =
   "underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
 
 const youtubeEmbedPath = /^\/embed\/([^/?]+)/;
+const vimeoPlayerPath = /^\/video\/(\d+)/;
+const vimeoVideoInPath = /\/video\/(\d+)/;
+const vimeoNumericSegment = /^\d+$/;
+const hostnameWwwPrefix = /^www\./;
 
 function Meta({ children }: { children: React.ReactNode }) {
   return (
@@ -65,41 +69,181 @@ function youtubeVideoId(rawUrl: string): string | null {
   return null;
 }
 
+function vimeoVideoId(rawUrl: string): string | null {
+  try {
+    const u = new URL(rawUrl);
+    const host = u.hostname.replace(hostnameWwwPrefix, "");
+    if (host === "player.vimeo.com") {
+      const m = u.pathname.match(vimeoPlayerPath);
+      return m?.[1] ?? null;
+    }
+    if (host === "vimeo.com") {
+      const videoPath = u.pathname.match(vimeoVideoInPath);
+      if (videoPath) {
+        return videoPath[1];
+      }
+      const segments = u.pathname.split("/").filter(Boolean);
+      for (const seg of segments) {
+        if (vimeoNumericSegment.test(seg)) {
+          return seg;
+        }
+      }
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function ProjectVideoEmbed({ item }: { item: ProjectVideo }) {
+  const ytId = youtubeVideoId(item.url);
+  if (ytId) {
+    return (
+      <div className="relative aspect-video w-full max-w-full overflow-hidden border border-(--index-divider) bg-black">
+        <iframe
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="absolute inset-0 h-full w-full border-0"
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          src={`https://www.youtube.com/embed/${ytId}`}
+          title={item.title}
+        />
+      </div>
+    );
+  }
+  const vmId = vimeoVideoId(item.url);
+  if (vmId) {
+    return (
+      <div className="relative aspect-video w-full max-w-full overflow-hidden border border-(--index-divider) bg-black">
+        <iframe
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          allowFullScreen
+          className="absolute inset-0 h-full w-full border-0"
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          src={`https://player.vimeo.com/video/${vmId}?badge=0&autopause=0&player_id=0&app_id=58479`}
+          title={item.title}
+        />
+      </div>
+    );
+  }
+  return (
+    <a
+      className={detailLinkClass}
+      href={item.url}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      {item.url}
+    </a>
+  );
+}
+
 function ProjectVideos({ videos }: { videos: ProjectVideo[] }) {
   return (
     <div className="mt-8 space-y-8">
-      <h3 className="text-xl leading-tight tracking-tight">Videos</h3>
-      {videos.map((item) => {
-        const id = youtubeVideoId(item.url);
-        return (
-          <div className="space-y-2" key={item.url}>
-            <p className="text-(--text-muted) text-xs">{item.title}</p>
-            {id ? (
-              <div className="relative aspect-video w-full max-w-full overflow-hidden border border-(--index-divider) bg-black">
-                <iframe
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 h-full w-full border-0"
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  src={`https://www.youtube.com/embed/${id}`}
-                  title={item.title}
-                />
-              </div>
-            ) : (
-              <a
-                className={detailLinkClass}
-                href={item.url}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {item.url}
-              </a>
-            )}
-          </div>
-        );
-      })}
+      <h3 className="text-xl leading-tight tracking-tight">
+        {videos.length === 1 ? "Video" : "Videos"}
+      </h3>
+      {videos.map((item) => (
+        <div className="space-y-2" key={item.url}>
+          <p className="text-(--text-muted) text-xs">{item.title}</p>
+          <ProjectVideoEmbed item={item} />
+        </div>
+      ))}
     </div>
+  );
+}
+
+function ProjectGalleryRow({
+  paths,
+  title,
+}: {
+  paths: string[];
+  title: string;
+}) {
+  return (
+    <div className="mt-6 flex w-full flex-row gap-1.5 sm:gap-2">
+      {paths.map((src, i) => (
+        <div
+          className="min-w-0 flex-1 overflow-hidden border border-(--index-divider)"
+          key={src}
+        >
+          <Image
+            alt={`${title} — still ${i + 1} of ${paths.length}`}
+            className="h-auto w-full object-cover align-bottom"
+            height={800}
+            src={src}
+            unoptimized
+            width={600}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ProjectMarkdownBody({ source }: { source: string }) {
+  return (
+    <ReactMarkdown
+      components={{
+        a: ({ children, href }) => (
+          <a
+            className={detailLinkClass}
+            href={href}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {children}
+          </a>
+        ),
+        img: ({ alt, src }) =>
+          typeof src === "string" ? (
+            <span className="my-4 block overflow-hidden border border-(--index-divider)">
+              <Image
+                alt={alt ?? ""}
+                className="h-auto w-full"
+                height={900}
+                src={src}
+                unoptimized
+                width={1600}
+              />
+            </span>
+          ) : null,
+        blockquote: ({ children }) => (
+          <blockquote className="my-4 border-(--index-divider) border-l-2 pl-4 text-(--text-muted)">
+            {children}
+          </blockquote>
+        ),
+        h1: ({ children }) => (
+          <h3 className="mt-6 mb-2 text-2xl leading-tight tracking-tight first:mt-0">
+            {children}
+          </h3>
+        ),
+        h2: ({ children }) => (
+          <h3 className="mt-6 mb-2 text-xl leading-tight tracking-tight first:mt-0">
+            {children}
+          </h3>
+        ),
+        h3: ({ children }) => (
+          <h4 className="mt-5 mb-2 text-lg leading-tight tracking-tight first:mt-0">
+            {children}
+          </h4>
+        ),
+        ol: ({ children }) => (
+          <ol className="my-3 list-inside list-decimal space-y-1">
+            {children}
+          </ol>
+        ),
+        p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
+        ul: ({ children }) => (
+          <ul className="my-3 list-inside list-disc space-y-1">{children}</ul>
+        ),
+      }}
+    >
+      {source}
+    </ReactMarkdown>
   );
 }
 
@@ -129,69 +273,21 @@ export function ProjectDetail({
         <Meta>Filed under: {project.tags.join(" · ")}</Meta>
       ) : null}
       <div className="mt-4 text-(--foreground)/90 text-sm leading-relaxed">
-        <ReactMarkdown
-          components={{
-            a: ({ children, href }) => (
-              <a
-                className={detailLinkClass}
-                href={href}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {children}
-              </a>
-            ),
-            img: ({ alt, src }) =>
-              typeof src === "string" ? (
-                <span className="my-4 block overflow-hidden border border-(--index-divider)">
-                  <Image
-                    alt={alt ?? ""}
-                    className="h-auto w-full"
-                    height={900}
-                    src={src}
-                    unoptimized
-                    width={1600}
-                  />
-                </span>
-              ) : null,
-            blockquote: ({ children }) => (
-              <blockquote className="my-4 border-(--index-divider) border-l-2 pl-4 text-(--text-muted)">
-                {children}
-              </blockquote>
-            ),
-            h1: ({ children }) => (
-              <h3 className="mt-6 mb-2 text-2xl leading-tight tracking-tight first:mt-0">
-                {children}
-              </h3>
-            ),
-            h2: ({ children }) => (
-              <h3 className="mt-6 mb-2 text-xl leading-tight tracking-tight first:mt-0">
-                {children}
-              </h3>
-            ),
-            h3: ({ children }) => (
-              <h4 className="mt-5 mb-2 text-lg leading-tight tracking-tight first:mt-0">
-                {children}
-              </h4>
-            ),
-            ol: ({ children }) => (
-              <ol className="my-3 list-inside list-decimal space-y-1">
-                {children}
-              </ol>
-            ),
-            p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
-            ul: ({ children }) => (
-              <ul className="my-3 list-inside list-disc space-y-1">
-                {children}
-              </ul>
-            ),
-          }}
-        >
-          {project.description}
-        </ReactMarkdown>
+        <ProjectMarkdownBody source={project.description} />
       </div>
       {project.videos && project.videos.length > 0 ? (
         <ProjectVideos videos={project.videos} />
+      ) : null}
+      {project.galleryAfterVideo && project.galleryAfterVideo.length > 0 ? (
+        <ProjectGalleryRow
+          paths={project.galleryAfterVideo}
+          title={project.title}
+        />
+      ) : null}
+      {project.descriptionAfterVideos ? (
+        <div className="mt-4 text-(--foreground)/90 text-sm leading-relaxed">
+          <ProjectMarkdownBody source={project.descriptionAfterVideos} />
+        </div>
       ) : null}
       {project.highlights.length > 0 ? (
         <HighlightsList items={project.highlights} />

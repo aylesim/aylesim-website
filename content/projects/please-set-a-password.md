@@ -15,6 +15,10 @@ highlights:
   - Paired the video layer with real-time audio synthesis driven by analysis of the incoming imagery
   - Italian National Arts Award XV — first place, Electronic Arts (Sassari, Italy)
 liveLink:
+videos:
+  - title: Alessandro Miracapillo — Please Set a Password
+    url: https://vimeo.com/595763384
+videosAfterHeading: How it works
 ---
 
 ## Overview

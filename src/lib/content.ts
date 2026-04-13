@@ -19,6 +19,8 @@ export interface Project {
   link?: string | null;
   linkLabel?: string;
   description: string;
+  descriptionAfterVideos?: string;
+  galleryAfterVideo?: string[];
   highlights: string[];
   videos?: ProjectVideo[];
   sortYear: number;
@@ -109,6 +111,31 @@ function asVideoList(v: unknown): ProjectVideo[] {
   return out;
 }
 
+function asOptionalUrlList(v: unknown): string[] | undefined {
+  const arr = asStringArray(v);
+  return arr.length > 0 ? arr : undefined;
+}
+
+function splitDescriptionForEarlyVideo(
+  body: string,
+  videos: ProjectVideo[],
+  videosAfterHeading: string | undefined
+): { description: string; descriptionAfterVideos?: string } {
+  if (videos.length === 0 || !videosAfterHeading?.trim()) {
+    return { description: body };
+  }
+  const title = videosAfterHeading.trim();
+  const needle = `\n## ${title}\n`;
+  const idx = body.indexOf(needle);
+  if (idx === -1) {
+    return { description: body };
+  }
+  return {
+    description: body.slice(0, idx),
+    descriptionAfterVideos: body.slice(idx + 1),
+  };
+}
+
 function mapWorkProject(
   slug: string,
   body: string,
@@ -117,6 +144,11 @@ function mapWorkProject(
   data: Record<string, unknown>
 ): Project {
   const videos = asVideoList(data.videos);
+  const split = splitDescriptionForEarlyVideo(
+    body,
+    videos,
+    asString(data.videosAfterHeading)
+  );
   return {
     slug,
     title: asString(data.title) ?? slug,
@@ -128,7 +160,9 @@ function mapWorkProject(
     tags: asStringArray(data.tech),
     link: asString(data.liveLink) ?? null,
     linkLabel: "Visit live",
-    description: body,
+    description: split.description,
+    descriptionAfterVideos: split.descriptionAfterVideos,
+    galleryAfterVideo: asOptionalUrlList(data.galleryAfterVideo),
     highlights: asStringArray(data.highlights),
     videos: videos.length > 0 ? videos : undefined,
     sortYear: sortYear(year),
@@ -165,6 +199,11 @@ function mapDeviceProject(
   } else if (price === "Free") {
     linkLabel = "Download";
   }
+  const split = splitDescriptionForEarlyVideo(
+    body,
+    videos,
+    asString(data.videosAfterHeading)
+  );
   return {
     slug,
     title: asString(data.title) ?? slug,
@@ -178,7 +217,9 @@ function mapDeviceProject(
     tags,
     link: buyLink,
     linkLabel,
-    description: body,
+    description: split.description,
+    descriptionAfterVideos: split.descriptionAfterVideos,
+    galleryAfterVideo: asOptionalUrlList(data.galleryAfterVideo),
     highlights: asStringArray(data.highlights),
     videos: videos.length > 0 ? videos : undefined,
     sortYear: sortYear(year),

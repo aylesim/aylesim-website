@@ -15,6 +15,10 @@ highlights:
   - Repurposed models associated with voice classification and recognition toward deliberately unstable, imagistic listening
   - Developed as a thesis project combining research into network architectures and real-time audio treatment
 liveLink:
+videos:
+  - title: Fonema.mp4
+    url: https://vimeo.com/690005463
+videosAfterHeading: How it works
 ---
 
 ## Overview

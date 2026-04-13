@@ -16,6 +16,10 @@ highlights:
   - Designed the work so volunteer correction labour becomes part of the piece, surfacing platform fragility and contested notions of source reliability
   - "Residency: Con.Divisione 12 Art Residency (2023)"
 liveLink:
+videos:
+  - title: WIKISLAVERY
+    url: https://vimeo.com/941312315
+videosAfterHeading: How it works
 ---
 
 ## Overview
