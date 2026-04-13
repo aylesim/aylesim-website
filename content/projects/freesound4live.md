@@ -10,7 +10,6 @@ tech:
   - Ableton Live
   - Utility
 featured: false
-buyLink: https://github.com/aylesim/freesound4live
 year: "2023"
 videos:
   - title: Demo
@@ -21,6 +20,8 @@ highlights:
   - Wired drag-and-drop and Live-specific targets (Drum Rack, Simpler) so samples land in the right container
   - Shipped the device as open source so others can audit, fork, or extend the integration
 ---
+
+Currently not available.
 
 ## Overview
 
@@ -38,8 +39,6 @@ Search requests are parameterized (text, tags, duration bounds, license filters)
 - **Preview before download** to keep network use predictable during performance or teaching
 - **License-aware browsing** so CC and other terms stay visible at selection time
 - **Live-native placement** via drag-and-drop into rack and sampler slots
-
-The source lives on GitHub; issues and forks are part of how the tool has stayed compatible as Live and the Freesound API evolve.
 
 ## Skills involved
 

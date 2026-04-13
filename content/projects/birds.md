@@ -24,6 +24,8 @@ highlights:
   - Balanced algorithmic behavior with musical constraints through a Difference Limit model
 ---
 
+[Gumroad](https://aylesim.gumroad.com/l/birds) · [Isotonik Studios](https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/)
+
 ## Overview
 
 Birds is a generative MIDI sequencer for Ableton Live, developed as a Max for Live device. I built it as a study in algorithmic composition, interface design, and musical constraint: the goal was to create a system that can transform a short MIDI phrase in real time while preserving enough structure to keep the result readable and usable.

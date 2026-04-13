@@ -13,12 +13,13 @@ tech:
   - Probability
 price: Free
 featured: false
-buyLink: https://aylesim.gumroad.com/l/luckynotes
 highlights:
   - Built a lightweight Max for Live MIDI effect that gates notes by probability for live arrangement
   - Tuned the control range so patterns can start sparse and grow in density without extra clip editing
   - Shipped as a free Gumroad download with over two thousand downloads to date
 ---
+
+[Gumroad](https://aylesim.gumroad.com/l/luckynotes)
 
 ## Overview
 
@@ -28,7 +29,7 @@ Lucky Notes is a small Max for Live **MIDI effect** I released as a performance 
 
 At **0%** probability the lane stays effectively silent; at **100%** every note is let through. Between those extremes the stream thins or thickens in real time, which makes it easy to rehearse builds or keep a set feeling less static without rewriting MIDI.
 
-The distribution on [Gumroad](https://aylesim.gumroad.com/l/luckynotes) is free; over time the page has accumulated **more than two thousand downloads**, which tells me the problem it solves is a common one in Live-centric workflows.
+The distribution there is free; over time the page has accumulated **more than two thousand downloads**, which tells me the problem it solves is a common one in Live-centric workflows.
 
 ## How it works
 

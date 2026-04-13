@@ -26,6 +26,8 @@ highlights:
   - Used randomization plus global smoothing and jitter as macro controls over the whole modulator field
 ---
 
+[Gumroad](https://aylesim.gumroad.com/l/knobstudio) · [Isotonik Studios](https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/)
+
 ## Overview
 
 Knob Studio is a Max for Live audio effect I developed to explore alternative approaches to parameter modulation in Ableton Live. Rather than treating modulation as a single control source, I wanted a small environment for mapping experiments: several layers can run in parallel, influence the same targets, and remain editable without the system turning into something you can only operate by trial and error.

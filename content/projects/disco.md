@@ -11,7 +11,6 @@ tech:
   - Ableton Live
   - Delay
 featured: false
-buyLink: https://aylesim.gumroad.com/l/disco
 videos:
   - title: Demo
     url: https://www.youtube.com/watch?v=WpoSqDDA4EY
@@ -23,6 +22,8 @@ highlights:
   - Combined manual control and LFO-driven motion so the same patch scales from subtle movement to extreme modulation
   - Tuned the UI around spatial readout of time and level so delay density stays interpretable while taps move
 ---
+
+[Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/)
 
 ## Overview
 

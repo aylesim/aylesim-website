@@ -28,7 +28,7 @@ function PrimaryLabel({ children }: { children: React.ReactNode }) {
 
 function DetailLinks({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mt-6 flex flex-wrap gap-x-5 gap-y-1 text-xs">
+    <div className="mb-4 flex flex-wrap gap-x-5 gap-y-1 text-xs">
       {children}
     </div>
   );
@@ -289,6 +289,18 @@ export function ProjectDetail({
       {project.tags.length > 0 ? (
         <Meta>Filed under: {project.tags.join(" · ")}</Meta>
       ) : null}
+      {project.link ? (
+        <DetailLinks>
+          <a
+            className={detailLinkClass}
+            href={project.link}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {project.linkLabel ?? "Visit"}
+          </a>
+        </DetailLinks>
+      ) : null}
       <div className="mt-4 text-(--foreground)/90 text-sm leading-relaxed">
         <ProjectMarkdownBody source={project.description} />
       </div>
@@ -305,18 +317,6 @@ export function ProjectDetail({
       ) : null}
       {project.highlights.length > 0 ? (
         <HighlightsList items={project.highlights} />
-      ) : null}
-      {project.link ? (
-        <DetailLinks>
-          <a
-            className={detailLinkClass}
-            href={project.link}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {project.linkLabel ?? "Visit"}
-          </a>
-        </DetailLinks>
       ) : null}
     </div>
   );
