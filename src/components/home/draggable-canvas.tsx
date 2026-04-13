@@ -295,7 +295,8 @@ function layoutCardsScattered(
   cards: HTMLElement[],
   width: number,
   height: number,
-  rand: () => number
+  rand: () => number,
+  relayout = false
 ): void {
   const centers: { cx: number; cy: number }[] = [];
   const maxAttempts = 180;
@@ -327,7 +328,11 @@ function layoutCardsScattered(
       y = rand() * spanY + CANVAS_EDGE_PAD;
     }
     centers.push({ cx: x + cw / 2, cy: y + ch / 2 });
-    gsap.set(card, { x, y, opacity: 0, scale: 0.88 });
+    if (relayout) {
+      gsap.to(card, { x, y, duration: 0.45, ease: "power2.out" });
+    } else {
+      gsap.set(card, { x, y, opacity: 0, scale: 0.88 });
+    }
   }
 }
 
@@ -358,8 +363,7 @@ export function DraggableCanvas({
     const cards = Array.from(
       container.querySelectorAll<HTMLElement>(".canvas-card")
     );
-    const rand = lcg(17);
-    layoutCardsScattered(cards, w, h, rand);
+    layoutCardsScattered(cards, w, h, lcg(17));
 
     gsap.to(cards, {
       opacity: 1,
@@ -394,7 +398,30 @@ export function DraggableCanvas({
       },
     });
 
+    let prevW = w;
+    let prevH = h;
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    const observer = new ResizeObserver(() => {
+      const newW = container.offsetWidth;
+      const newH = container.offsetHeight;
+      if (newW === prevW && newH === prevH) {
+        return;
+      }
+      prevW = newW;
+      prevH = newH;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (newW === 0 || newH === 0) {
+          return;
+        }
+        layoutCardsScattered(cards, newW, newH, lcg(17), true);
+      }, 200);
+    });
+    observer.observe(container);
+
     return () => {
+      clearTimeout(resizeTimer);
+      observer.disconnect();
       for (const d of dragsRef.current) {
         d.kill();
       }
