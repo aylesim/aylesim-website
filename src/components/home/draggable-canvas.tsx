@@ -352,6 +352,9 @@ export function DraggableCanvas({
 
     const w = container.offsetWidth;
     const h = container.offsetHeight;
+    if (w === 0 || h === 0) {
+      return;
+    }
     const cards = Array.from(
       container.querySelectorAll<HTMLElement>(".canvas-card")
     );

@@ -80,9 +80,9 @@ function MenuItem({
   tag?: string;
 }) {
   return (
-    <li className="py-0.5 first:pt-0">
+    <li className="py-1 first:pt-0 md:py-0.5">
       <button
-        className={`flex w-full flex-wrap items-baseline gap-x-1.5 gap-y-0 py-0.5 pl-4 text-left font-normal text-sm leading-snug transition-colors ${
+        className={`flex w-full flex-wrap items-baseline gap-x-1.5 gap-y-0 py-1.5 pl-4 text-left font-normal text-sm leading-snug transition-colors md:py-0.5 ${
           active
             ? "text-(--foreground)"
             : "text-(--text-muted) hover:text-(--foreground)"
@@ -103,9 +103,9 @@ function MenuItem({
 
 function MentionLinkItem({ href, label }: { href: string; label: string }) {
   return (
-    <li className="py-0.5 first:pt-0">
+    <li className="py-1 first:pt-0 md:py-0.5">
       <a
-        className="flex w-full py-0.5 pl-4 text-left font-normal text-(--text-muted) text-sm leading-snug transition-colors hover:text-(--foreground)"
+        className="flex w-full py-1.5 pl-4 text-left font-normal text-(--text-muted) text-sm leading-snug transition-colors hover:text-(--foreground) md:py-0.5"
         href={href}
         rel="noopener noreferrer"
         target="_blank"
@@ -114,6 +114,18 @@ function MentionLinkItem({ href, label }: { href: string; label: string }) {
       </a>
     </li>
   );
+}
+
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 767px)");
+    setMobile(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setMobile(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+  return mobile;
 }
 
 export default function RectNav({ content }: { content: SiteContent }) {
@@ -157,6 +169,7 @@ export default function RectNav({ content }: { content: SiteContent }) {
   const [panelHeight, setPanelHeight] = useState(0);
   const [readyToAnimate, setReadyToAnimate] = useState(false);
   const panelContentRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setPanelOpen(urlAboutOpen);
@@ -212,7 +225,18 @@ export default function RectNav({ content }: { content: SiteContent }) {
 
   return (
     <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
-      <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-8 pb-4 md:px-5 md:pt-8 md:pb-4">
+      <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-6 pb-3 md:px-5 md:pt-8 md:pb-4">
+        {state.projectSlug && (
+          <button
+            className="text-(--text-muted) text-lg tracking-tight transition-colors hover:text-(--foreground) md:hidden"
+            onClick={() =>
+              setState({ aboutOpen: state.aboutOpen, projectSlug: null })
+            }
+            type="button"
+          >
+            ←
+          </button>
+        )}
         <Link className="text-lg tracking-tight md:text-xl" href="/">
           Aylesim
         </Link>
@@ -248,8 +272,12 @@ export default function RectNav({ content }: { content: SiteContent }) {
         </div>
       </div>
 
-      <div className="flex min-h-0 min-w-0 flex-1">
-        <aside className="flex h-full min-h-0 w-[min(100%,20rem)] shrink-0 flex-col px-4 pt-2 pb-5 md:w-[24rem] md:min-w-88 md:px-5 md:pt-2">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col md:flex-row">
+        <aside
+          className={`flex min-h-0 w-full flex-1 flex-col px-4 pt-2 pb-5 md:w-[24rem] md:min-w-88 md:flex-none md:px-5 md:pt-2 ${
+            state.projectSlug ? "hidden md:flex" : ""
+          }`}
+        >
           <nav
             aria-label="Site"
             className="flex min-h-0 flex-1 flex-col overflow-y-auto"
@@ -281,17 +309,20 @@ export default function RectNav({ content }: { content: SiteContent }) {
 
         <main
           className={`relative min-h-0 min-w-0 flex-1 ${
-            state.projectSlug ? "overflow-y-auto" : "overflow-hidden"
+            state.projectSlug
+              ? "overflow-y-auto"
+              : "hidden overflow-hidden md:block"
           }`}
         >
-          {state.projectSlug ? (
-            <div className="mx-auto w-full max-w-5xl px-6 py-10 md:px-10 md:py-12">
+          {state.projectSlug && (
+            <div className="mx-auto w-full max-w-5xl px-4 py-6 md:px-10 md:py-12">
               <ProjectDetail
                 projects={content.projects}
                 slug={state.projectSlug}
               />
             </div>
-          ) : (
+          )}
+          {!(state.projectSlug || isMobile) && (
             <DraggableCanvas
               onProjectClick={pickProject}
               projects={visibleProjects}
