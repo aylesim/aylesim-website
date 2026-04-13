@@ -1,0 +1,36 @@
+Hello GripBeats team,
+
+My name is Alessandro Miracapillo. I am a Berlin-based creative technologist, programmer, and electronic musician working across audio software, creative coding, and interactive musical systems. I am reaching out regarding your call for Max/MSP patches for GripBeats.
+
+My practice is strongly centered on building expressive systems for performance, especially where physical gesture, mapping design, and musical response need to work together as a single instrument. I work extensively with Max/MSP, Max for Live, generative MIDI systems, interaction design, and performative interfaces, with a particular interest in making complex behavior feel immediate, playable, and musically meaningful.
+
+I would be very interested in developing patches for GripBeats that highlight the expressive potential of the controller in a clear and impactful way. The device seems especially well suited for patches built around gesture-to-sound mapping, pressure-sensitive performance behavior, movement-based modulation, adaptive sequencing, embodied rhythm interaction, and audiovisual feedback.
+
+A few patch directions I would be excited to explore:
+
+- expressive gesture-controlled synth or sampler performance
+- pressure and motion driven rhythm generation or transformation
+- body movement as modulation source for evolving textures and effects
+- performable mapping systems that turn posture and touch into musical structure
+- installation or live performance patches that make the physicality of the controller immediately legible
+
+My background includes the design and release of musical tools through Aylesim Devices, including Birds, a generative MIDI sequencer for Ableton Live; Knob Studio, a modulation environment for layered parameter control; and Freesound4Live, a utility that integrates the Freesound API directly inside Live for auditioning and sample workflow. Across these projects, my focus has consistently been on building instruments and systems that are both technically robust and artistically usable.
+
+Relevant links:
+
+Portfolio
+https://aylesim.com
+
+Birds
+https://www.youtube.com/watch?v=0-D_bPzaqfo
+
+Knob Studio
+https://www.youtube.com/watch?v=nanpp0rhG_I
+
+In-depth Knob Studio process video
+https://www.youtube.com/watch?v=J0A9h0l-F2s&t=1s
+
+If useful, I would be glad to propose a few concrete patch concepts tailored to GripBeats, including different levels of scope, performance focus, and technical complexity.
+
+Best,
+Alessandro Miracapillo

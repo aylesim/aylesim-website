@@ -1,0 +1,33 @@
+Hello GripBeats team,
+
+My name is Alessandro Miracapillo, and I am a Berlin-based creative technologist, programmer, and electronic musician working across audio software, creative coding, and physical computing. 
+I design interactive systems where sound, software, and physical space overlap, including instruments you perform with, installations you inhabit, and tools shaped around a specific artistic or musical use case.
+
+I am reaching out because the GripBeats vision strongly resonates with my practice. I am especially interested in expressive musical interfaces that turn complex behavior into something playable, legible, and alive in real time, and much of my work has focused on designing systems where interaction, mapping, and musical response are tightly connected rather than treated as separate layers.
+
+My background is particularly strong in Max/MSP, Max for Live, Ableton Live, generative MIDI systems, modulation design, interaction design, and real-time audiovisual and installation work. 
+Through Aylesim Devices, I have developed and released musical tools including Birds, a generative MIDI sequencer for Ableton Live; Knob Studio, a modulation environment for layered parameter control; and Freesound4Live, a utility that integrates the Freesound API directly inside Live for auditioning and sample workflow. 
+Alongside device work, I have also contributed to sensor-driven interactive systems in workshop and artistic contexts, including a project at MAST Festival with La Scuola Open Source where we built a weather station using microcontrollers and sensors that translated live environmental data into creative visual output.
+I have also collaborated with artists such as Luca Longobardi on interactive installation projects, helping develop sensor-based systems that combined Max/MSP patching and Arduino hardware to create responsive audio environments.
+
+What draws me to GripBeats is the challenge of building a new expressive instrument rather than a conventional controller. The combination of touch, pressure, posture, and movement as a performable language is exactly the kind of problem I care about: shaping mappings, behaviors, and feedback so that an instrument feels responsive, nuanced, and musically meaningful. 
+My experience is strongest on the creative technology, musical interface, prototyping, and expressive software side, especially where the goal is to make sophisticated interaction systems usable in performance.
+
+I would love to contribute to the development of GripBeats and discuss how my background in interactive audio tools, sensor-based systems, and expressive interface design could support the development of your instrument.
+
+Portfolio
+https://aylesim.com
+
+Birds
+https://www.youtube.com/watch?v=Eax-kVIUId4
+
+Knob Studio
+https://www.youtube.com/watch?v=nanpp0rhG_I
+
+Knob Studio development breakdown
+https://www.youtube.com/watch?v=J0A9h0l-F2s&t=1s
+
+Availability: Available to discuss scope, format, and start timing based on your current needs.
+
+Best,
+Alessandro Miracapillo
