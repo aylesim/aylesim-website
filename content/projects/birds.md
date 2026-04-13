@@ -28,7 +28,7 @@ highlights:
 
 Birds is a generative MIDI sequencer for Ableton Live, developed as a Max for Live device. I built it as a study in algorithmic composition, interface design, and musical constraint: the goal was to create a system that can transform a short MIDI phrase in real time while preserving enough structure to keep the result readable and usable.
 
-![Birds — Max for Live interface](/Birdsgr.png)
+![Birds - Max for Live interface](/Birdsgr.png)
 
 The interface translates the sequence into an animated score where each bird represents a note, the wire represents pitch, and horizontal position represents timing. This made the project as much about visual communication as sequencing logic: the challenge was to expose generative behavior in a way that feels immediate rather than opaque.
 

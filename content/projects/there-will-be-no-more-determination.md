@@ -14,7 +14,7 @@ tech:
 highlights:
   - Trained and ran GANs to produce abstract images from military helicopter footage sourced from conflict zones (including Afghanistan, Iraq, and Pakistan)
   - Built a visual field that reads as both familiar and estranged, aimed at the dehumanising distance introduced by military imaging systems
-  - "Residency: Con.divisione Residenza 2022 — Maul"
+  - "Residency: Con.divisione Residenza 2022 - Maul"
 liveLink:
 videos:
   - title: There Will Be No More Determination
@@ -30,7 +30,7 @@ galleryAfterVideo:
 
 **There Will Be No More Determination** is an artwork about **military imaging technology** and what it does to the people caught inside its frame. It uses **generative adversarial networks (GANs)** to rework **helicopter footage from conflict zones** into abstract images: the source material stays legible as “war vision” from above, while the model’s output pushes toward something uncanny, flattened, and hard to stabilise morally.
 
-The title nods to **Éléonore Weber**’s documentary **There Will Be No More Night** (with **Nathalie Richard**): not as illustration, but as a shared question about **agency** — what happens to determination, orientation, and care when sight is weaponised and bodies are reduced to coordinates.
+The title nods to **Éléonore Weber**’s documentary **There Will Be No More Night** (with **Nathalie Richard**): not as illustration, but as a shared question about **agency** - what happens to determination, orientation, and care when sight is weaponised and bodies are reduced to coordinates.
 
 ## How it works
 
@@ -42,4 +42,4 @@ The work was developed during **Con.divisione Residenza 2022** in **Maul**, as a
 
 ## Skills involved
 
-The piece brought together **dataset ethics and limits**, **GAN training and evaluation**, and **exhibition thinking** — how many images, at what scale, how fast the viewer should move from aesthetic pleasure to recognition of source. It sits in my practice next to other systems-led work: define the behaviour and the political frame first, then let the technical pipeline expose what is already inside the material.
+The piece brought together **dataset ethics and limits**, **GAN training and evaluation**, and **exhibition thinking** - how many images, at what scale, how fast the viewer should move from aesthetic pleasure to recognition of source. It sits in my practice next to other systems-led work: define the behaviour and the political frame first, then let the technical pipeline expose what is already inside the material.

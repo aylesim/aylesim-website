@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Aylesim",
   description:
-    "Max/MSP instrument builder. Berlin-based creative technologist — devices, installations, community.",
+    "Max/MSP instrument builder. Berlin-based creative technologist - devices, installations, community.",
   metadataBase: new URL("https://aylesim.com"),
 };
 

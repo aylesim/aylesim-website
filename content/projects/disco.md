@@ -28,7 +28,7 @@ highlights:
 
 Disco is a Max for Live audio effect I built around a circular multi-tap delay structure: incoming audio is distributed across several delay lines whose positions can rotate on a ring, together or independently, so repeats bunch, spread, and re-phase over time. The project sits between time-domain DSP, Euclidean pattern logic, and interface design inside Ableton Live.
 
-![Disco — Max for Live interface](/disco.png)
+![Disco - Max for Live interface](/disco.png)
 
 The patch treats the delay not as a single feedback line, but as a small moving system of timed events. A lot of the work went into making that system legible while it shifts, so the interface helps you understand where rhythmic density and stereo energy are accumulating.
 

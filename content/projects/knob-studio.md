@@ -30,7 +30,7 @@ highlights:
 
 Knob Studio is a Max for Live audio effect I developed to explore alternative approaches to parameter modulation in Ableton Live. Rather than treating modulation as a single control source, I wanted a small environment for mapping experiments: several layers can run in parallel, influence the same targets, and remain editable without the system turning into something you can only operate by trial and error.
 
-![Knob Studio — Max for Live interface](/knobstudio.png)
+![Knob Studio - Max for Live interface](/knobstudio.png)
 
 The device centers on a waveform-driven modulation graph where functions are layered, shaped, and then interpreted by different reading strategies. A lot of the work went into keeping that graph legible in performance: what the patch is doing should be visible, not only audible.
 

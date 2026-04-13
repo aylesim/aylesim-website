@@ -22,7 +22,7 @@ videos:
 
 ## Overview
 
-In October 2020, I performed live visuals at TEDx Barletta alongside Regleow & Ozey. The performance was conceived as a sensory journey through experimental electronic music — a percussive, immersive composition paired with real-time video projections designed to draw the audience into a full audiovisual experience.
+In October 2020, I performed live visuals at TEDx Barletta alongside Regleow & Ozey. The performance was conceived as a sensory journey through experimental electronic music - a percussive, immersive composition paired with real-time video projections designed to draw the audience into a full audiovisual experience.
 
 The visuals were projected live, reacting to and complementing the energy and texture of the music in real time.
 
@@ -34,4 +34,4 @@ The visuals were projected live, reacting to and complementing the energy and te
 
 ## Context
 
-TEDx events are known for ideas and talks, but this performance opened up space for a different kind of communication — one driven by sound, image, and visceral energy rather than words. The collaboration with Regleow & Ozey brought together experimental electronic music and the TEDx stage in a format-pushing audiovisual set.
+TEDx events are known for ideas and talks, but this performance opened up space for a different kind of communication - one driven by sound, image, and visceral energy rather than words. The collaboration with Regleow & Ozey brought together experimental electronic music and the TEDx stage in a format-pushing audiovisual set.

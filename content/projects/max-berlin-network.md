@@ -20,13 +20,13 @@ highlights:
 
 ## Overview
 
-Max Berlin Network is a Berlin-based meetup series I co-founded in early 2025 with other local practitioners. The focus is practical: people show work, ask questions, debug patches together, and share approaches to Max/MSP, interactive audio, and adjacent creative tooling. I treat it as community infrastructure, not marketing — the goal is reliable rhythm, clear expectations, and a room where peer learning actually happens.
+Max Berlin Network is a Berlin-based meetup series I co-founded in early 2025 with other local practitioners. The focus is practical: people show work, ask questions, debug patches together, and share approaches to Max/MSP, interactive audio, and adjacent creative tooling. I treat it as community infrastructure, not marketing - the goal is reliable rhythm, clear expectations, and a room where peer learning actually happens.
 
 The group exists because Max practice benefits from in-person context: short feedback loops, improvised explanations, and the kind of detail that rarely survives a forum thread.
 
 ## How it runs
 
-Meetups are in-person, on a regular cadence, and intentionally lightweight in format: enough structure to start and end on time, enough openness for demos, breakout questions, and informal pairing. Topics drift across patching style, DSP intuition, performance setups, and tooling around Live — whatever the room brings that month.
+Meetups are in-person, on a regular cadence, and intentionally lightweight in format: enough structure to start and end on time, enough openness for demos, breakout questions, and informal pairing. Topics drift across patching style, DSP intuition, performance setups, and tooling around Live - whatever the room brings that month.
 
 - **Recurring sessions** with announced time and place so people can plan around them
 - **Peer-led content** rather than a fixed curriculum: demos, walkthroughs, troubleshooting blocks

@@ -16,6 +16,7 @@ import {
   ProjectDetail,
 } from "@/components/home/portfolio-detail";
 import type { SiteContent } from "@/lib/content";
+import { mentionLinks } from "@/lib/site";
 
 function parseLegacySel(sp: URLSearchParams): {
   aboutOpen: boolean;
@@ -95,6 +96,21 @@ function MenuItem({
           </span>
         ) : null}
       </button>
+    </li>
+  );
+}
+
+function MentionLinkItem({ href, label }: { href: string; label: string }) {
+  return (
+    <li className="py-0.5 first:pt-0">
+      <a
+        className="flex w-full py-0.5 pl-4 text-left font-normal text-(--text-muted) text-sm leading-snug transition-colors hover:text-(--foreground)"
+        href={href}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {label}
+      </a>
     </li>
   );
 }
@@ -246,6 +262,15 @@ export default function RectNav({ content }: { content: SiteContent }) {
                     />
                   );
                 })}
+            </MenuSection>
+            <MenuSection label="Mentions">
+              {mentionLinks.map((item) => (
+                <MentionLinkItem
+                  href={item.href}
+                  key={item.href}
+                  label={item.label}
+                />
+              ))}
             </MenuSection>
           </nav>
         </aside>

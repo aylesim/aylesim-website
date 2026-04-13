@@ -30,7 +30,7 @@ The provocation is directed at **volunteer labour** as much as at readers: the w
 
 ## How it works
 
-Technically, the piece is built around **algorithms that run continuously**, selecting targets and mutating text in ways that remain **internally coherent enough to pass quick scans** while still triggering downstream correction. The installation frames Wikipedia as both **a public record** and **a training substrate** for large models: if machine learning systems ingest the open web, then **small, distributed distortions** are not only a human annoyance but a parable about **tainted learning** — data that looks authoritative because of the channel it arrives through.
+Technically, the piece is built around **algorithms that run continuously**, selecting targets and mutating text in ways that remain **internally coherent enough to pass quick scans** while still triggering downstream correction. The installation frames Wikipedia as both **a public record** and **a training substrate** for large models: if machine learning systems ingest the open web, then **small, distributed distortions** are not only a human annoyance but a parable about **tainted learning** - data that looks authoritative because of the channel it arrives through.
 
 The title compresses **wiki** and **slavery** into an ugly neologism on purpose: it names a dependency loop where **human attention is extracted** to repair what machines and scripts break open.
 

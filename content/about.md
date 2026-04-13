@@ -1,9 +1,9 @@
 ---
-award: Italian National Arts Award — Electronic Arts (March 2022)
+award: Italian National Arts Award - Electronic Arts (March 2022)
 exhibitions:
   - Blackout Festival Turin
   - Phonè Bari
-publication: CDM — Create Digital Music (2020)
+publication: CDM - Create Digital Music (2020)
 ---
 
 I design interactive systems where sound, software, and physical space overlap: instruments you perform with, installations you inhabit, and tools built around how a specific project needs to behave.

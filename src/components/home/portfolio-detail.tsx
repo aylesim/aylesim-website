@@ -171,7 +171,7 @@ function ProjectGalleryRow({
           key={src}
         >
           <Image
-            alt={`${title} — still ${i + 1} of ${paths.length}`}
+            alt={`${title} - still ${i + 1} of ${paths.length}`}
             className="h-auto w-full object-cover align-bottom"
             height={800}
             src={src}
