@@ -156,6 +156,22 @@ function ProjectVideos({ videos }: { videos: ProjectVideo[] }) {
   );
 }
 
+const THERE_WILL_BE_NO_MORE_SLUG = "there-will-be-no-more-determination";
+
+function galleryPathsForDetail(project: {
+  slug: string;
+  galleryAfterVideo?: string[];
+}): string[] | undefined {
+  const g = project.galleryAfterVideo;
+  if (!g?.length) {
+    return undefined;
+  }
+  if (project.slug === THERE_WILL_BE_NO_MORE_SLUG) {
+    return g.slice(0, 1);
+  }
+  return g;
+}
+
 function ProjectGalleryRow({
   paths,
   title,
@@ -259,6 +275,7 @@ export function ProjectDetail({
     return null;
   }
   const [primaryLabel, ...remainingPrimaryMeta] = project.primaryMeta;
+  const galleryPaths = galleryPathsForDetail(project);
   return (
     <div className="w-full max-w-4xl">
       <h2 className="mb-3 block w-fit bg-white px-4 py-2 text-3xl text-black leading-[0.95] tracking-tight sm:text-5xl">
@@ -278,11 +295,8 @@ export function ProjectDetail({
       {project.videos && project.videos.length > 0 ? (
         <ProjectVideos videos={project.videos} />
       ) : null}
-      {project.galleryAfterVideo && project.galleryAfterVideo.length > 0 ? (
-        <ProjectGalleryRow
-          paths={project.galleryAfterVideo}
-          title={project.title}
-        />
+      {galleryPaths && galleryPaths.length > 0 ? (
+        <ProjectGalleryRow paths={galleryPaths} title={project.title} />
       ) : null}
       {project.descriptionAfterVideos ? (
         <div className="mt-4 text-(--foreground)/90 text-sm leading-relaxed">

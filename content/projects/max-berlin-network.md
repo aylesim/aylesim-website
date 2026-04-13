@@ -2,6 +2,7 @@
 type: work
 order: 3
 menuLabel: community
+canvasImage: /LN.png
 title: Max Berlin Network
 role: Co-Founder & Community Manager
 client: Max Berlin Network

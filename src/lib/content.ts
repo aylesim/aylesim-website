@@ -21,10 +21,13 @@ export interface Project {
   description: string;
   descriptionAfterVideos?: string;
   galleryAfterVideo?: string[];
+  images: string[];
+  canvasCover: string | null;
   highlights: string[];
   videos?: ProjectVideo[];
   sortYear: number;
   order: number;
+  stackOrder: number;
   menuLabel?: string;
   showInMenu: boolean;
 }
@@ -74,6 +77,23 @@ function menuOrderFromData(data: Record<string, unknown>): number {
   return Number.POSITIVE_INFINITY;
 }
 
+function stackOrderFromData(
+  data: Record<string, unknown>,
+  orderFallback: number
+): number {
+  const v = data.stackOrder;
+  if (typeof v === "number" && Number.isFinite(v)) {
+    return v;
+  }
+  if (typeof v === "string") {
+    const n = Number.parseInt(v, 10);
+    if (Number.isFinite(n)) {
+      return n;
+    }
+  }
+  return orderFallback;
+}
+
 function asString(v: unknown): string | undefined {
   if (typeof v === "string") {
     return v;
@@ -116,6 +136,28 @@ function asOptionalUrlList(v: unknown): string[] | undefined {
   return arr.length > 0 ? arr : undefined;
 }
 
+function extractMarkdownImages(body: string): string[] {
+  return [...body.matchAll(/!\[[^\]]*\]\(([^)\s]+)\)/g)].map((m) => m[1]);
+}
+
+const CANVAS_SINGLE_GALLERY_SLUG = "there-will-be-no-more-determination";
+
+function collectImages(
+  body: string,
+  gallery: string[] | undefined,
+  slug: string
+): string[] {
+  let gal = gallery ?? [];
+  if (slug === CANVAS_SINGLE_GALLERY_SLUG && gal.length > 1) {
+    gal = gal.slice(0, 1);
+  }
+  const merged = [...new Set([...extractMarkdownImages(body), ...gal])];
+  if (slug === CANVAS_SINGLE_GALLERY_SLUG && merged.length > 1) {
+    return merged.slice(0, 1);
+  }
+  return merged;
+}
+
 function splitDescriptionForEarlyVideo(
   body: string,
   videos: ProjectVideo[],
@@ -144,6 +186,7 @@ function mapWorkProject(
   data: Record<string, unknown>
 ): Project {
   const videos = asVideoList(data.videos);
+  const gallery = asOptionalUrlList(data.galleryAfterVideo);
   const split = splitDescriptionForEarlyVideo(
     body,
     videos,
@@ -162,11 +205,14 @@ function mapWorkProject(
     linkLabel: "Visit live",
     description: split.description,
     descriptionAfterVideos: split.descriptionAfterVideos,
-    galleryAfterVideo: asOptionalUrlList(data.galleryAfterVideo),
+    galleryAfterVideo: gallery,
+    images: collectImages(body, gallery, slug),
+    canvasCover: asString(data.canvasImage) ?? null,
     highlights: asStringArray(data.highlights),
     videos: videos.length > 0 ? videos : undefined,
     sortYear: sortYear(year),
     order,
+    stackOrder: stackOrderFromData(data, order),
     menuLabel: asString(data.menuLabel),
     showInMenu: showInMenuFromData(data),
   };
@@ -199,6 +245,7 @@ function mapDeviceProject(
   } else if (price === "Free") {
     linkLabel = "Download";
   }
+  const gallery = asOptionalUrlList(data.galleryAfterVideo);
   const split = splitDescriptionForEarlyVideo(
     body,
     videos,
@@ -219,11 +266,14 @@ function mapDeviceProject(
     linkLabel,
     description: split.description,
     descriptionAfterVideos: split.descriptionAfterVideos,
-    galleryAfterVideo: asOptionalUrlList(data.galleryAfterVideo),
+    galleryAfterVideo: gallery,
+    images: collectImages(body, gallery, slug),
+    canvasCover: asString(data.canvasImage) ?? null,
     highlights: asStringArray(data.highlights),
     videos: videos.length > 0 ? videos : undefined,
     sortYear: sortYear(year),
     order,
+    stackOrder: stackOrderFromData(data, order),
     menuLabel: asString(data.menuLabel),
     showInMenu: showInMenuFromData(data),
   };

@@ -11,6 +11,7 @@ import {
   useState,
   useTransition,
 } from "react";
+import { DraggableCanvas } from "@/components/home/draggable-canvas";
 import {
   AboutInlineContent,
   ProjectDetail,
@@ -204,6 +205,11 @@ export default function RectNav({ content }: { content: SiteContent }) {
     [setState, state.aboutOpen, state.projectSlug]
   );
 
+  const visibleProjects = useMemo(
+    () => content.projects.filter((item) => item.showInMenu),
+    [content.projects]
+  );
+
   return (
     <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
       <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-8 pb-4 md:px-5 md:pt-8 md:pb-4">
@@ -249,19 +255,17 @@ export default function RectNav({ content }: { content: SiteContent }) {
             className="flex min-h-0 flex-1 flex-col overflow-y-auto"
           >
             <MenuSection label="Projects">
-              {content.projects
-                .filter((item) => item.showInMenu)
-                .map((item) => {
-                  return (
-                    <MenuItem
-                      active={state.projectSlug === item.slug}
-                      key={item.slug}
-                      onClick={() => pickProject(item.slug)}
-                      tag={item.menuLabel}
-                      title={item.title}
-                    />
-                  );
-                })}
+              {visibleProjects.map((item) => {
+                return (
+                  <MenuItem
+                    active={state.projectSlug === item.slug}
+                    key={item.slug}
+                    onClick={() => pickProject(item.slug)}
+                    tag={item.menuLabel}
+                    title={item.title}
+                  />
+                );
+              })}
             </MenuSection>
             <MenuSection label="Mentions">
               {mentionLinks.map((item) => (
@@ -275,15 +279,24 @@ export default function RectNav({ content }: { content: SiteContent }) {
           </nav>
         </aside>
 
-        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
-          <div className="mx-auto w-full max-w-5xl px-6 py-10 md:px-10 md:py-12">
-            {state.projectSlug ? (
+        <main
+          className={`relative min-h-0 min-w-0 flex-1 ${
+            state.projectSlug ? "overflow-y-auto" : "overflow-hidden"
+          }`}
+        >
+          {state.projectSlug ? (
+            <div className="mx-auto w-full max-w-5xl px-6 py-10 md:px-10 md:py-12">
               <ProjectDetail
                 projects={content.projects}
                 slug={state.projectSlug}
               />
-            ) : null}
-          </div>
+            </div>
+          ) : (
+            <DraggableCanvas
+              onProjectClick={pickProject}
+              projects={visibleProjects}
+            />
+          )}
         </main>
       </div>
     </div>

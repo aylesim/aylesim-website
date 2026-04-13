@@ -2,6 +2,7 @@
 type: work
 order: 6
 showInMenu: false
+canvasImage: /tw1.jpg
 title: Aylesim Devices
 role: Instrument Builder
 client: Product Line
