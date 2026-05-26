@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import type { AboutData, Project } from "@/lib/content";
+import { getProjectCover } from "@/lib/project-cover";
 import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
 import { contactEmail, contactLinks, mentionLinks } from "@/lib/site";
 
@@ -12,19 +13,11 @@ interface RoleColumn {
   description: string;
 }
 
-const YOUTUBE_ID_REGEX = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
-
 const SELECTED_SLUGS = [
   "birds",
   "planetary-compendium",
   "tedx-barletta",
 ] as const;
-
-const SELECTED_COVERS: Record<(typeof SELECTED_SLUGS)[number], string> = {
-  birds: "/Birdsgr.png",
-  "planetary-compendium": "/planetary.png",
-  "tedx-barletta": "https://img.youtube.com/vi/GJUaN92rx-0/hqdefault.jpg",
-};
 
 const ROLES: RoleColumn[] = [
   {
@@ -63,36 +56,20 @@ function selectedProjects(projects: Project[]) {
   ).filter((project): project is Project => Boolean(project));
 }
 
-function projectCover(project: Project): string {
-  if (project.slug in SELECTED_COVERS) {
-    return SELECTED_COVERS[project.slug as keyof typeof SELECTED_COVERS];
-  }
-  if (project.canvasCover) {
-    return project.canvasCover;
-  }
-  if (project.images[0]) {
-    return project.images[0];
-  }
-  const videoUrl = project.videos?.[0]?.url;
-  if (videoUrl) {
-    const match = videoUrl.match(YOUTUBE_ID_REGEX);
-    if (match?.[1]) {
-      return `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg`;
-    }
-  }
-  return "/tw1.jpg";
-}
-
 function SelectedWorkCard({
   project,
   onProjectClick,
+  onProjectHoverEnd,
+  onProjectHoverStart,
 }: {
   project: Project;
   onProjectClick: (slug: string) => void;
+  onProjectHoverEnd: () => void;
+  onProjectHoverStart: (slug: string) => void;
 }) {
   const category = project.category;
   const styles = category ? ROLE_STYLES[category] : null;
-  const cover = projectCover(project);
+  const cover = getProjectCover(project);
   const summary = project.highlights[0] ?? project.secondaryMeta;
   const coverIsRemote = cover.startsWith("http");
 
@@ -100,6 +77,8 @@ function SelectedWorkCard({
     <button
       className="group flex w-full flex-col text-left"
       onClick={() => onProjectClick(project.slug)}
+      onMouseEnter={() => onProjectHoverStart(project.slug)}
+      onMouseLeave={onProjectHoverEnd}
       type="button"
     >
       <div className="mb-4 w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5">
@@ -139,9 +118,13 @@ function SelectedWorkCard({
 function ProjectLink({
   project,
   onProjectClick,
+  onProjectHoverEnd,
+  onProjectHoverStart,
 }: {
   project: Project;
   onProjectClick: (slug: string) => void;
+  onProjectHoverEnd: () => void;
+  onProjectHoverStart: (slug: string) => void;
 }) {
   const meta = [project.year, project.menuLabel].filter(Boolean).join(" / ");
 
@@ -150,6 +133,8 @@ function ProjectLink({
       aria-label={`Open ${project.title}`}
       className="group micro-divider-top grid w-full grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-1 py-4 text-left first:bg-none md:grid-cols-[1fr_auto_1rem]"
       onClick={() => onProjectClick(project.slug)}
+      onMouseEnter={() => onProjectHoverStart(project.slug)}
+      onMouseLeave={onProjectHoverEnd}
       type="button"
     >
       <span className="text-(--foreground) text-base leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
@@ -172,24 +157,33 @@ export function HomeIdentity({
   projects,
   about,
   onProjectClick,
+  onProjectHoverEnd,
+  onProjectHoverStart,
 }: {
   projects: Project[];
   about: AboutData;
   onProjectClick: (slug: string) => void;
+  onProjectHoverEnd: () => void;
+  onProjectHoverStart: (slug: string) => void;
 }) {
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
-      <section className="grid min-h-[calc(100dvh-5rem)] items-end gap-10 border-(--index-divider) border-b border-dotted py-12 md:grid-cols-[1.15fr_0.85fr] md:py-20">
+      <section className="grid items-start gap-10 border-(--index-divider) border-b border-dotted py-12 md:grid-cols-[1.15fr_0.85fr] md:py-20">
         <div>
-          <p className="mb-5 font-mono text-(--accent) text-xs uppercase tracking-widest">
-            Alessandro Miracapillo / Aylesim / Berlin
+          <p className="mb-5 font-mono text-xs tracking-widest">
+            <span className="text-(--accent) uppercase">
+              Alessandro Miracapillo /{" "}
+            </span>
+            <span className="text-(--accent)">aylesim</span>
+            <span className="text-(--text-muted)"> · </span>
+            <span className="text-(--text-muted) uppercase">Berlin</span>
           </p>
           <h1 className="max-w-5xl font-normal text-4xl leading-[0.98] tracking-tight md:text-7xl">
             I design and program systems where sound, interfaces, and human
             behavior meet.
           </h1>
         </div>
-        <p className="max-w-xl text-(--text-muted) text-base leading-relaxed md:text-lg">
+        <p className="max-w-xl text-(--text-muted) text-base leading-relaxed md:self-end md:text-lg">
           My work moves between audio software, web platforms, and spatial
           experiences. Different outputs, same problem: make complex behavior
           understandable enough to perform, use, or inhabit.
@@ -236,6 +230,8 @@ export function HomeIdentity({
             <SelectedWorkCard
               key={project.slug}
               onProjectClick={onProjectClick}
+              onProjectHoverEnd={onProjectHoverEnd}
+              onProjectHoverStart={onProjectHoverStart}
               project={project}
             />
           ))}
@@ -267,6 +263,8 @@ export function HomeIdentity({
                   <ProjectLink
                     key={project.slug}
                     onProjectClick={onProjectClick}
+                    onProjectHoverEnd={onProjectHoverEnd}
+                    onProjectHoverStart={onProjectHoverStart}
                     project={project}
                   />
                 ))}
