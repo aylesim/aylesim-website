@@ -5,6 +5,9 @@ import type { ProjectCategory } from "@/lib/roles";
 
 const contentDir = path.join(process.cwd(), "content");
 
+const aboutSectionSplit = /\n(?=## )/;
+const aboutHeadingPrefix = /^##\s+/;
+
 const PROJECT_CATEGORIES = new Set<string>([
   "devices",
   "web-interactive",
@@ -65,8 +68,21 @@ export interface Project {
   category?: ProjectCategory;
 }
 
+export interface About {
+  headline: string;
+  lede: string;
+  subtitle?: string;
+  body: string;
+}
+
+export interface AboutSection {
+  label: string;
+  content: string;
+}
+
 export interface SiteContent {
   projects: Project[];
+  about: About;
 }
 
 function readMd(filePath: string) {
@@ -385,6 +401,38 @@ function getProjects(): Project[] {
   });
 }
 
+function parseAboutSections(body: string): AboutSection[] {
+  const chunks = body.split(aboutSectionSplit).filter((chunk) => chunk.trim());
+  return chunks.map((chunk) => {
+    const newline = chunk.indexOf("\n");
+    if (newline === -1) {
+      return {
+        label: chunk.replace(aboutHeadingPrefix, "").trim(),
+        content: "",
+      };
+    }
+    return {
+      label: chunk.slice(0, newline).replace(aboutHeadingPrefix, "").trim(),
+      content: chunk.slice(newline + 1).trim(),
+    };
+  });
+}
+
+function getAbout(): About {
+  const filePath = path.join(contentDir, "about.md");
+  const { data, content } = readMd(filePath);
+  return {
+    headline: asString(data.headline) ?? "About",
+    lede: asString(data.lede) ?? "",
+    subtitle: asString(data.subtitle),
+    body: content.trim(),
+  };
+}
+
+export function getAboutSections(about: About): AboutSection[] {
+  return parseAboutSections(about.body);
+}
+
 export function getAllContent(): SiteContent {
-  return { projects: getProjects() };
+  return { projects: getProjects(), about: getAbout() };
 }

@@ -273,6 +273,12 @@ export default function RectNav({ content }: { content: SiteContent }) {
           >
             Projects
           </button>
+          <Link
+            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
+            href="/about"
+          >
+            About
+          </Link>
         </nav>
       </header>
 
