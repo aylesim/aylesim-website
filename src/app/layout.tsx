@@ -19,7 +19,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ "--bg": SITE_BG, backgroundColor: SITE_BG }}>
+    <html
+      lang="en"
+      style={
+        {
+          "--bg": SITE_BG,
+          backgroundColor: SITE_BG,
+        } as React.CSSProperties
+      }
+    >
       <head>
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link
