@@ -30,7 +30,7 @@ export const pressMentions = [
   {
     outlet: "Rekkerd",
     title: "Knob Studio experimental mapping device for Live",
-    year: undefined,
+    year: "2024",
     projectSlug: "knob-studio",
     href: "https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/",
   },

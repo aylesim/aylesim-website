@@ -4,6 +4,10 @@ category: audio
 workScope: commercial
 order: 7
 menuLabel: max4live
+listBadges:
+  - prefix: featured on
+    label: Create Digital Music
+    url: https://cdm.link/free-sounds-and-samples-in-ableton-live/
 title: Freesound4Live
 client: Aylesim Devices
 tech:
@@ -16,6 +20,7 @@ videos:
   - title: Demo
     url: https://www.youtube.com/watch?v=x8-n1uze24s
 highlights:
+  - Featured on Create Digital Music for bringing the Freesound.org community library into Ableton Live
   - Integrated the Freesound.org HTTP API inside a Max for Live patch with search, preview, and download paths
   - Implemented filtering by tag, duration, and license metadata so results stay usable in a live set
   - Wired drag-and-drop and Live-specific targets (Drum Rack, Simpler) so samples land in the right container

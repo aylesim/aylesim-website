@@ -80,10 +80,8 @@ function ProjectListBadgeItem({
   hidePrefix?: boolean;
   className?: string;
 }) {
-  const isPress = badge.prefix === "featured on";
-  const linkClass = isPress
-    ? "font-mono text-(--foreground)/38 text-[10px] uppercase tracking-widest transition-colors hover:text-(--accent)/65"
-    : "font-mono text-(--foreground)/38 text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)/62";
+  const linkClass =
+    "font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)/55";
   const label = <>↗ {badge.label.toUpperCase()}</>;
 
   return (
@@ -91,7 +89,7 @@ function ProjectListBadgeItem({
       className={`flex flex-col ${hidePrefix ? "-mt-2" : "gap-0.5"} ${className ?? ""}`}
     >
       {badge.prefix && !hidePrefix ? (
-        <span className="font-mono text-(--foreground)/28 text-[10px] normal-case tracking-wide">
+        <span className="font-mono text-(--text-muted) text-[10px] normal-case tracking-wide">
           {badge.prefix}
         </span>
       ) : null}
