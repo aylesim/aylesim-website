@@ -12,7 +12,7 @@ export const siteDescription =
   "Berlin audio developer, web developer, and creative technologist. Max for Live devices, production websites, installations, and live AV.";
 
 export const contactAvailability =
-  "Currently available for freelance projects and open to full-time roles in Berlin.";
+  "Available for freelance projects and open to full-time roles in Berlin.";
 
 export const webDeveloperStack =
   "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems";
