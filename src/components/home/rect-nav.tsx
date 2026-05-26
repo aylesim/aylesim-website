@@ -7,13 +7,11 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useState,
   useTransition,
 } from "react";
 import { HomeIdentity } from "@/components/home/home-identity";
 import { ProjectDetail } from "@/components/home/portfolio-detail";
-import { ProjectPreview } from "@/components/home/project-preview";
-import type { Project, SiteContent } from "@/lib/content";
+import type { SiteContent } from "@/lib/content";
 import { pressMentions, primaryAward } from "@/lib/credentials";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
 import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
@@ -51,16 +49,12 @@ function MenuItem({
   title,
   active,
   onClick,
-  onHoverEnd,
-  onHoverStart,
   tag,
   accent,
 }: {
   title: string;
   active: boolean;
   onClick: () => void;
-  onHoverEnd?: () => void;
-  onHoverStart?: () => void;
   tag?: string;
   accent?: ProjectCategory;
 }) {
@@ -78,13 +72,7 @@ function MenuItem({
   }
   return (
     <li className="py-1 first:pt-0 md:py-0.5">
-      <button
-        className={buttonClass}
-        onClick={onClick}
-        onMouseEnter={onHoverStart}
-        onMouseLeave={onHoverEnd}
-        type="button"
-      >
+      <button className={buttonClass} onClick={onClick} type="button">
         <span>{title}</span>
         {tag ? (
           <span className="shrink-0 font-normal text-(--foreground)/45 text-[10px] tracking-wide">
@@ -124,11 +112,8 @@ export default function RectNav({ content }: { content: SiteContent }) {
     return { projectSlug: parseLegacyProjectSlug(searchParams) };
   }, [searchParams]);
 
-  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
-
   const setState = useCallback(
     (next: { projectSlug: string | null }) => {
-      setHoveredSlug(null);
       const q = new URLSearchParams();
       if (next.projectSlug) {
         q.set("project", next.projectSlug);
@@ -155,7 +140,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
 
   const pickProject = useCallback(
     (slug: string) => {
-      setHoveredSlug(null);
       setState({
         projectSlug: state.projectSlug === slug ? null : slug,
       });
@@ -180,23 +164,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
     () => visibleProjects.filter((p) => p.category === "creative"),
     [visibleProjects]
   );
-
-  const hoveredProject = useMemo((): Project | null => {
-    if (!hoveredSlug) {
-      return null;
-    }
-    return (
-      content.projects.find((project) => project.slug === hoveredSlug) ?? null
-    );
-  }, [content.projects, hoveredSlug]);
-
-  const projectHoverStart = useCallback((slug: string) => {
-    setHoveredSlug(slug);
-  }, []);
-
-  const projectHoverEnd = useCallback(() => {
-    setHoveredSlug(null);
-  }, []);
 
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col">
@@ -237,8 +204,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
                       active={state.projectSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
-                      onHoverEnd={projectHoverEnd}
-                      onHoverStart={() => projectHoverStart(item.slug)}
                       tag={item.menuLabel}
                       title={item.title}
                     />
@@ -253,8 +218,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
                       active={state.projectSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
-                      onHoverEnd={projectHoverEnd}
-                      onHoverStart={() => projectHoverStart(item.slug)}
                       tag={item.menuLabel}
                       title={item.title}
                     />
@@ -269,8 +232,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
                       active={state.projectSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
-                      onHoverEnd={projectHoverEnd}
-                      onHoverStart={() => projectHoverStart(item.slug)}
                       tag={item.menuLabel}
                       title={item.title}
                     />
@@ -307,19 +268,10 @@ export default function RectNav({ content }: { content: SiteContent }) {
             <HomeIdentity
               about={content.about}
               onProjectClick={pickProject}
-              onProjectHoverEnd={projectHoverEnd}
-              onProjectHoverStart={projectHoverStart}
               projects={content.projects}
             />
           )}
         </main>
-        {hoveredProject && (
-          <ProjectPreview
-            key={hoveredProject.slug}
-            placement={state.projectSlug ? "sidebar" : "home"}
-            project={hoveredProject}
-          />
-        )}
       </div>
     </div>
   );

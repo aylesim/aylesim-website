@@ -64,13 +64,9 @@ function selectedProjects(projects: Project[]) {
 function SelectedWorkCard({
   project,
   onProjectClick,
-  onProjectHoverEnd,
-  onProjectHoverStart,
 }: {
   project: Project;
   onProjectClick: (slug: string) => void;
-  onProjectHoverEnd: () => void;
-  onProjectHoverStart: (slug: string) => void;
 }) {
   const category = project.category;
   const styles = category ? ROLE_STYLES[category] : null;
@@ -82,8 +78,6 @@ function SelectedWorkCard({
     <button
       className="group flex w-full flex-col text-left"
       onClick={() => onProjectClick(project.slug)}
-      onMouseEnter={() => onProjectHoverStart(project.slug)}
-      onMouseLeave={onProjectHoverEnd}
       type="button"
     >
       <div className="mb-4 w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5">
@@ -123,13 +117,9 @@ function SelectedWorkCard({
 function ProjectLink({
   project,
   onProjectClick,
-  onProjectHoverEnd,
-  onProjectHoverStart,
 }: {
   project: Project;
   onProjectClick: (slug: string) => void;
-  onProjectHoverEnd: () => void;
-  onProjectHoverStart: (slug: string) => void;
 }) {
   const meta = [project.year, project.menuLabel].filter(Boolean).join(" / ");
   const hasAward = projectHasNationalArtsAward(project);
@@ -139,8 +129,6 @@ function ProjectLink({
       aria-label={`Open ${project.title}`}
       className="group micro-divider-top grid w-full grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-1 py-4 text-left first:bg-none md:grid-cols-[1fr_auto_1rem]"
       onClick={() => onProjectClick(project.slug)}
-      onMouseEnter={() => onProjectHoverStart(project.slug)}
-      onMouseLeave={onProjectHoverEnd}
       type="button"
     >
       <span className="flex flex-col gap-1">
@@ -170,14 +158,10 @@ export function HomeIdentity({
   projects,
   about,
   onProjectClick,
-  onProjectHoverEnd,
-  onProjectHoverStart,
 }: {
   projects: Project[];
   about: AboutData;
   onProjectClick: (slug: string) => void;
-  onProjectHoverEnd: () => void;
-  onProjectHoverStart: (slug: string) => void;
 }) {
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
@@ -243,8 +227,6 @@ export function HomeIdentity({
             <SelectedWorkCard
               key={project.slug}
               onProjectClick={onProjectClick}
-              onProjectHoverEnd={onProjectHoverEnd}
-              onProjectHoverStart={onProjectHoverStart}
               project={project}
             />
           ))}
@@ -276,8 +258,6 @@ export function HomeIdentity({
                   <ProjectLink
                     key={project.slug}
                     onProjectClick={onProjectClick}
-                    onProjectHoverEnd={onProjectHoverEnd}
-                    onProjectHoverStart={onProjectHoverStart}
                     project={project}
                   />
                 ))}
