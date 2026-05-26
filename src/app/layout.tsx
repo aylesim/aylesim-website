@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { siteDescription } from "@/lib/site";
+import { SITE_BG } from "@/lib/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: SITE_BG,
 };
 
 export default function RootLayout({
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ "--bg": SITE_BG, backgroundColor: SITE_BG }}>
       <head>
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link
@@ -31,7 +32,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="min-h-dvh bg-bg antialiased">{children}</body>
     </html>
   );
 }

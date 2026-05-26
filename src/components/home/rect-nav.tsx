@@ -182,8 +182,8 @@ export default function RectNav({ content }: { content: SiteContent }) {
   );
 
   return (
-    <div className="flex min-h-dvh w-full min-w-0 flex-col">
-      <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-(--bg)/92 px-4 pt-5 pb-3 backdrop-blur-sm md:px-5 md:pt-6 md:pb-4">
+    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
+      <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-bg px-4 pt-5 pb-3 md:px-5 md:pt-6 md:pb-4">
         {state.projectSlug && (
           <button
             className="text-(--text-muted) text-lg tracking-tight transition-colors hover:text-(--foreground) md:hidden"

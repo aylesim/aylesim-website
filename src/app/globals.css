@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-@theme {
+@theme inline {
   --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  --color-bg: var(--bg);
 }
 
 :root {
-  --bg: #000000;
   --foreground: #ffffff;
   --text-muted: #8a8a8a;
   --index-divider: rgba(255, 255, 255, 0.2);
@@ -24,7 +24,7 @@ html {
 
 html,
 body {
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--foreground);
   font-family: var(--font-sans);
   font-optical-sizing: auto;

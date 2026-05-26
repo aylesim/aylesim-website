@@ -16,7 +16,7 @@ export default async function Home({
 
   const content = getAllContent();
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col bg-bg">
       <Suspense>
         <RectNav content={content} />
       </Suspense>
