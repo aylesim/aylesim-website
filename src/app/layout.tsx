@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
+import { siteDescription } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Aylesim",
-  description:
-    "Max/MSP instrument builder. Berlin-based creative technologist - devices, installations, community.",
+  description: siteDescription,
   metadataBase: new URL("https://aylesim.com"),
 };
 

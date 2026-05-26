@@ -15,7 +15,6 @@ import type { SiteContent } from "@/lib/content";
 import { pressMentions, primaryAward } from "@/lib/credentials";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
 import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
-import { hireAvailabilityShort } from "@/lib/site";
 
 function MenuSection({
   label,
@@ -203,9 +202,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
         >
           about
         </Link>
-        <span className="ml-auto font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
-          {hireAvailabilityShort}
-        </span>
       </header>
 
       <div

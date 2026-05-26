@@ -8,10 +8,11 @@ export const aylesimDevicesCustomerProof = audioDeveloperProductLine;
 
 export const contactEmail = "ay@alessandromiracapillo.com";
 
-export const hireAvailabilityShort = "Open to roles";
+export const siteDescription =
+  "Berlin audio developer, web developer, and creative technologist. Max for Live devices, production websites, installations, and live AV.";
 
 export const contactAvailability =
-  "Open to roles, freelance work, commissions, and collaborations.";
+  "Currently available for freelance projects and open to full-time roles in Berlin.";
 
 export const webDeveloperStack =
   "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems";

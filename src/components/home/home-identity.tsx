@@ -15,7 +15,6 @@ import {
   contactAvailability,
   contactEmail,
   contactLinks,
-  hireAvailabilityShort,
   resumeHref,
   resumeLabel,
   webDeveloperStack,
@@ -268,10 +267,6 @@ export function HomeIdentity({
             <span className="text-(--accent)">aylesim</span>
             <span className="text-(--text-muted)"> · </span>
             <span className="text-(--text-muted) uppercase">Berlin</span>
-            <span className="text-(--text-muted)"> · </span>
-            <span className="text-(--foreground)/65 uppercase">
-              {hireAvailabilityShort}
-            </span>
           </p>
           <h1 className="max-w-5xl font-normal text-4xl leading-[0.98] tracking-tight md:text-7xl">
             I design and program systems where sound, interfaces, and human
