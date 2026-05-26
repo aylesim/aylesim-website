@@ -22,9 +22,9 @@ const ROLES: RoleColumn[] = [
   {
     id: "web",
     label: "Web Developer",
-    eyebrow: "Interfaces, archives, community infrastructure",
+    eyebrow: "Sites, tools, interfaces, different stacks",
     description:
-      "I build websites and platforms for communities and cultural work — usually when people need a clear place to gather, publish, or keep something shared over time.",
+      "I build web interfaces that can be websites, editorial systems, or browser-based tools. The stack changes with the problem; the constant is making structure, data, and interaction feel clear.",
   },
   {
     id: "creative",
@@ -106,10 +106,10 @@ export function HomeIdentity({
             attention.
           </p>
           <p className="max-w-3xl text-(--text-muted) text-base leading-relaxed md:text-lg">
-            That way of thinking travels well. In an instrument, it becomes a
-            playable interface. In a website, it becomes navigation that makes a
-            body of knowledge legible. In an installation, it becomes behavior
-            that responds to a space instead of sitting on top of it.
+            I move between media because the underlying questions are often the
+            same: what needs to be visible, what behavior should be exposed,
+            what should stay quiet, and where a user or performer needs
+            leverage.
           </p>
           <p className="max-w-3xl text-(--text-muted) text-base leading-relaxed md:text-lg">
             I like projects where the hard part is not choosing a technology,
@@ -161,13 +161,12 @@ export function HomeIdentity({
 
       <section className="grid gap-8 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.45fr_1fr] md:py-20">
         <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-          Elsewhere
+          Notes
         </p>
-        <div className="grid gap-10 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-[0.75fr_1.25fr]">
           <div className="space-y-4">
-            <p className="text-2xl leading-snug tracking-tight">
-              A few traces outside the studio: releases, exhibitions, writing,
-              and community work around Max/MSP and electronic arts.
+            <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
+              A few references and contexts around the work.
             </p>
             <div className="space-y-2 text-(--text-muted) text-sm leading-relaxed">
               <p>{about.award}</p>
