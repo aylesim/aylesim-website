@@ -100,6 +100,29 @@ function MenuItem({
   );
 }
 
+type NavMode = "home" | "projects" | "project";
+
+function navStateFromSearchParams(searchParams: URLSearchParams): {
+  mode: NavMode;
+  projectSlug: string | null;
+} {
+  if (searchParams.has("projects")) {
+    return { mode: "projects", projectSlug: null };
+  }
+  const projectParam = searchParams.get("project");
+  if (projectParam !== null) {
+    if (!projectParam) {
+      return { mode: "projects", projectSlug: null };
+    }
+    return { mode: "project", projectSlug: projectParam };
+  }
+  const legacySlug = parseLegacyProjectSlug(searchParams);
+  if (legacySlug) {
+    return { mode: "project", projectSlug: legacySlug };
+  }
+  return { mode: "home", projectSlug: null };
+}
+
 function MentionLinkItem({ href, label }: { href: string; label: string }) {
   return (
     <li className="py-1 first:pt-0 md:py-0.5">
@@ -120,19 +143,18 @@ export default function RectNav({ content }: { content: SiteContent }) {
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
 
-  const state = useMemo(() => {
-    const projectParam = searchParams.get("project");
-    if (projectParam !== null) {
-      return { projectSlug: projectParam || null };
-    }
-    return { projectSlug: parseLegacyProjectSlug(searchParams) };
-  }, [searchParams]);
+  const state = useMemo(
+    () => navStateFromSearchParams(searchParams),
+    [searchParams]
+  );
 
   const setState = useCallback(
-    (next: { projectSlug: string | null }) => {
+    (next: { mode: NavMode; projectSlug?: string | null }) => {
       const q = new URLSearchParams();
-      if (next.projectSlug) {
+      if (next.mode === "project" && next.projectSlug) {
         q.set("project", next.projectSlug);
+      } else if (next.mode === "projects") {
+        q.set("projects", "");
       }
       startTransition(() => {
         const qs = q.toString();
@@ -144,23 +166,36 @@ export default function RectNav({ content }: { content: SiteContent }) {
     [router]
   );
 
+  const showSidebar = state.mode !== "home";
+  const showDetail = state.mode === "project" && state.projectSlug !== null;
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setState({ projectSlug: null });
+        setState({ mode: "home" });
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [setState]);
 
+  const goBack = useCallback(() => {
+    if (state.mode === "project" && state.projectSlug) {
+      setState({ mode: "projects" });
+      return;
+    }
+    setState({ mode: "home" });
+  }, [setState, state.mode, state.projectSlug]);
+
   const pickProject = useCallback(
     (slug: string) => {
-      setState({
-        projectSlug: state.projectSlug === slug ? null : slug,
-      });
+      if (state.mode === "project" && state.projectSlug === slug) {
+        setState({ mode: "projects" });
+        return;
+      }
+      setState({ mode: "project", projectSlug: slug });
     },
-    [setState, state.projectSlug]
+    [setState, state.mode, state.projectSlug]
   );
 
   const visibleProjects = useMemo(
@@ -184,27 +219,47 @@ export default function RectNav({ content }: { content: SiteContent }) {
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
       <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-bg px-4 pt-5 pb-3 md:px-5 md:pt-6 md:pb-4">
-        {state.projectSlug && (
+        {showSidebar && (
           <button
             className="text-(--text-muted) text-lg tracking-tight transition-colors hover:text-(--foreground) md:hidden"
-            onClick={() => setState({ projectSlug: null })}
+            onClick={goBack}
             type="button"
           >
             ←
           </button>
         )}
-        <Link className="text-lg tracking-tight md:text-xl" href="/">
-          Aylesim
-        </Link>
+        <nav
+          aria-label="Primary"
+          className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
+        >
+          <Link className="text-lg tracking-tight md:text-xl" href="/">
+            Aylesim
+          </Link>
+          <button
+            className={`text-sm tracking-tight transition-colors md:text-base ${
+              showSidebar
+                ? "text-(--foreground)"
+                : "text-(--text-muted) hover:text-(--foreground)"
+            }`}
+            onClick={() => setState({ mode: "projects" })}
+            type="button"
+          >
+            Projects
+          </button>
+        </nav>
       </header>
 
       <div
         className={`flex min-w-0 flex-1 flex-col ${
-          state.projectSlug ? "md:flex-row" : ""
+          showSidebar ? "md:flex-row" : ""
         }`}
       >
-        {state.projectSlug && (
-          <aside className="hidden w-full flex-col px-4 pt-5 pb-5 md:sticky md:top-20 md:flex md:max-h-[calc(100dvh-5rem)] md:w-[24rem] md:min-w-88 md:flex-none md:px-5">
+        {showSidebar && (
+          <aside
+            className={`w-full flex-col px-4 pt-5 pb-5 md:sticky md:top-20 md:max-h-[calc(100dvh-5rem)] md:w-[24rem] md:min-w-88 md:flex-none md:px-5 ${
+              state.mode === "projects" ? "flex md:flex" : "hidden md:flex"
+            }`}
+          >
             <nav aria-label="Site" className="flex flex-col overflow-y-auto">
               {audioProjects.length > 0 && (
                 <MenuSection accent="audio" label="Audio Developer">
@@ -268,8 +323,12 @@ export default function RectNav({ content }: { content: SiteContent }) {
           </aside>
         )}
 
-        <main className="relative min-w-0 flex-1">
-          {state.projectSlug && (
+        <main
+          className={`relative min-w-0 flex-1 ${
+            state.mode === "projects" ? "hidden md:block" : ""
+          }`}
+        >
+          {showDetail && state.projectSlug && (
             <div className="mx-auto w-full max-w-5xl px-4 py-6 md:px-10 md:py-12">
               <ProjectDetail
                 projects={content.projects}
@@ -277,7 +336,7 @@ export default function RectNav({ content }: { content: SiteContent }) {
               />
             </div>
           )}
-          {!state.projectSlug && (
+          {state.mode === "home" && (
             <HomeIdentity
               onProjectClick={pickProject}
               projects={content.projects}
