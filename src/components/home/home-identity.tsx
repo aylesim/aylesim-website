@@ -12,6 +12,7 @@ import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
 import {
   audioDeveloperProductLine,
   aylesimDevicesSlug,
+  contactAvailability,
   contactEmail,
   contactLinks,
 } from "@/lib/site";
@@ -29,6 +30,8 @@ const SELECTED_SLUGS = [
   "planetary-compendium",
   "tedx-barletta",
 ] as const;
+
+const PRIMARY_AUDIO_SLUGS = new Set(["birds", "knob-studio"]);
 
 const ROLES: RoleColumn[] = [
   {
@@ -172,6 +175,7 @@ function ProjectLink({
 }) {
   const meta = [project.year, project.menuLabel].filter(Boolean).join(" / ");
   const hasAward = projectHasNationalArtsAward(project);
+  const isPrimaryAudio = PRIMARY_AUDIO_SLUGS.has(project.slug);
   return (
     <button
       aria-label={`Open ${project.title}`}
@@ -180,7 +184,13 @@ function ProjectLink({
       type="button"
     >
       <span className="flex flex-col gap-1">
-        <span className="text-(--foreground) text-base leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
+        <span
+          className={`leading-snug tracking-tight transition-colors group-hover:text-(--accent) ${
+            isPrimaryAudio
+              ? "text-(--foreground) text-lg md:text-xl"
+              : "text-(--foreground) text-base"
+          }`}
+        >
           {project.title}
         </span>
         {project.listTagline && (
@@ -451,12 +461,17 @@ export function HomeIdentity({
           Contact
         </p>
         <div className="grid gap-8 md:grid-cols-[1fr_1fr]">
-          <a
-            className="text-2xl leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-4xl"
-            href={`mailto:${contactEmail}`}
-          >
-            {contactEmail}
-          </a>
+          <div className="flex max-w-xl flex-col gap-3">
+            <p className="text-(--text-muted) text-sm leading-relaxed">
+              {contactAvailability}
+            </p>
+            <a
+              className="text-2xl leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-4xl"
+              href={`mailto:${contactEmail}`}
+            >
+              {contactEmail}
+            </a>
+          </div>
           <div className="grid grid-cols-2 gap-x-6">
             {contactLinks.map((link) => (
               <a

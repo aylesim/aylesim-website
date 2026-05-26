@@ -8,6 +8,9 @@ export const aylesimDevicesCustomerProof = audioDeveloperProductLine;
 
 export const contactEmail = "ay@alessandromiracapillo.com";
 
+export const contactAvailability =
+  "Available for freelance work, commissions, and collaborations.";
+
 export const contactLinks = [
   {
     label: "LinkedIn",

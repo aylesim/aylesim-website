@@ -4,6 +4,7 @@ import type { AboutData, Project, ProjectVideo } from "@/lib/content";
 import {
   aylesimDevicesCustomerProof,
   aylesimDevicesSlug,
+  contactAvailability,
   contactEmail,
   contactLinks,
 } from "@/lib/site";
@@ -360,6 +361,9 @@ export function AboutInlineContent({ about }: { about: AboutData }) {
           ))}
         </div>
         <div className="min-w-0 space-y-3 border-(--index-divider) border-t border-dotted pt-4 lg:max-w-sm lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+          <p className="text-(--text-muted) text-sm leading-relaxed">
+            {contactAvailability}
+          </p>
           <a
             className={`block ${embeddedLinkClass}`}
             href={`mailto:${contactEmail}`}
@@ -379,9 +383,6 @@ export function AboutInlineContent({ about }: { about: AboutData }) {
               </a>
             ))}
           </div>
-          <p className="mt-3 border-(--index-divider) border-t border-dotted pt-3 text-(--text-muted) text-sm leading-relaxed">
-            Open to studio collaborations, commissions, and freelance projects.
-          </p>
         </div>
       </div>
     </div>
