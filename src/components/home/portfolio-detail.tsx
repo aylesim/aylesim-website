@@ -7,6 +7,8 @@ import {
   contactAvailability,
   contactEmail,
   contactLinks,
+  resumeHref,
+  resumeLabel,
 } from "@/lib/site";
 
 const detailLinkClass =
@@ -371,6 +373,9 @@ export function AboutInlineContent({ about }: { about: AboutData }) {
             {contactEmail}
           </a>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
+            <a className={embeddedLinkClass} download href={resumeHref}>
+              {resumeLabel}
+            </a>
             {contactLinks.map((link) => (
               <a
                 className={embeddedLinkClass}

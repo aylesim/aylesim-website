@@ -8,8 +8,17 @@ export const aylesimDevicesCustomerProof = audioDeveloperProductLine;
 
 export const contactEmail = "ay@alessandromiracapillo.com";
 
+export const hireAvailabilityShort = "Open to roles";
+
 export const contactAvailability =
-  "Available for freelance work, commissions, and collaborations.";
+  "Open to roles, freelance work, commissions, and collaborations.";
+
+export const webDeveloperStack =
+  "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems";
+
+export const resumeHref = "/resume.pdf";
+
+export const resumeLabel = "Resume (PDF)";
 
 export const contactLinks = [
   {

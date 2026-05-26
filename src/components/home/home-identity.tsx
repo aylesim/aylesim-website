@@ -15,6 +15,10 @@ import {
   contactAvailability,
   contactEmail,
   contactLinks,
+  hireAvailabilityShort,
+  resumeHref,
+  resumeLabel,
+  webDeveloperStack,
 } from "@/lib/site";
 
 interface RoleColumn {
@@ -23,6 +27,8 @@ interface RoleColumn {
   proof?: string;
   eyebrow: string;
   description: string;
+  stack?: string;
+  resumeHref?: string;
 }
 
 const SELECTED_SLUGS = [
@@ -49,7 +55,9 @@ const ROLES: RoleColumn[] = [
     eyebrow:
       "Web interfaces as problem-solving: sites, editorial systems, archives, and browser-based tools built around the shape of the content.",
     description:
-      "I build web interfaces that can be websites, editorial systems, or browser-based tools. The stack changes with the problem; the constant is making structure, data, and interaction feel clear.",
+      "I ship production sites and editorial systems for cultural organizations and research teams: scrollytelling, data-heavy interfaces, community platforms, and browser-based tools where structure and interaction need to hold up under real use.",
+    stack: webDeveloperStack,
+    resumeHref,
   },
   {
     id: "creative",
@@ -260,6 +268,10 @@ export function HomeIdentity({
             <span className="text-(--accent)">aylesim</span>
             <span className="text-(--text-muted)"> · </span>
             <span className="text-(--text-muted) uppercase">Berlin</span>
+            <span className="text-(--text-muted)"> · </span>
+            <span className="text-(--foreground)/65 uppercase">
+              {hireAvailabilityShort}
+            </span>
           </p>
           <h1 className="max-w-5xl font-normal text-4xl leading-[0.98] tracking-tight md:text-7xl">
             I design and program systems where sound, interfaces, and human
@@ -338,10 +350,27 @@ export function HomeIdentity({
                 <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
                   {role.eyebrow}
                 </p>
+                <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
+                  {role.description}
+                </p>
                 {role.proof ? (
-                  <p className="max-w-md text-(--text-muted) text-sm leading-snug">
+                  <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-snug">
                     {role.proof}
                   </p>
+                ) : null}
+                {role.stack ? (
+                  <p className="mt-5 max-w-md font-mono text-(--text-muted) text-[10px] uppercase leading-relaxed tracking-widest">
+                    {role.stack}
+                  </p>
+                ) : null}
+                {role.resumeHref ? (
+                  <a
+                    className="mt-4 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                    download
+                    href={role.resumeHref}
+                  >
+                    {resumeLabel} ↗
+                  </a>
                 ) : null}
               </div>
               <div className="micro-divider-top pt-3">
@@ -473,6 +502,13 @@ export function HomeIdentity({
             </a>
           </div>
           <div className="grid grid-cols-2 gap-x-6">
+            <a
+              className="border-(--index-divider) border-t border-dotted py-3 text-(--text-muted) text-sm transition-colors hover:text-(--foreground)"
+              download
+              href={resumeHref}
+            >
+              {resumeLabel}
+            </a>
             {contactLinks.map((link) => (
               <a
                 className="border-(--index-divider) border-t border-dotted py-3 text-(--text-muted) text-sm transition-colors hover:text-(--foreground)"

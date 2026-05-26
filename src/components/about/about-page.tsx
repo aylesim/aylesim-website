@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AboutInlineContent } from "@/components/home/portfolio-detail";
 import type { AboutData } from "@/lib/content";
+import { hireAvailabilityShort } from "@/lib/site";
 
 export function AboutPage({ about }: { about: AboutData }) {
   return (
@@ -10,6 +11,9 @@ export function AboutPage({ about }: { about: AboutData }) {
           Aylesim
         </Link>
         <span className="text-lg tracking-tight md:text-xl">about</span>
+        <span className="ml-auto font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
+          {hireAvailabilityShort}
+        </span>
       </header>
       <main className="px-4 py-5 md:px-5 md:py-8">
         <AboutInlineContent about={about} />
