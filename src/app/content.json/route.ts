@@ -1,5 +1,6 @@
 import { getAllContent } from "@/lib/content";
-import { contactEmail, contactLinks, mentionLinks } from "@/lib/site";
+import { pressMentions, primaryAward } from "@/lib/credentials";
+import { contactEmail, contactLinks } from "@/lib/site";
 
 export function GET() {
   return Response.json({
@@ -7,7 +8,8 @@ export function GET() {
     site: {
       contactEmail,
       contactLinks,
-      mentionLinks,
+      primaryAward,
+      pressMentions,
     },
   });
 }

@@ -2,9 +2,14 @@
 
 import Image from "next/image";
 import type { AboutData, Project } from "@/lib/content";
+import {
+  pressMentions,
+  primaryAward,
+  projectHasNationalArtsAward,
+} from "@/lib/credentials";
 import { getProjectCover } from "@/lib/project-cover";
 import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
-import { contactEmail, contactLinks, mentionLinks } from "@/lib/site";
+import { contactEmail, contactLinks } from "@/lib/site";
 
 interface RoleColumn {
   id: ProjectCategory;
@@ -127,6 +132,7 @@ function ProjectLink({
   onProjectHoverStart: (slug: string) => void;
 }) {
   const meta = [project.year, project.menuLabel].filter(Boolean).join(" / ");
+  const hasAward = projectHasNationalArtsAward(project);
 
   return (
     <button
@@ -137,8 +143,15 @@ function ProjectLink({
       onMouseLeave={onProjectHoverEnd}
       type="button"
     >
-      <span className="text-(--foreground) text-base leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
-        {project.title}
+      <span className="flex flex-col gap-1">
+        <span className="text-(--foreground) text-base leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
+          {project.title}
+        </span>
+        {hasAward && (
+          <span className="font-mono text-(--accent) text-[10px] uppercase tracking-widest">
+            MUR · National Arts Award · 1st prize
+          </span>
+        )}
       </span>
       <span className="hidden font-mono text-(--text-muted) text-[10px] uppercase tracking-widest md:block">
         {meta}
@@ -275,33 +288,100 @@ export function HomeIdentity({
       </section>
 
       <section className="grid gap-8 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.45fr_1fr] md:py-20">
-        <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-          Notes
-        </p>
-        <div className="grid gap-8 md:grid-cols-[0.75fr_1.25fr]">
-          <div className="space-y-4">
-            <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
-              A few references and contexts around the work.
+        <div>
+          <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+            Recognition
+          </p>
+          <p className="mt-4 max-w-xs text-(--text-muted) text-sm leading-relaxed">
+            State-backed award for installation work, plus press on audio tools.
+          </p>
+        </div>
+        <div className="space-y-10">
+          <div className="border-(--accent)/35 border-t-2 pt-5">
+            <p className="mb-2 font-mono text-(--accent) text-[10px] uppercase tracking-widest">
+              {primaryAward.issuer}
             </p>
-            <div className="space-y-2 text-(--text-muted) text-sm leading-relaxed">
-              <p>{about.award}</p>
-              <p>{about.publication}</p>
-              <p>{about.exhibitions.join(" / ")}</p>
-            </div>
-          </div>
-          <div>
-            {mentionLinks.map((link) => (
+            <p className="text-2xl leading-snug tracking-tight md:text-3xl">
+              {primaryAward.headline}
+            </p>
+            <p className="mt-2 max-w-2xl text-(--text-muted) text-base leading-relaxed">
+              {primaryAward.title} — {primaryAward.subtitle} (
+              {primaryAward.year}
+              ).
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <button
+                className="font-mono text-(--foreground) text-[10px] uppercase tracking-widest transition-colors hover:text-(--accent)"
+                onClick={() => onProjectClick(primaryAward.projectSlug)}
+                type="button"
+              >
+                Awarded work:{" "}
+                {projects.find((p) => p.slug === primaryAward.projectSlug)
+                  ?.title ?? "Please Set a Password"}{" "}
+                →
+              </button>
               <a
-                className="block border-(--index-divider) border-t border-dotted py-3 text-(--text-muted) text-sm transition-colors hover:text-(--foreground)"
-                href={link.href}
-                key={link.href}
+                className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                href={primaryAward.externalHref}
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                {link.label}
+                {primaryAward.externalLabel} ↗
               </a>
-            ))}
+            </div>
           </div>
+          <div>
+            <p className="mb-3 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
+              Press
+            </p>
+            {pressMentions.map((mention) => {
+              const related = mention.projectSlug
+                ? projects.find((p) => p.slug === mention.projectSlug)
+                : undefined;
+              return (
+                <div
+                  className="micro-divider-top grid gap-2 py-4 first:bg-none md:grid-cols-[1fr_auto]"
+                  key={mention.href}
+                >
+                  <div>
+                    <a
+                      className="text-base leading-snug tracking-tight transition-colors hover:text-(--accent)"
+                      href={mention.href}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span className="text-(--foreground)">
+                        {mention.outlet}
+                      </span>
+                      <span className="text-(--text-muted)">
+                        {" "}
+                        — {mention.title}
+                      </span>
+                    </a>
+                    {related && (
+                      <button
+                        className="mt-2 block font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                        onClick={() => onProjectClick(related.slug)}
+                        type="button"
+                      >
+                        Related project: {related.title} →
+                      </button>
+                    )}
+                  </div>
+                  {mention.year && (
+                    <span className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest md:text-right">
+                      {mention.year}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          {about.exhibitions.length > 0 && (
+            <p className="max-w-2xl text-(--text-muted) text-sm leading-relaxed">
+              Selected exhibitions: {about.exhibitions.join(" · ")}
+            </p>
+          )}
         </div>
       </section>
 

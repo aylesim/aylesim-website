@@ -14,9 +14,9 @@ import { HomeIdentity } from "@/components/home/home-identity";
 import { ProjectDetail } from "@/components/home/portfolio-detail";
 import { ProjectPreview } from "@/components/home/project-preview";
 import type { Project, SiteContent } from "@/lib/content";
+import { pressMentions, primaryAward } from "@/lib/credentials";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
 import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
-import { mentionLinks } from "@/lib/site";
 
 function MenuSection({
   label,
@@ -277,12 +277,16 @@ export default function RectNav({ content }: { content: SiteContent }) {
                   ))}
                 </MenuSection>
               )}
-              <MenuSection label="Mentions">
-                {mentionLinks.map((item) => (
+              <MenuSection label="Recognition">
+                <MentionLinkItem
+                  href={primaryAward.externalHref}
+                  label={`MUR · ${primaryAward.headline}`}
+                />
+                {pressMentions.map((item) => (
                   <MentionLinkItem
                     href={item.href}
                     key={item.href}
-                    label={item.label}
+                    label={`${item.outlet} — ${item.title}`}
                   />
                 ))}
               </MenuSection>
