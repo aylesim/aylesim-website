@@ -3,6 +3,9 @@ type: work
 category: audio
 order: 2
 menuLabel: max4live
+featured: true
+isotonik: true
+listTagline: Layered modulation engine for Live
 title: Knob Studio
 role: Developer & Designer
 client: Aylesim Devices

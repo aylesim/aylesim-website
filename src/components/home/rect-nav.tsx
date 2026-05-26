@@ -45,17 +45,35 @@ function MenuSection({
   );
 }
 
+function menuItemMeta(project: {
+  year?: string;
+  menuLabel?: string;
+  featured?: boolean;
+  isotonik?: boolean;
+}) {
+  const parts = [project.year, project.menuLabel].filter(Boolean);
+  if (project.featured) {
+    parts.push("featured");
+  }
+  if (project.isotonik) {
+    parts.push("↗ isotonik");
+  }
+  return parts.length > 0 ? parts.join(" · ") : undefined;
+}
+
 function MenuItem({
   title,
   active,
   onClick,
   tag,
+  subtitle,
   accent,
 }: {
   title: string;
   active: boolean;
   onClick: () => void;
   tag?: string;
+  subtitle?: string;
   accent?: ProjectCategory;
 }) {
   const accentStyles = accent ? ROLE_STYLES[accent] : null;
@@ -73,12 +91,21 @@ function MenuItem({
   return (
     <li className="py-1 first:pt-0 md:py-0.5">
       <button className={buttonClass} onClick={onClick} type="button">
-        <span>{title}</span>
-        {tag ? (
-          <span className="shrink-0 font-normal text-(--foreground)/45 text-[10px] tracking-wide">
-            {tag}
+        <span className="flex min-w-0 flex-col gap-0.5">
+          <span className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
+            <span>{title}</span>
+            {tag ? (
+              <span className="shrink-0 font-normal text-(--foreground)/45 text-[10px] tracking-wide">
+                {tag}
+              </span>
+            ) : null}
           </span>
-        ) : null}
+          {subtitle ? (
+            <span className="text-(--foreground)/45 text-[12px] leading-snug">
+              {subtitle}
+            </span>
+          ) : null}
+        </span>
       </button>
     </li>
   );
@@ -204,7 +231,8 @@ export default function RectNav({ content }: { content: SiteContent }) {
                       active={state.projectSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
-                      tag={item.menuLabel}
+                      subtitle={item.listTagline}
+                      tag={menuItemMeta(item)}
                       title={item.title}
                     />
                   ))}
@@ -218,7 +246,8 @@ export default function RectNav({ content }: { content: SiteContent }) {
                       active={state.projectSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
-                      tag={item.menuLabel}
+                      subtitle={item.listTagline}
+                      tag={menuItemMeta(item)}
                       title={item.title}
                     />
                   ))}
@@ -232,7 +261,8 @@ export default function RectNav({ content }: { content: SiteContent }) {
                       active={state.projectSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
-                      tag={item.menuLabel}
+                      subtitle={item.listTagline}
+                      tag={menuItemMeta(item)}
                       title={item.title}
                     />
                   ))}

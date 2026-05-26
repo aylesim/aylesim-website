@@ -29,6 +29,9 @@ export interface Project {
   order: number;
   stackOrder: number;
   menuLabel?: string;
+  featured?: boolean;
+  listTagline?: string;
+  isotonik?: boolean;
   showInMenu: boolean;
   category?: "audio" | "web" | "creative";
 }
@@ -215,6 +218,9 @@ function mapWorkProject(
     order,
     stackOrder: stackOrderFromData(data, order),
     menuLabel: asString(data.menuLabel),
+    featured: data.featured === true,
+    listTagline: asString(data.listTagline),
+    isotonik: data.isotonik === true,
     showInMenu: showInMenuFromData(data),
     category: asString(data.category) as Project["category"] | undefined,
   };
@@ -277,6 +283,9 @@ function mapDeviceProject(
     order,
     stackOrder: stackOrderFromData(data, order),
     menuLabel: asString(data.menuLabel),
+    featured: data.featured === true,
+    listTagline: asString(data.listTagline),
+    isotonik: data.isotonik === true,
     showInMenu: showInMenuFromData(data),
     category: categoryField,
   };

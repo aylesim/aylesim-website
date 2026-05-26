@@ -123,7 +123,6 @@ function ProjectLink({
 }) {
   const meta = [project.year, project.menuLabel].filter(Boolean).join(" / ");
   const hasAward = projectHasNationalArtsAward(project);
-
   return (
     <button
       aria-label={`Open ${project.title}`}
@@ -135,6 +134,25 @@ function ProjectLink({
         <span className="text-(--foreground) text-base leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
           {project.title}
         </span>
+        {project.listTagline && (
+          <span className="text-(--text-muted) text-[12px] leading-snug">
+            {project.listTagline}
+          </span>
+        )}
+        {(project.featured || project.isotonik) && (
+          <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+            {project.featured && (
+              <span className="font-mono text-(--accent) text-[10px] uppercase tracking-widest">
+                featured
+              </span>
+            )}
+            {project.isotonik && (
+              <span className="font-mono text-(--foreground)/50 text-[10px] uppercase tracking-widest">
+                ↗ isotonik
+              </span>
+            )}
+          </span>
+        )}
         {hasAward && (
           <span className="font-mono text-(--accent) text-[10px] uppercase tracking-widest">
             MUR · National Arts Award · 1st prize

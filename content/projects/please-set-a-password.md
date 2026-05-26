@@ -6,6 +6,7 @@ menuLabel: artwork
 title: Please Set a Password
 role: Artist
 client: Independent
+year: "2022"
 tech:
   - Real-time video
   - Networked installation

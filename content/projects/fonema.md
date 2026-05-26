@@ -6,6 +6,7 @@ menuLabel: artwork
 title: Fonema
 role: Artist
 client: Independent
+year: "2022"
 tech:
   - Audio installation
   - Artificial neural networks

@@ -3,6 +3,9 @@ type: work
 category: audio
 order: 1
 menuLabel: max4live
+featured: true
+isotonik: true
+listTagline: Generative melody sequencer
 title: Birds
 role: Developer & Designer
 client: Aylesim Devices

@@ -6,6 +6,7 @@ menuLabel: max4live
 title: Disco
 role: Developer & Designer
 client: Aylesim Devices
+year: "2022"
 tech:
   - Max/MSP
   - Max for Live
