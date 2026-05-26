@@ -1,6 +1,6 @@
 ---
 type: work
-category: creative
+category: installations
 order: 9
 menuLabel: artwork
 title: Please Set a Password

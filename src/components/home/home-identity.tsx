@@ -8,7 +8,11 @@ import {
   projectHasNationalArtsAward,
 } from "@/lib/credentials";
 import { getProjectCover } from "@/lib/project-cover";
-import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
+import {
+  CATEGORY_LABELS,
+  type ProjectCategory,
+  ROLE_STYLES,
+} from "@/lib/roles";
 import {
   audioDeveloperProductLine,
   aylesimDevicesSlug,
@@ -20,9 +24,8 @@ import {
   webDeveloperStack,
 } from "@/lib/site";
 
-interface RoleColumn {
+interface CategoryColumn {
   id: ProjectCategory;
-  label: string;
   proof?: string;
   eyebrow: string;
   description: string;
@@ -38,10 +41,9 @@ const SELECTED_SLUGS = [
 
 const PRIMARY_AUDIO_SLUGS = new Set(["birds", "knob-studio"]);
 
-const ROLES: RoleColumn[] = [
+const PRACTICE_COLUMNS: CategoryColumn[] = [
   {
-    id: "audio",
-    label: "Audio Developer",
+    id: "devices",
     proof: audioDeveloperProductLine,
     eyebrow:
       "Tools for composing and performing: rule systems, mappings, constraints, interfaces that stay playable while they generate variation.",
@@ -49,8 +51,7 @@ const ROLES: RoleColumn[] = [
       "I build Max/MSP instruments and Ableton Live devices as playable systems: mappable, generative, precise enough for performance, open enough for misuse.",
   },
   {
-    id: "web",
-    label: "Web Developer",
+    id: "web-interactive",
     eyebrow:
       "Web interfaces as problem-solving: sites, editorial systems, archives, and browser-based tools built around the shape of the content.",
     description:
@@ -59,16 +60,22 @@ const ROLES: RoleColumn[] = [
     resumeHref,
   },
   {
-    id: "creative",
-    label: "Creative Technologist",
+    id: "installations",
     eyebrow:
       "Software for situations in space: installations, AV systems, live visuals, sensors, timing, and behavior that has to hold up in front of people.",
     description:
       "I develop installations, AV performances, and digital artworks where software becomes part of a room: timing, sound, bodies, sensors, attention.",
   },
+  {
+    id: "community",
+    eyebrow:
+      "Platforms and networks where people meet around shared practice: directories, events, and tools that keep a scene legible and connected.",
+    description:
+      "I build community-facing systems for practitioners: member directories, event coordination, and lightweight infrastructure that helps people find each other and keep working together.",
+  },
 ];
 
-function roleProjects(projects: Project[], category: ProjectCategory) {
+function categoryProjects(projects: Project[], category: ProjectCategory) {
   return projects.filter(
     (project) =>
       project.category === category && project.slug !== aylesimDevicesSlug
@@ -155,7 +162,7 @@ function SelectedWorkCard({
         <p
           className={`mb-2 font-mono text-[10px] uppercase tracking-widest ${styles.labelClass}`}
         >
-          {ROLES.find((role) => role.id === category)?.label ?? category}
+          {CATEGORY_LABELS[category]}
         </p>
       )}
       <span className="text-lg leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
@@ -325,42 +332,42 @@ export function HomeIdentity({
       </section>
 
       <section className="flex flex-col">
-        {ROLES.map((role) => {
-          const styles = ROLE_STYLES[role.id];
-          const items = roleProjects(projects, role.id);
+        {PRACTICE_COLUMNS.map((column) => {
+          const styles = ROLE_STYLES[column.id];
+          const items = categoryProjects(projects, column.id);
           return (
             <div
               className="grid gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.52fr_0.48fr] md:gap-16 md:py-20"
-              id={role.id}
-              key={role.id}
+              id={column.id}
+              key={column.id}
             >
               <div className={`border-t-2 pt-5 ${styles.borderClass}`}>
                 <p
                   className={`mb-5 font-mono text-[11px] uppercase tracking-widest ${styles.labelClass}`}
                 >
-                  {role.label}
+                  {CATEGORY_LABELS[column.id]}
                 </p>
                 <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
-                  {role.eyebrow}
+                  {column.eyebrow}
                 </p>
                 <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
-                  {role.description}
+                  {column.description}
                 </p>
-                {role.proof ? (
+                {column.proof ? (
                   <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-snug">
-                    {role.proof}
+                    {column.proof}
                   </p>
                 ) : null}
-                {role.stack ? (
+                {column.stack ? (
                   <p className="mt-5 max-w-md font-mono text-(--text-muted) text-[10px] uppercase leading-relaxed tracking-widest">
-                    {role.stack}
+                    {column.stack}
                   </p>
                 ) : null}
-                {role.resumeHref ? (
+                {column.resumeHref ? (
                   <a
                     className="mt-4 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
                     download
-                    href={role.resumeHref}
+                    href={column.resumeHref}
                   >
                     {resumeLabel} ↗
                   </a>

@@ -1,6 +1,6 @@
 ---
 type: work
-category: web
+category: web-interactive
 order: 1
 menuLabel: web
 title: Planetary Compendium

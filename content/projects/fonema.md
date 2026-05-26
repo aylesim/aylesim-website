@@ -1,6 +1,6 @@
 ---
 type: work
-category: creative
+category: installations
 order: 12
 menuLabel: artwork
 title: Fonema

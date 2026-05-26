@@ -1,6 +1,6 @@
 ---
 type: device
-category: audio
+category: devices
 workScope: commercial
 order: 7
 menuLabel: max4live

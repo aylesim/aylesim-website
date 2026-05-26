@@ -71,7 +71,7 @@ function ProjectCard({
             unoptimized={coverIsRemote}
           />
         </span>
-        <span className="mt-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+        <span className="mt-2.5 flex flex-col gap-0.5">
           <span className="inline-flex items-baseline gap-1">
             <span className="text-base leading-snug tracking-tight underline decoration-transparent underline-offset-4 transition-colors duration-200 group-hover:decoration-(--foreground)">
               {project.title}
@@ -87,9 +87,9 @@ function ProjectCard({
               {categoryLabel}
             </span>
           ) : null}
-          {project.year ? (
-            <span className="text-(--foreground)/45 text-[11px] tracking-wide">
-              {project.year}
+          {project.listTagline ? (
+            <span className="text-(--text-muted) text-sm leading-relaxed">
+              {project.listTagline}
             </span>
           ) : null}
         </span>
@@ -166,18 +166,16 @@ export function ProjectsIndex({
                 {projects.length}
               </span>{" "}
               projects across{" "}
+              <span className="font-bold text-(--foreground)">Devices</span>,{" "}
               <span className="font-bold text-(--foreground)">
-                Audio Developer
+                Web & Interactive
               </span>
               ,{" "}
               <span className="font-bold text-(--foreground)">
-                Web Developer
+                Installations & Artworks
               </span>
               , and{" "}
-              <span className="font-bold text-(--foreground)">
-                Creative Technologist
-              </span>{" "}
-              work
+              <span className="font-bold text-(--foreground)">Community</span>
             </>
           )}
         </p>

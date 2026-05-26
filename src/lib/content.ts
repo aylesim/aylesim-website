@@ -1,8 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import type { ProjectCategory } from "@/lib/roles";
 
 const contentDir = path.join(process.cwd(), "content");
+
+const PROJECT_CATEGORIES = new Set<string>([
+  "devices",
+  "web-interactive",
+  "installations",
+  "community",
+]);
 
 export interface ProjectVideo {
   title: string;
@@ -54,7 +62,7 @@ export interface Project {
   listBadges: ProjectListBadge[];
   workScope?: ProjectWorkScope;
   showInMenu: boolean;
-  category?: "audio" | "web" | "creative";
+  category?: ProjectCategory;
 }
 
 export interface SiteContent {
@@ -121,6 +129,13 @@ function asString(v: unknown): string | undefined {
 function asWorkScope(v: unknown): ProjectWorkScope | undefined {
   if (typeof v === "string" && PROJECT_WORK_SCOPES.has(v)) {
     return v as ProjectWorkScope;
+  }
+  return undefined;
+}
+
+function asProjectCategory(v: unknown): ProjectCategory | undefined {
+  if (typeof v === "string" && PROJECT_CATEGORIES.has(v)) {
+    return v as ProjectCategory;
   }
   return undefined;
 }
@@ -267,7 +282,7 @@ function mapWorkProject(
     listBadges: asListBadges(data.listBadges),
     workScope: asWorkScope(data.workScope),
     showInMenu: showInMenuFromData(data),
-    category: asString(data.category) as Project["category"] | undefined,
+    category: asProjectCategory(data.category),
   };
 }
 
@@ -280,9 +295,7 @@ function mapDeviceProject(
 ): Project {
   const price = asString(data.price);
   const client = asString(data.client);
-  const categoryField = asString(data.category) as
-    | Project["category"]
-    | undefined;
+  const categoryField = asProjectCategory(data.category);
   const techTags = asStringArray(data.tech);
   const videos = asVideoList(data.videos);
   let tags: string[];

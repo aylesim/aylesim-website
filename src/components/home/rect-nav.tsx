@@ -15,7 +15,12 @@ import { ProjectDetail } from "@/components/home/portfolio-detail";
 import { ProjectsIndex } from "@/components/home/projects-index";
 import type { SiteContent } from "@/lib/content";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
-import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
+import {
+  CATEGORY_FILTERS,
+  CATEGORY_LABELS,
+  type ProjectCategory,
+  ROLE_STYLES,
+} from "@/lib/roles";
 
 function MenuSection({
   label,
@@ -221,18 +226,22 @@ export default function RectNav({ content }: { content: SiteContent }) {
     [content.projects]
   );
 
-  const audioProjects = useMemo(
-    () => visibleProjects.filter((p) => p.category === "audio"),
-    [visibleProjects]
-  );
-  const webProjects = useMemo(
-    () => visibleProjects.filter((p) => p.category === "web"),
-    [visibleProjects]
-  );
-  const creativeProjects = useMemo(
-    () => visibleProjects.filter((p) => p.category === "creative"),
-    [visibleProjects]
-  );
+  const projectsByCategory = useMemo(() => {
+    const grouped = Object.fromEntries(
+      CATEGORY_FILTERS.map((category) => [
+        category,
+        [] as typeof visibleProjects,
+      ])
+    ) as Record<ProjectCategory, typeof visibleProjects>;
+
+    for (const project of visibleProjects) {
+      if (project.category) {
+        grouped[project.category].push(project);
+      }
+    }
+
+    return grouped;
+  }, [visibleProjects]);
 
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
@@ -279,72 +288,38 @@ export default function RectNav({ content }: { content: SiteContent }) {
             }`}
           >
             <nav aria-label="Site" className="flex flex-col overflow-y-auto">
-              {audioProjects.length > 0 && (
-                <MenuSection accent="audio" label="Audio Developer">
-                  {audioProjects.map((item) => (
-                    <MenuItem
-                      accent="audio"
-                      active={state.projectSlug === item.slug}
-                      dimmed={
-                        categoryFilter !== null && categoryFilter !== "audio"
-                      }
-                      highlighted={highlightedSlug === item.slug}
-                      key={item.slug}
-                      onClick={() => pickProject(item.slug)}
-                      onHover={(hovering) =>
-                        setHighlightedSlug(hovering ? item.slug : null)
-                      }
-                      subtitle={item.listTagline}
-                      tag={menuItemMeta(item)}
-                      title={item.title}
-                    />
-                  ))}
-                </MenuSection>
-              )}
-              {webProjects.length > 0 && (
-                <MenuSection accent="web" label="Web Developer">
-                  {webProjects.map((item) => (
-                    <MenuItem
-                      accent="web"
-                      active={state.projectSlug === item.slug}
-                      dimmed={
-                        categoryFilter !== null && categoryFilter !== "web"
-                      }
-                      highlighted={highlightedSlug === item.slug}
-                      key={item.slug}
-                      onClick={() => pickProject(item.slug)}
-                      onHover={(hovering) =>
-                        setHighlightedSlug(hovering ? item.slug : null)
-                      }
-                      subtitle={item.listTagline}
-                      tag={menuItemMeta(item)}
-                      title={item.title}
-                    />
-                  ))}
-                </MenuSection>
-              )}
-              {creativeProjects.length > 0 && (
-                <MenuSection accent="creative" label="Creative Technologist">
-                  {creativeProjects.map((item) => (
-                    <MenuItem
-                      accent="creative"
-                      active={state.projectSlug === item.slug}
-                      dimmed={
-                        categoryFilter !== null && categoryFilter !== "creative"
-                      }
-                      highlighted={highlightedSlug === item.slug}
-                      key={item.slug}
-                      onClick={() => pickProject(item.slug)}
-                      onHover={(hovering) =>
-                        setHighlightedSlug(hovering ? item.slug : null)
-                      }
-                      subtitle={item.listTagline}
-                      tag={menuItemMeta(item)}
-                      title={item.title}
-                    />
-                  ))}
-                </MenuSection>
-              )}
+              {CATEGORY_FILTERS.map((category) => {
+                const items = projectsByCategory[category];
+                if (items.length === 0) {
+                  return null;
+                }
+                return (
+                  <MenuSection
+                    accent={category}
+                    key={category}
+                    label={CATEGORY_LABELS[category]}
+                  >
+                    {items.map((item) => (
+                      <MenuItem
+                        accent={category}
+                        active={state.projectSlug === item.slug}
+                        dimmed={
+                          categoryFilter !== null && categoryFilter !== category
+                        }
+                        highlighted={highlightedSlug === item.slug}
+                        key={item.slug}
+                        onClick={() => pickProject(item.slug)}
+                        onHover={(hovering) =>
+                          setHighlightedSlug(hovering ? item.slug : null)
+                        }
+                        subtitle={item.listTagline}
+                        tag={menuItemMeta(item)}
+                        title={item.title}
+                      />
+                    ))}
+                  </MenuSection>
+                );
+              })}
             </nav>
           </aside>
         )}

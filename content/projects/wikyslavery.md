@@ -1,6 +1,7 @@
 ---
 type: work
-category: creative
+category: installations
+practice: installations
 order: 11
 menuLabel: artwork
 title: Wikyslavery

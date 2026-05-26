@@ -1,6 +1,6 @@
 ---
 type: work
-category: creative
+category: installations
 order: 10
 menuLabel: artwork
 title: There Will Be No More Determination
