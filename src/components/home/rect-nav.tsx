@@ -365,7 +365,7 @@ export default function RectNav({ content }: { content: SiteContent }) {
             <HomeIdentity
               about={content.about}
               onProjectClick={pickProject}
-              projects={visibleProjects}
+              projects={content.projects}
             />
           )}
         </main>

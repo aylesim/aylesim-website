@@ -64,6 +64,21 @@ body {
   }
 }
 
+@layer utilities {
+  .micro-divider-top {
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.16) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+  }
+}
+
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
