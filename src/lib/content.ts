@@ -30,6 +30,7 @@ export interface Project {
   stackOrder: number;
   menuLabel?: string;
   showInMenu: boolean;
+  category?: "audio" | "web" | "creative";
 }
 
 export interface AboutData {
@@ -215,6 +216,7 @@ function mapWorkProject(
     stackOrder: stackOrderFromData(data, order),
     menuLabel: asString(data.menuLabel),
     showInMenu: showInMenuFromData(data),
+    category: asString(data.category) as Project["category"] | undefined,
   };
 }
 
@@ -227,14 +229,14 @@ function mapDeviceProject(
 ): Project {
   const price = asString(data.price);
   const client = asString(data.client);
-  const category = asString(data.category);
+  const categoryField = asString(data.category) as
+    | Project["category"]
+    | undefined;
   const techTags = asStringArray(data.tech);
   const videos = asVideoList(data.videos);
   let tags: string[];
   if (techTags.length > 0) {
     tags = techTags;
-  } else if (category) {
-    tags = [category];
   } else {
     tags = [];
   }
@@ -276,6 +278,7 @@ function mapDeviceProject(
     stackOrder: stackOrderFromData(data, order),
     menuLabel: asString(data.menuLabel),
     showInMenu: showInMenuFromData(data),
+    category: categoryField,
   };
 }
 

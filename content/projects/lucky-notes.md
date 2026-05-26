@@ -1,5 +1,6 @@
 ---
 type: device
+category: audio
 order: 8
 menuLabel: max4live
 title: Lucky Notes

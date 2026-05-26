@@ -1,5 +1,6 @@
 ---
 type: work
+category: creative
 order: 12
 menuLabel: artwork
 title: Fonema

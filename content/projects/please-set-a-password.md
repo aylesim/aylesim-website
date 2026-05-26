@@ -1,5 +1,6 @@
 ---
 type: work
+category: creative
 order: 9
 menuLabel: artwork
 title: Please Set a Password

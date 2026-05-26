@@ -1,5 +1,6 @@
 ---
 type: device
+category: audio
 order: 5
 menuLabel: max4live
 title: Disco

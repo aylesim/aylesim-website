@@ -1,5 +1,6 @@
 ---
 type: work
+category: creative
 order: 4
 menuLabel: AV performance
 title: TEDx Barletta

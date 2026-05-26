@@ -1,5 +1,6 @@
 ---
 type: work
+category: audio
 order: 2
 menuLabel: max4live
 title: Knob Studio

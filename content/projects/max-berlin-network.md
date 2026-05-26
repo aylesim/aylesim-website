@@ -1,5 +1,6 @@
 ---
 type: work
+category: web
 order: 3
 menuLabel: community
 canvasImage: /LN.png

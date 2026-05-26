@@ -1,5 +1,6 @@
 ---
 type: device
+category: audio
 order: 7
 menuLabel: max4live
 title: Freesound4Live

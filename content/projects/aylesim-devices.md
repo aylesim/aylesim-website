@@ -1,5 +1,6 @@
 ---
 type: work
+category: audio
 order: 6
 showInMenu: false
 canvasImage: /tw1.jpg

@@ -1,5 +1,6 @@
 ---
 type: work
+category: creative
 order: 11
 menuLabel: artwork
 title: Wikyslavery

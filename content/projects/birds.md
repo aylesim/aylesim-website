@@ -1,5 +1,6 @@
 ---
 type: work
+category: audio
 order: 1
 menuLabel: max4live
 title: Birds

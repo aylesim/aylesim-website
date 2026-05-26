@@ -11,7 +11,7 @@ import {
   useState,
   useTransition,
 } from "react";
-import { DraggableCanvas } from "@/components/home/draggable-canvas";
+import { HomeIdentity } from "@/components/home/home-identity";
 import {
   AboutInlineContent,
   ProjectDetail,
@@ -223,6 +223,19 @@ export default function RectNav({ content }: { content: SiteContent }) {
     [content.projects]
   );
 
+  const audioProjects = useMemo(
+    () => visibleProjects.filter((p) => p.category === "audio"),
+    [visibleProjects]
+  );
+  const webProjects = useMemo(
+    () => visibleProjects.filter((p) => p.category === "web"),
+    [visibleProjects]
+  );
+  const creativeProjects = useMemo(
+    () => visibleProjects.filter((p) => p.category === "creative"),
+    [visibleProjects]
+  );
+
   return (
     <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
       <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-6 pb-3 md:px-5 md:pt-8 md:pb-4">
@@ -282,9 +295,9 @@ export default function RectNav({ content }: { content: SiteContent }) {
             aria-label="Site"
             className="flex min-h-0 flex-1 flex-col overflow-y-auto"
           >
-            <MenuSection label="Projects">
-              {visibleProjects.map((item) => {
-                return (
+            {audioProjects.length > 0 && (
+              <MenuSection label="Audio Developer">
+                {audioProjects.map((item) => (
                   <MenuItem
                     active={state.projectSlug === item.slug}
                     key={item.slug}
@@ -292,9 +305,35 @@ export default function RectNav({ content }: { content: SiteContent }) {
                     tag={item.menuLabel}
                     title={item.title}
                   />
-                );
-              })}
-            </MenuSection>
+                ))}
+              </MenuSection>
+            )}
+            {webProjects.length > 0 && (
+              <MenuSection label="Web Developer">
+                {webProjects.map((item) => (
+                  <MenuItem
+                    active={state.projectSlug === item.slug}
+                    key={item.slug}
+                    onClick={() => pickProject(item.slug)}
+                    tag={item.menuLabel}
+                    title={item.title}
+                  />
+                ))}
+              </MenuSection>
+            )}
+            {creativeProjects.length > 0 && (
+              <MenuSection label="Creative Technologist">
+                {creativeProjects.map((item) => (
+                  <MenuItem
+                    active={state.projectSlug === item.slug}
+                    key={item.slug}
+                    onClick={() => pickProject(item.slug)}
+                    tag={item.menuLabel}
+                    title={item.title}
+                  />
+                ))}
+              </MenuSection>
+            )}
             <MenuSection label="Mentions">
               {mentionLinks.map((item) => (
                 <MentionLinkItem
@@ -323,7 +362,7 @@ export default function RectNav({ content }: { content: SiteContent }) {
             </div>
           )}
           {!(state.projectSlug || isMobile) && (
-            <DraggableCanvas
+            <HomeIdentity
               onProjectClick={pickProject}
               projects={visibleProjects}
             />
