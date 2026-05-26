@@ -1,27 +1,3 @@
-export function isLegacyAboutUrl(sp: URLSearchParams): boolean {
-  const aboutParam = sp.get("about");
-  if (aboutParam === "1" || aboutParam === "true") {
-    return true;
-  }
-
-  const raw = sp.get("sel");
-  if (!raw) {
-    return false;
-  }
-
-  const decoded = decodeURIComponent(raw);
-  if (decoded === "about" || decoded === "contact" || decoded === "elsewhere") {
-    return true;
-  }
-
-  const colon = decoded.indexOf(":");
-  if (colon <= 0) {
-    return false;
-  }
-
-  return decoded.slice(0, colon) === "info";
-}
-
 export function parseLegacyProjectSlug(sp: URLSearchParams): string | null {
   const raw = sp.get("sel");
   if (!raw) {

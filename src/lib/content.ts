@@ -57,16 +57,8 @@ export interface Project {
   category?: "audio" | "web" | "creative";
 }
 
-export interface AboutData {
-  bio: string[];
-  award: string;
-  exhibitions: string[];
-  publication: string;
-}
-
 export interface SiteContent {
   projects: Project[];
-  about: AboutData;
 }
 
 function readMd(filePath: string) {
@@ -380,22 +372,6 @@ function getProjects(): Project[] {
   });
 }
 
-function getAbout(): AboutData {
-  const { data, content } = readMd(path.join(contentDir, "about.md"));
-  return {
-    bio: content
-      .trim()
-      .split("\n\n")
-      .map((p) => p.trim())
-      .filter(Boolean),
-    award: data.award,
-    exhibitions: data.exhibitions ?? [],
-    publication: data.publication,
-  };
-}
-
 export function getAllContent(): SiteContent {
-  const projects = getProjects();
-  const about = getAbout();
-  return { projects, about };
+  return { projects: getProjects() };
 }

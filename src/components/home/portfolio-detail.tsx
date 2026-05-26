@@ -1,15 +1,7 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import type { AboutData, Project, ProjectVideo } from "@/lib/content";
-import {
-  aylesimDevicesCustomerProof,
-  aylesimDevicesSlug,
-  contactAvailability,
-  contactEmail,
-  contactLinks,
-  resumeHref,
-  resumeLabel,
-} from "@/lib/site";
+import type { Project, ProjectVideo } from "@/lib/content";
+import { aylesimDevicesCustomerProof, aylesimDevicesSlug } from "@/lib/site";
 
 const detailLinkClass =
   "underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
@@ -329,67 +321,6 @@ export function ProjectDetail({
       {project.highlights.length > 0 ? (
         <HighlightsList items={project.highlights} />
       ) : null}
-    </div>
-  );
-}
-
-export function AboutInlineContent({ about }: { about: AboutData }) {
-  const embeddedLinkClass =
-    "text-xs underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
-  return (
-    <div className="mx-auto w-full max-w-6xl">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.7fr)_minmax(18rem,1fr)] lg:gap-10">
-        <div className="min-w-0 max-w-4xl space-y-3 text-(--foreground)/90 text-sm leading-relaxed">
-          {about.bio.map((paragraph) => (
-            <div key={paragraph}>
-              <ReactMarkdown
-                components={{
-                  a: ({ children, href }) => (
-                    <a
-                      className={detailLinkClass}
-                      href={href}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {children}
-                    </a>
-                  ),
-                  p: ({ children }) => <p>{children}</p>,
-                }}
-              >
-                {paragraph}
-              </ReactMarkdown>
-            </div>
-          ))}
-        </div>
-        <div className="min-w-0 space-y-3 border-(--index-divider) border-t border-dotted pt-4 lg:max-w-sm lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
-          <p className="text-(--text-muted) text-sm leading-relaxed">
-            {contactAvailability}
-          </p>
-          <a
-            className={`block ${embeddedLinkClass}`}
-            href={`mailto:${contactEmail}`}
-          >
-            {contactEmail}
-          </a>
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            <a className={embeddedLinkClass} download href={resumeHref}>
-              {resumeLabel}
-            </a>
-            {contactLinks.map((link) => (
-              <a
-                className={embeddedLinkClass}
-                href={link.href}
-                key={link.label}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

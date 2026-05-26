@@ -196,12 +196,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
         <Link className="text-lg tracking-tight md:text-xl" href="/">
           Aylesim
         </Link>
-        <Link
-          className="text-(--text-muted) text-lg tracking-tight transition-colors hover:text-(--foreground) md:text-xl"
-          href="/about"
-        >
-          about
-        </Link>
       </header>
 
       <div
@@ -285,7 +279,6 @@ export default function RectNav({ content }: { content: SiteContent }) {
           )}
           {!state.projectSlug && (
             <HomeIdentity
-              about={content.about}
               onProjectClick={pickProject}
               projects={content.projects}
             />

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { AboutData, Project, ProjectListBadge } from "@/lib/content";
+import type { Project, ProjectListBadge } from "@/lib/content";
 import {
   pressMentions,
   primaryAward,
@@ -249,11 +249,9 @@ function ProjectLink({
 
 export function HomeIdentity({
   projects,
-  about,
   onProjectClick,
 }: {
   projects: Project[];
-  about: AboutData;
   onProjectClick: (slug: string) => void;
 }) {
   return (
@@ -472,11 +470,6 @@ export function HomeIdentity({
               );
             })}
           </div>
-          {about.exhibitions.length > 0 && (
-            <p className="max-w-2xl text-(--text-muted) text-sm leading-relaxed">
-              Selected exhibitions: {about.exhibitions.join(" · ")}
-            </p>
-          )}
         </div>
       </section>
 
