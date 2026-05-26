@@ -4,8 +4,12 @@ const YOUTUBE_ID_REGEX = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
 
 const SELECTED_COVERS: Record<string, string> = {
   birds: "/Birdsgr.png",
+  "knob-studio": "/knobstudio.png",
+  freesound4live: "/ffl.png",
+  "lucky-notes": "/LN.png",
   "planetary-compendium": "/planetary.png",
   "tedx-barletta": "https://img.youtube.com/vi/GJUaN92rx-0/hqdefault.jpg",
+  "there-will-be-no-more-determination": "/tw0.jpg",
 };
 
 const FALLBACK_COVER = "/tw1.jpg";

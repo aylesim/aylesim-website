@@ -7,12 +7,13 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useState,
   useTransition,
 } from "react";
 import { HomeIdentity } from "@/components/home/home-identity";
 import { ProjectDetail } from "@/components/home/portfolio-detail";
+import { ProjectsIndex } from "@/components/home/projects-index";
 import type { SiteContent } from "@/lib/content";
-import { pressMentions, primaryAward } from "@/lib/credentials";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
 import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
 
@@ -31,10 +32,11 @@ function MenuSection({
   const borderClass = accent
     ? `border-t-2 border-solid ${ROLE_STYLES[accent].borderClass}`
     : "border-t border-dotted border-(--index-divider)";
+  const firstSectionClass = accent
+    ? "first:pt-3"
+    : "first:border-t-0 first:pt-0";
   return (
-    <div
-      className={`mt-3 pt-3 first:mt-0 first:border-t-0 first:pt-0 ${borderClass}`}
-    >
+    <div className={`mt-3 pt-3 first:mt-0 ${firstSectionClass} ${borderClass}`}>
       <div className={`py-0.5 font-normal text-sm leading-snug ${labelClass}`}>
         {label}
       </div>
@@ -53,14 +55,20 @@ function menuItemMeta(project: { year?: string; menuLabel?: string }) {
 function MenuItem({
   title,
   active,
+  highlighted,
+  dimmed,
   onClick,
+  onHover,
   tag,
   subtitle,
   accent,
 }: {
   title: string;
   active: boolean;
+  highlighted?: boolean;
+  dimmed?: boolean;
   onClick: () => void;
+  onHover?: (hovering: boolean) => void;
   tag?: string;
   subtitle?: string;
   accent?: ProjectCategory;
@@ -72,14 +80,24 @@ function MenuItem({
     buttonClass += accentStyles.activeItemClass;
   } else if (active) {
     buttonClass += "text-(--foreground)";
+  } else if (highlighted && accentStyles) {
+    buttonClass += `${accentStyles.activeItemClass} opacity-100`;
+  } else if (highlighted) {
+    buttonClass += "border-l-(--accent) pl-3.5 text-(--foreground)";
   } else if (accentStyles) {
     buttonClass += `text-(--text-muted) ${accentStyles.hoverClass}`;
   } else {
     buttonClass += "text-(--text-muted) hover:text-(--foreground)";
   }
   return (
-    <li className="py-1 first:pt-0 md:py-0.5">
-      <button className={buttonClass} onClick={onClick} type="button">
+    <li className={`py-1 first:pt-0 md:py-0.5 ${dimmed ? "opacity-35" : ""}`}>
+      <button
+        className={buttonClass}
+        onClick={onClick}
+        onMouseEnter={() => onHover?.(true)}
+        onMouseLeave={() => onHover?.(false)}
+        type="button"
+      >
         <span className="flex min-w-0 flex-col gap-0.5">
           <span className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
             <span>{title}</span>
@@ -123,25 +141,14 @@ function navStateFromSearchParams(searchParams: URLSearchParams): {
   return { mode: "home", projectSlug: null };
 }
 
-function MentionLinkItem({ href, label }: { href: string; label: string }) {
-  return (
-    <li className="py-1 first:pt-0 md:py-0.5">
-      <a
-        className="flex w-full py-1.5 pl-4 text-left font-normal text-(--text-muted) text-sm leading-snug transition-colors hover:text-(--foreground) md:py-0.5"
-        href={href}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        {label}
-      </a>
-    </li>
-  );
-}
-
 export default function RectNav({ content }: { content: SiteContent }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
+  const [highlightedSlug, setHighlightedSlug] = useState<string | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<ProjectCategory | null>(
+    null
+  );
 
   const state = useMemo(
     () => navStateFromSearchParams(searchParams),
@@ -168,6 +175,17 @@ export default function RectNav({ content }: { content: SiteContent }) {
 
   const showSidebar = state.mode !== "home";
   const showDetail = state.mode === "project" && state.projectSlug !== null;
+
+  useEffect(() => {
+    if (state.mode !== "projects") {
+      setHighlightedSlug(null);
+      setCategoryFilter(null);
+    }
+  }, [state.mode]);
+
+  const toggleCategoryFilter = useCallback((category: ProjectCategory) => {
+    setCategoryFilter((current) => (current === category ? null : category));
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -267,8 +285,15 @@ export default function RectNav({ content }: { content: SiteContent }) {
                     <MenuItem
                       accent="audio"
                       active={state.projectSlug === item.slug}
+                      dimmed={
+                        categoryFilter !== null && categoryFilter !== "audio"
+                      }
+                      highlighted={highlightedSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
+                      onHover={(hovering) =>
+                        setHighlightedSlug(hovering ? item.slug : null)
+                      }
                       subtitle={item.listTagline}
                       tag={menuItemMeta(item)}
                       title={item.title}
@@ -282,8 +307,15 @@ export default function RectNav({ content }: { content: SiteContent }) {
                     <MenuItem
                       accent="web"
                       active={state.projectSlug === item.slug}
+                      dimmed={
+                        categoryFilter !== null && categoryFilter !== "web"
+                      }
+                      highlighted={highlightedSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
+                      onHover={(hovering) =>
+                        setHighlightedSlug(hovering ? item.slug : null)
+                      }
                       subtitle={item.listTagline}
                       tag={menuItemMeta(item)}
                       title={item.title}
@@ -297,8 +329,15 @@ export default function RectNav({ content }: { content: SiteContent }) {
                     <MenuItem
                       accent="creative"
                       active={state.projectSlug === item.slug}
+                      dimmed={
+                        categoryFilter !== null && categoryFilter !== "creative"
+                      }
+                      highlighted={highlightedSlug === item.slug}
                       key={item.slug}
                       onClick={() => pickProject(item.slug)}
+                      onHover={(hovering) =>
+                        setHighlightedSlug(hovering ? item.slug : null)
+                      }
                       subtitle={item.listTagline}
                       tag={menuItemMeta(item)}
                       title={item.title}
@@ -306,28 +345,11 @@ export default function RectNav({ content }: { content: SiteContent }) {
                   ))}
                 </MenuSection>
               )}
-              <MenuSection label="Recognition">
-                <MentionLinkItem
-                  href={primaryAward.externalHref}
-                  label={`MUR · ${primaryAward.headline}`}
-                />
-                {pressMentions.map((item) => (
-                  <MentionLinkItem
-                    href={item.href}
-                    key={item.href}
-                    label={`${item.outlet} — ${item.title}`}
-                  />
-                ))}
-              </MenuSection>
             </nav>
           </aside>
         )}
 
-        <main
-          className={`relative min-w-0 flex-1 ${
-            state.mode === "projects" ? "hidden md:block" : ""
-          }`}
-        >
+        <main className="relative min-w-0 flex-1">
           {showDetail && state.projectSlug && (
             <div className="mx-auto w-full max-w-5xl px-4 py-6 md:px-10 md:py-12">
               <ProjectDetail
@@ -340,6 +362,15 @@ export default function RectNav({ content }: { content: SiteContent }) {
             <HomeIdentity
               onProjectClick={pickProject}
               projects={content.projects}
+            />
+          )}
+          {state.mode === "projects" && (
+            <ProjectsIndex
+              categoryFilter={categoryFilter}
+              onCategoryFilter={toggleCategoryFilter}
+              onHighlight={setHighlightedSlug}
+              onSelect={pickProject}
+              projects={visibleProjects}
             />
           )}
         </main>
