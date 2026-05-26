@@ -1,7 +1,12 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import type { AboutData, Project, ProjectVideo } from "@/lib/content";
-import { contactEmail, contactLinks } from "@/lib/site";
+import {
+  aylesimDevicesCustomerProof,
+  aylesimDevicesSlug,
+  contactEmail,
+  contactLinks,
+} from "@/lib/site";
 
 const detailLinkClass =
   "underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
@@ -286,6 +291,9 @@ export function ProjectDetail({
         <Meta>{remainingPrimaryMeta.join(" · ")}</Meta>
       ) : null}
       {project.secondaryMeta ? <Meta>{project.secondaryMeta}</Meta> : null}
+      {project.slug === aylesimDevicesSlug ? (
+        <Meta>{aylesimDevicesCustomerProof}</Meta>
+      ) : null}
       {project.tags.length > 0 ? (
         <Meta>Filed under: {project.tags.join(" · ")}</Meta>
       ) : null}

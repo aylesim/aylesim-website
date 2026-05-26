@@ -1,6 +1,7 @@
 ---
 type: work
 category: audio
+workScope: commercial
 order: 2
 menuLabel: max4live
 featured: true

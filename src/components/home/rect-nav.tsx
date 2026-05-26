@@ -45,19 +45,8 @@ function MenuSection({
   );
 }
 
-function menuItemMeta(project: {
-  year?: string;
-  menuLabel?: string;
-  featured?: boolean;
-  isotonik?: boolean;
-}) {
+function menuItemMeta(project: { year?: string; menuLabel?: string }) {
   const parts = [project.year, project.menuLabel].filter(Boolean);
-  if (project.featured) {
-    parts.push("featured");
-  }
-  if (project.isotonik) {
-    parts.push("↗ isotonik");
-  }
   return parts.length > 0 ? parts.join(" · ") : undefined;
 }
 

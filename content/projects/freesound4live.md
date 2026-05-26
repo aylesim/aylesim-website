@@ -1,6 +1,7 @@
 ---
 type: device
 category: audio
+workScope: commercial
 order: 7
 menuLabel: max4live
 title: Freesound4Live

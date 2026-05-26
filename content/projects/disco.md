@@ -1,6 +1,7 @@
 ---
 type: device
 category: audio
+workScope: commercial
 order: 5
 menuLabel: max4live
 title: Disco

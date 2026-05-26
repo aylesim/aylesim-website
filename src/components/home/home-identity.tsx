@@ -9,11 +9,17 @@ import {
 } from "@/lib/credentials";
 import { getProjectCover } from "@/lib/project-cover";
 import { type ProjectCategory, ROLE_STYLES } from "@/lib/roles";
-import { contactEmail, contactLinks } from "@/lib/site";
+import {
+  audioDeveloperProductLine,
+  aylesimDevicesSlug,
+  contactEmail,
+  contactLinks,
+} from "@/lib/site";
 
 interface RoleColumn {
   id: ProjectCategory;
   label: string;
+  proof?: string;
   eyebrow: string;
   description: string;
 }
@@ -28,6 +34,7 @@ const ROLES: RoleColumn[] = [
   {
     id: "audio",
     label: "Audio Developer",
+    proof: audioDeveloperProductLine,
     eyebrow:
       "Tools for composing and performing: rule systems, mappings, constraints, interfaces that stay playable while they generate variation.",
     description:
@@ -52,7 +59,10 @@ const ROLES: RoleColumn[] = [
 ];
 
 function roleProjects(projects: Project[], category: ProjectCategory) {
-  return projects.filter((project) => project.category === category);
+  return projects.filter(
+    (project) =>
+      project.category === category && project.slug !== aylesimDevicesSlug
+  );
 }
 
 function selectedProjects(projects: Project[]) {
@@ -139,18 +149,9 @@ function ProjectLink({
             {project.listTagline}
           </span>
         )}
-        {(project.featured || project.isotonik) && (
-          <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-            {project.featured && (
-              <span className="font-mono text-(--accent) text-[10px] uppercase tracking-widest">
-                featured
-              </span>
-            )}
-            {project.isotonik && (
-              <span className="font-mono text-(--foreground)/50 text-[10px] uppercase tracking-widest">
-                ↗ isotonik
-              </span>
-            )}
+        {project.workScope && project.workScope !== "commercial" && (
+          <span className="font-mono text-(--foreground)/45 text-[10px] uppercase tracking-widest">
+            {project.workScope}
           </span>
         )}
         {hasAward && (
@@ -267,9 +268,14 @@ export function HomeIdentity({
                 >
                   {role.label}
                 </p>
-                <p className="max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
+                <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
                   {role.eyebrow}
                 </p>
+                {role.proof ? (
+                  <p className="max-w-md text-(--text-muted) text-sm leading-snug">
+                    {role.proof}
+                  </p>
+                ) : null}
               </div>
               <div className="micro-divider-top pt-3">
                 {items.map((project) => (

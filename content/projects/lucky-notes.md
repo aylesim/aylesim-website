@@ -1,6 +1,7 @@
 ---
 type: device
 category: audio
+workScope: commercial
 order: 8
 menuLabel: max4live
 title: Lucky Notes

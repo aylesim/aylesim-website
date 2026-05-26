@@ -1,3 +1,11 @@
+export const aylesimDevicesSlug = "aylesim-devices";
+
+export const aylesimDevicesCustomerCount = 3600;
+
+export const audioDeveloperProductLine = `Through Aylesim Devices, I design and maintain a line of Max for Live tools used by ${aylesimDevicesCustomerCount.toLocaleString("en-US")}+ customers and featured by Isotonik Studios and Attack Magazine.`;
+
+export const aylesimDevicesCustomerProof = audioDeveloperProductLine;
+
 export const contactEmail = "ay@alessandromiracapillo.com";
 
 export const contactLinks = [

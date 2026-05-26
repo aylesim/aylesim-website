@@ -9,6 +9,19 @@ export interface ProjectVideo {
   url: string;
 }
 
+export type ProjectWorkScope =
+  | "commercial"
+  | "research"
+  | "performance"
+  | "installation";
+
+const PROJECT_WORK_SCOPES = new Set<string>([
+  "commercial",
+  "research",
+  "performance",
+  "installation",
+]);
+
 export interface Project {
   slug: string;
   title: string;
@@ -32,6 +45,7 @@ export interface Project {
   featured?: boolean;
   listTagline?: string;
   isotonik?: boolean;
+  workScope?: ProjectWorkScope;
   showInMenu: boolean;
   category?: "audio" | "web" | "creative";
 }
@@ -101,6 +115,13 @@ function stackOrderFromData(
 function asString(v: unknown): string | undefined {
   if (typeof v === "string") {
     return v;
+  }
+  return undefined;
+}
+
+function asWorkScope(v: unknown): ProjectWorkScope | undefined {
+  if (typeof v === "string" && PROJECT_WORK_SCOPES.has(v)) {
+    return v as ProjectWorkScope;
   }
   return undefined;
 }
@@ -221,6 +242,7 @@ function mapWorkProject(
     featured: data.featured === true,
     listTagline: asString(data.listTagline),
     isotonik: data.isotonik === true,
+    workScope: asWorkScope(data.workScope),
     showInMenu: showInMenuFromData(data),
     category: asString(data.category) as Project["category"] | undefined,
   };
@@ -286,6 +308,7 @@ function mapDeviceProject(
     featured: data.featured === true,
     listTagline: asString(data.listTagline),
     isotonik: data.isotonik === true,
+    workScope: asWorkScope(data.workScope),
     showInMenu: showInMenuFromData(data),
     category: categoryField,
   };
