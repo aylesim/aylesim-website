@@ -4,6 +4,13 @@ category: audio
 workScope: commercial
 order: 8
 menuLabel: max4live
+listBadges:
+  - prefix: available on
+    label: Gumroad
+    url: https://aylesim.gumroad.com/l/luckynotes
+  - prefix: featured on
+    label: ELPHNT Curated Collection
+    url: https://elphnt.io/max-for-live-curated-collection/
 title: Lucky Notes
 role: Developer & Designer
 client: Aylesim Devices
@@ -15,8 +22,8 @@ tech:
   - MIDI
   - Probability
 price: Free
-featured: false
 highlights:
+  - Listed in the ELPHNT Max for Live Curated Collection among hand-picked devices from the ecosystem
   - Built a lightweight Max for Live MIDI effect that gates notes by probability for live arrangement
   - Tuned the control range so patterns can start sparse and grow in density without extra clip editing
   - Shipped as a free Gumroad download with over two thousand downloads to date

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { AboutData, Project } from "@/lib/content";
+import type { AboutData, Project, ProjectListBadge } from "@/lib/content";
 import {
   pressMentions,
   primaryAward,
@@ -69,6 +69,47 @@ function selectedProjects(projects: Project[]) {
   return SELECTED_SLUGS.map((slug) =>
     projects.find((project) => project.slug === slug)
   ).filter((project): project is Project => Boolean(project));
+}
+
+function ProjectListBadgeItem({
+  badge,
+  hidePrefix,
+  className,
+}: {
+  badge: ProjectListBadge;
+  hidePrefix?: boolean;
+  className?: string;
+}) {
+  const isPress = badge.prefix === "featured on";
+  const linkClass = isPress
+    ? "font-mono text-(--foreground)/38 text-[10px] uppercase tracking-widest transition-colors hover:text-(--accent)/65"
+    : "font-mono text-(--foreground)/38 text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)/62";
+  const label = <>↗ {badge.label.toUpperCase()}</>;
+
+  return (
+    <span
+      className={`flex flex-col ${hidePrefix ? "-mt-2" : "gap-0.5"} ${className ?? ""}`}
+    >
+      {badge.prefix && !hidePrefix ? (
+        <span className="font-mono text-(--foreground)/28 text-[10px] normal-case tracking-wide">
+          {badge.prefix}
+        </span>
+      ) : null}
+      {badge.url ? (
+        <a
+          className={linkClass}
+          href={badge.url}
+          onClick={(e) => e.stopPropagation()}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {label}
+        </a>
+      ) : (
+        <span className={linkClass}>{label}</span>
+      )}
+    </span>
+  );
 }
 
 function SelectedWorkCard({
@@ -145,8 +186,26 @@ function ProjectLink({
           {project.title}
         </span>
         {project.listTagline && (
-          <span className="text-(--text-muted) text-[12px] leading-snug">
+          <span className="text-(--text-muted) text-sm leading-relaxed md:text-base">
             {project.listTagline}
+          </span>
+        )}
+        {project.listBadges.length > 0 && (
+          <span className="mt-0.5 flex flex-col gap-2.5">
+            {project.listBadges.map((badge, index) => {
+              const previous = project.listBadges[index - 1];
+              const hidePrefix =
+                index > 0 &&
+                Boolean(badge.prefix) &&
+                badge.prefix === previous?.prefix;
+              return (
+                <ProjectListBadgeItem
+                  badge={badge}
+                  hidePrefix={hidePrefix}
+                  key={badge.url ?? badge.label}
+                />
+              );
+            })}
           </span>
         )}
         {project.workScope && project.workScope !== "commercial" && (

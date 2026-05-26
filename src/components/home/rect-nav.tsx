@@ -90,7 +90,7 @@ function MenuItem({
             ) : null}
           </span>
           {subtitle ? (
-            <span className="text-(--foreground)/45 text-[12px] leading-snug">
+            <span className="text-(--foreground)/45 text-sm leading-relaxed md:text-base">
               {subtitle}
             </span>
           ) : null}

@@ -4,6 +4,13 @@ category: audio
 workScope: commercial
 order: 5
 menuLabel: max4live
+listBadges:
+  - prefix: available on
+    label: Gumroad
+    url: https://aylesim.gumroad.com/l/disco
+  - prefix: available on
+    label: Isotonik Studios
+    url: https://isotonikstudios.com/product/disco-by-aylsim/
 title: Disco
 role: Developer & Designer
 client: Aylesim Devices
@@ -13,7 +20,6 @@ tech:
   - Max for Live
   - Ableton Live
   - Delay
-featured: false
 videos:
   - title: Demo
     url: https://www.youtube.com/watch?v=WpoSqDDA4EY

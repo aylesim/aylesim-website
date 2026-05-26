@@ -15,6 +15,12 @@ export type ProjectWorkScope =
   | "performance"
   | "installation";
 
+export interface ProjectListBadge {
+  prefix?: string;
+  label: string;
+  url?: string;
+}
+
 const PROJECT_WORK_SCOPES = new Set<string>([
   "commercial",
   "research",
@@ -45,6 +51,7 @@ export interface Project {
   featured?: boolean;
   listTagline?: string;
   isotonik?: boolean;
+  listBadges: ProjectListBadge[];
   workScope?: ProjectWorkScope;
   showInMenu: boolean;
   category?: "audio" | "web" | "creative";
@@ -124,6 +131,29 @@ function asWorkScope(v: unknown): ProjectWorkScope | undefined {
     return v as ProjectWorkScope;
   }
   return undefined;
+}
+
+function asListBadges(v: unknown): ProjectListBadge[] {
+  if (!Array.isArray(v)) {
+    return [];
+  }
+  const badges: ProjectListBadge[] = [];
+  for (const item of v) {
+    if (typeof item !== "object" || item === null) {
+      continue;
+    }
+    const record = item as Record<string, unknown>;
+    const label = asString(record.label);
+    if (!label) {
+      continue;
+    }
+    badges.push({
+      prefix: asString(record.prefix),
+      label,
+      url: asString(record.url),
+    });
+  }
+  return badges;
 }
 
 function asStringArray(v: unknown): string[] {
@@ -242,6 +272,7 @@ function mapWorkProject(
     featured: data.featured === true,
     listTagline: asString(data.listTagline),
     isotonik: data.isotonik === true,
+    listBadges: asListBadges(data.listBadges),
     workScope: asWorkScope(data.workScope),
     showInMenu: showInMenuFromData(data),
     category: asString(data.category) as Project["category"] | undefined,
@@ -308,6 +339,7 @@ function mapDeviceProject(
     featured: data.featured === true,
     listTagline: asString(data.listTagline),
     isotonik: data.isotonik === true,
+    listBadges: asListBadges(data.listBadges),
     workScope: asWorkScope(data.workScope),
     showInMenu: showInMenuFromData(data),
     category: categoryField,

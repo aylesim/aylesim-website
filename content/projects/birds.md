@@ -4,9 +4,14 @@ category: audio
 workScope: commercial
 order: 1
 menuLabel: max4live
-featured: true
-isotonik: true
 listTagline: Generative melody sequencer
+listBadges:
+  - prefix: available on
+    label: Gumroad
+    url: https://aylesim.gumroad.com/l/birds
+  - prefix: available on
+    label: Isotonik Studios
+    url: https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/
 title: Birds
 role: Developer & Designer
 client: Aylesim Devices

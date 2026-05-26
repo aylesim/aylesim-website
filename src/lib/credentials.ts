@@ -23,7 +23,7 @@ export const pressMentions = [
   {
     outlet: "Attack Magazine",
     title: "Modulation revelation: the future of sound design",
-    year: undefined,
+    year: "2024",
     projectSlug: "knob-studio",
     href: "https://www.attackmagazine.com/features/long-read/modulation-revelation-the-future-of-sound-design/",
   },

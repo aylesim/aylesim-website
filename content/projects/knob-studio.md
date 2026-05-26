@@ -4,9 +4,17 @@ category: audio
 workScope: commercial
 order: 2
 menuLabel: max4live
-featured: true
-isotonik: true
 listTagline: Layered modulation engine for Live
+listBadges:
+  - prefix: available on
+    label: Gumroad
+    url: https://aylesim.gumroad.com/l/knobstudio
+  - prefix: available on
+    label: Isotonik Studios
+    url: https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/
+  - prefix: featured on
+    label: Attack Magazine
+    url: https://www.attackmagazine.com/features/long-read/modulation-revelation-the-future-of-sound-design/
 title: Knob Studio
 role: Developer & Designer
 client: Aylesim Devices
@@ -25,6 +33,7 @@ videos:
   - title: How it's made
     url: https://www.youtube.com/watch?v=J0A9h0l-F2s
 highlights:
+  - Featured in Attack Magazine on Max for Live modulation and the future of sound design
   - Built a layered modulation engine with multiple concurrent function generators in Max for Live
   - Implemented reading-head modes (manual, LFO, envelope follower) on shared waveform material
   - Tied real-time visualization to modulation output so behavior stays inspectable while it runs

@@ -11,7 +11,6 @@ tech:
   - Max for Live
   - Ableton Live
   - Utility
-featured: false
 year: "2023"
 videos:
   - title: Demo
