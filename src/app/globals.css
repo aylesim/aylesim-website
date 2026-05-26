@@ -10,6 +10,9 @@
   --text-muted: #8a8a8a;
   --index-divider: rgba(255, 255, 255, 0.2);
   --accent: #8fb5a0;
+  --role-audio: #c3a15d;
+  --role-web: #7f93ad;
+  --role-creative: #b9796d;
   --font-sans: "Geist", "Lato", sans-serif;
   --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
