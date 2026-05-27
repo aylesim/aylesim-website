@@ -21,6 +21,10 @@ export const contentHtmlPath = "/content.html";
 
 export const contentHtmlUrl = `${siteOrigin}${contentHtmlPath}`;
 
+export const contentTxtPath = "/content.txt";
+
+export const contentTxtUrl = `${siteOrigin}${contentTxtPath}`;
+
 export const contactAvailability =
   "Currently available for freelance projects and open to full-time roles in Berlin.";
 
