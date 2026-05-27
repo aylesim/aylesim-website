@@ -1,6 +1,6 @@
 import type { Project } from "@/lib/content";
 import type { ProjectCategory } from "@/lib/roles";
-import { aylesimDevicesCustomerCount, aylesimDevicesSlug } from "@/lib/site";
+import { aylesimDevicesSlug } from "@/lib/site";
 
 export interface ToolAction {
   href: string;
@@ -32,21 +32,50 @@ export interface SiteUtility {
 
 const WEB_TOOL_SLUGS = new Set(["glossia"]);
 
+export const TOOLS_PAGE_COPY = {
+  lede: "Stuff you can run, buy, or open in a tab. The rest of this site is case studies and context — this is what you can actually use.",
+  footer: "Installations, performances, and client work are under",
+  footerLink: "Projects",
+  sections: {
+    devices: {
+      title: "Aylesim Devices",
+      intro:
+        "Max for Live patches for Ableton Live — sequencers, modulation, sample tools. I build them for my own sets first; most ship through Gumroad and Isotonik, a couple are free.",
+    },
+    web: {
+      title: "In the browser",
+      intro: "No installer, no Live required. Open the link and try it.",
+    },
+    shortcuts: {
+      title: "In a hurry?",
+      intro:
+        "Rather skim with an assistant than read every page — same idea as Too lazy to read.",
+    },
+  },
+  labels: {
+    portfolioLink: "Case study",
+    unavailable: "Not distributed",
+    buy: "Buy / download",
+    open: "Open",
+    readMore: "Read more",
+  },
+} as const;
+
 export const SITE_UTILITIES: SiteUtility[] = [
   {
     title: "Too lazy to read",
     tagline:
-      "Feed the whole site to your AI as JSON and ask whatever you need.",
+      "The whole site as one JSON file. Paste the URL into a chat, or copy the dump from the page.",
     href: "/ask-ai",
-    actionLabel: "Open",
+    actionLabel: "How to use it",
   },
   {
     title: "content.json",
     tagline:
-      "Machine-readable export of this portfolio for scripts and assistants.",
+      "The raw file — same data, no walkthrough. Handy for scripts or plugins.",
     href: "/content.json",
     external: true,
-    actionLabel: "Open JSON",
+    actionLabel: "Get the JSON",
   },
 ];
 
@@ -55,7 +84,11 @@ export function getToolAction(project: Project): ToolAction {
     badge.url?.includes("gumroad.com")
   );
   if (gumroad?.url) {
-    return { href: gumroad.url, external: true, label: "Get it" };
+    return {
+      href: gumroad.url,
+      external: true,
+      label: TOOLS_PAGE_COPY.labels.buy,
+    };
   }
 
   const link = project.link?.trim();
@@ -63,7 +96,7 @@ export function getToolAction(project: Project): ToolAction {
     return {
       href: link,
       external: !link.startsWith("/"),
-      label: project.linkLabel ?? "Open",
+      label: project.linkLabel ?? TOOLS_PAGE_COPY.labels.open,
     };
   }
 
@@ -75,7 +108,7 @@ export function getToolAction(project: Project): ToolAction {
   return {
     href: `/?project=${project.slug}`,
     external: false,
-    label: "Details",
+    label: TOOLS_PAGE_COPY.labels.readMore,
   };
 }
 
@@ -95,23 +128,33 @@ export function getToolsSections(projects: Project[]): ToolSection[] {
     .filter((project) => WEB_TOOL_SLUGS.has(project.slug))
     .sort((a, b) => a.order - b.order);
 
+  const { sections } = TOOLS_PAGE_COPY;
+
   return [
     {
       id: "devices",
-      title: "Aylesim Devices",
-      intro: `Max for Live tools for Ableton Live — used by ${aylesimDevicesCustomerCount.toLocaleString("en-US")}+ people via Gumroad and Isotonik Studios.`,
+      title: sections.devices.title,
+      intro: sections.devices.intro,
       category: "devices",
-      entries: devices.map((project) => ({
-        project,
-        action: getToolAction(project),
-        unavailable: isUnavailable(project),
-      })),
+      entries: devices.map((project) => {
+        const unavailable = isUnavailable(project);
+        return {
+          project,
+          action: unavailable
+            ? {
+                href: `/?project=${project.slug}`,
+                external: false,
+                label: TOOLS_PAGE_COPY.labels.readMore,
+              }
+            : getToolAction(project),
+          unavailable,
+        };
+      }),
     },
     {
       id: "web",
-      title: "Web & Interactive",
-      intro:
-        "Open playgrounds and browser tools you can try without installing anything.",
+      title: sections.web.title,
+      intro: sections.web.intro,
       category: "web-interactive",
       entries: web.map((project) => ({
         project,
