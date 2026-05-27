@@ -27,18 +27,22 @@ function videoThumbnail(url: string): string | null {
   return null;
 }
 
-const FALLBACK_COVER = "/tw1.jpg";
+function picsumPlaceholder(slug: string) {
+  return `https://picsum.photos/seed/${encodeURIComponent(slug)}/1280/720`;
+}
 
 export function getProjectCover(project: Project): string {
   const selected = SELECTED_COVERS[project.slug];
   if (selected) {
     return selected;
   }
-  if (project.canvasCover) {
-    return project.canvasCover;
+  const canvasCover = project.canvasCover?.trim();
+  if (canvasCover) {
+    return canvasCover;
   }
-  if (project.images[0]) {
-    return project.images[0];
+  const firstImage = project.images.map((url) => url.trim()).find(Boolean);
+  if (firstImage) {
+    return firstImage;
   }
   const videoUrl = project.videos?.[0]?.url;
   if (videoUrl) {
@@ -47,5 +51,5 @@ export function getProjectCover(project: Project): string {
       return thumb;
     }
   }
-  return FALLBACK_COVER;
+  return picsumPlaceholder(project.slug);
 }

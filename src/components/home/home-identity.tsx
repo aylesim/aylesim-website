@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { CategoryProjectRotator } from "@/components/home/category-project-rotator";
 import type { Project, ProjectListBadge } from "@/lib/content";
 import {
@@ -257,9 +257,11 @@ function CommunityHighlight({
 function ProjectLink({
   project,
   onProjectClick,
+  onHover,
 }: {
   project: Project;
   onProjectClick: (slug: string) => void;
+  onHover?: (slug: string | null) => void;
 }) {
   const meta = [project.year, project.menuLabel].filter(Boolean).join(" / ");
   const hasAward = projectHasNationalArtsAward(project);
@@ -269,6 +271,8 @@ function ProjectLink({
       aria-label={`Open ${project.title}`}
       className="group micro-divider-top grid w-full grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-1 py-4 text-left first:bg-none md:grid-cols-[1fr_auto_1rem]"
       onClick={() => onProjectClick(project.slug)}
+      onMouseEnter={() => onHover?.(project.slug)}
+      onMouseLeave={() => onHover?.(null)}
       type="button"
     >
       <span className="flex flex-col gap-1">
@@ -325,6 +329,81 @@ function ProjectLink({
         {meta}
       </span>
     </button>
+  );
+}
+
+function PracticeColumnSection({
+  column,
+  items,
+  carouselProjects,
+  onProjectClick,
+}: {
+  column: CategoryColumn;
+  items: Project[];
+  carouselProjects: Project[];
+  onProjectClick: (slug: string) => void;
+}) {
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+  const styles = ROLE_STYLES[column.id];
+
+  return (
+    <div
+      className="grid gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.52fr_0.48fr] md:gap-16 md:py-20"
+      id={column.id}
+    >
+      <div className={`border-t-2 pt-5 ${styles.borderClass}`}>
+        <p
+          className={`mb-5 font-mono text-[11px] uppercase tracking-widest ${styles.labelClass}`}
+        >
+          {CATEGORY_LABELS[column.id]}
+        </p>
+        <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
+          {column.eyebrow}
+        </p>
+        <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
+          {column.description}
+        </p>
+        {column.proof ? (
+          <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-snug">
+            {column.proof}
+          </p>
+        ) : null}
+        {column.stack ? (
+          <p className="mt-5 max-w-md font-mono text-(--text-muted) text-[10px] uppercase leading-relaxed tracking-widest">
+            {column.stack}
+          </p>
+        ) : null}
+        {column.resumeHref ? (
+          <a
+            className="mt-4 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+            download
+            href={column.resumeHref}
+          >
+            {resumeLabel} ↗
+          </a>
+        ) : null}
+        {column.id !== "community" ? (
+          <CategoryProjectRotator
+            activeSlug={hoveredSlug}
+            onProjectClick={onProjectClick}
+            projects={carouselProjects}
+          />
+        ) : null}
+      </div>
+      <div className="micro-divider-top pt-3">
+        {column.id === "community" ? (
+          <CommunityHighlight onProjectClick={onProjectClick} />
+        ) : null}
+        {items.map((project) => (
+          <ProjectLink
+            key={project.slug}
+            onHover={setHoveredSlug}
+            onProjectClick={onProjectClick}
+            project={project}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -417,69 +496,15 @@ export function HomeIdentity({
       </section>
 
       <section className="flex flex-col">
-        {PRACTICE_COLUMNS.map((column) => {
-          const styles = ROLE_STYLES[column.id];
-          const items = categoryProjects(projects, column.id);
-          const carouselProjects = carouselByColumn[column.id];
-          return (
-            <div
-              className="grid gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.52fr_0.48fr] md:gap-16 md:py-20"
-              id={column.id}
-              key={column.id}
-            >
-              <div className={`border-t-2 pt-5 ${styles.borderClass}`}>
-                <p
-                  className={`mb-5 font-mono text-[11px] uppercase tracking-widest ${styles.labelClass}`}
-                >
-                  {CATEGORY_LABELS[column.id]}
-                </p>
-                <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
-                  {column.eyebrow}
-                </p>
-                <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
-                  {column.description}
-                </p>
-                {column.proof ? (
-                  <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-snug">
-                    {column.proof}
-                  </p>
-                ) : null}
-                {column.stack ? (
-                  <p className="mt-5 max-w-md font-mono text-(--text-muted) text-[10px] uppercase leading-relaxed tracking-widest">
-                    {column.stack}
-                  </p>
-                ) : null}
-                {column.resumeHref ? (
-                  <a
-                    className="mt-4 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
-                    download
-                    href={column.resumeHref}
-                  >
-                    {resumeLabel} ↗
-                  </a>
-                ) : null}
-                {column.id !== "community" ? (
-                  <CategoryProjectRotator
-                    onProjectClick={onProjectClick}
-                    projects={carouselProjects}
-                  />
-                ) : null}
-              </div>
-              <div className="micro-divider-top pt-3">
-                {column.id === "community" ? (
-                  <CommunityHighlight onProjectClick={onProjectClick} />
-                ) : null}
-                {items.map((project) => (
-                  <ProjectLink
-                    key={project.slug}
-                    onProjectClick={onProjectClick}
-                    project={project}
-                  />
-                ))}
-              </div>
-            </div>
-          );
-        })}
+        {PRACTICE_COLUMNS.map((column) => (
+          <PracticeColumnSection
+            carouselProjects={carouselByColumn[column.id]}
+            column={column}
+            items={categoryProjects(projects, column.id)}
+            key={column.id}
+            onProjectClick={onProjectClick}
+          />
+        ))}
       </section>
 
       <section className="grid gap-8 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.45fr_1fr] md:py-20">
