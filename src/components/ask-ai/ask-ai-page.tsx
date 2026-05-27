@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ContentJsonViewer } from "@/components/ask-ai/content-json-viewer";
 import { CopyUrlField } from "@/components/ask-ai/copy-url-field";
 import { ExamplePromptsList } from "@/components/ask-ai/example-prompts-list";
-import { contentJsonUrl } from "@/lib/site";
+import { contentHtmlUrl, contentJsonUrl } from "@/lib/site";
 
 const linkClass =
   "underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)";
@@ -22,8 +22,8 @@ const steps = [
     title: "Give it the site data",
     body: "Two options. Pick one:",
     options: [
-      "If the tool can read URLs: copy the link below and paste it into the chat.",
-      "If it only accepts pasted text: click Copy all in the JSON box on the right, or select everything inside it.",
+      "If the tool can read URLs: copy the HTML link below (works better with Perplexity and similar tools).",
+      "Need raw JSON instead? Use the second link, or click Copy all in the box on the right.",
     ],
     showUrlField: true,
   },
@@ -105,7 +105,13 @@ export function AskAiPage({ json }: { json: string }) {
                           </ul>
                         ) : null}
                         {"showUrlField" in step && step.showUrlField ? (
-                          <CopyUrlField url={contentJsonUrl} />
+                          <div className="flex flex-col gap-2">
+                            <CopyUrlField
+                              label="HTML (recommended for URL paste)"
+                              url={contentHtmlUrl}
+                            />
+                            <CopyUrlField label="JSON" url={contentJsonUrl} />
+                          </div>
                         ) : null}
                       </div>
                     </li>
