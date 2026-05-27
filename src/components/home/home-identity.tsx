@@ -343,17 +343,7 @@ export function HomeIdentity({
         <p className="max-w-xl text-(--text-muted) text-base leading-relaxed md:self-end md:text-lg">
           My work moves between audio software, web platforms, and spatial
           experiences. Different outputs, same problem: make complex behavior
-          understandable enough to perform, use, or inhabit. In Berlin I also
-          curate and carry forward{" "}
-          <a
-            className="text-(--foreground) underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)"
-            href={maxBerlinNetworkUrl}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Max Berlin Network
-          </a>
-          , a recurring meetup for Max/MSP and creative audio.
+          understandable enough to perform, use, or inhabit.
         </p>
       </section>
 
