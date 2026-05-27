@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ContentJsonViewer } from "@/components/ask-ai/content-json-viewer";
 import { CopyUrlField } from "@/components/ask-ai/copy-url-field";
 import { ExamplePromptsList } from "@/components/ask-ai/example-prompts-list";
-import { contentHtmlUrl, contentJsonUrl, contentTxtUrl } from "@/lib/site";
+import { contentJsonUrl } from "@/lib/site";
 
 const linkClass =
   "underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)";
@@ -22,8 +22,8 @@ const steps = [
     title: "Give it the site data",
     body: "Two options. Pick one:",
     options: [
-      "If the tool can read URLs: try the HTML or plain-text link below (not Perplexity — it often cannot fetch external URLs at all).",
-      "Reliable everywhere: click Copy all in the box on the right and paste into the chat.",
+      "If the tool can read URLs: copy the link below and paste it into the chat.",
+      "If it only accepts pasted text: click Copy all in the JSON box on the right, or select everything inside it.",
     ],
     showUrlField: true,
   },
@@ -105,23 +105,7 @@ export function AskAiPage({ json }: { json: string }) {
                           </ul>
                         ) : null}
                         {"showUrlField" in step && step.showUrlField ? (
-                          <div className="flex flex-col gap-2">
-                            <CopyUrlField label="HTML" url={contentHtmlUrl} />
-                            <CopyUrlField
-                              label="Plain text"
-                              url={contentTxtUrl}
-                            />
-                            <CopyUrlField label="JSON" url={contentJsonUrl} />
-                            <p className="text-(--text-muted) text-xs leading-relaxed">
-                              Perplexity says the server blocks bots? The site
-                              returns 200 to crawlers from here — their URL
-                              fetch is often broken. If you use Vercel Firewall,
-                              check that &quot;Block AI bots&quot; is off, or
-                              allow{" "}
-                              <span className="font-mono">Perplexity-User</span>
-                              . Paste still wins.
-                            </p>
-                          </div>
+                          <CopyUrlField url={contentJsonUrl} />
                         ) : null}
                       </div>
                     </li>
