@@ -1,25 +1,11 @@
-import { getAllContent } from "@/lib/content";
-import { pressMentions, primaryAward } from "@/lib/credentials";
-import { contactEmail, contactLinks } from "@/lib/site";
+import { serializeSiteContentJson } from "@/lib/content-json";
 
 export function GET(request: Request) {
-  const payload = {
-    content: getAllContent(),
-    site: {
-      contactEmail,
-      contactLinks,
-      primaryAward,
-      pressMentions,
-    },
-  };
-
   const minify =
     new URL(request.url).searchParams.get("minify") === "1" ||
     new URL(request.url).searchParams.get("minify") === "true";
 
-  const body = minify
-    ? JSON.stringify(payload)
-    : JSON.stringify(payload, null, 2);
+  const body = serializeSiteContentJson(minify);
 
   return new Response(body, {
     headers: {

@@ -279,6 +279,12 @@ export default function RectNav({ content }: { content: SiteContent }) {
           >
             About
           </Link>
+          <Link
+            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
+            href="/ask-ai"
+          >
+            Ask AI
+          </Link>
         </nav>
       </header>
 

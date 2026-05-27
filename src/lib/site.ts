@@ -8,8 +8,16 @@ export const aylesimDevicesCustomerProof = audioDeveloperProductLine;
 
 export const contactEmail = "ay@alessandromiracapillo.com";
 
+export const siteOrigin = "https://aylesim.com";
+
 export const siteDescription =
   "Berlin audio developer, web developer, and creative technologist. Max for Live devices, production websites, installations, and live AV.";
+
+export const contentJsonPath = "/content.json";
+
+export const contentJsonUrl = `${siteOrigin}${contentJsonPath}`;
+
+export const contentJsonMinifyUrl = `${contentJsonUrl}?minify=1`;
 
 export const contactAvailability =
   "Currently available for freelance projects and open to full-time roles in Berlin.";
