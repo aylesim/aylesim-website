@@ -15,5 +15,5 @@ export function getSiteContentPayload() {
 }
 
 export function serializeSiteContentJson() {
-  return JSON.stringify(getSiteContentPayload(), null, 2);
+  return JSON.stringify(getSiteContentPayload());
 }

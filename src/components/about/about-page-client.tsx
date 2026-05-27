@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { About, AboutSection } from "@/lib/content";
 import { pressMentions, primaryAward } from "@/lib/credentials";
@@ -217,60 +217,80 @@ function AboutSectionCard({
   );
 }
 
-function prefersReducedMotion(): boolean {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
 function AboutPortrait({ src }: { src: string }) {
   const pathname = usePathname();
   const [revealed, setRevealed] = useState(false);
 
-  const syncRevealState = useCallback(() => {
-    setRevealed(prefersReducedMotion());
+  useEffect(() => {
+    const onPageShow = () => setRevealed(false);
+    const onPageHide = () => setRevealed(false);
+    const onPopState = () => setRevealed(false);
+    const onDocumentClick = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const anchor = target?.closest("a[href]");
+      const href = anchor?.getAttribute("href");
+
+      if (!href || href.startsWith("#")) {
+        return;
+      }
+
+      const destination = new URL(href, window.location.href);
+      if (destination.origin !== window.location.origin) {
+        return;
+      }
+
+      if (destination.pathname !== "/about") {
+        setRevealed(false);
+      }
+    };
+
+    window.addEventListener("pageshow", onPageShow);
+    window.addEventListener("pagehide", onPageHide);
+    window.addEventListener("popstate", onPopState);
+    document.addEventListener("click", onDocumentClick, true);
+
+    return () => {
+      window.removeEventListener("pageshow", onPageShow);
+      window.removeEventListener("pagehide", onPageHide);
+      window.removeEventListener("popstate", onPopState);
+      document.removeEventListener("click", onDocumentClick, true);
+    };
   }, []);
 
   useEffect(() => {
     if (pathname !== "/about") {
-      return;
+      setRevealed(false);
     }
-    syncRevealState();
-  }, [pathname, syncRevealState]);
-
-  useEffect(() => {
-    const onPageShow = () => syncRevealState();
-    window.addEventListener("pageshow", onPageShow);
-    return () => window.removeEventListener("pageshow", onPageShow);
-  }, [syncRevealState]);
+  }, [pathname]);
 
   const shellClass =
     "relative aspect-4/5 w-full max-w-56 overflow-hidden border border-(--index-divider) bg-(--foreground)/5";
 
-  if (revealed) {
-    return (
-      <div className={shellClass}>
-        <Image
-          alt="Alessandro Miracapillo"
-          className="object-cover object-[center_28%]"
-          fill
-          priority
-          sizes="(max-width: 768px) 224px, 224px"
-          src={src}
-        />
-      </div>
-    );
-  }
-
   return (
-    <button
-      aria-label="Reveal portrait — i really want to see your face"
-      className={`${shellClass} flex cursor-pointer items-center justify-center p-4 text-center transition-colors hover:bg-(--foreground)/10`}
-      onClick={() => setRevealed(true)}
-      type="button"
-    >
-      <span className="font-mono text-(--foreground) text-[10px] uppercase leading-relaxed tracking-widest">
-        i really want to see your face
-      </span>
-    </button>
+    <div className={shellClass}>
+      <Image
+        alt="Alessandro Miracapillo"
+        className={`object-cover object-[center_28%] transition-opacity duration-200 ${
+          revealed ? "opacity-100" : "opacity-0 motion-reduce:opacity-100"
+        }`}
+        fill
+        priority
+        sizes="(max-width: 768px) 224px, 224px"
+        src={src}
+      />
+      {revealed ? null : (
+        <button
+          aria-label="Reveal portrait — i really want to see your face"
+          className="absolute inset-0 flex cursor-pointer items-center justify-center p-4 text-center transition-colors hover:bg-(--foreground)/10 motion-reduce:hidden"
+          onClick={() => setRevealed(true)}
+          type="button"
+        >
+          <span className="font-mono text-(--foreground) text-[10px] uppercase leading-relaxed tracking-widest">
+            i really want to see your face
+          </span>
+        </button>
+      )}
+    </div>
   );
 }
 
