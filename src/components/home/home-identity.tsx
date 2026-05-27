@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { useMemo } from "react";
+import { CategoryProjectRotator } from "@/components/home/category-project-rotator";
 import type { Project, ProjectListBadge } from "@/lib/content";
 import {
   pressMentions,
@@ -27,14 +29,14 @@ import {
   webDeveloperStack,
 } from "@/lib/site";
 
-interface CategoryColumn {
+type CategoryColumn = {
   id: ProjectCategory;
   proof?: string;
   eyebrow: string;
   description: string;
   stack?: string;
   resumeHref?: string;
-}
+};
 
 const SELECTED_SLUGS = [
   "birds",
@@ -84,6 +86,16 @@ function categoryProjects(projects: Project[], category: ProjectCategory) {
     (project) =>
       project.category === category && project.slug !== aylesimDevicesSlug
   );
+}
+
+function columnCarouselProjects(
+  projects: Project[],
+  columnId: ProjectCategory
+) {
+  if (columnId === "community") {
+    return [];
+  }
+  return categoryProjects(projects, columnId);
 }
 
 function selectedProjects(projects: Project[]) {
@@ -323,6 +335,17 @@ export function HomeIdentity({
   projects: Project[];
   onProjectClick: (slug: string) => void;
 }) {
+  const carouselByColumn = useMemo(
+    () =>
+      Object.fromEntries(
+        PRACTICE_COLUMNS.map((column) => [
+          column.id,
+          columnCarouselProjects(projects, column.id),
+        ])
+      ) as Record<ProjectCategory, Project[]>,
+    [projects]
+  );
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
       <section className="grid items-start gap-10 border-(--index-divider) border-b border-dotted py-12 md:grid-cols-[1.15fr_0.85fr] md:py-20">
@@ -397,6 +420,7 @@ export function HomeIdentity({
         {PRACTICE_COLUMNS.map((column) => {
           const styles = ROLE_STYLES[column.id];
           const items = categoryProjects(projects, column.id);
+          const carouselProjects = carouselByColumn[column.id];
           return (
             <div
               className="grid gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.52fr_0.48fr] md:gap-16 md:py-20"
@@ -433,6 +457,12 @@ export function HomeIdentity({
                   >
                     {resumeLabel} ↗
                   </a>
+                ) : null}
+                {column.id !== "community" ? (
+                  <CategoryProjectRotator
+                    onProjectClick={onProjectClick}
+                    projects={carouselProjects}
+                  />
                 ) : null}
               </div>
               <div className="micro-divider-top pt-3">
