@@ -10,6 +10,84 @@ import { getProjectCover } from "@/lib/project-cover";
 const ROTATE_MS = 5000;
 const TRANSITION_DURATION_S = 0.9;
 
+function loadCoverImage(url: string) {
+  const image = document.createElement("img");
+  image.crossOrigin = "anonymous";
+  image.src = url;
+  return image.decode().then(() => image);
+}
+
+function drawImageCover(
+  ctx: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  width: number,
+  height: number
+) {
+  const scale = Math.max(
+    width / image.naturalWidth,
+    height / image.naturalHeight
+  );
+  const drawWidth = image.naturalWidth * scale;
+  const drawHeight = image.naturalHeight * scale;
+  const x = (width - drawWidth) / 2;
+  const y = (height - drawHeight) / 2;
+  ctx.clearRect(0, 0, width, height);
+  ctx.drawImage(image, x, y, drawWidth, drawHeight);
+}
+
+function paintMorphFrame({
+  container,
+  fromCanvas,
+  toCanvas,
+  fromUrl,
+  toUrl,
+  images,
+  progress,
+  runner,
+}: {
+  container: HTMLDivElement | null;
+  fromCanvas: HTMLCanvasElement;
+  toCanvas: HTMLCanvasElement;
+  fromUrl: string;
+  toUrl: string;
+  images: Map<string, HTMLImageElement>;
+  progress: number;
+  runner: Runner;
+}) {
+  if (!container) {
+    return;
+  }
+  const fromCtx = fromCanvas.getContext("2d");
+  if (!fromCtx) {
+    return;
+  }
+  const toCtx = toCanvas.getContext("2d");
+  if (!toCtx) {
+    return;
+  }
+  const fromImage = images.get(fromUrl);
+  if (!fromImage) {
+    return;
+  }
+  const toImage = images.get(toUrl);
+  if (!toImage) {
+    return;
+  }
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const pixelWidth = Math.floor(container.clientWidth * dpr);
+  const pixelHeight = Math.floor(container.clientHeight * dpr);
+  if (pixelWidth === 0 || pixelHeight === 0) {
+    return;
+  }
+  drawImageCover(fromCtx, fromImage, pixelWidth, pixelHeight);
+  drawImageCover(toCtx, toImage, pixelWidth, pixelHeight);
+  runner.render(liquidMorph, {
+    from: fromCanvas,
+    to: toCanvas,
+    progress,
+  });
+}
+
 export function CategoryProjectRotator({
   projects,
   onProjectClick,
@@ -19,7 +97,10 @@ export function CategoryProjectRotator({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fromCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const toCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const runnerRef = useRef<Runner | null>(null);
+  const imagesRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const indexRef = useRef(0);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
   const [displayIndex, setDisplayIndex] = useState(0);
@@ -30,6 +111,7 @@ export function CategoryProjectRotator({
     () => projects.map((project) => getProjectCover(project)),
     [projects]
   );
+
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
@@ -49,6 +131,11 @@ export function CategoryProjectRotator({
     indexRef.current = 0;
     setDisplayIndex(0);
 
+    const fromCanvas = document.createElement("canvas");
+    const toCanvas = document.createElement("canvas");
+    fromCanvasRef.current = fromCanvas;
+    toCanvasRef.current = toCanvas;
+
     let runner: Runner;
     try {
       runner = new Runner({ canvas });
@@ -58,6 +145,17 @@ export function CategoryProjectRotator({
     }
     runnerRef.current = runner;
 
+    const fromCtx = fromCanvas.getContext("2d");
+    if (!fromCtx) {
+      setUseFallback(true);
+      return;
+    }
+    const toCtx = toCanvas.getContext("2d");
+    if (!toCtx) {
+      setUseFallback(true);
+      return;
+    }
+
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const width = container.clientWidth;
@@ -65,26 +163,68 @@ export function CategoryProjectRotator({
       if (width === 0 || height === 0) {
         return;
       }
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
+      const pixelWidth = Math.floor(width * dpr);
+      const pixelHeight = Math.floor(height * dpr);
+      canvas.width = pixelWidth;
+      canvas.height = pixelHeight;
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
+      fromCanvas.width = pixelWidth;
+      fromCanvas.height = pixelHeight;
+      toCanvas.width = pixelWidth;
+      toCanvas.height = pixelHeight;
+      return { pixelWidth, pixelHeight };
     };
 
-    resize();
-    const resizeObserver = new ResizeObserver(resize);
+    const paintCovers = (fromUrl: string, toUrl: string) => {
+      const size = resize();
+      if (!size) {
+        return false;
+      }
+      const fromImage = imagesRef.current.get(fromUrl);
+      if (!fromImage) {
+        return false;
+      }
+      const toImage = imagesRef.current.get(toUrl);
+      if (!toImage) {
+        return false;
+      }
+      drawImageCover(fromCtx, fromImage, size.pixelWidth, size.pixelHeight);
+      drawImageCover(toCtx, toImage, size.pixelWidth, size.pixelHeight);
+      return true;
+    };
+
+    const renderFrame = (fromUrl: string, toUrl: string, progress: number) => {
+      if (!paintCovers(fromUrl, toUrl)) {
+        return;
+      }
+      runner.render(liquidMorph, {
+        from: fromCanvas,
+        to: toCanvas,
+        progress,
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      const fromIndex = indexRef.current;
+      const toIndex =
+        covers.length > 1 ? (fromIndex + 1) % covers.length : fromIndex;
+      renderFrame(covers[fromIndex], covers[toIndex], 0);
+    });
     resizeObserver.observe(container);
-
-    const renderFrame = (from: string, to: string, progress: number) => {
-      runner.render(liquidMorph, { from, to, progress });
-    };
 
     const preloadCovers = async () => {
       try {
-        await runner.preload(covers);
+        const loaded = await Promise.all(
+          covers.map(async (url) => {
+            const image = await loadCoverImage(url);
+            return [url, image] as const;
+          })
+        );
         if (cancelled) {
           return;
         }
+        imagesRef.current = new Map(loaded);
         resize();
         const nextIndex = covers.length > 1 ? 1 : 0;
         renderFrame(covers[0], covers[nextIndex], 0);
@@ -103,6 +243,9 @@ export function CategoryProjectRotator({
       tweenRef.current?.kill();
       runner.dispose();
       runnerRef.current = null;
+      fromCanvasRef.current = null;
+      toCanvasRef.current = null;
+      imagesRef.current.clear();
     };
   }, [covers]);
 
@@ -115,12 +258,22 @@ export function CategoryProjectRotator({
 
     const advance = () => {
       const runner = runnerRef.current;
+      const fromCanvas = fromCanvasRef.current;
+      const toCanvas = toCanvasRef.current;
       if (!runner) {
+        return;
+      }
+      if (!fromCanvas) {
+        return;
+      }
+      if (!toCanvas) {
         return;
       }
 
       const fromIndex = indexRef.current;
       const toIndex = (fromIndex + 1) % covers.length;
+      const fromUrl = covers[fromIndex];
+      const toUrl = covers[toIndex];
 
       tweenRef.current?.kill();
       progress.value = 0;
@@ -130,10 +283,15 @@ export function CategoryProjectRotator({
         duration: TRANSITION_DURATION_S,
         ease: "power2.inOut",
         onUpdate: () => {
-          runner.render(liquidMorph, {
-            from: covers[fromIndex],
-            to: covers[toIndex],
+          paintMorphFrame({
+            container: containerRef.current,
+            fromCanvas,
+            toCanvas,
+            fromUrl,
+            toUrl,
+            images: imagesRef.current,
             progress: progress.value,
+            runner,
           });
         },
         onComplete: () => {
@@ -163,18 +321,20 @@ export function CategoryProjectRotator({
       <div className="mt-8 w-full max-w-md">
         <button
           aria-label={`Open ${activeProject.title}`}
-          className="group relative block aspect-21/9 w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5"
+          className="group relative block w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5"
           onClick={() => onProjectClick(activeProject.slug)}
           type="button"
         >
-          <Image
-            alt={activeProject.title}
-            className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
-            fill
-            sizes="(max-width: 768px) 100vw, 28rem"
-            src={cover}
-            unoptimized={coverIsRemote}
-          />
+          <div className="relative aspect-21/9 w-full">
+            <Image
+              alt={activeProject.title}
+              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+              fill
+              sizes="(max-width: 768px) 100vw, 28rem"
+              src={cover}
+              unoptimized={coverIsRemote}
+            />
+          </div>
         </button>
         <p className="mt-2.5 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
           <span className="text-(--foreground)/70">{activeProject.title}</span>
@@ -187,18 +347,20 @@ export function CategoryProjectRotator({
     <div className="mt-8 w-full max-w-md">
       <button
         aria-label={`Open ${activeProject.title}`}
-        className="group relative block aspect-21/9 w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5"
+        className="group relative block w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5"
         onClick={() => onProjectClick(activeProject.slug)}
         type="button"
       >
         <div
-          className={`absolute inset-0 transition-opacity duration-300 ${
+          className={`relative aspect-21/9 w-full transition-opacity duration-300 ${
             ready ? "opacity-100" : "opacity-0"
           }`}
+          ref={containerRef}
         >
-          <div className="h-full w-full" ref={containerRef}>
-            <canvas className="block h-full w-full" ref={canvasRef} />
-          </div>
+          <canvas
+            className="absolute inset-0 block h-full w-full"
+            ref={canvasRef}
+          />
         </div>
       </button>
       <p
