@@ -1,11 +1,7 @@
 import { serializeSiteContentJson } from "@/lib/content-json";
 
-export function GET(request: Request) {
-  const minify =
-    new URL(request.url).searchParams.get("minify") === "1" ||
-    new URL(request.url).searchParams.get("minify") === "true";
-
-  const body = serializeSiteContentJson(minify);
+export function GET() {
+  const body = serializeSiteContentJson();
 
   return new Response(body, {
     headers: {

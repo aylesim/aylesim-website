@@ -1,22 +1,36 @@
 import Link from "next/link";
 import { ContentJsonViewer } from "@/components/ask-ai/content-json-viewer";
-import {
-  contentJsonMinifyUrl,
-  contentJsonPath,
-  contentJsonUrl,
-} from "@/lib/site";
+import { CopyUrlField } from "@/components/ask-ai/copy-url-field";
+import { ExamplePromptsList } from "@/components/ask-ai/example-prompts-list";
+import { contentJsonUrl } from "@/lib/site";
 
 const linkClass =
   "underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)";
 
-const sectionRule =
-  "border-(--index-divider) border-t border-dotted pt-8 first:border-t-0 first:pt-0";
-
 const examplePrompts = [
-  "Summarize my audio development work in three bullets.",
-  "Which projects best show editorial web development?",
-  "What installations and live AV work should a curator know about?",
-  "Draft a short intro email for a Berlin studio role.",
+  "What does Alessandro actually do?",
+  "Which projects are best for a web dev role?",
+  "Give me a friendly two-line intro for a curator.",
+] as const;
+
+const steps = [
+  {
+    title: "Open a new chat",
+    body: "In ChatGPT, Claude, Gemini, Copilot, or whatever you already use.",
+  },
+  {
+    title: "Give it the site data",
+    body: "Two options. Pick one:",
+    options: [
+      "If the tool can read URLs: copy the link below and paste it into the chat.",
+      "If it only accepts pasted text: click Copy all in the JSON box on the right, or select everything inside it.",
+    ],
+    showUrlField: true,
+  },
+  {
+    title: "Ask your question",
+    body: "Projects, skills, fit for a role, a short bio. Whatever you need.",
+  },
 ] as const;
 
 export function AskAiPage({ json }: { json: string }) {
@@ -43,123 +57,81 @@ export function AskAiPage({ json }: { json: string }) {
             About
           </Link>
           <Link className="text-sm tracking-tight md:text-base" href="/ask-ai">
-            Ask AI
+            Too lazy to read
           </Link>
         </nav>
       </header>
 
       <main className="relative min-w-0 flex-1">
-        <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
-          <div className="flex flex-col gap-10 py-12 md:gap-12 md:py-20">
-            <header className="max-w-4xl">
-              <p className="font-mono text-(--accent) text-xs uppercase tracking-widest">
-                Ask AI
-              </p>
-              <h1 className="mt-3 font-normal text-4xl leading-[0.98] tracking-tight md:text-5xl">
-                No mood to read the whole site?
-              </h1>
-              <p className="mt-5 text-(--text-muted) text-base leading-relaxed md:text-lg">
-                Fair. Everything here—projects, case studies, about copy,
-                contact, awards—is also published as structured JSON. Hand it to
-                your favorite AI and ask whatever you want about my work.
-              </p>
-              <p className="mt-3 text-(--text-muted) text-sm leading-relaxed">
-                I use the same file when prototyping with models. You get the
-                same snapshot visitors see on the site, kept in sync at build
-                time.
-              </p>
-            </header>
+        <div className="mx-auto w-full max-w-7xl px-4 md:px-8">
+          <div className="grid items-start gap-10 py-10 md:grid-cols-[0.95fr_1.05fr] md:gap-12 md:py-14 lg:gap-16">
+            <div className="flex min-w-0 flex-col gap-6 md:gap-7">
+              <div className="space-y-4">
+                <h1 className="font-normal text-3xl leading-[1.05] tracking-tight md:text-4xl">
+                  I feel too lazy to read all this 🫠
+                </h1>
+                <p className="text-(--text-muted) text-base leading-relaxed md:text-lg">
+                  You&apos;re not here to read every page. Neither am I. So I
+                  dumped the whole site into one JSON file. Feed it to your AI.
+                  Ask what you want.
+                </p>
+              </div>
 
-            <section className={sectionRule}>
-              <p className="mb-5 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-                Two ways in
-              </p>
-              <ol className="m-0 flex max-w-4xl list-none flex-col gap-8 p-0">
-                <li className="flex flex-col gap-2">
-                  <p className="font-mono text-(--accent) text-[10px] uppercase tracking-widest">
-                    01 · Give your AI the link
-                  </p>
-                  <p className="text-(--text-muted) text-sm leading-relaxed">
-                    If your tool can fetch a URL, paste this. Many chat apps
-                    accept links in the prompt bar.
-                  </p>
-                  <a
-                    className={`${linkClass} break-all font-mono text-sm`}
-                    href={contentJsonUrl}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {contentJsonUrl}
-                  </a>
-                  <p className="text-(--text-muted) text-xs leading-relaxed">
-                    Smaller payload for long contexts:{" "}
-                    <a className={linkClass} href={contentJsonMinifyUrl}>
-                      minified JSON
-                    </a>
-                    .
-                  </p>
-                </li>
-                <li className="flex flex-col gap-2">
-                  <p className="font-mono text-(--accent) text-[10px] uppercase tracking-widest">
-                    02 · Copy the file
-                  </p>
-                  <p className="text-(--text-muted) text-sm leading-relaxed">
-                    Select everything in the field below, or use Copy JSON. You
-                    can also open{" "}
-                    <a className={linkClass} href={contentJsonPath}>
-                      {contentJsonPath}
-                    </a>{" "}
-                    in a new tab.
-                  </p>
-                </li>
-              </ol>
-            </section>
+              <div className="border-(--index-divider) border-t border-dotted pt-6">
+                <p className="mb-5 font-mono text-(--accent) text-[10px] uppercase tracking-widest">
+                  How to use it
+                </p>
+                <ol className="m-0 flex list-none flex-col gap-6 p-0">
+                  {steps.map((step, index) => (
+                    <li className="flex gap-4" key={step.title}>
+                      <span
+                        aria-hidden
+                        className="shrink-0 font-mono text-(--accent) text-sm tabular-nums"
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <div className="min-w-0 space-y-2">
+                        <p className="text-(--foreground) text-sm leading-snug tracking-tight">
+                          {step.title}
+                        </p>
+                        <p className="text-(--text-muted) text-sm leading-relaxed">
+                          {step.body}
+                        </p>
+                        {"options" in step && step.options ? (
+                          <ul className="m-0 list-disc space-y-1.5 pl-4 text-(--text-muted) text-sm leading-relaxed marker:text-(--accent)/60">
+                            {step.options.map((option) => (
+                              <li key={option}>{option}</li>
+                            ))}
+                          </ul>
+                        ) : null}
+                        {"showUrlField" in step && step.showUrlField ? (
+                          <CopyUrlField url={contentJsonUrl} />
+                        ) : null}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
 
-            <ContentJsonViewer json={json} />
+              <div className="space-y-4 border-(--index-divider) border-t border-dotted pt-6">
+                <ExamplePromptsList prompts={examplePrompts} />
+                <p className="text-(--text-muted) text-sm leading-relaxed">
+                  Prefer scrolling like a normal person?{" "}
+                  <Link className={linkClass} href="/">
+                    Home
+                  </Link>{" "}
+                  or{" "}
+                  <Link className={linkClass} href="/about">
+                    About
+                  </Link>
+                  .
+                </p>
+              </div>
+            </div>
 
-            <section className={`${sectionRule} max-w-4xl`}>
-              <p className="mb-5 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-                How to use it
-              </p>
-              <ol className="m-0 list-decimal space-y-3 pl-5 text-(--text-muted) text-sm leading-relaxed marker:text-(--accent)">
-                <li>Paste the link or JSON into a new chat.</li>
-                <li>
-                  Add one line of context, e.g. “This is Alessandro
-                  Miracapillo’s portfolio site—answer from this data only.”
-                </li>
-                <li>
-                  Ask your question. Cite project titles if you share answers.
-                </li>
-              </ol>
-            </section>
-
-            <section className={`${sectionRule} max-w-4xl`}>
-              <p className="mb-5 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-                Example prompts
-              </p>
-              <ul className="m-0 flex list-none flex-col gap-4 p-0">
-                {examplePrompts.map((prompt) => (
-                  <li key={prompt}>
-                    <p className="text-(--foreground) text-sm leading-relaxed">
-                      “{prompt}”
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            <p className="max-w-4xl text-(--text-muted) text-xs leading-relaxed">
-              The JSON updates when the site rebuilds. For a human-readable
-              tour, start on{" "}
-              <Link className={linkClass} href="/">
-                the homepage
-              </Link>{" "}
-              or{" "}
-              <Link className={linkClass} href="/about">
-                about
-              </Link>
-              .
-            </p>
+            <div className="min-w-0 md:sticky md:top-24 md:self-start">
+              <ContentJsonViewer json={json} />
+            </div>
           </div>
         </div>
       </main>

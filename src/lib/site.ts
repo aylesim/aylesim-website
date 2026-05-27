@@ -17,8 +17,6 @@ export const contentJsonPath = "/content.json";
 
 export const contentJsonUrl = `${siteOrigin}${contentJsonPath}`;
 
-export const contentJsonMinifyUrl = `${contentJsonUrl}?minify=1`;
-
 export const contactAvailability =
   "Currently available for freelance projects and open to full-time roles in Berlin.";
 

@@ -14,7 +14,6 @@ export function getSiteContentPayload() {
   };
 }
 
-export function serializeSiteContentJson(minify = false) {
-  const payload = getSiteContentPayload();
-  return minify ? JSON.stringify(payload) : JSON.stringify(payload, null, 2);
+export function serializeSiteContentJson() {
+  return JSON.stringify(getSiteContentPayload(), null, 2);
 }

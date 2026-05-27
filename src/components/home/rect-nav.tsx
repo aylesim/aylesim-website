@@ -283,7 +283,7 @@ export default function RectNav({ content }: { content: SiteContent }) {
             className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
             href="/ask-ai"
           >
-            Ask AI
+            Too lazy to read
           </Link>
         </nav>
       </header>
