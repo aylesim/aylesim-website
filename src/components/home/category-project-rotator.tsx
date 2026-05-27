@@ -1,6 +1,6 @@
 "use client";
 
-import { liquidMorph, Runner } from "@vysmo/transitions";
+import { defineTransition, Runner } from "@vysmo/transitions";
 import { gsap } from "gsap";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -8,7 +8,27 @@ import type { Project } from "@/lib/content";
 import { getProjectCover } from "@/lib/project-cover";
 
 const ROTATE_MS = 5000;
-const TRANSITION_DURATION_S = 0.9;
+const TRANSITION_DURATION_S = 1.1;
+
+const coverMorph = defineTransition({
+  name: "cover-morph",
+  defaults: { strength: 0.1 },
+  glsl: `
+uniform float uStrength;
+
+vec4 transition(vec2 uv) {
+  float envelope = 4.0 * uProgress * (1.0 - uProgress);
+  vec2 offset = (uv - 0.5) * uStrength * envelope;
+
+  vec2 fromUv = clamp(uv + offset, 0.0, 1.0);
+  vec2 toUv = clamp(uv - offset, 0.0, 1.0);
+
+  return mix(getFromColor(fromUv), getToColor(toUv), uProgress);
+}
+`,
+});
+
+const COVER_MORPH_PARAMS = { strength: 0.1 } as const;
 
 function loadCoverImage(url: string) {
   const image = document.createElement("img");
@@ -81,10 +101,11 @@ function paintMorphFrame({
   }
   drawImageCover(fromCtx, fromImage, pixelWidth, pixelHeight);
   drawImageCover(toCtx, toImage, pixelWidth, pixelHeight);
-  runner.render(liquidMorph, {
+  runner.render(coverMorph, {
     from: fromCanvas,
     to: toCanvas,
     progress,
+    params: COVER_MORPH_PARAMS,
   });
 }
 
@@ -198,10 +219,11 @@ export function CategoryProjectRotator({
       if (!paintCovers(fromUrl, toUrl)) {
         return;
       }
-      runner.render(liquidMorph, {
+      runner.render(coverMorph, {
         from: fromCanvas,
         to: toCanvas,
         progress,
+        params: COVER_MORPH_PARAMS,
       });
     };
 
@@ -281,7 +303,7 @@ export function CategoryProjectRotator({
       tweenRef.current = gsap.to(progress, {
         value: 1,
         duration: TRANSITION_DURATION_S,
-        ease: "power2.inOut",
+        ease: "power1.inOut",
         onUpdate: () => {
           paintMorphFrame({
             container: containerRef.current,
