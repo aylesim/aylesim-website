@@ -1,35 +1,48 @@
 ---
 type: work
-category: community
-order: 3
-menuLabel: community
+category: web-interactive
+order: 2
+menuLabel: web
 canvasImage: /LN.png
 title: Max Berlin Network
-role: Co-Founder & Community Manager
+role: Co-Founder & Web Developer
 client: Max Berlin Network
 year: 2025–ongoing
 tech:
-  - Max/MSP
-  - Community building
-  - Event organization
+  - Next.js
+  - TypeScript
+  - Newsletter integration
+  - Event pages & archive
+  - Dark / light theme
 liveLink: https://www.maxberlin.network/
 highlights:
-  - Co-founded a recurring in-person forum for Max/MSP and creative audio practice in Berlin
-  - Shaped meetup format, hosting, and follow-up so sessions stay accessible across skill levels
-  - Coordinated logistics, venues, and communication channels alongside other core organizers
-  - Built bridges between musicians, coders, sound artists, and creative technologists through shared patching time
+  - Designed and built the public site at maxberlin.network for a Berlin Max/MSP network
+  - Homepage surfaces next meetup date, venue, and detail pages without manual redeploys for every edit
+  - Newsletter signup and social links so people can follow events between sessions
+  - Meetup archive and about pages so past events and the initiative stay readable over time
 ---
 
 ## Overview
 
-Max Berlin Network is a Berlin-based meetup series I co-founded in early 2025 with other local practitioners. The focus is practical: people show work, ask questions, debug patches together, and share approaches to Max/MSP, interactive audio, and adjacent creative tooling. I treat it as community infrastructure, not marketing - the goal is reliable rhythm, clear expectations, and a room where peer learning actually happens.
+[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The product problem is narrow and practical: when the next session is, where it happens, how to get on the list, and where to read about past meetups — without leaning on scattered social posts.
 
-The group exists because Max practice benefits from in-person context: short feedback loops, improvised explanations, and the kind of detail that rarely survives a forum thread.
+The visual language is poster-like — bold type, slight rotations, monospace detail — so the site reads as an event surface rather than a generic landing page.
 
-## How it runs
+## What the site does
 
-Meetups are in-person, on a regular cadence, and intentionally lightweight in format: enough structure to start and end on time, enough openness for demos, breakout questions, and informal pairing. Topics drift across patching style, DSP intuition, performance setups, and tooling around Live - whatever the room brings that month.
+- **Next meetup** on the homepage with date, venue, time, and a link to the full event page
+- **Newsletter** capture for upcoming meetups, open calls, and announcements
+- **Meetup archive** for past sessions
+- **About**, plus outbound links to Discord and Instagram
+- **Light / dark** theme toggle for readability in different contexts
 
-- **Recurring sessions** with announced time and place so people can plan around them
-- **Peer-led content** rather than a fixed curriculum: demos, walkthroughs, troubleshooting blocks
-- **Cross-disciplinary attendance** from music, code, installation, and sound art backgrounds
+## My contribution
+
+As co-founder I shaped the information architecture and built the site in **Next.js** and **TypeScript**, deployed on **Vercel**. Editorial meetup copy and scheduling stay editable without treating the homepage as a one-off static file each time.
+
+- **Event routing** — dedicated pages per meetup with stable URLs for sharing
+- **Homepage data** — next session pulled into the hero so the primary CTA stays current
+- **Newsletter flow** — signup integrated into the main layout
+- **Share metadata** — Open Graph and Twitter cards for link previews
+
+The recurring in-person meetups and community format are separate from this case study; they are described on my [about page](/about) under **Community**.

@@ -52,7 +52,15 @@ I like collaborating with people who care about the **shape of the system** more
 
 ## Community
 
-In early **2025** I co-founded **[Max Berlin Network](https://www.maxberlin.network/)** with other local practitioners — a recurring in-person forum for **Max/MSP** and creative audio work in Berlin. The format is deliberately lightweight: demos, troubleshooting, and shared patching time across music, code, installation, and sound-art backgrounds.
+In early **2025** I co-founded **[Max Berlin Network](https://www.maxberlin.network/)** with other local practitioners — a recurring in-person forum for **Max/MSP** and creative audio work in Berlin. I also built and maintain the [public site](https://www.maxberlin.network/) (see the [project write-up](/?project=max-berlin-network)); this section is about the meetups themselves.
+
+The format is deliberately lightweight: demos, troubleshooting, and shared patching time across music, code, installation, and sound-art backgrounds. Max practice benefits from in-person context — short feedback loops, improvised explanations, and detail that rarely survives a forum thread.
+
+Meetups run in person on a regular cadence: enough structure to start and end on time, enough openness for demos, breakout questions, and informal pairing. Topics drift across patching style, DSP intuition, performance setups, and tooling around Live — whatever the room brings that month.
+
+- **Recurring sessions** with announced time and place so people can plan around them
+- **Peer-led content** rather than a fixed curriculum: demos, walkthroughs, troubleshooting blocks
+- **Cross-disciplinary attendance** from music, code, installation, and sound-art backgrounds
 
 I see this as infrastructure, not marketing. Reliable rhythm and clear expectations matter as much as the tools themselves.
 

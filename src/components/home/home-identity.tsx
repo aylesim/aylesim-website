@@ -19,6 +19,9 @@ import {
   contactAvailability,
   contactEmail,
   contactLinks,
+  maxBerlinCommunityProof,
+  maxBerlinCommunitySlug,
+  maxBerlinNetworkUrl,
   resumeHref,
   resumeLabel,
   webDeveloperStack,
@@ -68,10 +71,11 @@ const PRACTICE_COLUMNS: CategoryColumn[] = [
   },
   {
     id: "community",
+    proof: maxBerlinCommunityProof,
     eyebrow:
-      "Platforms and networks where people meet around shared practice: directories, events, and tools that keep a scene legible and connected.",
+      "I co-founded, curate, and carry forward Max Berlin Network — a Berlin scene for Max/MSP and creative audio practice.",
     description:
-      "I build community-facing systems for practitioners: member directories, event coordination, and lightweight infrastructure that helps people find each other and keep working together.",
+      "Alongside the site and newsletter, I keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers. The goal is reliable peer learning in the room, not marketing.",
   },
 ];
 
@@ -180,6 +184,64 @@ function SelectedWorkCard({
   );
 }
 
+function CommunityHighlight({
+  onProjectClick,
+}: {
+  onProjectClick: (slug: string) => void;
+}) {
+  const styles = ROLE_STYLES.community;
+  return (
+    <div className="micro-divider-top pt-3">
+      <div className="grid w-full grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-3 py-4 first:bg-none md:grid-cols-[1fr_auto_1rem]">
+        <div className="flex flex-col gap-2">
+          <a
+            className="text-(--foreground) text-lg leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-xl"
+            href={maxBerlinNetworkUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Max Berlin Network
+          </a>
+          <p className="max-w-md text-(--text-muted) text-sm leading-relaxed md:text-base">
+            Co-founder · curator · ongoing meetup series
+          </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <a
+              className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+              href={maxBerlinNetworkUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              ↗ maxberlin.network
+            </a>
+            <button
+              className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+              onClick={() => onProjectClick(maxBerlinCommunitySlug)}
+              type="button"
+            >
+              Site case study →
+            </button>
+            <a
+              className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+              href="/about"
+            >
+              Meetups & format →
+            </a>
+          </div>
+        </div>
+        <span
+          className={`hidden font-mono text-[10px] uppercase tracking-widest md:block ${styles.labelClass}`}
+        >
+          2025–ongoing
+        </span>
+        <span className="text-right text-(--text-muted) text-sm opacity-35 md:col-start-3">
+          ↗
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function ProjectLink({
   project,
   onProjectClick,
@@ -281,7 +343,17 @@ export function HomeIdentity({
         <p className="max-w-xl text-(--text-muted) text-base leading-relaxed md:self-end md:text-lg">
           My work moves between audio software, web platforms, and spatial
           experiences. Different outputs, same problem: make complex behavior
-          understandable enough to perform, use, or inhabit.
+          understandable enough to perform, use, or inhabit. In Berlin I also
+          curate and carry forward{" "}
+          <a
+            className="text-(--foreground) underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)"
+            href={maxBerlinNetworkUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Max Berlin Network
+          </a>
+          , a recurring meetup for Max/MSP and creative audio.
         </p>
       </section>
 
@@ -374,6 +446,9 @@ export function HomeIdentity({
                 ) : null}
               </div>
               <div className="micro-divider-top pt-3">
+                {column.id === "community" ? (
+                  <CommunityHighlight onProjectClick={onProjectClick} />
+                ) : null}
                 {items.map((project) => (
                   <ProjectLink
                     key={project.slug}
