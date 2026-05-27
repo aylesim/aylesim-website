@@ -160,7 +160,7 @@ export function AboutPage({ about }: { about: About }) {
                 {primaryAward.headline}
               </p>
               <p className="mt-2 max-w-2xl text-(--text-muted) text-base leading-relaxed">
-                {primaryAward.title} — {primaryAward.subtitle} (
+                {primaryAward.title}, {primaryAward.subtitle} (
                 {primaryAward.year}).
               </p>
               <a
@@ -192,7 +192,7 @@ export function AboutPage({ about }: { about: About }) {
                     </span>
                     <span className="text-(--text-muted)">
                       {" "}
-                      — {mention.title}
+                      , {mention.title}
                     </span>
                   </a>
                   {mention.year ? (

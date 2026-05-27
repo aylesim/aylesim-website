@@ -20,7 +20,7 @@ export const webDeveloperStack =
 export const maxBerlinNetworkUrl = "https://www.maxberlin.network/";
 
 export const maxBerlinCommunityProof =
-  "Co-founded in 2025. Recurring in-person meetups for Max/MSP and creative audio in Berlin — demos, troubleshooting, shared patching.";
+  "Co-founded in 2025. Recurring in-person meetups for Max/MSP and creative audio in Berlin, demos, troubleshooting, shared patching.";
 
 export const maxBerlinCommunitySlug = "max-berlin-network";
 

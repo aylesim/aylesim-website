@@ -154,7 +154,7 @@ export function ProjectsIndex({
               <span className="font-bold text-(--foreground)">
                 {filterLabel}
               </span>
-              {" work — "}
+              {" work, "}
               <span className="font-bold text-(--foreground)">
                 {filtered.length}
               </span>{" "}

@@ -12,10 +12,14 @@ export function CategoryProjectRotator({
   projects,
   onProjectClick,
   activeSlug = null,
+  className,
+  layout = "stacked",
 }: {
   projects: Project[];
   onProjectClick: (slug: string) => void;
   activeSlug?: string | null;
+  className?: string;
+  layout?: "stacked" | "aside";
 }) {
   const [displayIndex, setDisplayIndex] = useState(0);
 
@@ -48,16 +52,27 @@ export function CategoryProjectRotator({
   }
 
   const activeProject = projects[displayIndex] ?? projects[0];
+  const isAside = layout === "aside";
+  const baseWrapperClass = isAside
+    ? "mx-auto w-full max-w-sm"
+    : "mt-8 w-full max-w-md";
+  const wrapperClass = className
+    ? `${baseWrapperClass} ${className}`
+    : baseWrapperClass;
+  const aspectClass = isAside ? "aspect-4/3" : "aspect-21/9";
+  const imageSizes = isAside
+    ? "(max-width: 768px) 100vw, 24rem"
+    : "(max-width: 768px) 100vw, 28rem";
 
   return (
-    <div className="mt-8 w-full max-w-md">
+    <div className={wrapperClass}>
       <button
         aria-label={`Open ${activeProject.title}`}
         className="group relative block w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5"
         onClick={() => onProjectClick(activeProject.slug)}
         type="button"
       >
-        <div className="relative aspect-21/9 w-full">
+        <div className={`relative w-full ${aspectClass}`}>
           {projects.map((project, index) => {
             const cover = getProjectCover(project);
             const coverIsRemote = cover.startsWith("http");
@@ -67,7 +82,7 @@ export function CategoryProjectRotator({
                 className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                 fill
                 key={project.slug}
-                sizes="(max-width: 768px) 100vw, 28rem"
+                sizes={imageSizes}
                 src={cover}
                 style={{
                   opacity: index === displayIndex ? 1 : 0,

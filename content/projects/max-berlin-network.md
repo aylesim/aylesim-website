@@ -24,9 +24,9 @@ highlights:
 
 ## Overview
 
-[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The product problem is narrow and practical: when the next session is, where it happens, how to get on the list, and where to read about past meetups — without leaning on scattered social posts.
+[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The product problem is narrow and practical: when the next session is, where it happens, how to get on the list, and where to read about past meetups, without leaning on scattered social posts.
 
-The visual language is poster-like — bold type, slight rotations, monospace detail — so the site reads as an event surface rather than a generic landing page.
+The visual language is poster-like, bold type, slight rotations, monospace detail, so the site reads as an event surface rather than a generic landing page.
 
 ## What the site does
 
@@ -40,9 +40,9 @@ The visual language is poster-like — bold type, slight rotations, monospace de
 
 As co-founder I shaped the information architecture and built the site in **Next.js** and **TypeScript**, deployed on **Vercel**. Editorial meetup copy and scheduling stay editable without treating the homepage as a one-off static file each time.
 
-- **Event routing** — dedicated pages per meetup with stable URLs for sharing
-- **Homepage data** — next session pulled into the hero so the primary CTA stays current
-- **Newsletter flow** — signup integrated into the main layout
-- **Share metadata** — Open Graph and Twitter cards for link previews
+- **Event routing**: dedicated pages per meetup with stable URLs for sharing
+- **Homepage data**: next session pulled into the hero so the primary CTA stays current
+- **Newsletter flow**: signup integrated into the main layout
+- **Share metadata**: Open Graph and Twitter cards for link previews
 
 The recurring in-person meetups and community format are separate from this case study; they are described on my [about page](/about) under **Community**.

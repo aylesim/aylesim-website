@@ -1,12 +1,12 @@
 ---
 headline: I design and program systems where sound, interfaces, and human behavior meet.
-lede: Berlin-based audio developer, web developer, and creative technologist. I build Max for Live tools, production websites, and spatial software — usually around the same question of how much complexity a person can hold while still feeling in control.
+lede: Berlin-based audio developer, web developer, and creative technologist. I build Max for Live tools, production websites, and spatial software, usually around the same question of how much complexity a person can hold while still feeling in control.
 subtitle: Alessandro Miracapillo / aylesim · Berlin
 ---
 
 ## Who I am
 
-I'm **Alessandro Miracapillo**, working publicly as **aylesim**. I live in **Berlin** and work across audio software, web development, and creative technology — often on projects where the medium changes but the problem does not.
+I'm **Alessandro Miracapillo**, working publicly as **aylesim**. I live in **Berlin** and work across audio software, web development, and creative technology, often on projects where the medium changes but the problem does not.
 
 I grew up around music and computers in southern Italy, then spent years moving between performance, patching, and building tools for other people to use on stage and in the studio. Berlin is where that practice converged: product releases, client websites, installations, and community work now share the same workshop.
 
@@ -18,7 +18,7 @@ I am not interested in technology for its own sake. I care about **relations**: 
 
 I design and ship **Max/MSP** instruments and **Ableton Live** devices as playable systems: mappable, generative, precise enough for performance, open enough for intentional misuse.
 
-Through **Aylesim Devices**, I maintain a product line used by **3600+** customers worldwide, distributed via **Gumroad** and **Isotonik Studios**, with ongoing updates driven by real sessions and community requests. **Birds** is the current flagship — a rule-based generative melody tool where pitch, timing, and note state stay readable while the sequence evolves. **Knob Studio** extends that thinking into experimental modulation mapping; both have been covered in the music-tech press.
+Through **Aylesim Devices**, I maintain a product line used by **3600+** customers worldwide, distributed via **Gumroad** and **Isotonik Studios**, with ongoing updates driven by real sessions and community requests. **Birds** is the current flagship, a rule-based generative melody tool where pitch, timing, and note state stay readable while the sequence evolves. **Knob Studio** extends that thinking into experimental modulation mapping; both have been covered in the music-tech press.
 
 Tools in this line are tested in my own productions and in other people's workflows, not only as portfolio demos.
 
@@ -26,7 +26,7 @@ Tools in this line are tested in my own productions and in other people's workfl
 
 I build **production websites and editorial systems** for cultural organizations, research teams, and product studios: long-form storytelling, data-heavy interfaces, archives, and browser-based tools where structure and interaction need to hold up under real use.
 
-Recent work includes **Planetary Compendium** for the **Berggruen Institute** and **Dark Matter Labs** — an evolving platform at [governtheplanet.org](https://governtheplanet.org/) combining scrollytelling, spatial exploration, and audio-driven narrative, with accessibility and reduced-motion paths built in from the first release.
+Recent work includes **Planetary Compendium** for the **Berggruen Institute** and **Dark Matter Labs**: an evolving platform at [governtheplanet.org](https://governtheplanet.org/) combining scrollytelling, spatial exploration, and audio-driven narrative, with accessibility and reduced-motion paths built in from the first release.
 
 My stack is **TypeScript, React, Next.js, and Node**, with attention to content models, performance, and maintainability after launch.
 
@@ -34,7 +34,7 @@ My stack is **TypeScript, React, Next.js, and Node**, with attention to content 
 
 I develop **installations, AV performances, and digital artworks** where software becomes part of a room: sensors, projection, networked video, generative audio, and behavior that has to survive in front of an audience.
 
-**Please Set a Password** (2022) searches the public internet for unsecured surveillance-camera feeds and pairs live video with synthesis driven by image analysis — a piece about mass surveillance and default security habits. It won **first place in Electronic Arts** at the **Italian National Arts Award XV** (Premio Nazionale delle Arti Italiane, MUR).
+**Please Set a Password** (2022) searches the public internet for unsecured surveillance-camera feeds and pairs live video with synthesis driven by image analysis, a piece about mass surveillance and default security habits. It won **first place in Electronic Arts** at the **Italian National Arts Award XV** (Premio Nazionale delle Arti Italiane, MUR).
 
 Earlier live work includes real-time visuals for **TEDx Barletta** (2020) alongside Regleow & Ozey: percussive electronic music with generative projections built in **Max/MSP**.
 
@@ -52,11 +52,11 @@ I like collaborating with people who care about the **shape of the system** more
 
 ## Community
 
-In early **2025** I co-founded **[Max Berlin Network](https://www.maxberlin.network/)** with other local practitioners — a recurring in-person forum for **Max/MSP** and creative audio work in Berlin. I also built and maintain the [public site](https://www.maxberlin.network/) (see the [project write-up](/?project=max-berlin-network)); this section is about the meetups themselves.
+In early **2025** I co-founded **[Max Berlin Network](https://www.maxberlin.network/)** with other local practitioners, a recurring in-person forum for **Max/MSP** and creative audio work in Berlin. I also built and maintain the [public site](https://www.maxberlin.network/) (see the [project write-up](/?project=max-berlin-network)); this section is about the meetups themselves.
 
-The format is deliberately lightweight: demos, troubleshooting, and shared patching time across music, code, installation, and sound-art backgrounds. Max practice benefits from in-person context — short feedback loops, improvised explanations, and detail that rarely survives a forum thread.
+The format is deliberately lightweight: demos, troubleshooting, and shared patching time across music, code, installation, and sound-art backgrounds. Max practice benefits from in-person context, short feedback loops, improvised explanations, and detail that rarely survives a forum thread.
 
-Meetups run in person on a regular cadence: enough structure to start and end on time, enough openness for demos, breakout questions, and informal pairing. Topics drift across patching style, DSP intuition, performance setups, and tooling around Live — whatever the room brings that month.
+Meetups run in person on a regular cadence: enough structure to start and end on time, enough openness for demos, breakout questions, and informal pairing. Topics drift across patching style, DSP intuition, performance setups, and tooling around Live, whatever the room brings that month.
 
 - **Recurring sessions** with announced time and place so people can plan around them
 - **Peer-led content** rather than a fixed curriculum: demos, walkthroughs, troubleshooting blocks
@@ -66,6 +66,6 @@ I see this as infrastructure, not marketing. Reliable rhythm and clear expectati
 
 ## Currently
 
-I am **available for freelance projects** and open to **full-time roles in Berlin** — audio tooling, creative technology, and web products where interaction design and engineering need to stay in the same head.
+I am **available for freelance projects** and open to **full-time roles in Berlin**: audio tooling, creative technology, and web products where interaction design and engineering need to stay in the same head.
 
 If you are building something that sits between sound, software, and public experience, I would like to hear about it.

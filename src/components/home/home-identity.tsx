@@ -75,7 +75,7 @@ const PRACTICE_COLUMNS: CategoryColumn[] = [
     id: "community",
     proof: maxBerlinCommunityProof,
     eyebrow:
-      "I co-founded, curate, and carry forward Max Berlin Network — a Berlin scene for Max/MSP and creative audio practice.",
+      "I co-founded, curate, and carry forward Max Berlin Network, a Berlin scene for Max/MSP and creative audio practice.",
     description:
       "Alongside the site and newsletter, I keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers. The goal is reliable peer learning in the room, not marketing.",
   },
@@ -345,64 +345,107 @@ function PracticeColumnSection({
 }) {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   const styles = ROLE_STYLES[column.id];
+  const isWebInteractive = column.id === "web-interactive";
+  const showRotator = column.id !== "community";
+
+  const headerText = (
+    <>
+      <p
+        className={`mb-5 font-mono text-[11px] uppercase tracking-widest ${styles.labelClass}`}
+      >
+        {CATEGORY_LABELS[column.id]}
+      </p>
+      <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
+        {column.eyebrow}
+      </p>
+      <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
+        {column.description}
+      </p>
+      {column.proof ? (
+        <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-snug">
+          {column.proof}
+        </p>
+      ) : null}
+      {column.stack ? (
+        <p className="mt-5 max-w-md font-mono text-(--text-muted) text-[10px] uppercase leading-relaxed tracking-widest">
+          {column.stack}
+        </p>
+      ) : null}
+      {column.resumeHref ? (
+        <a
+          className="mt-4 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+          download
+          href={column.resumeHref}
+        >
+          {resumeLabel} ↗
+        </a>
+      ) : null}
+    </>
+  );
+
+  const rotator = showRotator ? (
+    <CategoryProjectRotator
+      activeSlug={hoveredSlug}
+      className={isWebInteractive ? "mt-8 md:mt-0" : undefined}
+      layout={isWebInteractive ? "aside" : "stacked"}
+      onProjectClick={onProjectClick}
+      projects={carouselProjects}
+    />
+  ) : null;
+
+  const headerBlock = isWebInteractive ? (
+    <div className="grid gap-8 md:grid-cols-[0.52fr_0.48fr] md:items-center md:gap-x-16 md:gap-y-0">
+      <div className={`min-w-0 border-t-2 pt-5 ${styles.borderClass}`}>
+        {headerText}
+      </div>
+      <div className="flex w-full items-center justify-center md:px-6 md:pt-5 lg:px-10">
+        {rotator}
+      </div>
+    </div>
+  ) : (
+    <div className={`border-t-2 pt-5 ${styles.borderClass}`}>
+      {headerText}
+      {rotator}
+    </div>
+  );
+
+  const listBlock = (
+    <div
+      className={`micro-divider-top pt-3 ${isWebInteractive ? "mt-10" : ""}`}
+    >
+      {column.id === "community" ? (
+        <CommunityHighlight onProjectClick={onProjectClick} />
+      ) : null}
+      {items.map((project) => (
+        <ProjectLink
+          key={project.slug}
+          onHover={setHoveredSlug}
+          onProjectClick={onProjectClick}
+          project={project}
+        />
+      ))}
+    </div>
+  );
+
+  if (isWebInteractive) {
+    return (
+      <div
+        className="border-(--index-divider) border-b border-dotted py-14 md:py-20"
+        id={column.id}
+      >
+        {headerBlock}
+        {listBlock}
+      </div>
+    );
+  }
 
   return (
     <div
       className="grid gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.52fr_0.48fr] md:gap-16 md:py-20"
       id={column.id}
     >
-      <div className={`border-t-2 pt-5 ${styles.borderClass}`}>
-        <p
-          className={`mb-5 font-mono text-[11px] uppercase tracking-widest ${styles.labelClass}`}
-        >
-          {CATEGORY_LABELS[column.id]}
-        </p>
-        <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
-          {column.eyebrow}
-        </p>
-        <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
-          {column.description}
-        </p>
-        {column.proof ? (
-          <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-snug">
-            {column.proof}
-          </p>
-        ) : null}
-        {column.stack ? (
-          <p className="mt-5 max-w-md font-mono text-(--text-muted) text-[10px] uppercase leading-relaxed tracking-widest">
-            {column.stack}
-          </p>
-        ) : null}
-        {column.resumeHref ? (
-          <a
-            className="mt-4 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
-            download
-            href={column.resumeHref}
-          >
-            {resumeLabel} ↗
-          </a>
-        ) : null}
-        {column.id !== "community" ? (
-          <CategoryProjectRotator
-            activeSlug={hoveredSlug}
-            onProjectClick={onProjectClick}
-            projects={carouselProjects}
-          />
-        ) : null}
-      </div>
-      <div className="micro-divider-top pt-3">
-        {column.id === "community" ? (
-          <CommunityHighlight onProjectClick={onProjectClick} />
-        ) : null}
-        {items.map((project) => (
-          <ProjectLink
-            key={project.slug}
-            onHover={setHoveredSlug}
-            onProjectClick={onProjectClick}
-            project={project}
-          />
-        ))}
-      </div>
+      {headerBlock}
+      {listBlock}
     </div>
   );
 }
@@ -525,8 +568,7 @@ export function HomeIdentity({
               {primaryAward.headline}
             </p>
             <p className="mt-2 max-w-2xl text-(--text-muted) text-base leading-relaxed">
-              {primaryAward.title} — {primaryAward.subtitle} (
-              {primaryAward.year}
+              {primaryAward.title}, {primaryAward.subtitle} ({primaryAward.year}
               ).
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -575,7 +617,7 @@ export function HomeIdentity({
                       </span>
                       <span className="text-(--text-muted)">
                         {" "}
-                        — {mention.title}
+                        , {mention.title}
                       </span>
                     </a>
                     {related && (

@@ -23,6 +23,6 @@ highlights:
   - Roadmap driven by community requests
 ---
 
-A growing line of Ableton Live tools: generative birds, spectral FX, utilities, and sequencers. The line is not a side project — **3600+ customers** have bought or downloaded these devices, which means the work has been tested in real sessions, not only in a portfolio context.
+A growing line of Ableton Live tools: generative birds, spectral FX, utilities, and sequencers. The line is not a side project, **3600+ customers** have bought or downloaded these devices, which means the work has been tested in real sessions, not only in a portfolio context.
 
 Each release ships with a focused preset set, a short walkthrough, and room to misuse the controls on purpose. Distribution runs through **Gumroad** and **Isotonik Studios** so updates, licensing, and support stay tied to the same product surface performers already use.
