@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   type ReactNode,
@@ -13,6 +12,7 @@ import {
 import { HomeIdentity } from "@/components/home/home-identity";
 import { ProjectDetail } from "@/components/home/portfolio-detail";
 import { ProjectsIndex } from "@/components/home/projects-index";
+import { SiteHeader } from "@/components/site-header";
 import type { SiteContent } from "@/lib/content";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
 import {
@@ -245,48 +245,21 @@ export default function RectNav({ content }: { content: SiteContent }) {
 
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
-      <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-bg px-4 pt-5 pb-3 md:px-5 md:pt-6 md:pb-4">
-        {showSidebar && (
-          <button
-            className="text-(--text-muted) text-lg tracking-tight transition-colors hover:text-(--foreground) md:hidden"
-            onClick={goBack}
-            type="button"
-          >
-            ←
-          </button>
-        )}
-        <nav
-          aria-label="Primary"
-          className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
-        >
-          <Link className="text-lg tracking-tight md:text-xl" href="/">
-            Aylesim
-          </Link>
-          <button
-            className={`text-sm tracking-tight transition-colors md:text-base ${
-              showSidebar
-                ? "text-(--foreground)"
-                : "text-(--text-muted) hover:text-(--foreground)"
-            }`}
-            onClick={() => setState({ mode: "projects" })}
-            type="button"
-          >
-            Projects
-          </button>
-          <Link
-            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
-            href="/about"
-          >
-            About
-          </Link>
-          <Link
-            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
-            href="/ask-ai"
-          >
-            Too lazy to read
-          </Link>
-        </nav>
-      </header>
+      <SiteHeader
+        leading={
+          showSidebar ? (
+            <button
+              className="text-(--text-muted) text-lg tracking-tight transition-colors hover:text-(--foreground) md:hidden"
+              onClick={goBack}
+              type="button"
+            >
+              ←
+            </button>
+          ) : undefined
+        }
+        onProjectsClick={() => setState({ mode: "projects" })}
+        projectsActive={showSidebar}
+      />
 
       <div
         className={`flex min-w-0 flex-1 flex-col ${

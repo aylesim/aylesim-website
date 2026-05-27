@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ContentJsonViewer } from "@/components/ask-ai/content-json-viewer";
 import { CopyUrlField } from "@/components/ask-ai/copy-url-field";
 import { ExamplePromptsList } from "@/components/ask-ai/example-prompts-list";
+import { SiteHeader } from "@/components/site-header";
 import { contentJsonUrl } from "@/lib/site";
 
 const linkClass =
@@ -36,31 +37,7 @@ const steps = [
 export function AskAiPage({ json }: { json: string }) {
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
-      <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-bg px-4 pt-5 pb-3 md:px-5 md:pt-6 md:pb-4">
-        <nav
-          aria-label="Primary"
-          className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
-        >
-          <Link className="text-lg tracking-tight md:text-xl" href="/">
-            Aylesim
-          </Link>
-          <Link
-            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
-            href="/?projects"
-          >
-            Projects
-          </Link>
-          <Link
-            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
-            href="/about"
-          >
-            About
-          </Link>
-          <Link className="text-sm tracking-tight md:text-base" href="/ask-ai">
-            Too lazy to read
-          </Link>
-        </nav>
-      </header>
+      <SiteHeader active="ask-ai" />
 
       <main className="relative min-w-0 flex-1">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8">

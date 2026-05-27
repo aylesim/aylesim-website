@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { SiteHeader } from "@/components/site-header";
 import type { About, AboutSection } from "@/lib/content";
 import { pressMentions, primaryAward } from "@/lib/credentials";
 import {
@@ -379,31 +379,7 @@ export function AboutPageClient({
 
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
-      <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-bg px-4 pt-5 pb-3 md:px-5 md:pt-6 md:pb-4">
-        <nav
-          aria-label="Primary"
-          className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
-        >
-          <Link className="text-lg tracking-tight md:text-xl" href="/">
-            Aylesim
-          </Link>
-          <Link
-            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
-            href="/?projects"
-          >
-            Projects
-          </Link>
-          <Link className="text-sm tracking-tight md:text-base" href="/about">
-            About
-          </Link>
-          <Link
-            className="text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base"
-            href="/ask-ai"
-          >
-            Too lazy to read
-          </Link>
-        </nav>
-      </header>
+      <SiteHeader active="about" />
 
       <div className="flex min-w-0 flex-1 flex-col md:flex-row">
         <aside className="hidden md:sticky md:top-20 md:flex md:max-h-[calc(100dvh-5rem)] md:w-36 md:shrink-0 md:flex-col md:overflow-y-auto md:px-5 md:pt-6 md:pb-8">

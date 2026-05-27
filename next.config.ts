@@ -39,7 +39,6 @@ const nextConfig: NextConfig = {
       { source: "/interactive-systems", destination: "/", permanent: true },
       { source: "/code-technology", destination: "/", permanent: true },
       { source: "/community", destination: "/", permanent: true },
-      { source: "/tools", destination: "/", permanent: true },
       { source: "/blog", destination: "/", permanent: true },
       { source: "/blog/:path*", destination: "/", permanent: true },
       { source: "/contact", destination: "/", permanent: true },
