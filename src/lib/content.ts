@@ -69,9 +69,9 @@ export interface Project {
 }
 
 export interface About {
-  headline: string;
   lede: string;
   subtitle?: string;
+  portrait?: string;
   body: string;
 }
 
@@ -422,9 +422,9 @@ function getAbout(): About {
   const filePath = path.join(contentDir, "about.md");
   const { data, content } = readMd(filePath);
   return {
-    headline: asString(data.headline) ?? "About",
     lede: asString(data.lede) ?? "",
     subtitle: asString(data.subtitle),
+    portrait: asString(data.portrait),
     body: content.trim(),
   };
 }

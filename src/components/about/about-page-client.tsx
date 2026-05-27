@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { About, AboutSection } from "@/lib/content";
 import { pressMentions, primaryAward } from "@/lib/credentials";
@@ -92,20 +94,14 @@ function AboutSectionNav({
   activeId: string | null;
 }) {
   return (
-    <nav
-      aria-label="About sections"
-      className="sticky top-24 hidden shrink-0 self-start lg:block"
-    >
-      <p className="mb-4 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
-        Index
-      </p>
-      <ul className="space-y-2 border-(--index-divider) border-l border-dotted pl-4">
+    <nav aria-label="About sections" className="flex flex-col overflow-y-auto">
+      <ul className="space-y-1 border-(--index-divider) border-l border-dotted pl-2.5">
         {items.map((item) => {
           const isActive = activeId === item.id;
           return (
             <li key={item.id}>
               <a
-                className={`block text-sm leading-snug tracking-tight transition-colors ${
+                className={`block font-mono text-[10px] uppercase leading-snug tracking-wide transition-colors ${
                   isActive
                     ? "text-(--accent)"
                     : "text-(--text-muted) hover:text-(--foreground)"
@@ -198,7 +194,7 @@ function AboutSectionCard({
 
   return (
     <article
-      className={`${cardShell} ${accent.border} scroll-mt-24 border-t-2 px-6 py-10 md:scroll-mt-28 md:px-10 md:py-14 lg:px-14 lg:py-16`}
+      className={`${cardShell} ${accent.border} scroll-mt-24 border-t-2 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
       id={sectionId(section.label)}
     >
       <span
@@ -218,6 +214,63 @@ function AboutSectionCard({
         <AboutMarkdown accent={accent} source={section.content} />
       </div>
     </article>
+  );
+}
+
+function prefersReducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function AboutPortrait({ src }: { src: string }) {
+  const pathname = usePathname();
+  const [revealed, setRevealed] = useState(false);
+
+  const syncRevealState = useCallback(() => {
+    setRevealed(prefersReducedMotion());
+  }, []);
+
+  useEffect(() => {
+    if (pathname !== "/about") {
+      return;
+    }
+    syncRevealState();
+  }, [pathname, syncRevealState]);
+
+  useEffect(() => {
+    const onPageShow = () => syncRevealState();
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, [syncRevealState]);
+
+  const shellClass =
+    "relative aspect-4/5 w-full max-w-56 overflow-hidden border border-(--index-divider) bg-(--foreground)/5";
+
+  if (revealed) {
+    return (
+      <div className={shellClass}>
+        <Image
+          alt="Alessandro Miracapillo"
+          className="object-cover object-[center_28%]"
+          fill
+          priority
+          sizes="(max-width: 768px) 224px, 224px"
+          src={src}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <button
+      aria-label="Reveal portrait — i really want to see your face"
+      className={`${shellClass} flex cursor-pointer items-center justify-center p-4 text-center transition-colors hover:bg-(--foreground)/10`}
+      onClick={() => setRevealed(true)}
+      type="button"
+    >
+      <span className="font-mono text-(--foreground) text-[10px] uppercase leading-relaxed tracking-widest">
+        i really want to see your face
+      </span>
+    </button>
   );
 }
 
@@ -305,7 +358,7 @@ export function AboutPageClient({
   }, [indexItems]);
 
   return (
-    <div className="flex min-h-dvh flex-col bg-bg">
+    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
       <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-bg px-4 pt-5 pb-3 md:px-5 md:pt-6 md:pb-4">
         <nav
           aria-label="Primary"
@@ -332,24 +385,32 @@ export function AboutPageClient({
         </nav>
       </header>
 
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 md:px-8">
-        <div className="py-10 md:py-14 lg:grid lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[13rem_minmax(0,1fr)] xl:gap-14">
+      <div className="flex min-w-0 flex-1 flex-col md:flex-row">
+        <aside className="hidden md:sticky md:top-20 md:flex md:max-h-[calc(100dvh-5rem)] md:w-36 md:shrink-0 md:flex-col md:overflow-y-auto md:px-5 md:pt-6 md:pb-8">
           <AboutSectionNav activeId={activeId} items={indexItems} />
-          <div className="flex min-w-0 flex-col gap-5 md:gap-6">
+        </aside>
+
+        <main className="relative min-w-0 flex-1">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-6 md:gap-6 md:px-8 md:py-12">
             <section
-              className={`${cardShell} grid items-start gap-8 px-6 py-10 md:grid-cols-[1.15fr_0.85fr] md:gap-12 md:px-10 md:py-14 lg:px-14 lg:py-16`}
+              className={`${cardShell} grid items-start gap-8 px-6 py-10 md:grid-cols-[minmax(11rem,14rem)_1fr] md:gap-10 md:px-8 md:py-12`}
             >
-              <div>
+              {about.portrait ? (
+                <AboutPortrait src={about.portrait} />
+              ) : (
+                <div
+                  aria-hidden
+                  className="relative aspect-4/5 w-full max-w-56 border border-(--index-divider) bg-[linear-gradient(160deg,rgba(255,255,255,0.06),transparent_55%)]"
+                />
+              )}
+              <div className="flex max-w-xl flex-col gap-5 md:pt-2">
                 {about.subtitle ? (
                   <AboutEyebrow subtitle={about.subtitle} />
                 ) : null}
-                <h1 className="max-w-5xl font-normal text-4xl leading-[0.98] tracking-tight md:text-6xl lg:text-7xl">
-                  {about.headline}
-                </h1>
+                <p className="text-(--text-muted) text-base leading-relaxed md:text-lg">
+                  {about.lede}
+                </p>
               </div>
-              <p className="max-w-xl text-(--text-muted) text-base leading-relaxed md:self-end md:text-lg">
-                {about.lede}
-              </p>
             </section>
 
             {bodySections.map((section, index) => (
@@ -361,7 +422,7 @@ export function AboutPageClient({
             ))}
 
             <article
-              className={`${cardShell} scroll-mt-24 border-(--accent)/40 border-t-2 px-6 py-10 md:scroll-mt-28 md:px-10 md:py-14 lg:px-14 lg:py-16`}
+              className={`${cardShell} scroll-mt-24 border-(--accent)/40 border-t-2 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
               id="recognition"
             >
               <span
@@ -438,7 +499,7 @@ export function AboutPageClient({
 
             {currentlySection ? (
               <article
-                className={`${cardShell} scroll-mt-24 border-(--accent) border-t-2 bg-(--accent)/6 px-6 py-10 md:scroll-mt-28 md:px-10 md:py-14 lg:px-14 lg:py-16`}
+                className={`${cardShell} scroll-mt-24 border-(--accent) border-t-2 bg-(--accent)/6 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
                 id={sectionId(currentlySection.label)}
               >
                 <p className="mb-6 font-mono text-(--accent) text-xs uppercase tracking-widest">
@@ -452,7 +513,7 @@ export function AboutPageClient({
             ) : null}
 
             <article
-              className={`${cardShell} scroll-mt-24 px-6 py-10 md:scroll-mt-28 md:px-10 md:py-14 lg:px-14 lg:py-16`}
+              className={`${cardShell} scroll-mt-24 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
               id="contact"
             >
               <p className="mb-8 font-mono text-(--text-muted) text-xs uppercase tracking-widest md:mb-10">
@@ -493,8 +554,8 @@ export function AboutPageClient({
               </div>
             </article>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

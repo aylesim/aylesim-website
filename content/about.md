@@ -1,5 +1,5 @@
 ---
-headline: I design and program systems where sound, interfaces, and human behavior meet.
+portrait: /portrait.png
 lede: Berlin-based audio developer, web developer, and creative technologist. I build Max for Live tools, production websites, and spatial software, usually around the same question of how much complexity a person can hold while still feeling in control.
 subtitle: Alessandro Miracapillo / aylesim · Berlin
 ---
