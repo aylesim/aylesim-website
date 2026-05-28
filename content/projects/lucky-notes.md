@@ -16,6 +16,7 @@ role: Developer & Designer
 client: Aylesim Devices
 year: "2022"
 tech:
+  - Max/MSP
   - MIDI Systems
   - Probability Design
   - UI/UX Design

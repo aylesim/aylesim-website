@@ -185,7 +185,11 @@ function SelectedWorkCard({
       <span className="text-lg leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
         {project.title}
       </span>
-      <ProjectTags className="mt-1.5" tags={project.tags} />
+      <ProjectTags
+        category={project.category}
+        className="mt-1.5"
+        tags={project.tags}
+      />
       {summary && (
         <span className="mt-2 line-clamp-2 text-(--text-muted) text-sm leading-relaxed">
           {summary}
@@ -265,7 +269,14 @@ function ProjectLink({
   onProjectClick: (slug: string) => void;
   onHover?: (slug: string | null) => void;
 }) {
-  const meta = [project.year, project.menuLabel].filter(Boolean).join(" / ");
+  const meta = [
+    project.year,
+    project.menuLabel?.toLowerCase() === "max4live"
+      ? undefined
+      : project.menuLabel,
+  ]
+    .filter(Boolean)
+    .join(" / ");
   const hasAward = projectHasNationalArtsAward(project);
   const isPrimaryAudio = PRIMARY_AUDIO_SLUGS.has(project.slug);
   return (
@@ -278,21 +289,27 @@ function ProjectLink({
       type="button"
     >
       <span className="flex flex-col gap-1">
-        <span
-          className={`leading-snug tracking-tight transition-colors group-hover:text-(--accent) ${
-            isPrimaryAudio
-              ? "text-(--foreground) text-lg md:text-xl"
-              : "text-(--foreground) text-base"
-          }`}
-        >
-          {project.title}
-        </span>
-        <ProjectTags className="mt-0.5" tags={project.tags} />
-        {project.listTagline && (
-          <span className="text-(--text-muted) text-sm leading-relaxed md:text-base">
-            {project.listTagline}
+        <span className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+          <span
+            className={`leading-snug tracking-tight transition-colors group-hover:text-(--accent) ${
+              isPrimaryAudio
+                ? "text-(--foreground) text-lg md:text-xl"
+                : "text-(--foreground) text-base"
+            }`}
+          >
+            {project.title}
           </span>
-        )}
+          {project.listTagline ? (
+            <span className="text-(--text-muted) text-xs leading-snug md:text-sm">
+              {project.listTagline}
+            </span>
+          ) : null}
+        </span>
+        <ProjectTags
+          category={project.category}
+          className="mt-0.5"
+          tags={project.tags}
+        />
         {project.listBadges.length > 0 && (
           <span className="mt-0.5 flex flex-col gap-2.5">
             {project.listBadges.map((badge, index) => {

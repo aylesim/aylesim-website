@@ -84,7 +84,7 @@ function ToolCard({
                 </span>
               ) : null}
             </div>
-            <ProjectTags tags={project.tags} />
+            <ProjectTags category={project.category} tags={project.tags} />
             {categoryLabel ? (
               <p className={`text-[11px] tracking-wide ${accent.labelClass}`}>
                 {categoryLabel}

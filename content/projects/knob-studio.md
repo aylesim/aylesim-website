@@ -26,6 +26,7 @@ role: Developer & Designer
 client: Aylesim Devices
 year: 2024
 tech:
+  - Max/MSP
   - Audio Engineering
   - Modulation Design
   - Performance Optimization

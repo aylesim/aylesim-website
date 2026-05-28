@@ -11,6 +11,7 @@ listBadges:
 title: Freesound4Live
 client: Aylesim Devices
 tech:
+  - Max/MSP
   - API Integration
   - Audio Engineering
   - Live Workflow Design

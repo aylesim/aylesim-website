@@ -17,6 +17,7 @@ role: Developer & Designer
 client: Aylesim Devices
 year: 2025
 tech:
+  - Max/MSP
   - Audio Engineering
   - UI/UX Design
   - Generative Systems

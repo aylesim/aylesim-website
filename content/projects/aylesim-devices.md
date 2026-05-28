@@ -12,6 +12,7 @@ role: Instrument Builder
 client: Product Line
 year: 2020–ongoing
 tech:
+  - Max/MSP
   - Product Design
   - Audio Engineering
   - Max for Live

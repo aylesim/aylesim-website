@@ -291,7 +291,11 @@ export function ProjectDetail({
         <Meta>{aylesimDevicesCustomerProof}</Meta>
       ) : null}
       {project.tags.length > 0 ? (
-        <ProjectTags className="mt-2 mb-1" tags={project.tags} />
+        <ProjectTags
+          category={project.category}
+          className="mt-2 mb-1"
+          tags={project.tags}
+        />
       ) : null}
       {project.link ? (
         <DetailLinks>

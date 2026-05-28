@@ -8,6 +8,7 @@ role: Visual Artist
 client: TEDx Barletta
 year: 2020
 tech:
+  - Max/MSP
   - Live Projection
   - Generative Visuals
   - AV Performance

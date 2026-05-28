@@ -73,25 +73,29 @@ function ProjectCard({
           />
         </span>
         <span className="mt-2.5 flex flex-col gap-0.5">
-          <span className="inline-flex items-baseline gap-1">
+          <span className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
             <span className="text-base leading-snug tracking-tight underline decoration-transparent underline-offset-4 transition-colors duration-200 group-hover:decoration-(--foreground)">
               {project.title}
             </span>
+            {project.listTagline ? (
+              <span className="text-(--text-muted) text-xs leading-snug">
+                {project.listTagline}
+              </span>
+            ) : null}
             <span className="text-(--text-muted) text-sm opacity-0 transition-opacity duration-200 group-hover:opacity-100">
               →
             </span>
           </span>
-          <ProjectTags className="mt-1" tags={project.tags} />
+          <ProjectTags
+            category={project.category}
+            className="mt-1"
+            tags={project.tags}
+          />
           {categoryLabel && accentStyles ? (
             <span
               className={`font-normal text-[11px] tracking-wide ${accentStyles.labelClass}`}
             >
               {categoryLabel}
-            </span>
-          ) : null}
-          {project.listTagline ? (
-            <span className="text-(--text-muted) text-sm leading-relaxed">
-              {project.listTagline}
             </span>
           ) : null}
         </span>
