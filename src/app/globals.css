@@ -99,29 +99,23 @@ input:focus-visible {
 }
 
 .fw-card {
-  transition: box-shadow 0.45s ease;
+  transform: rotate(calc(var(--card-rotation) * 1deg));
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease;
+  will-change: transform;
 }
 
 .fw-card:hover,
 .fw-card:focus-visible {
+  transform: rotate(0deg) scale(1.02);
   box-shadow:
-    0 28px 72px rgba(0, 0, 0, 0.85),
-    0 6px 24px rgba(143, 181, 160, 0.07);
-}
-
-.fw-card-img {
-  transform: rotate(calc(var(--card-rotation) * 1deg)) scale(1.1);
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-.fw-card:hover .fw-card-img,
-.fw-card:focus-visible .fw-card-img {
-  transform: rotate(0deg) scale(1);
+    0 24px 64px rgba(0, 0, 0, 0.8),
+    0 4px 20px rgba(143, 181, 160, 0.08);
 }
 
 @media (max-width: 640px) {
-  .fw-card-img {
-    transform: rotate(calc(var(--card-rotation) * 0.35deg)) scale(1.06);
+  .fw-card {
+    transform: rotate(calc(var(--card-rotation) * 0.35deg));
   }
 }

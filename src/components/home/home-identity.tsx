@@ -30,49 +30,49 @@ import {
 } from "@/lib/site";
 
 interface FeaturedCard {
-  badge: string;
+  badgeLabel: string;
+  badgeVariant: "award" | "collaboration" | "publisher";
   slug: string;
   title: string;
   tags: readonly string[];
   description: string;
   cover: string;
   rotation: number;
-  imageOnRight?: boolean;
 }
 
 const FEATURED_CARDS: FeaturedCard[] = [
   {
-    badge: "BERGGRUEN INSTITUTE × DARK MATTER LABS",
+    badgeLabel: "Berggruen Institute × Dark Matter Labs",
+    badgeVariant: "collaboration",
     slug: "planetary-compendium",
     title: "Planetary Compendium",
     tags: ["Frontend Architecture", "Data Visualization", "React / TypeScript"],
     description:
-      "A data-dense research interface built for high-throughput state management and render performance across thousands of concurrent heterogeneous data points.",
+      "Data-dense research interface for high-throughput state management and render performance across thousands of concurrent heterogeneous data points.",
     cover: "/planetary.png",
     rotation: -1.5,
-    imageOnRight: false,
   },
   {
-    badge: "1ST PRIZE: NATIONAL ART AWARD (MUR)",
+    badgeLabel: "1st Prize · National Arts Award (MUR) · Electronic Arts",
+    badgeVariant: "award",
     slug: "please-set-a-password",
     title: "please set a password",
     tags: ["Media Art", "Spatial Interaction", "System Design"],
     description:
-      "Award-winning installation engineering a bridge between physical security rituals and digital authentication. Designed for robust real-time reliability in live public-facing contexts.",
+      "Installation engineering a bridge between physical security rituals and digital authentication. Designed for robust real-time reliability in live public-facing contexts.",
     cover: "/tw2.jpg",
-    rotation: 1.8,
-    imageOnRight: true,
+    rotation: 1.2,
   },
   {
-    badge: "PUBLISHED BY: ISOTONIK STUDIOS",
+    badgeLabel: "Published by Isotonik Studios · Attack Magazine",
+    badgeVariant: "publisher",
     slug: "knob-studio",
     title: "Knob Studio",
     tags: ["UI/UX Design", "Audio Engineering", "DSP / MaxMSP"],
     description:
-      "Commercial Max for Live instrument optimized for sub-5ms parameter response and zero-latency UI feedback. Actively maintained for 3,600+ musicians worldwide.",
+      "Commercial Max for Live instrument optimized for sub-5ms parameter response and zero-latency UI feedback. Active base of 3,600+ musicians worldwide.",
     cover: "/knobstudio.png",
     rotation: -2,
-    imageOnRight: false,
   },
 ];
 
@@ -139,6 +139,26 @@ function columnCarouselProjects(
   return categoryProjects(projects, columnId);
 }
 
+const BADGE_STYLES: Record<
+  FeaturedCard["badgeVariant"],
+  { bar: string; text: string; eyebrow?: string }
+> = {
+  award: {
+    bar: "border-t-2 border-(--accent) bg-(--accent)/5",
+    text: "text-(--accent)",
+  },
+  collaboration: {
+    bar: "border-t border-(--index-divider)",
+    text: "text-(--text-muted)",
+    eyebrow: "Collaboration",
+  },
+  publisher: {
+    bar: "border-t border-(--index-divider)",
+    text: "text-(--text-muted)",
+    eyebrow: "Published by",
+  },
+};
+
 function FeaturedWorkCard({
   card,
   index,
@@ -150,6 +170,7 @@ function FeaturedWorkCard({
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const badge = BADGE_STYLES[card.badgeVariant];
 
   useEffect(() => {
     const el = wrapperRef.current;
@@ -169,80 +190,64 @@ function FeaturedWorkCard({
     return () => observer.disconnect();
   }, []);
 
-  const imgPanel = (
-    <div className="relative aspect-4/3 overflow-hidden md:aspect-auto md:min-h-[480px]">
-      <div
-        className="fw-card-img absolute inset-0"
-        style={{ "--card-rotation": card.rotation } as React.CSSProperties}
-      >
-        <Image
-          alt={card.title}
-          className="h-full w-full object-cover"
-          fill
-          sizes="(max-width: 768px) 100vw, 55vw"
-          src={card.cover}
-        />
-      </div>
-    </div>
-  );
-
-  const textPanel = (
-    <div className="flex flex-col justify-between p-8 md:p-10 lg:p-14">
-      <div>
-        <p className="mb-6 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest">
-          [ {card.badge} ]
-        </p>
-        <p className="text-3xl leading-[1.05] tracking-tight transition-colors group-hover:text-(--accent) md:text-4xl lg:text-5xl">
-          {card.title}
-        </p>
-        <div className="mt-5 flex flex-wrap gap-2">
-          {card.tags.map((tag) => (
-            <span
-              className="border border-(--index-divider) px-2.5 py-1 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest"
-              key={tag}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        <p className="mt-6 max-w-sm text-(--text-muted) text-sm leading-relaxed">
-          {card.description}
-        </p>
-      </div>
-      <span className="mt-8 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors group-hover:text-(--foreground)">
-        View project →
-      </span>
-    </div>
-  );
-
   return (
     <div
       ref={wrapperRef}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(3.5rem)",
-        transition: `opacity 0.7s ease ${index * 130}ms, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${index * 130}ms`,
+        transform: visible ? "translateY(0)" : "translateY(3rem)",
+        transition: `opacity 0.65s ease ${index * 120}ms, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) ${index * 120}ms`,
       }}
     >
       <button
-        className="fw-card group w-full cursor-pointer overflow-hidden border border-(--index-divider) text-left"
+        className="fw-card group flex w-full cursor-pointer flex-col overflow-hidden border border-(--index-divider) text-left"
         onClick={() => onProjectClick(card.slug)}
+        style={{ "--card-rotation": card.rotation } as React.CSSProperties}
         type="button"
       >
-        <div
-          className={`grid ${card.imageOnRight ? "md:grid-cols-[0.9fr_1.1fr]" : "md:grid-cols-[1.1fr_0.9fr]"}`}
-        >
-          {card.imageOnRight ? (
-            <>
-              <div>{textPanel}</div>
-              <div>{imgPanel}</div>
-            </>
-          ) : (
-            <>
-              <div>{imgPanel}</div>
-              <div>{textPanel}</div>
-            </>
+        <div className={`px-5 py-4 ${badge.bar}`}>
+          {badge.eyebrow && (
+            <p className="mb-0.5 font-mono text-(--text-muted) text-[8px] uppercase tracking-widest opacity-55">
+              {badge.eyebrow}
+            </p>
           )}
+          <p
+            className={`font-mono text-[10px] uppercase tracking-widest ${badge.text} ${card.badgeVariant === "award" ? "font-medium" : ""}`}
+          >
+            {card.badgeLabel}
+          </p>
+        </div>
+
+        <div className="relative aspect-4/3 w-full overflow-hidden">
+          <Image
+            alt={card.title}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            src={card.cover}
+          />
+        </div>
+
+        <div className="flex flex-1 flex-col p-5 pt-4">
+          <p className="text-xl leading-snug tracking-tight transition-colors group-hover:text-(--accent) md:text-2xl">
+            {card.title}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {card.tags.map((tag) => (
+              <span
+                className="border border-(--index-divider) px-2 py-0.5 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest"
+                key={tag}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <p className="mt-3 text-(--text-muted) text-sm leading-relaxed">
+            {card.description}
+          </p>
+          <span className="mt-4 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors group-hover:text-(--foreground)">
+            View project →
+          </span>
         </div>
       </button>
     </div>
@@ -635,15 +640,10 @@ export function HomeIdentity({
       </section>
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-          <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-            Selected works
-          </p>
-          <p className="max-w-xs text-(--text-muted) text-sm leading-relaxed">
-            Frontend engineering, media art, and audio product design.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 md:gap-6">
+        <p className="mb-10 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+          Selected works
+        </p>
+        <div className="grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURED_CARDS.map((card, index) => (
             <FeaturedWorkCard
               card={card}
