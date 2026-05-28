@@ -76,6 +76,597 @@ const FEATURED_CARDS: FeaturedCard[] = [
   },
 ];
 
+interface HowIWorkCard {
+  eyebrow: string;
+  stripe: string;
+  badgeBg: string;
+  pillClass: string;
+  chipClass: string;
+  title: string;
+  tags: readonly string[];
+  description: string;
+}
+
+const HOW_I_WORK_CARDS: HowIWorkCard[] = [
+  {
+    eyebrow: "Approach",
+    stripe: "bg-(--accent)",
+    badgeBg: "bg-(--accent)/8",
+    pillClass: "border-(--accent)/45 bg-(--accent)/12 text-(--accent)",
+    chipClass: "border-(--accent)/35 bg-(--accent)/6 text-(--foreground)",
+    title: "Relations, not surfaces",
+    tags: ["Systems", "Constraints", "Behavior"],
+    description:
+      "I do not treat a project as a surface to style. I treat it as a set of relations: inputs, constraints, timing, feedback, misuse, attention.",
+  },
+  {
+    eyebrow: "Method",
+    stripe: "bg-(--role-web)",
+    badgeBg: "bg-(--role-web)/8",
+    pillClass: "border-(--role-web)/45 bg-(--role-web)/12 text-(--role-web)",
+    chipClass: "border-(--role-web)/35 bg-(--role-web)/6 text-(--foreground)",
+    title: "Cross-media fluency",
+    tags: ["Media Art", "Engineering", "Interaction"],
+    description:
+      "I move between media because the underlying questions are often the same: what needs to be visible, what behavior should be exposed, what should stay quiet, and where a user or performer needs leverage.",
+  },
+  {
+    eyebrow: "Goal",
+    stripe: "bg-(--role-audio)",
+    badgeBg: "bg-(--role-audio)/8",
+    pillClass:
+      "border-(--role-audio)/45 bg-(--role-audio)/12 text-(--role-audio)",
+    chipClass:
+      "border-(--role-audio)/35 bg-(--role-audio)/6 text-(--foreground)",
+    title: "Governing complexity",
+    tags: ["Architecture", "Control", "Human factors"],
+    description:
+      "I like projects where the hard part is not choosing a technology, but understanding the shape of the system: what should be fixed, what should remain alive, and how much complexity a person can hold while still feeling in control.",
+  },
+];
+
+function RelationsDiagram() {
+  const hub = { x: 200, y: 148 };
+  const satellites = [
+    { x: 72, y: 72, label: "INPUT" },
+    { x: 318, y: 60, label: "CONSTRAINT" },
+    { x: 352, y: 200, label: "TIMING" },
+    { x: 196, y: 266, label: "FEEDBACK" },
+    { x: 48, y: 222, label: "ATTENTION" },
+    { x: 134, y: 40, label: "MISUSE" },
+  ];
+  const crossEdges = [
+    [0, 5],
+    [1, 2],
+    [3, 4],
+  ];
+  const orbitPath = (cx: number, cy: number, r: number) =>
+    `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx - 0.01} ${cy - r}`;
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-full w-full"
+      viewBox="0 0 400 300"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>Relations diagram</title>
+      <style>{`
+        @keyframes hiw-edge { 0%,100%{opacity:.14} 50%{opacity:.42} }
+        @keyframes hiw-cross { 0%,100%{opacity:.07} 50%{opacity:.22} }
+        @keyframes hiw-hub { 0%,100%{r:7} 50%{r:9.5} }
+        @keyframes hiw-orbit { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+      `}</style>
+      {crossEdges.map(([a, b], i) => (
+        <line
+          key={`ce-${a}-${b}`}
+          stroke="var(--accent)"
+          strokeWidth="0.6"
+          style={{
+            animation: `hiw-cross ${4.5 + i * 0.6}s ease-in-out ${i * 0.7}s infinite`,
+          }}
+          x1={satellites[a].x}
+          x2={satellites[b].x}
+          y1={satellites[a].y}
+          y2={satellites[b].y}
+        />
+      ))}
+      {satellites.map((s, si) => (
+        <line
+          key={`he-${s.label}`}
+          stroke="var(--accent)"
+          strokeWidth="0.9"
+          style={{
+            animation: `hiw-edge ${3.2 + si * 0.35}s ease-in-out ${si * 0.28}s infinite`,
+          }}
+          x1={hub.x}
+          x2={s.x}
+          y1={hub.y}
+          y2={s.y}
+        />
+      ))}
+      {crossEdges.map(([a, b], i) => (
+        <circle
+          fill="var(--accent)"
+          key={`cp-${a}-${b}`}
+          opacity="0.55"
+          r="1.8"
+        >
+          <animateMotion
+            dur={`${5 + i * 0.8}s`}
+            path={`M ${satellites[a].x} ${satellites[a].y} L ${satellites[b].x} ${satellites[b].y}`}
+            repeatCount="indefinite"
+          />
+        </circle>
+      ))}
+      {satellites.map((s, si) => (
+        <g key={`flow-${s.label}`}>
+          <circle fill="var(--accent)" opacity="0.95" r="2.2">
+            <animateMotion
+              dur={`${2.4 + si * 0.35}s`}
+              path={`M ${hub.x} ${hub.y} L ${s.x} ${s.y}`}
+              repeatCount="indefinite"
+            />
+          </circle>
+          <circle fill="var(--accent)" opacity="0.45" r="1.6">
+            <animateMotion
+              begin={`${1.2 + si * 0.18}s`}
+              dur={`${2.4 + si * 0.35}s`}
+              path={`M ${s.x} ${s.y} L ${hub.x} ${hub.y}`}
+              repeatCount="indefinite"
+            />
+          </circle>
+        </g>
+      ))}
+      {satellites.map((s, si) => (
+        <g key={`n-${s.label}`}>
+          <circle fill="var(--accent)" opacity="0.12" r="10">
+            <animateMotion
+              dur={`${7 + si * 0.6}s`}
+              path={orbitPath(s.x, s.y, 10)}
+              repeatCount="indefinite"
+            />
+          </circle>
+          <circle fill="var(--accent)" r="3.5">
+            <animateMotion
+              dur={`${4.5 + si * 0.5}s`}
+              path={orbitPath(s.x, s.y, 7)}
+              repeatCount="indefinite"
+            />
+          </circle>
+          <text
+            fill="var(--accent)"
+            fontFamily="monospace"
+            fontSize="7"
+            letterSpacing="0.12em"
+            opacity="0.55"
+            textAnchor="middle"
+            x={s.x}
+            y={s.y - 10}
+          >
+            {s.label}
+          </text>
+        </g>
+      ))}
+      <g
+        style={{
+          transformOrigin: "200px 148px",
+          animation: "hiw-orbit 48s linear infinite",
+        }}
+      >
+        <circle
+          cx={hub.x + 22}
+          cy={hub.y}
+          fill="var(--accent)"
+          opacity="0.35"
+          r="1.5"
+        />
+        <circle
+          cx={hub.x - 18}
+          cy={hub.y}
+          fill="var(--accent)"
+          opacity="0.25"
+          r="1"
+        />
+        <circle
+          cx={hub.x}
+          cy={hub.y - 16}
+          fill="var(--accent)"
+          opacity="0.3"
+          r="1.2"
+        />
+      </g>
+      <circle
+        cx={hub.x}
+        cy={hub.y}
+        fill="none"
+        r="7"
+        stroke="var(--accent)"
+        strokeWidth="1.5"
+        style={{ animation: "hiw-hub 4s ease-in-out infinite" }}
+      />
+      <circle cx={hub.x} cy={hub.y} fill="var(--accent)" opacity="0.85" r="3" />
+    </svg>
+  );
+}
+
+function CrossMediaDiagram() {
+  const practice = { x: 200, y: 152 };
+  const domains = [
+    { cx: 148, cy: 128, label: "WEB", color: "var(--role-web)" },
+    { cx: 252, cy: 128, label: "SOUND", color: "var(--role-audio)" },
+    { cx: 200, cy: 196, label: "SPACE", color: "var(--role-creative)" },
+  ];
+  const orbitPath = (cx: number, cy: number, r: number) =>
+    `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx - 0.01} ${cy - r}`;
+
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-full w-full"
+      viewBox="0 0 400 300"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>Cross-media diagram</title>
+      <style>{`
+        @keyframes hiw-frame { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(3deg)} }
+      `}</style>
+      {domains.map((d, di) => (
+        <g key={`fill-${d.label}`}>
+          <circle
+            cx={d.cx}
+            cy={d.cy}
+            fill={d.color}
+            opacity="0.1"
+            r="90"
+            stroke={d.color}
+            strokeWidth="1.5"
+          >
+            <animate
+              attributeName="opacity"
+              dur={`${4.5 + di * 0.6}s`}
+              repeatCount="indefinite"
+              values="0.08;0.2;0.08"
+            />
+            <animate
+              attributeName="r"
+              dur={`${4.5 + di * 0.6}s`}
+              repeatCount="indefinite"
+              values="88;93;88"
+            />
+          </circle>
+        </g>
+      ))}
+      {domains.map((d, di) => (
+        <circle fill={d.color} key={`orbit-${d.label}`} opacity="0.85" r="3">
+          <animateMotion
+            dur={`${6 + di * 1.2}s`}
+            path={orbitPath(d.cx, d.cy, 90)}
+            repeatCount="indefinite"
+          />
+        </circle>
+      ))}
+      {domains.map((d, di) => (
+        <g key={`flow-${d.label}`}>
+          <circle fill={d.color} opacity="0.9" r="2">
+            <animateMotion
+              dur={`${2.8 + di * 0.4}s`}
+              path={`M ${d.cx} ${d.cy} L ${practice.x} ${practice.y}`}
+              repeatCount="indefinite"
+            />
+          </circle>
+          <circle fill={d.color} opacity="0.35" r="1.5">
+            <animateMotion
+              begin={`${1.4 + di * 0.3}s`}
+              dur={`${2.8 + di * 0.4}s`}
+              path={`M ${practice.x} ${practice.y} L ${d.cx} ${d.cy}`}
+              repeatCount="indefinite"
+            />
+          </circle>
+        </g>
+      ))}
+      <g opacity="0.45" stroke="var(--role-web)" strokeWidth="0.7">
+        {[0, 1, 2].map((row) =>
+          [0, 1, 2].map((col) => (
+            <rect
+              fill="var(--role-web)"
+              height="5"
+              key={`grid-${row}-${col}`}
+              opacity={0.35 + (row + col) * 0.08}
+              width="5"
+              x={136 + col * 10}
+              y={116 + row * 10}
+            >
+              <animate
+                attributeName="opacity"
+                dur={`${2.2 + (row + col) * 0.3}s`}
+                repeatCount="indefinite"
+                values={`${0.2 + (row + col) * 0.05};${0.55 + (row + col) * 0.05};${0.2 + (row + col) * 0.05}`}
+              />
+            </rect>
+          ))
+        )}
+      </g>
+      <path
+        d="M 218 128 Q 228 118 238 128 T 258 128 T 278 128"
+        fill="none"
+        stroke="var(--role-audio)"
+        strokeWidth="1.2"
+      >
+        <animate
+          attributeName="d"
+          dur="2.4s"
+          repeatCount="indefinite"
+          values="M 218 128 Q 228 118 238 128 T 258 128 T 278 128;M 218 128 Q 228 138 238 128 T 258 118 T 278 128;M 218 128 Q 228 118 238 128 T 258 128 T 278 128"
+        />
+      </path>
+      <circle cx="218" cy="128" fill="var(--role-audio)" opacity="0.9" r="2.2">
+        <animate
+          attributeName="cy"
+          dur="1.2s"
+          repeatCount="indefinite"
+          values="128;120;132;128"
+        />
+        <animate
+          attributeName="cx"
+          dur="2.4s"
+          repeatCount="indefinite"
+          values="218;238;258;278;258;238;218"
+        />
+      </circle>
+      <g
+        stroke="var(--role-creative)"
+        strokeWidth="1"
+        style={{
+          transformOrigin: "200px 196px",
+          animation: "hiw-frame 5s ease-in-out infinite",
+        }}
+      >
+        <rect
+          fill="none"
+          height="36"
+          opacity="0.55"
+          width="48"
+          x="176"
+          y="178"
+        />
+        <circle
+          cx="176"
+          cy="178"
+          fill="var(--role-creative)"
+          opacity="0.7"
+          r="2"
+        >
+          <animate
+            attributeName="opacity"
+            dur="2s"
+            repeatCount="indefinite"
+            values="0.4;1;0.4"
+          />
+        </circle>
+        <circle
+          cx="224"
+          cy="178"
+          fill="var(--role-creative)"
+          opacity="0.7"
+          r="2"
+        >
+          <animate
+            attributeName="opacity"
+            begin="0.5s"
+            dur="2s"
+            repeatCount="indefinite"
+            values="0.4;1;0.4"
+          />
+        </circle>
+        <circle
+          cx="176"
+          cy="214"
+          fill="var(--role-creative)"
+          opacity="0.7"
+          r="2"
+        >
+          <animate
+            attributeName="opacity"
+            begin="1s"
+            dur="2s"
+            repeatCount="indefinite"
+            values="0.4;1;0.4"
+          />
+        </circle>
+        <circle
+          cx="224"
+          cy="214"
+          fill="var(--role-creative)"
+          opacity="0.7"
+          r="2"
+        >
+          <animate
+            attributeName="opacity"
+            begin="1.5s"
+            dur="2s"
+            repeatCount="indefinite"
+            values="0.4;1;0.4"
+          />
+        </circle>
+      </g>
+      <circle
+        cx={practice.x}
+        cy={practice.y}
+        fill="var(--foreground)"
+        opacity="0.85"
+        r="5"
+      >
+        <animate
+          attributeName="r"
+          dur="3.5s"
+          repeatCount="indefinite"
+          values="5;7;5"
+        />
+        <animate
+          attributeName="opacity"
+          dur="3.5s"
+          repeatCount="indefinite"
+          values="0.55;1;0.55"
+        />
+      </circle>
+    </svg>
+  );
+}
+
+function ComplexityDiagram() {
+  const layers = [
+    { w: 290, h: 208, rot: 0, op: 0.1 },
+    { w: 238, h: 170, rot: 4, op: 0.16 },
+    { w: 190, h: 136, rot: 8, op: 0.24 },
+    { w: 146, h: 105, rot: 12, op: 0.34 },
+    { w: 106, h: 76, rot: 16, op: 0.48 },
+    { w: 68, h: 49, rot: 20, op: 0.7 },
+  ];
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-full w-full"
+      viewBox="0 0 400 300"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>Complexity diagram</title>
+      <style>{`
+        @keyframes hiw-spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+      `}</style>
+      <g
+        style={{
+          transformOrigin: "200px 150px",
+          animation: "hiw-spin 80s linear infinite",
+        }}
+      >
+        {layers.map((l) => (
+          <rect
+            fill="none"
+            height={l.h}
+            key={`layer-${l.rot}`}
+            opacity={l.op}
+            stroke="var(--role-audio)"
+            strokeWidth={l.op > 0.6 ? 1.5 : 0.8}
+            transform={`rotate(${l.rot} 200 150)`}
+            width={l.w}
+            x={200 - l.w / 2}
+            y={150 - l.h / 2}
+          />
+        ))}
+      </g>
+      <circle cx="200" cy="150" fill="var(--role-audio)" opacity="0.85" r="3" />
+      <text
+        fill="var(--role-audio)"
+        fontFamily="monospace"
+        fontSize="7"
+        letterSpacing="0.14em"
+        opacity="0.38"
+        textAnchor="middle"
+        x="200"
+        y="34"
+      >
+        OUTER COMPLEXITY
+      </text>
+      <text
+        fill="var(--role-audio)"
+        fontFamily="monospace"
+        fontSize="7"
+        letterSpacing="0.14em"
+        opacity="0.38"
+        textAnchor="middle"
+        x="200"
+        y="278"
+      >
+        INNER CONTROL
+      </text>
+    </svg>
+  );
+}
+
+const HOW_I_WORK_DIAGRAMS = [
+  RelationsDiagram,
+  CrossMediaDiagram,
+  ComplexityDiagram,
+];
+
+function HowIWorkCardItem({
+  card,
+  index,
+}: {
+  card: HowIWorkCard;
+  index: number;
+}) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const Diagram = HOW_I_WORK_DIAGRAMS[index];
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.06 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      className="h-full"
+      ref={wrapperRef}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(3rem)",
+        transition: `opacity 0.65s ease ${index * 120}ms, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) ${index * 120}ms`,
+      }}
+    >
+      <div className="flex h-full w-full flex-col overflow-hidden border border-(--index-divider) border-t-0">
+        <div aria-hidden className={`h-[2px] w-full shrink-0 ${card.stripe}`} />
+        <div
+          className={`border-(--index-divider)/50 border-b px-5 py-4 ${card.badgeBg}`}
+        >
+          <span
+            className={`inline-block border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${card.pillClass}`}
+          >
+            {card.eyebrow}
+          </span>
+        </div>
+        <div
+          className={`relative aspect-4/3 w-full overflow-hidden ${card.badgeBg}`}
+        >
+          {Diagram && <Diagram />}
+        </div>
+        <div className="flex flex-1 flex-col p-5 pt-4">
+          <p className="text-xl leading-snug tracking-tight md:text-2xl">
+            {card.title}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {card.tags.map((tag) => (
+              <span
+                className={`border px-2.5 py-1 font-mono text-[11px] leading-snug tracking-wide ${card.chipClass}`}
+                key={tag}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <p className="mt-3 text-(--text-muted) text-sm leading-relaxed">
+            {card.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface CategoryColumn {
   id: ProjectCategory;
   proof?: string;
@@ -144,33 +735,88 @@ const BADGE_STYLES: Record<
   {
     stripe: string;
     badgeBg: string;
-    labelClass: string;
+    pillClass: string;
+    chipClass: string;
     eyebrow: string;
-    eyebrowClass: string;
   }
 > = {
   award: {
     stripe: "bg-(--accent)",
-    badgeBg: "bg-(--accent)/5",
-    labelClass: "text-(--accent)",
+    badgeBg: "bg-(--accent)/8",
+    pillClass: "border-(--accent)/45 bg-(--accent)/12 text-(--accent)",
+    chipClass: "border-(--accent)/35 bg-(--accent)/6 text-(--foreground)",
     eyebrow: "Award",
-    eyebrowClass: "text-(--accent)",
   },
   collaboration: {
     stripe: "bg-(--role-web)",
-    badgeBg: "",
-    labelClass: "text-(--foreground)",
-    eyebrow: "Collaboration",
-    eyebrowClass: "text-(--role-web)",
+    badgeBg: "bg-(--role-web)/8",
+    pillClass: "border-(--role-web)/45 bg-(--role-web)/12 text-(--role-web)",
+    chipClass: "border-(--role-web)/35 bg-(--role-web)/6 text-(--foreground)",
+    eyebrow: "Client",
   },
   publisher: {
     stripe: "bg-(--role-audio)",
-    badgeBg: "",
-    labelClass: "text-(--foreground)",
+    badgeBg: "bg-(--role-audio)/8",
+    pillClass:
+      "border-(--role-audio)/45 bg-(--role-audio)/12 text-(--role-audio)",
+    chipClass:
+      "border-(--role-audio)/35 bg-(--role-audio)/6 text-(--foreground)",
     eyebrow: "Published by",
-    eyebrowClass: "text-(--role-audio)",
   },
 };
+
+const BADGE_CLIENT_SEPARATOR = /\s*[·×]\s*/;
+
+function parseBadgeClients(label: string): string[] {
+  return label
+    .split(BADGE_CLIENT_SEPARATOR)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+function FeaturedWorkBadge({
+  card,
+  badge,
+}: {
+  card: FeaturedCard;
+  badge: (typeof BADGE_STYLES)[FeaturedCard["badgeVariant"]];
+}) {
+  return (
+    <div
+      className={`border-(--index-divider)/50 border-b px-5 py-4 ${badge.badgeBg}`}
+    >
+      <span
+        className={`inline-block border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${badge.pillClass}`}
+      >
+        {badge.eyebrow}
+      </span>
+      {card.badgeVariant === "award" ? (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          <span
+            className={`border px-2.5 py-1 font-mono text-[11px] leading-snug tracking-wide ${badge.chipClass}`}
+          >
+            <span className="text-(--accent)">{primaryAward.headline}</span>
+            <span className="text-(--text-muted)">
+              {" "}
+              · {primaryAward.title} · {primaryAward.year}
+            </span>
+          </span>
+        </div>
+      ) : (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {parseBadgeClients(card.badgeLabel).map((client) => (
+            <span
+              className={`border px-2.5 py-1 font-mono text-[11px] leading-snug tracking-wide ${badge.chipClass}`}
+              key={client}
+            >
+              {client}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function FeaturedWorkCard({
   card,
@@ -222,18 +868,7 @@ function FeaturedWorkCard({
           aria-hidden
           className={`h-[2px] w-full shrink-0 ${badge.stripe}`}
         />
-        <div className={`px-5 py-4 ${badge.badgeBg}`}>
-          <p
-            className={`mb-1 font-mono text-[8px] uppercase tracking-widest ${badge.eyebrowClass}`}
-          >
-            {badge.eyebrow}
-          </p>
-          <p
-            className={`font-mono text-[10px] uppercase tracking-widest ${badge.labelClass}`}
-          >
-            {card.badgeLabel}
-          </p>
-        </div>
+        <FeaturedWorkBadge badge={badge} card={card} />
 
         <div className="relative aspect-4/3 w-full overflow-hidden">
           <Image
@@ -648,29 +1283,13 @@ export function HomeIdentity({
       </section>
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-24">
-        <p className="mb-8 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+        <p className="mb-10 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
           How I work
         </p>
-        <p className="mb-12 max-w-4xl text-2xl leading-snug tracking-tight md:text-3xl">
-          I do not treat a project as a surface to style. I treat it as a set of
-          relations:{" "}
-          <span className="text-(--text-muted)">
-            inputs, constraints, timing, feedback, misuse, attention.
-          </span>
-        </p>
-        <div className="grid gap-8 md:grid-cols-2 md:gap-16">
-          <p className="text-(--text-muted) text-base leading-relaxed">
-            I move between media because the underlying questions are often the
-            same: what needs to be visible, what behavior should be exposed,
-            what should stay quiet, and where a user or performer needs
-            leverage.
-          </p>
-          <p className="text-(--text-muted) text-base leading-relaxed">
-            I like projects where the hard part is not choosing a technology,
-            but understanding the shape of the system: what should be fixed,
-            what should remain alive, and how much complexity a person can hold
-            while still feeling in control.
-          </p>
+        <div className="grid items-stretch gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {HOW_I_WORK_CARDS.map((card, index) => (
+            <HowIWorkCardItem card={card} index={index} key={card.title} />
+          ))}
         </div>
       </section>
 
