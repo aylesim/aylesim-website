@@ -4,7 +4,7 @@ category: devices
 workScope: commercial
 order: 2
 menuLabel: max4live
-listTagline: Can layered modulation stay legible while you perform?
+listTagline: Layered modulation engine for Live
 listBadges:
   - prefix: available on
     label: Gumroad

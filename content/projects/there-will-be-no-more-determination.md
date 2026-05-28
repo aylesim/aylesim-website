@@ -3,7 +3,6 @@ type: work
 category: installations
 order: 10
 menuLabel: artwork
-listTagline: What does war vision do to people below?
 title: There Will Be No More Determination
 role: Artist
 client: Independent

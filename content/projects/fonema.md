@@ -3,7 +3,6 @@ type: work
 category: installations
 order: 12
 menuLabel: artwork
-listTagline: What remains when speech loses its meaning?
 title: Fonema
 role: Artist
 client: Independent

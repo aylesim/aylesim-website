@@ -4,7 +4,6 @@ category: installations
 practice: installations
 order: 11
 menuLabel: artwork
-listTagline: Who pays when automated edits need human repair?
 title: Wikyslavery
 role: Artist
 client: Independent

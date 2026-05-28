@@ -3,7 +3,6 @@ type: work
 category: installations
 order: 9
 menuLabel: artwork
-listTagline: What happens when unsecured cameras stay online?
 title: Please Set a Password
 role: Artist
 client: Independent

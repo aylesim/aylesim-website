@@ -153,8 +153,7 @@ function SelectedWorkCard({
   const category = project.category;
   const styles = category ? ROLE_STYLES[category] : null;
   const cover = getProjectCover(project);
-  const summary =
-    project.listTagline ?? project.highlights[0] ?? project.secondaryMeta;
+  const summary = project.highlights[0] ?? project.secondaryMeta;
   const coverIsRemote = cover.startsWith("http");
 
   return (
