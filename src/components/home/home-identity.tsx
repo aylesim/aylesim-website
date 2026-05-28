@@ -1379,7 +1379,7 @@ export function HomeIdentity({
       </section>
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
-        <p className="mb-10 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+        <p className="mb-10 font-mono text-(--accent) text-sm uppercase tracking-[0.18em]">
           Selected works
         </p>
         <div className="grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
@@ -1395,7 +1395,7 @@ export function HomeIdentity({
       </section>
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-24">
-        <p className="mb-10 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+        <p className="mb-10 font-mono text-(--accent) text-sm uppercase tracking-[0.18em]">
           How I work
         </p>
         <div className="grid items-stretch gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
