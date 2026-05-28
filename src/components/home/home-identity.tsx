@@ -298,6 +298,15 @@ function CrossMediaDiagram() {
   ];
   const orbitPath = (cx: number, cy: number, r: number) =>
     `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx - 0.01} ${cy - r}`;
+  const sound = domains[1];
+  const waveHalf = 30;
+  const waveLeft = sound.cx - waveHalf;
+  const waveRight = sound.cx + waveHalf;
+  const waveMid1 = sound.cx - 20;
+  const waveMid2 = sound.cx - 10;
+  const waveMid3 = sound.cx + 10;
+  const wavePeakUp = `M ${waveLeft} ${sound.cy} Q ${waveMid1} ${sound.cy - 10} ${waveMid2} ${sound.cy} T ${waveMid3} ${sound.cy} T ${waveRight} ${sound.cy}`;
+  const wavePeakDown = `M ${waveLeft} ${sound.cy} Q ${waveMid1} ${sound.cy + 10} ${waveMid2} ${sound.cy} T ${waveMid3} ${sound.cy - 10} T ${waveRight} ${sound.cy}`;
 
   return (
     <svg
@@ -387,7 +396,7 @@ function CrossMediaDiagram() {
         )}
       </g>
       <path
-        d="M 218 128 Q 228 118 238 128 T 258 128 T 278 128"
+        d={wavePeakUp}
         fill="none"
         stroke="var(--role-audio)"
         strokeWidth="1.2"
@@ -396,21 +405,27 @@ function CrossMediaDiagram() {
           attributeName="d"
           dur="2.4s"
           repeatCount="indefinite"
-          values="M 218 128 Q 228 118 238 128 T 258 128 T 278 128;M 218 128 Q 228 138 238 128 T 258 118 T 278 128;M 218 128 Q 228 118 238 128 T 258 128 T 278 128"
+          values={`${wavePeakUp};${wavePeakDown};${wavePeakUp}`}
         />
       </path>
-      <circle cx="218" cy="128" fill="var(--role-audio)" opacity="0.9" r="2.2">
+      <circle
+        cx={waveLeft}
+        cy={sound.cy}
+        fill="var(--role-audio)"
+        opacity="0.9"
+        r="2.2"
+      >
         <animate
           attributeName="cy"
           dur="1.2s"
           repeatCount="indefinite"
-          values="128;120;132;128"
+          values={`${sound.cy};${sound.cy - 8};${sound.cy + 4};${sound.cy}`}
         />
         <animate
           attributeName="cx"
           dur="2.4s"
           repeatCount="indefinite"
-          values="218;238;258;278;258;238;218"
+          values={`${waveLeft};${waveMid2};${sound.cx};${waveRight};${waveMid3};${waveMid2};${waveLeft}`}
         />
       </circle>
       <g
