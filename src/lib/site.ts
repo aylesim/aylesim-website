@@ -18,7 +18,7 @@ export const contentJsonPath = "/content.json";
 export const contentJsonUrl = `${siteOrigin}${contentJsonPath}`;
 
 export const contactAvailability =
-  "Currently available for freelance projects and open to full-time roles in Berlin.";
+  "Always open to discussing complex frontend architectures, audio system engineering, and projects at the intersection of code and human experience. If you have a demanding technical challenge or a full-time/freelance role in Berlin (or remote), let's talk.";
 
 export const webDeveloperStack =
   "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems";

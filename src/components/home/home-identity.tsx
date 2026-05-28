@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CategoryProjectRotator } from "@/components/home/category-project-rotator";
 import { ProjectTags } from "@/components/home/project-tags";
 import type { Project, ProjectListBadge } from "@/lib/content";
@@ -10,7 +10,6 @@ import {
   primaryAward,
   projectHasNationalArtsAward,
 } from "@/lib/credentials";
-import { getProjectCover } from "@/lib/project-cover";
 import {
   CATEGORY_LABELS,
   type ProjectCategory,
@@ -30,6 +29,53 @@ import {
   webDeveloperStack,
 } from "@/lib/site";
 
+interface FeaturedCard {
+  badge: string;
+  slug: string;
+  title: string;
+  tags: readonly string[];
+  description: string;
+  cover: string;
+  rotation: number;
+  imageOnRight?: boolean;
+}
+
+const FEATURED_CARDS: FeaturedCard[] = [
+  {
+    badge: "BERGGRUEN INSTITUTE × DARK MATTER LABS",
+    slug: "planetary-compendium",
+    title: "Planetary Compendium",
+    tags: ["Frontend Architecture", "Data Visualization", "React / TypeScript"],
+    description:
+      "A data-dense research interface built for high-throughput state management and render performance across thousands of concurrent heterogeneous data points.",
+    cover: "/planetary.png",
+    rotation: -1.5,
+    imageOnRight: false,
+  },
+  {
+    badge: "1ST PRIZE: NATIONAL ART AWARD (MUR)",
+    slug: "please-set-a-password",
+    title: "please set a password",
+    tags: ["Media Art", "Spatial Interaction", "System Design"],
+    description:
+      "Award-winning installation engineering a bridge between physical security rituals and digital authentication. Designed for robust real-time reliability in live public-facing contexts.",
+    cover: "/tw2.jpg",
+    rotation: 1.8,
+    imageOnRight: true,
+  },
+  {
+    badge: "PUBLISHED BY: ISOTONIK STUDIOS",
+    slug: "knob-studio",
+    title: "Knob Studio",
+    tags: ["UI/UX Design", "Audio Engineering", "DSP / MaxMSP"],
+    description:
+      "Commercial Max for Live instrument optimized for sub-5ms parameter response and zero-latency UI feedback. Actively maintained for 3,600+ musicians worldwide.",
+    cover: "/knobstudio.png",
+    rotation: -2,
+    imageOnRight: false,
+  },
+];
+
 interface CategoryColumn {
   id: ProjectCategory;
   proof?: string;
@@ -38,12 +84,6 @@ interface CategoryColumn {
   stack?: string;
   resumeHref?: string;
 }
-
-const SELECTED_SLUGS = [
-  "birds",
-  "planetary-compendium",
-  "tedx-barletta",
-] as const;
 
 const PRIMARY_AUDIO_SLUGS = new Set(["birds", "knob-studio"]);
 
@@ -99,10 +139,114 @@ function columnCarouselProjects(
   return categoryProjects(projects, columnId);
 }
 
-function selectedProjects(projects: Project[]) {
-  return SELECTED_SLUGS.map((slug) =>
-    projects.find((project) => project.slug === slug)
-  ).filter((project): project is Project => Boolean(project));
+function FeaturedWorkCard({
+  card,
+  index,
+  onProjectClick,
+}: {
+  card: FeaturedCard;
+  index: number;
+  onProjectClick: (slug: string) => void;
+}) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.06 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const imgPanel = (
+    <div className="relative aspect-4/3 overflow-hidden md:aspect-auto md:min-h-[480px]">
+      <div
+        className="fw-card-img absolute inset-0"
+        style={{ "--card-rotation": card.rotation } as React.CSSProperties}
+      >
+        <Image
+          alt={card.title}
+          className="h-full w-full object-cover"
+          fill
+          sizes="(max-width: 768px) 100vw, 55vw"
+          src={card.cover}
+        />
+      </div>
+    </div>
+  );
+
+  const textPanel = (
+    <div className="flex flex-col justify-between p-8 md:p-10 lg:p-14">
+      <div>
+        <p className="mb-6 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest">
+          [ {card.badge} ]
+        </p>
+        <p className="text-3xl leading-[1.05] tracking-tight transition-colors group-hover:text-(--accent) md:text-4xl lg:text-5xl">
+          {card.title}
+        </p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {card.tags.map((tag) => (
+            <span
+              className="border border-(--index-divider) px-2.5 py-1 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest"
+              key={tag}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        <p className="mt-6 max-w-sm text-(--text-muted) text-sm leading-relaxed">
+          {card.description}
+        </p>
+      </div>
+      <span className="mt-8 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors group-hover:text-(--foreground)">
+        View project →
+      </span>
+    </div>
+  );
+
+  return (
+    <div
+      ref={wrapperRef}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(3.5rem)",
+        transition: `opacity 0.7s ease ${index * 130}ms, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${index * 130}ms`,
+      }}
+    >
+      <button
+        className="fw-card group w-full cursor-pointer overflow-hidden border border-(--index-divider) text-left"
+        onClick={() => onProjectClick(card.slug)}
+        type="button"
+      >
+        <div
+          className={`grid ${card.imageOnRight ? "md:grid-cols-[0.9fr_1.1fr]" : "md:grid-cols-[1.1fr_0.9fr]"}`}
+        >
+          {card.imageOnRight ? (
+            <>
+              <div>{textPanel}</div>
+              <div>{imgPanel}</div>
+            </>
+          ) : (
+            <>
+              <div>{imgPanel}</div>
+              <div>{textPanel}</div>
+            </>
+          )}
+        </div>
+      </button>
+    </div>
+  );
 }
 
 function ProjectListBadgeItem({
@@ -141,64 +285,6 @@ function ProjectListBadgeItem({
         <span className={linkClass}>{label}</span>
       )}
     </span>
-  );
-}
-
-function SelectedWorkCard({
-  project,
-  onProjectClick,
-}: {
-  project: Project;
-  onProjectClick: (slug: string) => void;
-}) {
-  const category = project.category;
-  const styles = category ? ROLE_STYLES[category] : null;
-  const cover = getProjectCover(project);
-  const summary = project.highlights[0] ?? project.secondaryMeta;
-  const coverIsRemote = cover.startsWith("http");
-
-  return (
-    <button
-      className="group flex w-full flex-col text-left"
-      onClick={() => onProjectClick(project.slug)}
-      type="button"
-    >
-      <div className="mb-4 w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5">
-        <Image
-          alt={project.title}
-          className="aspect-[4/3] w-full object-cover transition-opacity duration-200 group-hover:opacity-85"
-          height={900}
-          priority={project.slug === "birds"}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          src={cover}
-          unoptimized={coverIsRemote}
-          width={1200}
-        />
-      </div>
-      {styles && category && (
-        <p
-          className={`mb-2 font-mono text-[10px] uppercase tracking-widest ${styles.labelClass}`}
-        >
-          {CATEGORY_LABELS[category]}
-        </p>
-      )}
-      <span className="text-lg leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
-        {project.title}
-      </span>
-      <ProjectTags
-        category={project.category}
-        className="mt-1.5"
-        tags={project.tags}
-      />
-      {summary && (
-        <span className="mt-2 line-clamp-2 text-(--text-muted) text-sm leading-relaxed">
-          {summary}
-        </span>
-      )}
-      <span className="mt-3 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors group-hover:text-(--foreground)">
-        View project
-      </span>
-    </button>
   );
 }
 
@@ -506,9 +592,20 @@ export function HomeIdentity({
           </h1>
         </div>
         <p className="max-w-xl text-(--text-muted) text-base leading-relaxed md:self-end md:text-lg">
-          My work moves between audio software, web platforms, and spatial
-          experiences. Different outputs, same problem: make complex behavior
-          understandable enough to perform, use, or inhabit.
+          I design and program stable digital systems where code, sound, and
+          space converge. My practice bridges the rigor of{" "}
+          <strong className="font-normal text-(--foreground)">
+            software engineering
+          </strong>{" "}
+          with the research of{" "}
+          <strong className="font-normal text-(--foreground)">media art</strong>
+          . I develop complex frontend architectures (React, TypeScript),
+          applying the same obsession for performance, latency, and state
+          management that I use to engineer spatial installations, generative
+          systems, and audio tools (Max for Live) used by thousands of
+          musicians. Whether building a web ecosystem or a sensory interaction,
+          my goal is to govern technical complexity to create solid logical and
+          aesthetic behaviors.
         </p>
       </section>
 
@@ -537,22 +634,22 @@ export function HomeIdentity({
         </div>
       </section>
 
-      <section className="grid gap-8 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.45fr_1fr] md:py-20">
-        <div>
+      <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-            Selected work
+            Selected works
           </p>
-          <p className="mt-4 max-w-xs text-(--text-muted) text-sm leading-relaxed">
-            Three entry points across audio software, web development, and
-            spatial work.
+          <p className="max-w-xs text-(--text-muted) text-sm leading-relaxed">
+            Frontend engineering, media art, and audio product design.
           </p>
         </div>
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {selectedProjects(projects).map((project) => (
-            <SelectedWorkCard
-              key={project.slug}
+        <div className="flex flex-col gap-4 md:gap-6">
+          {FEATURED_CARDS.map((card, index) => (
+            <FeaturedWorkCard
+              card={card}
+              index={index}
+              key={card.slug}
               onProjectClick={onProjectClick}
-              project={project}
             />
           ))}
         </div>
