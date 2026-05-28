@@ -3,6 +3,7 @@ type: work
 category: web-interactive
 order: 1
 menuLabel: web
+listTagline: How do governance ideas connect across scales?
 title: Planetary Compendium
 role: Frontend Developer
 client: Berggruen Institute × Dark Matter Labs

@@ -4,6 +4,7 @@ category: devices
 workScope: commercial
 order: 8
 menuLabel: max4live
+listTagline: How do you thin a clip without rewriting MIDI?
 listBadges:
   - prefix: available on
     label: Gumroad

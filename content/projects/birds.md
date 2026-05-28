@@ -4,7 +4,7 @@ category: devices
 workScope: commercial
 order: 1
 menuLabel: max4live
-listTagline: Generative melody sequencer
+listTagline: How far can a phrase drift and still read?
 listBadges:
   - prefix: available on
     label: Gumroad

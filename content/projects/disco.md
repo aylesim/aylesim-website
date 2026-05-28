@@ -4,6 +4,7 @@ category: devices
 workScope: commercial
 order: 5
 menuLabel: max4live
+listTagline: What if delay taps moved together on a ring?
 listBadges:
   - prefix: available on
     label: Gumroad

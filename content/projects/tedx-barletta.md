@@ -3,6 +3,7 @@ type: work
 category: installations
 order: 4
 menuLabel: AV performance
+listTagline: What if the stage spoke through rhythm, not talk?
 title: TEDx Barletta
 role: Visual Artist
 client: TEDx Barletta

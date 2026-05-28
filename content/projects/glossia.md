@@ -7,7 +7,7 @@ title: Glossia
 role: Developer
 client: Open source
 year: "2026"
-listTagline: Interactive audio/visual web playground
+listTagline: Where should sound and image meet in the browser?
 tech:
   - TypeScript
   - React

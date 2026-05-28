@@ -3,6 +3,7 @@ type: work
 category: web-interactive
 order: 2
 menuLabel: web
+listTagline: Where is the next meetup when posts scatter?
 canvasImage: /LN.png
 title: Max Berlin Network
 role: Co-Founder & Web Developer

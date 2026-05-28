@@ -4,6 +4,7 @@ category: devices
 workScope: commercial
 order: 7
 menuLabel: max4live
+listTagline: Why leave Live just to find a sample?
 listBadges:
   - prefix: featured on
     label: Create Digital Music
