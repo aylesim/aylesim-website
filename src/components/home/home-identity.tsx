@@ -647,23 +647,25 @@ export function HomeIdentity({
         </div>
       </section>
 
-      <section className="grid gap-8 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.45fr_1fr] md:py-24">
-        <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+      <section className="border-(--index-divider) border-b border-dotted py-14 md:py-24">
+        <p className="mb-8 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
           How I work
         </p>
-        <div className="max-w-4xl space-y-7">
-          <p className="text-2xl leading-snug tracking-tight md:text-4xl">
-            I do not treat a project as a surface to style. I treat it as a set
-            of relations: inputs, constraints, timing, feedback, misuse,
-            attention.
-          </p>
-          <p className="max-w-3xl text-(--text-muted) text-base leading-relaxed md:text-lg">
+        <p className="mb-12 max-w-4xl text-2xl leading-snug tracking-tight md:text-3xl">
+          I do not treat a project as a surface to style. I treat it as a set of
+          relations:{" "}
+          <span className="text-(--text-muted)">
+            inputs, constraints, timing, feedback, misuse, attention.
+          </span>
+        </p>
+        <div className="grid gap-8 md:grid-cols-2 md:gap-16">
+          <p className="text-(--text-muted) text-base leading-relaxed">
             I move between media because the underlying questions are often the
             same: what needs to be visible, what behavior should be exposed,
             what should stay quiet, and where a user or performer needs
             leverage.
           </p>
-          <p className="max-w-3xl text-(--text-muted) text-base leading-relaxed md:text-lg">
+          <p className="text-(--text-muted) text-base leading-relaxed">
             I like projects where the hard part is not choosing a technology,
             but understanding the shape of the system: what should be fixed,
             what should remain alive, and how much complexity a person can hold
