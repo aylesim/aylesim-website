@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { CategoryProjectRotator } from "@/components/home/category-project-rotator";
 import { ProjectTags } from "@/components/home/project-tags";
 import type { Project, ProjectListBadge } from "@/lib/content";
@@ -125,7 +131,53 @@ const HOW_I_WORK_CARDS: HowIWorkCard[] = [
   },
 ];
 
+interface DiagramPointer {
+  x: number;
+  y: number;
+}
+
+function useDiagramPointer() {
+  const ref = useRef<SVGSVGElement>(null);
+  const [pointer, setPointer] = useState<DiagramPointer>({ x: 0, y: 0 });
+  const [active, setActive] = useState(false);
+
+  const handleMove = (event: React.MouseEvent<SVGSVGElement>) => {
+    const bounds = ref.current?.getBoundingClientRect();
+    if (!bounds) {
+      return;
+    }
+    setActive(true);
+    setPointer({
+      x: ((event.clientX - bounds.left) / bounds.width - 0.5) * 2,
+      y: ((event.clientY - bounds.top) / bounds.height - 0.5) * 2,
+    });
+  };
+
+  const handleLeave = () => {
+    setActive(false);
+    setPointer({ x: 0, y: 0 });
+  };
+
+  return { ref, pointer, active, handleMove, handleLeave };
+}
+
+function diagramGroupStyle(
+  pointer: DiagramPointer,
+  amount: number,
+  origin = "200px 150px",
+  active = false
+): CSSProperties {
+  return {
+    transform: `translate(${pointer.x * amount}px, ${pointer.y * amount}px) rotate(${pointer.x * amount * 0.06}deg)`,
+    transformOrigin: origin,
+    transition: active
+      ? "transform 0.18s ease-out"
+      : "transform 0.45s ease-out",
+  };
+}
+
 function RelationsDiagram() {
+  const { ref, pointer, active, handleMove, handleLeave } = useDiagramPointer();
   const hub = { x: 200, y: 148 };
   const satellites = [
     { x: 72, y: 72, label: "INPUT" },
@@ -146,6 +198,9 @@ function RelationsDiagram() {
     <svg
       aria-hidden="true"
       className="h-full w-full"
+      onMouseLeave={handleLeave}
+      onMouseMove={handleMove}
+      ref={ref}
       viewBox="0 0 400 300"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -156,140 +211,153 @@ function RelationsDiagram() {
         @keyframes hiw-hub { 0%,100%{r:7} 50%{r:9.5} }
         @keyframes hiw-orbit { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
-      {crossEdges.map(([a, b], i) => (
-        <line
-          key={`ce-${a}-${b}`}
-          stroke="var(--accent)"
-          strokeWidth="0.6"
-          style={{
-            animation: `hiw-cross ${4.5 + i * 0.6}s ease-in-out ${i * 0.7}s infinite`,
-          }}
-          x1={satellites[a].x}
-          x2={satellites[b].x}
-          y1={satellites[a].y}
-          y2={satellites[b].y}
-        />
-      ))}
-      {satellites.map((s, si) => (
-        <line
-          key={`he-${s.label}`}
-          stroke="var(--accent)"
-          strokeWidth="0.9"
-          style={{
-            animation: `hiw-edge ${3.2 + si * 0.35}s ease-in-out ${si * 0.28}s infinite`,
-          }}
-          x1={hub.x}
-          x2={s.x}
-          y1={hub.y}
-          y2={s.y}
-        />
-      ))}
-      {crossEdges.map(([a, b], i) => (
-        <circle
-          fill="var(--accent)"
-          key={`cp-${a}-${b}`}
-          opacity="0.55"
-          r="1.8"
-        >
-          <animateMotion
-            dur={`${5 + i * 0.8}s`}
-            path={`M ${satellites[a].x} ${satellites[a].y} L ${satellites[b].x} ${satellites[b].y}`}
-            repeatCount="indefinite"
+      <g style={diagramGroupStyle(pointer, 4, "200px 148px", active)}>
+        {crossEdges.map(([a, b], i) => (
+          <line
+            key={`ce-${a}-${b}`}
+            stroke="var(--accent)"
+            strokeWidth="0.6"
+            style={{
+              animation: `hiw-cross ${4.5 + i * 0.6}s ease-in-out ${i * 0.7}s infinite`,
+            }}
+            x1={satellites[a].x}
+            x2={satellites[b].x}
+            y1={satellites[a].y}
+            y2={satellites[b].y}
           />
-        </circle>
-      ))}
-      {satellites.map((s, si) => (
-        <g key={`flow-${s.label}`}>
-          <circle fill="var(--accent)" opacity="0.95" r="2.2">
-            <animateMotion
-              dur={`${2.4 + si * 0.35}s`}
-              path={`M ${hub.x} ${hub.y} L ${s.x} ${s.y}`}
-              repeatCount="indefinite"
-            />
-          </circle>
-          <circle fill="var(--accent)" opacity="0.45" r="1.6">
-            <animateMotion
-              begin={`${1.2 + si * 0.18}s`}
-              dur={`${2.4 + si * 0.35}s`}
-              path={`M ${s.x} ${s.y} L ${hub.x} ${hub.y}`}
-              repeatCount="indefinite"
-            />
-          </circle>
-        </g>
-      ))}
-      {satellites.map((s, si) => (
-        <g key={`n-${s.label}`}>
-          <circle fill="var(--accent)" opacity="0.12" r="10">
-            <animateMotion
-              dur={`${7 + si * 0.6}s`}
-              path={orbitPath(s.x, s.y, 10)}
-              repeatCount="indefinite"
-            />
-          </circle>
-          <circle fill="var(--accent)" r="3.5">
-            <animateMotion
-              dur={`${4.5 + si * 0.5}s`}
-              path={orbitPath(s.x, s.y, 7)}
-              repeatCount="indefinite"
-            />
-          </circle>
-          <text
+        ))}
+        {satellites.map((s, si) => (
+          <line
+            key={`he-${s.label}`}
+            stroke="var(--accent)"
+            strokeWidth="0.9"
+            style={{
+              animation: `hiw-edge ${3.2 + si * 0.35}s ease-in-out ${si * 0.28}s infinite`,
+            }}
+            x1={hub.x}
+            x2={s.x}
+            y1={hub.y}
+            y2={s.y}
+          />
+        ))}
+      </g>
+      <g style={diagramGroupStyle(pointer, 8, "200px 148px", active)}>
+        {crossEdges.map(([a, b], i) => (
+          <circle
             fill="var(--accent)"
-            fontFamily="monospace"
-            fontSize="7"
-            letterSpacing="0.12em"
+            key={`cp-${a}-${b}`}
             opacity="0.55"
-            textAnchor="middle"
-            x={s.x}
-            y={s.y - 10}
+            r="1.8"
           >
-            {s.label}
-          </text>
+            <animateMotion
+              dur={`${5 + i * 0.8}s`}
+              path={`M ${satellites[a].x} ${satellites[a].y} L ${satellites[b].x} ${satellites[b].y}`}
+              repeatCount="indefinite"
+            />
+          </circle>
+        ))}
+        {satellites.map((s, si) => (
+          <g key={`flow-${s.label}`}>
+            <circle fill="var(--accent)" opacity="0.95" r="2.2">
+              <animateMotion
+                dur={`${2.4 + si * 0.35}s`}
+                path={`M ${hub.x} ${hub.y} L ${s.x} ${s.y}`}
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle fill="var(--accent)" opacity="0.45" r="1.6">
+              <animateMotion
+                begin={`${1.2 + si * 0.18}s`}
+                dur={`${2.4 + si * 0.35}s`}
+                path={`M ${s.x} ${s.y} L ${hub.x} ${hub.y}`}
+                repeatCount="indefinite"
+              />
+            </circle>
+          </g>
+        ))}
+        {satellites.map((s, si) => (
+          <g key={`n-${s.label}`}>
+            <circle fill="var(--accent)" opacity="0.12" r="10">
+              <animateMotion
+                dur={`${7 + si * 0.6}s`}
+                path={orbitPath(s.x, s.y, 10)}
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle fill="var(--accent)" r="3.5">
+              <animateMotion
+                dur={`${4.5 + si * 0.5}s`}
+                path={orbitPath(s.x, s.y, 7)}
+                repeatCount="indefinite"
+              />
+            </circle>
+            <text
+              fill="var(--accent)"
+              fontFamily="monospace"
+              fontSize="7"
+              letterSpacing="0.12em"
+              opacity="0.55"
+              textAnchor="middle"
+              x={s.x}
+              y={s.y - 10}
+            >
+              {s.label}
+            </text>
+          </g>
+        ))}
+        <g
+          style={{
+            transformOrigin: "200px 148px",
+            animation: "hiw-orbit 48s linear infinite",
+          }}
+        >
+          <circle
+            cx={hub.x + 22}
+            cy={hub.y}
+            fill="var(--accent)"
+            opacity="0.35"
+            r="1.5"
+          />
+          <circle
+            cx={hub.x - 18}
+            cy={hub.y}
+            fill="var(--accent)"
+            opacity="0.25"
+            r="1"
+          />
+          <circle
+            cx={hub.x}
+            cy={hub.y - 16}
+            fill="var(--accent)"
+            opacity="0.3"
+            r="1.2"
+          />
         </g>
-      ))}
-      <g
-        style={{
-          transformOrigin: "200px 148px",
-          animation: "hiw-orbit 48s linear infinite",
-        }}
-      >
+      </g>
+      <g style={diagramGroupStyle(pointer, 3, "200px 148px", active)}>
         <circle
-          cx={hub.x + 22}
+          cx={hub.x}
           cy={hub.y}
-          fill="var(--accent)"
-          opacity="0.35"
-          r="1.5"
-        />
-        <circle
-          cx={hub.x - 18}
-          cy={hub.y}
-          fill="var(--accent)"
-          opacity="0.25"
-          r="1"
+          fill="none"
+          r="7"
+          stroke="var(--accent)"
+          strokeWidth="1.5"
+          style={{ animation: "hiw-hub 4s ease-in-out infinite" }}
         />
         <circle
           cx={hub.x}
-          cy={hub.y - 16}
+          cy={hub.y}
           fill="var(--accent)"
-          opacity="0.3"
-          r="1.2"
+          opacity="0.85"
+          r="3"
         />
       </g>
-      <circle
-        cx={hub.x}
-        cy={hub.y}
-        fill="none"
-        r="7"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-        style={{ animation: "hiw-hub 4s ease-in-out infinite" }}
-      />
-      <circle cx={hub.x} cy={hub.y} fill="var(--accent)" opacity="0.85" r="3" />
     </svg>
   );
 }
 
 function CrossMediaDiagram() {
+  const { ref, pointer, active, handleMove, handleLeave } = useDiagramPointer();
   const practice = { x: 200, y: 152 };
   const domains = [
     { cx: 148, cy: 128, label: "WEB", color: "var(--role-web)" },
@@ -312,6 +380,9 @@ function CrossMediaDiagram() {
     <svg
       aria-hidden="true"
       className="h-full w-full"
+      onMouseLeave={handleLeave}
+      onMouseMove={handleMove}
+      ref={ref}
       viewBox="0 0 400 300"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -319,216 +390,227 @@ function CrossMediaDiagram() {
       <style>{`
         @keyframes hiw-frame { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(3deg)} }
       `}</style>
-      {domains.map((d, di) => (
-        <g key={`fill-${d.label}`}>
-          <circle
-            cx={d.cx}
-            cy={d.cy}
-            fill={d.color}
-            opacity="0.1"
-            r="90"
-            stroke={d.color}
-            strokeWidth="1.5"
-          >
-            <animate
-              attributeName="opacity"
-              dur={`${4.5 + di * 0.6}s`}
-              repeatCount="indefinite"
-              values="0.08;0.2;0.08"
-            />
-            <animate
-              attributeName="r"
-              dur={`${4.5 + di * 0.6}s`}
-              repeatCount="indefinite"
-              values="88;93;88"
-            />
-          </circle>
-        </g>
-      ))}
-      {domains.map((d, di) => (
-        <circle fill={d.color} key={`orbit-${d.label}`} opacity="0.85" r="3">
-          <animateMotion
-            dur={`${6 + di * 1.2}s`}
-            path={orbitPath(d.cx, d.cy, 90)}
-            repeatCount="indefinite"
-          />
-        </circle>
-      ))}
-      {domains.map((d, di) => (
-        <g key={`flow-${d.label}`}>
-          <circle fill={d.color} opacity="0.9" r="2">
-            <animateMotion
-              dur={`${2.8 + di * 0.4}s`}
-              path={`M ${d.cx} ${d.cy} L ${practice.x} ${practice.y}`}
-              repeatCount="indefinite"
-            />
-          </circle>
-          <circle fill={d.color} opacity="0.35" r="1.5">
-            <animateMotion
-              begin={`${1.4 + di * 0.3}s`}
-              dur={`${2.8 + di * 0.4}s`}
-              path={`M ${practice.x} ${practice.y} L ${d.cx} ${d.cy}`}
-              repeatCount="indefinite"
-            />
-          </circle>
-        </g>
-      ))}
-      <g opacity="0.45" stroke="var(--role-web)" strokeWidth="0.7">
-        {[0, 1, 2].map((row) =>
-          [0, 1, 2].map((col) => (
-            <rect
-              fill="var(--role-web)"
-              height="5"
-              key={`grid-${row}-${col}`}
-              opacity={0.35 + (row + col) * 0.08}
-              width="5"
-              x={136 + col * 10}
-              y={116 + row * 10}
+      <g style={diagramGroupStyle(pointer, 5, "200px 150px", active)}>
+        {domains.map((d, di) => (
+          <g key={`fill-${d.label}`}>
+            <circle
+              cx={d.cx}
+              cy={d.cy}
+              fill={d.color}
+              opacity="0.1"
+              r="90"
+              stroke={d.color}
+              strokeWidth="1.5"
             >
               <animate
                 attributeName="opacity"
-                dur={`${2.2 + (row + col) * 0.3}s`}
+                dur={`${4.5 + di * 0.6}s`}
                 repeatCount="indefinite"
-                values={`${0.2 + (row + col) * 0.05};${0.55 + (row + col) * 0.05};${0.2 + (row + col) * 0.05}`}
+                values="0.08;0.2;0.08"
               />
-            </rect>
-          ))
-        )}
+              <animate
+                attributeName="r"
+                dur={`${4.5 + di * 0.6}s`}
+                repeatCount="indefinite"
+                values="88;93;88"
+              />
+            </circle>
+          </g>
+        ))}
+        {domains.map((d, di) => (
+          <circle fill={d.color} key={`orbit-${d.label}`} opacity="0.85" r="3">
+            <animateMotion
+              dur={`${6 + di * 1.2}s`}
+              path={orbitPath(d.cx, d.cy, 90)}
+              repeatCount="indefinite"
+            />
+          </circle>
+        ))}
+        {domains.map((d, di) => (
+          <g key={`flow-${d.label}`}>
+            <circle fill={d.color} opacity="0.9" r="2">
+              <animateMotion
+                dur={`${2.8 + di * 0.4}s`}
+                path={`M ${d.cx} ${d.cy} L ${practice.x} ${practice.y}`}
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle fill={d.color} opacity="0.35" r="1.5">
+              <animateMotion
+                begin={`${1.4 + di * 0.3}s`}
+                dur={`${2.8 + di * 0.4}s`}
+                path={`M ${practice.x} ${practice.y} L ${d.cx} ${d.cy}`}
+                repeatCount="indefinite"
+              />
+            </circle>
+          </g>
+        ))}
       </g>
-      <path
-        d={wavePeakUp}
-        fill="none"
-        stroke="var(--role-audio)"
-        strokeWidth="1.2"
-      >
-        <animate
-          attributeName="d"
-          dur="2.4s"
-          repeatCount="indefinite"
-          values={`${wavePeakUp};${wavePeakDown};${wavePeakUp}`}
-        />
-      </path>
-      <circle
-        cx={waveLeft}
-        cy={sound.cy}
-        fill="var(--role-audio)"
-        opacity="0.9"
-        r="2.2"
-      >
-        <animate
-          attributeName="cy"
-          dur="1.2s"
-          repeatCount="indefinite"
-          values={`${sound.cy};${sound.cy - 8};${sound.cy + 4};${sound.cy}`}
-        />
-        <animate
-          attributeName="cx"
-          dur="2.4s"
-          repeatCount="indefinite"
-          values={`${waveLeft};${waveMid2};${sound.cx};${waveRight};${waveMid3};${waveMid2};${waveLeft}`}
-        />
-      </circle>
-      <g
-        stroke="var(--role-creative)"
-        strokeWidth="1"
-        style={{
-          transformOrigin: "200px 196px",
-          animation: "hiw-frame 5s ease-in-out infinite",
-        }}
-      >
-        <rect
+      <g style={diagramGroupStyle(pointer, 11, "148px 128px", active)}>
+        <g opacity="0.45" stroke="var(--role-web)" strokeWidth="0.7">
+          {[0, 1, 2].map((row) =>
+            [0, 1, 2].map((col) => (
+              <rect
+                fill="var(--role-web)"
+                height="5"
+                key={`grid-${row}-${col}`}
+                opacity={0.35 + (row + col) * 0.08}
+                width="5"
+                x={136 + col * 10}
+                y={116 + row * 10}
+              >
+                <animate
+                  attributeName="opacity"
+                  dur={`${2.2 + (row + col) * 0.3}s`}
+                  repeatCount="indefinite"
+                  values={`${0.2 + (row + col) * 0.05};${0.55 + (row + col) * 0.05};${0.2 + (row + col) * 0.05}`}
+                />
+              </rect>
+            ))
+          )}
+        </g>
+      </g>
+      <g style={diagramGroupStyle(pointer, 12, "252px 128px", active)}>
+        <path
+          d={wavePeakUp}
           fill="none"
-          height="36"
-          opacity="0.55"
-          width="48"
-          x="176"
-          y="178"
-        />
-        <circle
-          cx="176"
-          cy="178"
-          fill="var(--role-creative)"
-          opacity="0.7"
-          r="2"
+          stroke="var(--role-audio)"
+          strokeWidth="1.2"
         >
           <animate
-            attributeName="opacity"
-            dur="2s"
+            attributeName="d"
+            dur="2.4s"
             repeatCount="indefinite"
-            values="0.4;1;0.4"
+            values={`${wavePeakUp};${wavePeakDown};${wavePeakUp}`}
           />
-        </circle>
+        </path>
         <circle
-          cx="224"
-          cy="178"
-          fill="var(--role-creative)"
-          opacity="0.7"
-          r="2"
+          cx={waveLeft}
+          cy={sound.cy}
+          fill="var(--role-audio)"
+          opacity="0.9"
+          r="2.2"
         >
           <animate
-            attributeName="opacity"
-            begin="0.5s"
-            dur="2s"
+            attributeName="cy"
+            dur="1.2s"
             repeatCount="indefinite"
-            values="0.4;1;0.4"
+            values={`${sound.cy};${sound.cy - 8};${sound.cy + 4};${sound.cy}`}
           />
-        </circle>
-        <circle
-          cx="176"
-          cy="214"
-          fill="var(--role-creative)"
-          opacity="0.7"
-          r="2"
-        >
           <animate
-            attributeName="opacity"
-            begin="1s"
-            dur="2s"
+            attributeName="cx"
+            dur="2.4s"
             repeatCount="indefinite"
-            values="0.4;1;0.4"
-          />
-        </circle>
-        <circle
-          cx="224"
-          cy="214"
-          fill="var(--role-creative)"
-          opacity="0.7"
-          r="2"
-        >
-          <animate
-            attributeName="opacity"
-            begin="1.5s"
-            dur="2s"
-            repeatCount="indefinite"
-            values="0.4;1;0.4"
+            values={`${waveLeft};${waveMid2};${sound.cx};${waveRight};${waveMid3};${waveMid2};${waveLeft}`}
           />
         </circle>
       </g>
-      <circle
-        cx={practice.x}
-        cy={practice.y}
-        fill="var(--foreground)"
-        opacity="0.85"
-        r="5"
-      >
-        <animate
-          attributeName="r"
-          dur="3.5s"
-          repeatCount="indefinite"
-          values="5;7;5"
-        />
-        <animate
-          attributeName="opacity"
-          dur="3.5s"
-          repeatCount="indefinite"
-          values="0.55;1;0.55"
-        />
-      </circle>
+      <g style={diagramGroupStyle(pointer, 9, "200px 196px", active)}>
+        <g
+          stroke="var(--role-creative)"
+          strokeWidth="1"
+          style={{
+            transformOrigin: "200px 196px",
+            animation: "hiw-frame 5s ease-in-out infinite",
+          }}
+        >
+          <rect
+            fill="none"
+            height="36"
+            opacity="0.55"
+            width="48"
+            x="176"
+            y="178"
+          />
+          <circle
+            cx="176"
+            cy="178"
+            fill="var(--role-creative)"
+            opacity="0.7"
+            r="2"
+          >
+            <animate
+              attributeName="opacity"
+              dur="2s"
+              repeatCount="indefinite"
+              values="0.4;1;0.4"
+            />
+          </circle>
+          <circle
+            cx="224"
+            cy="178"
+            fill="var(--role-creative)"
+            opacity="0.7"
+            r="2"
+          >
+            <animate
+              attributeName="opacity"
+              begin="0.5s"
+              dur="2s"
+              repeatCount="indefinite"
+              values="0.4;1;0.4"
+            />
+          </circle>
+          <circle
+            cx="176"
+            cy="214"
+            fill="var(--role-creative)"
+            opacity="0.7"
+            r="2"
+          >
+            <animate
+              attributeName="opacity"
+              begin="1s"
+              dur="2s"
+              repeatCount="indefinite"
+              values="0.4;1;0.4"
+            />
+          </circle>
+          <circle
+            cx="224"
+            cy="214"
+            fill="var(--role-creative)"
+            opacity="0.7"
+            r="2"
+          >
+            <animate
+              attributeName="opacity"
+              begin="1.5s"
+              dur="2s"
+              repeatCount="indefinite"
+              values="0.4;1;0.4"
+            />
+          </circle>
+        </g>
+      </g>
+      <g style={diagramGroupStyle(pointer, 3, "200px 152px", active)}>
+        <circle
+          cx={practice.x}
+          cy={practice.y}
+          fill="var(--foreground)"
+          opacity="0.85"
+          r="5"
+        >
+          <animate
+            attributeName="r"
+            dur="3.5s"
+            repeatCount="indefinite"
+            values="5;7;5"
+          />
+          <animate
+            attributeName="opacity"
+            dur="3.5s"
+            repeatCount="indefinite"
+            values="0.55;1;0.55"
+          />
+        </circle>
+      </g>
     </svg>
   );
 }
 
 function ComplexityDiagram() {
+  const { ref, pointer, active, handleMove, handleLeave } = useDiagramPointer();
   const layers = [
     { w: 290, h: 208, rot: 0, op: 0.1 },
     { w: 238, h: 170, rot: 4, op: 0.16 },
@@ -541,6 +623,9 @@ function ComplexityDiagram() {
     <svg
       aria-hidden="true"
       className="h-full w-full"
+      onMouseLeave={handleLeave}
+      onMouseMove={handleMove}
+      ref={ref}
       viewBox="0 0 400 300"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -548,52 +633,64 @@ function ComplexityDiagram() {
       <style>{`
         @keyframes hiw-spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
       `}</style>
-      <g
-        style={{
-          transformOrigin: "200px 150px",
-          animation: "hiw-spin 80s linear infinite",
-        }}
-      >
-        {layers.map((l) => (
-          <rect
-            fill="none"
-            height={l.h}
-            key={`layer-${l.rot}`}
-            opacity={l.op}
-            stroke="var(--role-audio)"
-            strokeWidth={l.op > 0.6 ? 1.5 : 0.8}
-            transform={`rotate(${l.rot} 200 150)`}
-            width={l.w}
-            x={200 - l.w / 2}
-            y={150 - l.h / 2}
-          />
-        ))}
+      <g style={diagramGroupStyle(pointer, 7, "200px 150px", active)}>
+        <g
+          style={{
+            transformOrigin: "200px 150px",
+            animation: "hiw-spin 80s linear infinite",
+          }}
+        >
+          {layers.map((l) => (
+            <rect
+              fill="none"
+              height={l.h}
+              key={`layer-${l.rot}`}
+              opacity={l.op}
+              stroke="var(--role-audio)"
+              strokeWidth={l.op > 0.6 ? 1.5 : 0.8}
+              transform={`rotate(${l.rot} 200 150)`}
+              width={l.w}
+              x={200 - l.w / 2}
+              y={150 - l.h / 2}
+            />
+          ))}
+        </g>
       </g>
-      <circle cx="200" cy="150" fill="var(--role-audio)" opacity="0.85" r="3" />
-      <text
-        fill="var(--role-audio)"
-        fontFamily="monospace"
-        fontSize="7"
-        letterSpacing="0.14em"
-        opacity="0.38"
-        textAnchor="middle"
-        x="200"
-        y="34"
-      >
-        OUTER COMPLEXITY
-      </text>
-      <text
-        fill="var(--role-audio)"
-        fontFamily="monospace"
-        fontSize="7"
-        letterSpacing="0.14em"
-        opacity="0.38"
-        textAnchor="middle"
-        x="200"
-        y="278"
-      >
-        INNER CONTROL
-      </text>
+      <g style={diagramGroupStyle(pointer, 2, "200px 150px", active)}>
+        <circle
+          cx="200"
+          cy="150"
+          fill="var(--role-audio)"
+          opacity="0.85"
+          r="3"
+        />
+      </g>
+      <g style={diagramGroupStyle(pointer, 4, "200px 150px", active)}>
+        <text
+          fill="var(--role-audio)"
+          fontFamily="monospace"
+          fontSize="7"
+          letterSpacing="0.14em"
+          opacity="0.38"
+          textAnchor="middle"
+          x="200"
+          y="34"
+        >
+          OUTER COMPLEXITY
+        </text>
+        <text
+          fill="var(--role-audio)"
+          fontFamily="monospace"
+          fontSize="7"
+          letterSpacing="0.14em"
+          opacity="0.38"
+          textAnchor="middle"
+          x="200"
+          y="278"
+        >
+          INNER CONTROL
+        </text>
+      </g>
     </svg>
   );
 }
