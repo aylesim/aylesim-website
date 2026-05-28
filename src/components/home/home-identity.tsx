@@ -64,7 +64,7 @@ const FEATURED_CARDS: FeaturedCard[] = [
     rotation: 1.2,
   },
   {
-    badgeLabel: "Published by Isotonik Studios · Attack Magazine",
+    badgeLabel: "Isotonik Studios · Attack Magazine",
     badgeVariant: "publisher",
     slug: "knob-studio",
     title: "Knob Studio",
@@ -141,21 +141,34 @@ function columnCarouselProjects(
 
 const BADGE_STYLES: Record<
   FeaturedCard["badgeVariant"],
-  { bar: string; text: string; eyebrow?: string }
+  {
+    stripe: string;
+    badgeBg: string;
+    labelClass: string;
+    eyebrow: string;
+    eyebrowClass: string;
+  }
 > = {
   award: {
-    bar: "border-t-2 border-(--accent) bg-(--accent)/5",
-    text: "text-(--accent)",
+    stripe: "bg-(--accent)",
+    badgeBg: "bg-(--accent)/5",
+    labelClass: "text-(--accent)",
+    eyebrow: "Award",
+    eyebrowClass: "text-(--accent)",
   },
   collaboration: {
-    bar: "border-t border-(--index-divider)",
-    text: "text-(--text-muted)",
+    stripe: "bg-(--role-web)",
+    badgeBg: "",
+    labelClass: "text-(--foreground)",
     eyebrow: "Collaboration",
+    eyebrowClass: "text-(--role-web)",
   },
   publisher: {
-    bar: "border-t border-(--index-divider)",
-    text: "text-(--text-muted)",
+    stripe: "bg-(--role-audio)",
+    badgeBg: "",
+    labelClass: "text-(--foreground)",
     eyebrow: "Published by",
+    eyebrowClass: "text-(--role-audio)",
   },
 };
 
@@ -200,19 +213,23 @@ function FeaturedWorkCard({
       }}
     >
       <button
-        className="fw-card group flex w-full cursor-pointer flex-col overflow-hidden border border-(--index-divider) text-left"
+        className="fw-card group flex w-full cursor-pointer flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
         onClick={() => onProjectClick(card.slug)}
         style={{ "--card-rotation": card.rotation } as React.CSSProperties}
         type="button"
       >
-        <div className={`px-5 py-4 ${badge.bar}`}>
-          {badge.eyebrow && (
-            <p className="mb-0.5 font-mono text-(--text-muted) text-[8px] uppercase tracking-widest opacity-55">
-              {badge.eyebrow}
-            </p>
-          )}
+        <div
+          aria-hidden
+          className={`h-[2px] w-full shrink-0 ${badge.stripe}`}
+        />
+        <div className={`px-5 py-4 ${badge.badgeBg}`}>
           <p
-            className={`font-mono text-[10px] uppercase tracking-widest ${badge.text} ${card.badgeVariant === "award" ? "font-medium" : ""}`}
+            className={`mb-1 font-mono text-[8px] uppercase tracking-widest ${badge.eyebrowClass}`}
+          >
+            {badge.eyebrow}
+          </p>
+          <p
+            className={`font-mono text-[10px] uppercase tracking-widest ${badge.labelClass}`}
           >
             {card.badgeLabel}
           </p>
@@ -614,6 +631,22 @@ export function HomeIdentity({
         </p>
       </section>
 
+      <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
+        <p className="mb-10 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+          Selected works
+        </p>
+        <div className="grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURED_CARDS.map((card, index) => (
+            <FeaturedWorkCard
+              card={card}
+              index={index}
+              key={card.slug}
+              onProjectClick={onProjectClick}
+            />
+          ))}
+        </div>
+      </section>
+
       <section className="grid gap-8 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.45fr_1fr] md:py-24">
         <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
           How I work
@@ -636,22 +669,6 @@ export function HomeIdentity({
             what should remain alive, and how much complexity a person can hold
             while still feeling in control.
           </p>
-        </div>
-      </section>
-
-      <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
-        <p className="mb-10 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-          Selected works
-        </p>
-        <div className="grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURED_CARDS.map((card, index) => (
-            <FeaturedWorkCard
-              card={card}
-              index={index}
-              key={card.slug}
-              onProjectClick={onProjectClick}
-            />
-          ))}
         </div>
       </section>
 
