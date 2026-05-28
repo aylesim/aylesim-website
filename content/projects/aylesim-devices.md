@@ -12,9 +12,9 @@ role: Instrument Builder
 client: Product Line
 year: 2020–ongoing
 tech:
-  - Max4Live
   - Product Design
-  - Music Tech
+  - Audio Engineering
+  - Max for Live
 highlights:
   - Max for Live tools used by 3600+ customers worldwide
   - Sold via Gumroad and Isotonik Studios with ongoing updates and support

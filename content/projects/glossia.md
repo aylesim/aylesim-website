@@ -9,11 +9,9 @@ client: Open source
 year: "2026"
 listTagline: Interactive audio/visual web playground
 tech:
-  - TypeScript
-  - React
-  - Next.js
+  - Frontend Architecture
+  - React / TypeScript
   - Web Audio API
-  - Canvas
 liveLink: https://glossia-seven.vercel.app
 highlights:
   - Public codebase on GitHub with a deployed preview for hands-on testing

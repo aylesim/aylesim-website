@@ -16,10 +16,9 @@ role: Developer & Designer
 client: Aylesim Devices
 year: "2022"
 tech:
-  - Max/MSP
-  - Max for Live
-  - Ableton Live
-  - Delay
+  - Audio Engineering
+  - Signal Processing
+  - UI/UX Design
 videos:
   - title: Demo
     url: https://www.youtube.com/watch?v=WpoSqDDA4EY

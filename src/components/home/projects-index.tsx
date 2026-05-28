@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ProjectTags } from "@/components/home/project-tags";
 import type { Project } from "@/lib/content";
 import { getProjectCover } from "@/lib/project-cover";
 import {
@@ -80,6 +81,7 @@ function ProjectCard({
               →
             </span>
           </span>
+          <ProjectTags className="mt-1" tags={project.tags} />
           {categoryLabel && accentStyles ? (
             <span
               className={`font-normal text-[11px] tracking-wide ${accentStyles.labelClass}`}

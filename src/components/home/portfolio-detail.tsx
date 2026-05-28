@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
+import { ProjectTags } from "@/components/home/project-tags";
 import type { Project, ProjectVideo } from "@/lib/content";
 import { aylesimDevicesCustomerProof, aylesimDevicesSlug } from "@/lib/site";
 
@@ -290,7 +291,7 @@ export function ProjectDetail({
         <Meta>{aylesimDevicesCustomerProof}</Meta>
       ) : null}
       {project.tags.length > 0 ? (
-        <Meta>Filed under: {project.tags.join(" · ")}</Meta>
+        <ProjectTags className="mt-2 mb-1" tags={project.tags} />
       ) : null}
       {project.link ? (
         <DetailLinks>

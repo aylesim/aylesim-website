@@ -26,10 +26,9 @@ role: Developer & Designer
 client: Aylesim Devices
 year: 2024
 tech:
-  - Max/MSP
-  - Max for Live
-  - Ableton Live
-  - Generative modulation
+  - Audio Engineering
+  - Modulation Design
+  - Performance Optimization
 liveLink:
 videos:
   - title: Carousel

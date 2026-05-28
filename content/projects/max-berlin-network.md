@@ -9,11 +9,9 @@ role: Co-Founder & Web Developer
 client: Max Berlin Network
 year: 2025–ongoing
 tech:
-  - Next.js
-  - TypeScript
-  - Newsletter integration
-  - Event pages & archive
-  - Dark / light theme
+  - Frontend Architecture
+  - Next.js / TypeScript
+  - Content Systems
 liveLink: https://www.maxberlin.network/
 highlights:
   - Designed and built the public site at maxberlin.network for a Berlin Max/MSP network

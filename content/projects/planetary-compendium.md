@@ -8,12 +8,9 @@ role: Frontend Developer
 client: Berggruen Institute × Dark Matter Labs
 year: 2025
 tech:
-  - Next.js
+  - Frontend Architecture
   - Scrollytelling
-  - Spatial data exploration
-  - Audio-driven narratives
-  - Rich content visualization
-  - Accessible web interactions
+  - Data Visualization
 liveLink: https://governtheplanet.org/
 highlights:
   - Immersive scrollytelling and spatial data exploration

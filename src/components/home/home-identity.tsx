@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { CategoryProjectRotator } from "@/components/home/category-project-rotator";
+import { ProjectTags } from "@/components/home/project-tags";
 import type { Project, ProjectListBadge } from "@/lib/content";
 import {
   pressMentions,
@@ -184,6 +185,7 @@ function SelectedWorkCard({
       <span className="text-lg leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
         {project.title}
       </span>
+      <ProjectTags className="mt-1.5" tags={project.tags} />
       {summary && (
         <span className="mt-2 line-clamp-2 text-(--text-muted) text-sm leading-relaxed">
           {summary}
@@ -285,6 +287,7 @@ function ProjectLink({
         >
           {project.title}
         </span>
+        <ProjectTags className="mt-0.5" tags={project.tags} />
         {project.listTagline && (
           <span className="text-(--text-muted) text-sm leading-relaxed md:text-base">
             {project.listTagline}

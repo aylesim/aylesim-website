@@ -8,9 +8,9 @@ role: Visual Artist
 client: TEDx Barletta
 year: 2020
 tech:
-  - Live video projection
-  - Generative visuals
-  - Max/MSP
+  - Live Projection
+  - Generative Visuals
+  - AV Performance
 highlights:
   - Live AV performance in front of a TEDx audience
   - Real-time video projections synchronized with an experimental electronic composition

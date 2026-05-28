@@ -17,11 +17,9 @@ role: Developer & Designer
 client: Aylesim Devices
 year: 2025
 tech:
-  - Max/MSP
-  - Max for Live
-  - Ableton Live
-  - Generative MIDI
-  - Algorithmic composition
+  - Audio Engineering
+  - UI/UX Design
+  - Generative Systems
 liveLink:
 videos:
   - title: Carousel demo

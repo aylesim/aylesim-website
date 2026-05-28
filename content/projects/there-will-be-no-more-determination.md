@@ -8,10 +8,9 @@ role: Artist
 client: Independent
 year: "2022"
 tech:
-  - Generative adversarial networks (GANs)
-  - Machine learning
-  - Moving image
-  - Computational imaging
+  - GAN Training
+  - Computational Imaging
+  - Moving Image
 highlights:
   - Trained and ran GANs to produce abstract images from military helicopter footage sourced from conflict zones (including Afghanistan, Iraq, and Pakistan)
   - Built a visual field that reads as both familiar and estranged, aimed at the dehumanising distance introduced by military imaging systems

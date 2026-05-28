@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ProjectTags } from "@/components/home/project-tags";
 import { SiteHeader } from "@/components/site-header";
 import type { Project } from "@/lib/content";
 import { getProjectCover } from "@/lib/project-cover";
@@ -83,6 +84,7 @@ function ToolCard({
                 </span>
               ) : null}
             </div>
+            <ProjectTags tags={project.tags} />
             {categoryLabel ? (
               <p className={`text-[11px] tracking-wide ${accent.labelClass}`}>
                 {categoryLabel}

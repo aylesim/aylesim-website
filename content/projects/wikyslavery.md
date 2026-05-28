@@ -9,10 +9,9 @@ role: Artist
 client: Independent
 year: "2023"
 tech:
-  - Net art
-  - Real-time systems
-  - Wikipedia / web automation
-  - Machine learning discourse
+  - Platform Automation
+  - Net Art Systems
+  - Real-time Computation
 highlights:
   - Built a net-art system that uses real-time computation to introduce misleading edits into unspecified Wikipedia articles, producing a continuous stream of altered content
   - Designed the work so volunteer correction labour becomes part of the piece, surfacing platform fragility and contested notions of source reliability

@@ -16,11 +16,9 @@ role: Developer & Designer
 client: Aylesim Devices
 year: "2022"
 tech:
-  - Max/MSP
-  - Max for Live
-  - Ableton Live
-  - MIDI
-  - Probability
+  - MIDI Systems
+  - Probability Design
+  - UI/UX Design
 price: Free
 highlights:
   - Listed in the ELPHNT Max for Live Curated Collection among hand-picked devices from the ecosystem

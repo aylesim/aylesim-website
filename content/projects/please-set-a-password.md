@@ -8,10 +8,9 @@ role: Artist
 client: Independent
 year: "2022"
 tech:
-  - Real-time video
-  - Networked installation
-  - Generative audio
-  - Custom software
+  - Networked Systems
+  - Real-time Video
+  - Generative Audio
 highlights:
   - Built a system that locates IP addresses exposing unsecured surveillance-camera interfaces and aggregates their live feeds for projection
   - Paired the video layer with real-time audio synthesis driven by analysis of the incoming imagery

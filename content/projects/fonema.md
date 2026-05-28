@@ -8,10 +8,9 @@ role: Artist
 client: Independent
 year: "2022"
 tech:
-  - Audio installation
-  - Artificial neural networks
-  - Voice processing
-  - Machine listening
+  - Neural Audio Processing
+  - Machine Listening
+  - Spatial Installation
 highlights:
   - Built an installation that routes speech through a neural network so timbre stays familiar while lexical meaning slips away
   - Repurposed models associated with voice classification and recognition toward deliberately unstable, imagistic listening
