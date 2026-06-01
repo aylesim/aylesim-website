@@ -932,44 +932,15 @@ function FeaturedWorkBadge({
 
 function FeaturedWorkCard({
   card,
-  index,
   onProjectClick,
 }: {
   card: FeaturedCard;
-  index: number;
   onProjectClick: (slug: string) => void;
 }) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
   const badge = BADGE_STYLES[card.badgeVariant];
 
-  useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.06 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={wrapperRef}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(3rem)",
-        transition: `opacity 0.65s ease ${index * 120}ms, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) ${index * 120}ms`,
-      }}
-    >
+    <div>
       <button
         className="fw-card group flex w-full cursor-pointer flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
         onClick={() => onProjectClick(card.slug)}
@@ -1383,10 +1354,9 @@ export function HomeIdentity({
           Selected works
         </p>
         <div className="grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURED_CARDS.map((card, index) => (
+          {FEATURED_CARDS.map((card) => (
             <FeaturedWorkCard
               card={card}
-              index={index}
               key={card.slug}
               onProjectClick={onProjectClick}
             />
