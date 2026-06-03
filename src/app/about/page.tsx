@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { AboutPage } from "@/components/about/about-page";
 import { getAllContent } from "@/lib/content";
-import { siteDescription } from "@/lib/site";
-
 export const metadata: Metadata = {
   title: "About | Aylesim",
-  description: siteDescription,
+  description:
+    "Frontend engineer and media artist in Berlin. React, TypeScript, performance-first systems, Max for Live, and interactive installations.",
 };
 
 export default function About() {

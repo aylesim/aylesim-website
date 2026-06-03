@@ -18,7 +18,7 @@ export const contentJsonPath = "/content.json";
 export const contentJsonUrl = `${siteOrigin}${contentJsonPath}`;
 
 export const contactAvailability =
-  "Always open to discussing complex frontend architectures, audio system engineering, and projects at the intersection of code and human experience. If you have a demanding technical challenge or a full-time/freelance role in Berlin (or remote), let's talk.";
+  "Available for senior frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects.";
 
 export const webDeveloperStack =
   "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems";

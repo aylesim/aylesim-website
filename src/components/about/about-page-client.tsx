@@ -4,6 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { AboutToolkitSection } from "@/components/about/about-toolkit-section";
 import { SiteHeader } from "@/components/site-header";
 import type { About, AboutSection } from "@/lib/content";
 import { pressMentions, primaryAward } from "@/lib/credentials";
@@ -31,29 +32,23 @@ interface SectionAccent {
 }
 
 const SECTION_ACCENT: Record<string, SectionAccent> = {
-  "Who I am": {
+  Biography: {
     border: "border-(--accent)/40",
     label: "text-(--accent)",
     h3: "text-(--accent)",
     index: "text-(--accent)/25",
   },
-  "What I do": {
-    border: "border-(--role-audio)/35",
-    label: "text-(--role-audio)",
-    h3: "text-(--role-audio)",
-    index: "text-(--role-audio)/20",
-  },
-  "How I work": {
+  Philosophy: {
     border: "border-(--role-web)/35",
     label: "text-(--role-web)",
     h3: "text-(--role-web)",
     index: "text-(--role-web)/20",
   },
-  Community: {
-    border: "border-(--accent)/40",
-    label: "text-(--accent)",
-    h3: "text-(--accent)",
-    index: "text-(--accent)/25",
+  "Technical Capabilities & Toolkit": {
+    border: "border-(--role-audio)/35",
+    label: "text-(--role-audio)",
+    h3: "text-(--role-audio)",
+    index: "text-(--role-audio)/20",
   },
 };
 
@@ -65,9 +60,8 @@ const DEFAULT_ACCENT: SectionAccent = {
 };
 
 const H3_ACCENT: Record<string, string> = {
-  "Audio software": "text-(--role-audio)",
-  "Web development": "text-(--role-web)",
-  "Installations & live AV": "text-(--role-creative)",
+  "Engineering as an Art, Art as an Engineering Discipline":
+    "text-(--role-web)",
 };
 
 function sectionAccent(label: string): SectionAccent {
@@ -182,6 +176,8 @@ function AboutMarkdown({
   );
 }
 
+const TOOLKIT_SECTION_LABEL = "Technical Capabilities & Toolkit";
+
 function AboutSectionCard({
   section,
   index,
@@ -189,8 +185,11 @@ function AboutSectionCard({
   section: AboutSection;
   index: number;
 }) {
+  if (section.label === TOOLKIT_SECTION_LABEL) {
+    return <AboutToolkitSection index={index} section={section} />;
+  }
+
   const accent = sectionAccent(section.label);
-  const isWide = section.label === "What I do";
 
   return (
     <article
@@ -210,7 +209,7 @@ function AboutSectionCard({
           {section.label}
         </p>
       </header>
-      <div className={isWide ? "max-w-4xl" : "max-w-3xl"}>
+      <div className="max-w-3xl">
         <AboutMarkdown accent={accent} source={section.content} />
       </div>
     </article>
