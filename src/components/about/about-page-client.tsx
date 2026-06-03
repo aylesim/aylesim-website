@@ -16,12 +16,12 @@ import {
 } from "@/lib/site";
 
 const linkClass =
-  "underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)";
+  "underline decoration-(--index-divider) underline-offset-[3px] transition-colors hover:text-(--accent)";
 
 const SKIP_SECTIONS = new Set(["Currently"]);
 
 const cardShell =
-  "relative overflow-hidden border border-(--index-divider) bg-(--foreground)/[0.03]";
+  "relative overflow-hidden border border-(--index-divider) bg-surface-subtle";
 
 interface SectionAccent {
   border: string;
@@ -61,7 +61,7 @@ const DEFAULT_ACCENT: SectionAccent = {
   border: "border-(--index-divider)",
   label: "text-(--text-muted)",
   h3: "text-(--accent)",
-  index: "text-(--foreground)/10",
+  index: "text-text-faint",
 };
 
 const H3_ACCENT: Record<string, string> = {
@@ -264,7 +264,7 @@ function AboutPortrait({ src }: { src: string }) {
   }, [pathname]);
 
   const shellClass =
-    "relative aspect-4/5 w-full max-w-56 overflow-hidden border border-(--index-divider) bg-(--foreground)/5";
+    "relative aspect-4/5 w-full max-w-56 overflow-hidden border border-(--index-divider) bg-surface-media";
 
   return (
     <div className={shellClass}>
@@ -281,7 +281,7 @@ function AboutPortrait({ src }: { src: string }) {
       {revealed ? null : (
         <button
           aria-label="Reveal portrait — i really want to see your face"
-          className="absolute inset-0 flex cursor-pointer items-center justify-center p-4 text-center transition-colors hover:bg-(--foreground)/10 motion-reduce:hidden"
+          className="absolute inset-0 flex cursor-pointer items-center justify-center p-4 text-center transition-colors hover:bg-surface-hover motion-reduce:hidden"
           onClick={() => setRevealed(true)}
           type="button"
         >
@@ -437,7 +437,7 @@ export function AboutPageClient({
                 </p>
               </header>
               <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-                <div className="border border-(--index-divider) bg-(--foreground)/2 p-6 md:p-8">
+                <div className="border border-(--index-divider) bg-surface-panel p-6 md:p-8">
                   <p className="mb-2 font-mono text-(--accent) text-[10px] uppercase tracking-widest">
                     {primaryAward.issuer}
                   </p>
@@ -457,7 +457,7 @@ export function AboutPageClient({
                     {primaryAward.externalLabel} ↗
                   </a>
                 </div>
-                <div className="border border-(--index-divider) bg-(--foreground)/2 p-6 md:p-8">
+                <div className="border border-(--index-divider) bg-surface-panel p-6 md:p-8">
                   <p className="mb-4 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
                     Press
                   </p>

@@ -744,7 +744,7 @@ function HowIWorkCardItem({
     >
       <div className={`h-full w-full ${card.badgeBg}`}>
         <div
-          className="fw-card group flex h-full w-full flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
+          className="fw-card-tilt flex h-full w-full flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
           style={{ "--card-rotation": card.rotation } as CSSProperties}
         >
           <div
@@ -762,7 +762,7 @@ function HowIWorkCardItem({
             {Diagram && <Diagram />}
           </div>
           <div className="flex flex-1 flex-col p-5 pt-4">
-            <p className="text-xl leading-snug tracking-tight transition-colors group-hover:text-(--accent) md:text-2xl">
+            <p className="text-xl leading-snug tracking-tight md:text-2xl">
               {card.title}
             </p>
             <div className="mt-3 flex flex-wrap gap-1.5">
@@ -997,7 +997,7 @@ function ProjectListBadgeItem({
   className?: string;
 }) {
   const linkClass =
-    "font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)/55";
+    "font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)";
   const label = <>↗ {badge.label.toUpperCase()}</>;
 
   return (
@@ -1153,7 +1153,7 @@ function ProjectLink({
           </span>
         )}
         {project.workScope && project.workScope !== "commercial" && (
-          <span className="font-mono text-(--foreground)/45 text-[10px] uppercase tracking-widest">
+          <span className="font-mono text-[10px] text-text-faint uppercase tracking-widest">
             {project.workScope}
           </span>
         )}
@@ -1330,7 +1330,7 @@ export function HomeIdentity({
               high-performance digital systems
             </span>{" "}
             where{" "}
-            <span className="text-(--foreground)/88">
+            <span className="text-(--foreground)">
               advanced frontend engineering
             </span>{" "}
             and{" "}
@@ -1345,7 +1345,7 @@ export function HomeIdentity({
             Profile
           </p>
           <div className="space-y-4 text-sm leading-[1.65] md:text-[0.9375rem]">
-            <p className="text-(--foreground)/90">
+            <p className="text-(--foreground)">
               I am a Frontend Engineer and Media Artist specializing in the
               intersection of robust code, interactive sound, and physical
               space.

@@ -3,27 +3,37 @@
 @theme inline {
   --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
   --color-bg: var(--bg);
+  --color-surface-panel: var(--surface-panel);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-media: var(--surface-media);
+  --color-text-faint: var(--text-faint);
 }
 
 :root,
 [data-theme="dark"] {
-  --bg: #000000;
-  --foreground: #ffffff;
-  --text-muted: #8a8a8a;
-  --index-divider: rgba(255, 255, 255, 0.2);
-  --badge-bg: #ffffff;
-  --badge-fg: #000000;
-  --surface-dim: rgba(0, 0, 0, 0.3);
-  --micro-divider-color: rgba(255, 255, 255, 0.16);
-  --selection-bg: rgba(143, 181, 160, 0.28);
-  --elevated-shadow: 0 20px 55px rgba(0, 0, 0, 0.75);
+  --bg: #2e2e2c;
+  --foreground: #f4f3f0;
+  --text-muted: #a8a6a0;
+  --index-divider: rgba(255, 255, 255, 0.28);
+  --badge-bg: #f4f3f0;
+  --badge-fg: #1c1c1a;
+  --surface-dim: color-mix(in srgb, var(--foreground) 6%, var(--bg));
+  --micro-divider-color: rgba(255, 255, 255, 0.24);
+  --selection-bg: rgba(155, 196, 173, 0.38);
+  --elevated-shadow: 0 20px 55px rgba(0, 0, 0, 0.42);
   --card-hover-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.8), 0 4px 20px rgba(143, 181, 160, 0.08);
-  --scrim: rgba(0, 0, 0, 0.55);
-  --accent: #8fb5a0;
-  --role-audio: #c3a15d;
-  --role-web: #7f93ad;
-  --role-creative: #b9796d;
+    0 24px 64px rgba(0, 0, 0, 0.48), 0 4px 20px rgba(155, 196, 173, 0.14);
+  --scrim: rgba(20, 20, 18, 0.62);
+  --accent: #9bc4ad;
+  --role-audio: #d4ad66;
+  --role-web: #92a6c0;
+  --role-creative: #c8897c;
+  --surface-panel: color-mix(in srgb, var(--foreground) 5%, var(--bg));
+  --surface-subtle: color-mix(in srgb, var(--foreground) 9%, var(--bg));
+  --surface-hover: color-mix(in srgb, var(--foreground) 14%, var(--bg));
+  --surface-media: color-mix(in srgb, var(--foreground) 11%, var(--bg));
+  --text-faint: #6f6e6a;
   --font-sans: "Geist", "Lato", sans-serif;
   --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
   color-scheme: dark;
@@ -47,6 +57,11 @@
   --role-audio: #9a7a3d;
   --role-web: #5a6f8a;
   --role-creative: #9a5f52;
+  --surface-panel: color-mix(in srgb, var(--foreground) 3%, var(--bg));
+  --surface-subtle: color-mix(in srgb, var(--foreground) 5%, var(--bg));
+  --surface-hover: color-mix(in srgb, var(--foreground) 8%, var(--bg));
+  --surface-media: color-mix(in srgb, var(--foreground) 6%, var(--bg));
+  --text-faint: color-mix(in srgb, var(--foreground) 14%, var(--bg));
   color-scheme: light;
 }
 
@@ -83,7 +98,7 @@ body {
   }
 
   a:hover {
-    opacity: 0.72;
+    opacity: 0.8;
   }
 
   button {
@@ -127,6 +142,16 @@ input:focus-visible {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.fw-card-tilt {
+  transform: rotate(calc(var(--card-rotation) * 1deg));
+}
+
+@media (max-width: 640px) {
+  .fw-card-tilt {
+    transform: rotate(calc(var(--card-rotation) * 0.35deg));
   }
 }
 

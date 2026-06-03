@@ -443,7 +443,7 @@ export function DraggableCanvas({
           style={{ opacity: 0, zIndex: 20 + i }}
           type="button"
         >
-          <div className="relative overflow-hidden rounded-lg border border-(--foreground)/25 shadow-[var(--elevated-shadow)] ring-(--foreground)/10 ring-1 ring-inset">
+          <div className="relative overflow-hidden rounded-lg border border-(--index-divider) shadow-[var(--elevated-shadow)] ring-(--foreground)/16 ring-1 ring-inset">
             {item.isVideo ? (
               <>
                 <Image

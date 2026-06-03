@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { contentJsonUrl } from "@/lib/site";
 
 const linkClass =
-  "underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)";
+  "underline decoration-(--index-divider) underline-offset-[3px] transition-colors hover:text-(--accent)";
 
 const examplePrompts = [
   "What does Alessandro actually do?",

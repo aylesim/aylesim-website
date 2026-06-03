@@ -14,7 +14,7 @@ import {
 } from "@/lib/tools";
 
 const linkClass =
-  "underline decoration-(--foreground)/35 underline-offset-[3px] transition-colors hover:text-(--accent)";
+  "underline decoration-(--index-divider) underline-offset-[3px] transition-colors hover:text-(--accent)";
 
 function ToolActionLink({
   action,
@@ -61,7 +61,7 @@ function ToolCard({
 
   return (
     <li>
-      <article className="group flex h-full flex-col border border-(--index-divider) bg-(--foreground)/[0.03]">
+      <article className="group flex h-full flex-col border border-(--index-divider) bg-surface-subtle">
         <div className="relative aspect-4/3 overflow-hidden bg-(--surface-dim)">
           <Image
             alt=""
@@ -135,7 +135,7 @@ function UtilityCard({
   );
 
   const shell =
-    "flex h-full min-h-[9rem] flex-col gap-3 border border-(--index-divider) bg-(--foreground)/[0.03] p-4 transition-colors hover:bg-(--foreground)/[0.06] md:p-5";
+    "flex h-full min-h-[9rem] flex-col gap-3 border border-(--index-divider) bg-surface-subtle p-4 transition-colors hover:bg-surface-hover md:p-5";
 
   if (utility.external) {
     return (

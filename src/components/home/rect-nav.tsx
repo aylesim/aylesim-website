@@ -107,13 +107,13 @@ function MenuItem({
           <span className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
             <span>{title}</span>
             {tag ? (
-              <span className="shrink-0 font-normal text-(--foreground)/45 text-[10px] tracking-wide">
+              <span className="shrink-0 font-normal text-[10px] text-text-faint tracking-wide">
                 {tag}
               </span>
             ) : null}
           </span>
           {subtitle ? (
-            <span className="text-(--foreground)/45 text-sm leading-relaxed md:text-base">
+            <span className="text-sm text-text-faint leading-relaxed md:text-base">
               {subtitle}
             </span>
           ) : null}

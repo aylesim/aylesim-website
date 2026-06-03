@@ -68,7 +68,7 @@ export function CategoryProjectRotator({
     <div className={wrapperClass}>
       <button
         aria-label={`Open ${activeProject.title}`}
-        className="group relative block w-full overflow-hidden border border-(--index-divider) bg-(--foreground)/5"
+        className="group relative block w-full overflow-hidden border border-(--index-divider) bg-surface-media"
         onClick={() => onProjectClick(activeProject.slug)}
         type="button"
       >
@@ -106,7 +106,7 @@ export function CategoryProjectRotator({
           animationTimingFunction: "ease-out",
         }}
       >
-        <span className="text-(--foreground)/70">{activeProject.title}</span>
+        <span className="text-(--foreground)">{activeProject.title}</span>
         {projects.length > 1 ? (
           <span className="text-(--text-muted)">
             {" "}

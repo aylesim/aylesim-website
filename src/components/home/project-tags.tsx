@@ -10,7 +10,7 @@ const TAG_PILL_STYLES: Record<ProjectCategory, string> = {
 };
 
 const NEUTRAL_PILL =
-  "border-(--foreground)/12 bg-(--foreground)/[0.04] text-(--text-muted)";
+  "border-(--foreground)/18 bg-surface-subtle text-(--text-muted)";
 
 export function ProjectTags({
   tags,

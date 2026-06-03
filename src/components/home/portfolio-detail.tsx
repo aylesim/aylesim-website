@@ -309,7 +309,7 @@ export function ProjectDetail({
           </a>
         </DetailLinks>
       ) : null}
-      <div className="mt-4 text-(--foreground)/90 text-sm leading-relaxed">
+      <div className="mt-4 text-(--foreground) text-sm leading-relaxed">
         <ProjectMarkdownBody source={project.description} />
       </div>
       {project.videos && project.videos.length > 0 ? (
@@ -319,7 +319,7 @@ export function ProjectDetail({
         <ProjectGalleryRow paths={galleryPaths} title={project.title} />
       ) : null}
       {project.descriptionAfterVideos ? (
-        <div className="mt-4 text-(--foreground)/90 text-sm leading-relaxed">
+        <div className="mt-4 text-(--foreground) text-sm leading-relaxed">
           <ProjectMarkdownBody source={project.descriptionAfterVideos} />
         </div>
       ) : null}

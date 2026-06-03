@@ -6,7 +6,7 @@ import {
 } from "@/components/ask-ai/use-copy-text";
 
 const buttonClass =
-  "shrink-0 font-mono text-[10px] uppercase tracking-widest text-(--text-muted) underline decoration-(--foreground)/25 underline-offset-2 transition-colors hover:text-(--foreground) disabled:opacity-50";
+  "shrink-0 font-mono text-[10px] uppercase tracking-widest text-(--text-muted) underline decoration-(--index-divider) underline-offset-2 transition-colors hover:text-(--foreground) disabled:opacity-50";
 
 export function CopyTextButton({
   text,
