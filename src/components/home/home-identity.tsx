@@ -1,16 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import {
-  type CSSProperties,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { CategoryProjectRotator } from "@/components/home/category-project-rotator";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { ProjectTags } from "@/components/home/project-tags";
-import type { Project, ProjectListBadge } from "@/lib/content";
+import type { Project } from "@/lib/content";
 import {
   pressMentions,
   primaryAward,
@@ -22,12 +15,10 @@ import {
   ROLE_STYLES,
 } from "@/lib/roles";
 import {
-  audioDeveloperProductLine,
   aylesimDevicesSlug,
   contactAvailability,
   contactEmail,
   contactLinks,
-  maxBerlinCommunityProof,
   maxBerlinCommunitySlug,
   maxBerlinNetworkUrl,
   resumeHref,
@@ -84,6 +75,9 @@ const FEATURED_CARDS: FeaturedCard[] = [
 
 const CARD_TAG_CLASS =
   "border border-(--index-divider) px-2 py-0.5 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest";
+
+const HOME_PANEL_CLASS =
+  "flex min-w-0 flex-col overflow-hidden border border-(--index-divider)";
 
 interface HowIWorkCard {
   eyebrow: string;
@@ -784,19 +778,15 @@ function HowIWorkCardItem({
 
 interface CategoryColumn {
   id: ProjectCategory;
-  proof?: string;
   eyebrow: string;
   description: string;
   stack?: string;
   resumeHref?: string;
 }
 
-const PRIMARY_AUDIO_SLUGS = new Set(["birds", "knob-studio"]);
-
 const PRACTICE_COLUMNS: CategoryColumn[] = [
   {
     id: "devices",
-    proof: audioDeveloperProductLine,
     eyebrow:
       "Tools for composing and performing: rule systems, mappings, constraints, interfaces that stay playable while they generate variation.",
     description:
@@ -820,7 +810,6 @@ const PRACTICE_COLUMNS: CategoryColumn[] = [
   },
   {
     id: "community",
-    proof: maxBerlinCommunityProof,
     eyebrow:
       "I co-founded, curate, and carry forward Max Berlin Network, a Berlin scene for Max/MSP and creative audio practice.",
     description:
@@ -828,21 +817,18 @@ const PRACTICE_COLUMNS: CategoryColumn[] = [
   },
 ];
 
+const PRACTICE_COLUMNS_MAIN = PRACTICE_COLUMNS.filter(
+  (column) => column.id !== "community"
+);
+const COMMUNITY_COLUMN = PRACTICE_COLUMNS.find(
+  (column) => column.id === "community"
+);
+
 function categoryProjects(projects: Project[], category: ProjectCategory) {
   return projects.filter(
     (project) =>
       project.category === category && project.slug !== aylesimDevicesSlug
   );
-}
-
-function columnCarouselProjects(
-  projects: Project[],
-  columnId: ProjectCategory
-) {
-  if (columnId === "community") {
-    return [];
-  }
-  return categoryProjects(projects, columnId);
 }
 
 const BADGE_STYLES: Record<
@@ -957,9 +943,9 @@ function FeaturedWorkCard({
         <div className="relative aspect-4/3 w-full overflow-hidden">
           <Image
             alt={card.title}
-            className="h-full w-full object-cover"
+            className="object-cover"
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, 33vw"
             src={card.cover}
           />
         </div>
@@ -987,42 +973,123 @@ function FeaturedWorkCard({
   );
 }
 
-function ProjectListBadgeItem({
-  badge,
-  hidePrefix,
-  className,
+function uniqueProjectTags(projects: Project[]): string[] {
+  const seen = new Set<string>();
+  const tags: string[] = [];
+  for (const project of projects) {
+    for (const tag of project.tags) {
+      if (!seen.has(tag)) {
+        seen.add(tag);
+        tags.push(tag);
+      }
+    }
+  }
+  return tags;
+}
+
+const TAG_LABEL_RE = /[^a-z0-9]+/g;
+const TAG_WORD_RE = /\s+/;
+
+function normalizeTagLabel(value: string): string {
+  return value.toLowerCase().replace(TAG_LABEL_RE, " ").trim();
+}
+
+function tagWords(value: string): string[] {
+  return normalizeTagLabel(value)
+    .split(TAG_WORD_RE)
+    .filter((part) => part.length > 2);
+}
+
+function tagsOverlap(a: string, b: string): boolean {
+  const left = normalizeTagLabel(a);
+  const right = normalizeTagLabel(b);
+  if (left.length === 0 || right.length === 0) {
+    return false;
+  }
+  if (left === right) {
+    return true;
+  }
+  if (left.includes(right) || right.includes(left)) {
+    return true;
+  }
+  const rightWords = tagWords(b);
+  return tagWords(a).some((part) => rightWords.includes(part));
+}
+
+function parseStackTags(stack: string): string[] {
+  return stack
+    .split("·")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+function buildColumnTags(
+  column: CategoryColumn,
+  projects: Project[]
+): string[] {
+  const projectTags = uniqueProjectTags(projects);
+  if (!column.stack) {
+    return projectTags;
+  }
+
+  const stackTags = parseStackTags(column.stack);
+  const projectOnly = projectTags.filter(
+    (tag) => !stackTags.some((stackTag) => tagsOverlap(tag, stackTag))
+  );
+
+  return [...stackTags, ...projectOnly];
+}
+
+function PracticeProjectIndex({
+  items,
+  onProjectClick,
 }: {
-  badge: ProjectListBadge;
-  hidePrefix?: boolean;
-  className?: string;
+  items: Project[];
+  onProjectClick: (slug: string) => void;
 }) {
-  const linkClass =
-    "font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)";
-  const label = <>↗ {badge.label.toUpperCase()}</>;
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
-    <span
-      className={`flex flex-col ${hidePrefix ? "-mt-2" : "gap-0.5"} ${className ?? ""}`}
-    >
-      {badge.prefix && !hidePrefix ? (
-        <span className="font-mono text-(--text-muted) text-[10px] normal-case tracking-wide">
-          {badge.prefix}
-        </span>
-      ) : null}
-      {badge.url ? (
-        <a
-          className={linkClass}
-          href={badge.url}
-          onClick={(e) => e.stopPropagation()}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {label}
-        </a>
-      ) : (
-        <span className={linkClass}>{label}</span>
-      )}
-    </span>
+    <ul className="m-0 flex list-none flex-col p-0">
+      {items.map((project, index) => {
+        const hasAward = projectHasNationalArtsAward(project);
+        return (
+          <li
+            className={index > 0 ? "micro-divider-top" : undefined}
+            key={project.slug}
+          >
+            <button
+              aria-label={`Open ${project.title}`}
+              className="group flex w-full items-baseline justify-between gap-3 py-1.5 text-left"
+              onClick={() => onProjectClick(project.slug)}
+              type="button"
+            >
+              <span className="min-w-0 leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
+                <span className="text-(--foreground) text-sm md:text-[0.9375rem]">
+                  {project.title}
+                </span>
+                {hasAward ? (
+                  <span className="ml-1.5 font-mono text-(--accent) text-[9px] uppercase tracking-widest">
+                    · award
+                  </span>
+                ) : null}
+              </span>
+              {project.year ? (
+                <span className="shrink-0 font-mono text-(--text-muted) text-[10px] tabular-nums tracking-wide">
+                  {project.year}
+                </span>
+              ) : (
+                <span className="shrink-0 text-(--text-muted) text-sm opacity-0 transition-opacity group-hover:opacity-100">
+                  →
+                </span>
+              )}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -1033,8 +1100,8 @@ function CommunityHighlight({
 }) {
   const styles = ROLE_STYLES.community;
   return (
-    <div className="micro-divider-top pt-3">
-      <div className="grid w-full grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-3 py-4 first:bg-none md:grid-cols-[1fr_auto_1rem]">
+    <div>
+      <div className="grid w-full grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-3 md:grid-cols-[1fr_auto_1rem]">
         <div className="flex flex-col gap-2">
           <a
             className="text-(--foreground) text-lg leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-xl"
@@ -1084,140 +1151,33 @@ function CommunityHighlight({
   );
 }
 
-function ProjectLink({
-  project,
-  onProjectClick,
-  onHover,
-}: {
-  project: Project;
-  onProjectClick: (slug: string) => void;
-  onHover?: (slug: string | null) => void;
-}) {
-  const meta = [
-    project.year,
-    project.menuLabel?.toLowerCase() === "max4live"
-      ? undefined
-      : project.menuLabel,
-  ]
-    .filter(Boolean)
-    .join(" / ");
-  const hasAward = projectHasNationalArtsAward(project);
-  const isPrimaryAudio = PRIMARY_AUDIO_SLUGS.has(project.slug);
-  return (
-    <button
-      aria-label={`Open ${project.title}`}
-      className="group micro-divider-top grid w-full grid-cols-[1fr_auto] items-baseline gap-x-5 gap-y-1 py-4 text-left first:bg-none md:grid-cols-[1fr_auto_1rem]"
-      onClick={() => onProjectClick(project.slug)}
-      onMouseEnter={() => onHover?.(project.slug)}
-      onMouseLeave={() => onHover?.(null)}
-      type="button"
-    >
-      <span className="flex flex-col gap-1">
-        <span className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span
-            className={`leading-snug tracking-tight transition-colors group-hover:text-(--accent) ${
-              isPrimaryAudio
-                ? "text-(--foreground) text-lg md:text-xl"
-                : "text-(--foreground) text-base"
-            }`}
-          >
-            {project.title}
-          </span>
-          {project.listTagline ? (
-            <span className="text-(--text-muted) text-xs leading-snug md:text-sm">
-              {project.listTagline}
-            </span>
-          ) : null}
-        </span>
-        <ProjectTags
-          category={project.category}
-          className="mt-0.5"
-          tags={project.tags}
-        />
-        {project.listBadges.length > 0 && (
-          <span className="mt-0.5 flex flex-col gap-2.5">
-            {project.listBadges.map((badge, index) => {
-              const previous = project.listBadges[index - 1];
-              const hidePrefix =
-                index > 0 &&
-                Boolean(badge.prefix) &&
-                badge.prefix === previous?.prefix;
-              return (
-                <ProjectListBadgeItem
-                  badge={badge}
-                  hidePrefix={hidePrefix}
-                  key={badge.url ?? badge.label}
-                />
-              );
-            })}
-          </span>
-        )}
-        {project.workScope && project.workScope !== "commercial" && (
-          <span className="font-mono text-[10px] text-text-faint uppercase tracking-widest">
-            {project.workScope}
-          </span>
-        )}
-        {hasAward && (
-          <span className="font-mono text-(--accent) text-[10px] uppercase tracking-widest">
-            MUR · National Arts Award · 1st prize
-          </span>
-        )}
-      </span>
-      <span className="hidden font-mono text-(--text-muted) text-[10px] uppercase tracking-widest md:block">
-        {meta}
-      </span>
-      <span className="text-right text-(--text-muted) text-sm opacity-35 transition-opacity group-hover:opacity-100">
-        →
-      </span>
-      <span className="col-span-2 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest md:hidden">
-        {meta}
-      </span>
-    </button>
-  );
-}
-
 function PracticeColumnSection({
   column,
   items,
-  carouselProjects,
   onProjectClick,
+  inPanel = false,
 }: {
   column: CategoryColumn;
   items: Project[];
-  carouselProjects: Project[];
   onProjectClick: (slug: string) => void;
+  inPanel?: boolean;
 }) {
-  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   const styles = ROLE_STYLES[column.id];
-  const isWebInteractive = column.id === "web-interactive";
-  const showRotator = column.id !== "community";
+  const columnTags = buildColumnTags(column, items);
 
   const headerText = (
     <>
       <p
-        className={`mb-5 font-mono text-[11px] uppercase tracking-widest ${styles.labelClass}`}
+        className={`mb-4 font-mono text-[11px] uppercase tracking-widest ${styles.labelClass}`}
       >
         {CATEGORY_LABELS[column.id]}
       </p>
-      <p className="mb-4 max-w-md text-2xl leading-[1.15] tracking-tight md:text-3xl">
+      <p className="text-pretty text-lg leading-[1.2] tracking-tight md:text-xl">
         {column.eyebrow}
       </p>
-      <p className="max-w-md text-(--text-muted) text-sm leading-relaxed">
-        {column.description}
-      </p>
-      {column.proof ? (
-        <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-snug">
-          {column.proof}
-        </p>
-      ) : null}
-      {column.stack ? (
-        <p className="mt-5 max-w-md font-mono text-(--text-muted) text-[10px] uppercase leading-relaxed tracking-widest">
-          {column.stack}
-        </p>
-      ) : null}
       {column.resumeHref ? (
         <a
-          className="mt-4 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+          className="mt-3 inline-block font-mono text-(--role-web) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
           download
           href={column.resumeHref}
         >
@@ -1227,67 +1187,44 @@ function PracticeColumnSection({
     </>
   );
 
-  const rotator = showRotator ? (
-    <CategoryProjectRotator
-      activeSlug={hoveredSlug}
-      className={isWebInteractive ? "mt-8 md:mt-0" : undefined}
-      layout={isWebInteractive ? "aside" : "stacked"}
-      onProjectClick={onProjectClick}
-      projects={carouselProjects}
-    />
-  ) : null;
-
-  const headerBlock = isWebInteractive ? (
-    <div className="grid gap-8 md:grid-cols-[0.52fr_0.48fr] md:items-center md:gap-x-16 md:gap-y-0">
-      <div className={`min-w-0 border-t-2 pt-5 ${styles.borderClass}`}>
-        {headerText}
-      </div>
-      <div className="flex w-full items-center justify-center md:px-6 md:pt-5 lg:px-10">
-        {rotator}
-      </div>
-    </div>
+  const headerBlock = inPanel ? (
+    <div>{headerText}</div>
   ) : (
-    <div className={`border-t-2 pt-5 ${styles.borderClass}`}>
-      {headerText}
-      {rotator}
-    </div>
+    <div className={`border-t-2 pt-5 ${styles.borderClass}`}>{headerText}</div>
   );
 
-  const listBlock = (
-    <div
-      className={`micro-divider-top pt-3 ${isWebInteractive ? "mt-10" : ""}`}
-    >
-      {column.id === "community" ? (
-        <CommunityHighlight onProjectClick={onProjectClick} />
-      ) : null}
-      {items.map((project) => (
-        <ProjectLink
-          key={project.slug}
-          onHover={setHoveredSlug}
-          onProjectClick={onProjectClick}
-          project={project}
-        />
-      ))}
-    </div>
-  );
-
-  if (isWebInteractive) {
-    return (
+  const listBlock =
+    column.id === "community" ? (
       <div
-        className="border-(--index-divider) border-b border-dotted py-14 md:py-20"
-        id={column.id}
+        className={
+          inPanel
+            ? "micro-divider-top mt-4 pt-3"
+            : "micro-divider-top mt-6 pt-4"
+        }
       >
-        {headerBlock}
-        {listBlock}
+        <CommunityHighlight onProjectClick={onProjectClick} />
+      </div>
+    ) : (
+      <div className="mt-6">
+        {columnTags.length > 0 ? (
+          <div className="micro-divider-top pt-3">
+            <ProjectTags category={column.id} tags={columnTags} />
+          </div>
+        ) : null}
+        <div
+          className={
+            columnTags.length > 0
+              ? "micro-divider-top mt-3 pt-3"
+              : "micro-divider-top pt-3"
+          }
+        >
+          <PracticeProjectIndex items={items} onProjectClick={onProjectClick} />
+        </div>
       </div>
     );
-  }
 
   return (
-    <div
-      className="grid gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.52fr_0.48fr] md:gap-16 md:py-20"
-      id={column.id}
-    >
+    <div className="min-w-0" id={column.id}>
       {headerBlock}
       {listBlock}
     </div>
@@ -1301,17 +1238,6 @@ export function HomeIdentity({
   projects: Project[];
   onProjectClick: (slug: string) => void;
 }) {
-  const carouselByColumn = useMemo(
-    () =>
-      Object.fromEntries(
-        PRACTICE_COLUMNS.map((column) => [
-          column.id,
-          columnCarouselProjects(projects, column.id),
-        ])
-      ) as Record<ProjectCategory, Project[]>,
-    [projects]
-  );
-
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
       <section className="grid items-start gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[1.12fr_0.88fr] md:items-end md:gap-14 md:py-24 lg:gap-16">
@@ -1366,7 +1292,7 @@ export function HomeIdentity({
         <p className="mb-10 font-mono text-(--accent) text-sm uppercase tracking-[0.18em]">
           Selected works
         </p>
-        <div className="grid items-stretch gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-x-5 gap-y-12 md:grid-cols-3">
           {FEATURED_CARDS.map((card) => (
             <FeaturedWorkCard
               card={card}
@@ -1381,113 +1307,139 @@ export function HomeIdentity({
         <p className="mb-10 font-mono text-(--accent) text-sm uppercase tracking-[0.18em]">
           How I work
         </p>
-        <div className="grid items-stretch gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-x-5 gap-y-12 md:grid-cols-3">
           {HOW_I_WORK_CARDS.map((card, index) => (
             <HowIWorkCardItem card={card} index={index} key={card.title} />
           ))}
         </div>
       </section>
 
-      <section className="flex flex-col">
-        {PRACTICE_COLUMNS.map((column) => (
-          <PracticeColumnSection
-            carouselProjects={carouselByColumn[column.id]}
-            column={column}
-            items={categoryProjects(projects, column.id)}
-            key={column.id}
-            onProjectClick={onProjectClick}
-          />
-        ))}
+      <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
+          {PRACTICE_COLUMNS_MAIN.map((column) => (
+            <PracticeColumnSection
+              column={column}
+              items={categoryProjects(projects, column.id)}
+              key={column.id}
+              onProjectClick={onProjectClick}
+            />
+          ))}
+        </div>
       </section>
 
-      <section className="grid gap-8 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[0.45fr_1fr] md:py-20">
-        <div>
-          <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-            Recognition
-          </p>
-          <p className="mt-4 max-w-xs text-(--text-muted) text-sm leading-relaxed">
-            State-backed award for installation work, plus press on audio tools.
-          </p>
-        </div>
-        <div className="space-y-10">
-          <div className="border-(--accent)/35 border-t-2 pt-5">
-            <p className="mb-2 font-mono text-(--accent) text-[10px] uppercase tracking-widest">
-              {primaryAward.issuer}
-            </p>
-            <p className="text-2xl leading-snug tracking-tight md:text-3xl">
-              {primaryAward.headline}
-            </p>
-            <p className="mt-2 max-w-2xl text-(--text-muted) text-base leading-relaxed">
-              {primaryAward.title}, {primaryAward.subtitle} ({primaryAward.year}
-              ).
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <button
-                className="font-mono text-(--foreground) text-[10px] uppercase tracking-widest transition-colors hover:text-(--accent)"
-                onClick={() => onProjectClick(primaryAward.projectSlug)}
-                type="button"
-              >
-                Awarded work:{" "}
-                {projects.find((p) => p.slug === primaryAward.projectSlug)
-                  ?.title ?? "Please Set a Password"}{" "}
-                →
-              </button>
-              <a
-                className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
-                href={primaryAward.externalHref}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {primaryAward.externalLabel} ↗
-              </a>
+      <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
+        <div className="flex flex-col gap-5 md:gap-6 lg:gap-8">
+          {COMMUNITY_COLUMN ? (
+            <div className={`${HOME_PANEL_CLASS} bg-(--accent)/6`}>
+              <div
+                aria-hidden
+                className="h-[2px] w-full shrink-0 bg-(--accent)"
+              />
+              <div className="flex flex-col p-5 md:p-6">
+                <PracticeColumnSection
+                  column={COMMUNITY_COLUMN}
+                  inPanel
+                  items={categoryProjects(projects, COMMUNITY_COLUMN.id)}
+                  onProjectClick={onProjectClick}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <p className="mb-3 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
-              Press
-            </p>
-            {pressMentions.map((mention) => {
-              const related = mention.projectSlug
-                ? projects.find((p) => p.slug === mention.projectSlug)
-                : undefined;
-              return (
-                <div
-                  className="micro-divider-top grid gap-2 py-4 first:bg-none md:grid-cols-[1fr_auto]"
-                  key={mention.href}
-                >
-                  <div>
+          ) : null}
+          <div className={`${HOME_PANEL_CLASS} bg-(--surface-dim)`}>
+            <div
+              aria-hidden
+              className="h-[2px] w-full shrink-0 bg-(--accent)/70"
+            />
+            <div className="flex flex-col p-5 md:p-6 lg:p-8">
+              <p className="mb-5 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+                Recognition
+              </p>
+              <p className="max-w-2xl text-(--text-muted) text-base leading-relaxed md:text-lg">
+                State-backed award for installation work, plus press on audio
+                tools.
+              </p>
+              <div className="mt-10 space-y-12">
+                <div className="border-(--accent)/35 border-t-2 pt-6">
+                  <p className="mb-3 font-mono text-(--accent) text-[11px] uppercase tracking-widest">
+                    {primaryAward.issuer}
+                  </p>
+                  <p className="text-3xl leading-[1.1] tracking-tight md:text-4xl lg:text-[2.75rem]">
+                    {primaryAward.headline}
+                  </p>
+                  <p className="mt-4 max-w-3xl text-(--text-muted) text-base leading-relaxed md:text-lg">
+                    {primaryAward.title}, {primaryAward.subtitle} (
+                    {primaryAward.year}).
+                  </p>
+                  <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <button
+                      className="font-mono text-(--foreground) text-[11px] uppercase tracking-widest transition-colors hover:text-(--accent)"
+                      onClick={() => onProjectClick(primaryAward.projectSlug)}
+                      type="button"
+                    >
+                      Awarded work:{" "}
+                      {projects.find((p) => p.slug === primaryAward.projectSlug)
+                        ?.title ?? "Please Set a Password"}{" "}
+                      →
+                    </button>
                     <a
-                      className="text-base leading-snug tracking-tight transition-colors hover:text-(--accent)"
-                      href={mention.href}
+                      className="font-mono text-(--text-muted) text-[11px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                      href={primaryAward.externalHref}
                       rel="noopener noreferrer"
                       target="_blank"
                     >
-                      <span className="text-(--foreground)">
-                        {mention.outlet}
-                      </span>
-                      <span className="text-(--text-muted)">
-                        {" "}
-                        , {mention.title}
-                      </span>
+                      {primaryAward.externalLabel} ↗
                     </a>
-                    {related && (
-                      <button
-                        className="mt-2 block font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
-                        onClick={() => onProjectClick(related.slug)}
-                        type="button"
-                      >
-                        Related project: {related.title} →
-                      </button>
-                    )}
                   </div>
-                  {mention.year && (
-                    <span className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest md:text-right">
-                      {mention.year}
-                    </span>
-                  )}
                 </div>
-              );
-            })}
+                <div>
+                  <p className="mb-4 font-mono text-(--text-muted) text-[11px] uppercase tracking-widest">
+                    Press
+                  </p>
+                  {pressMentions.map((mention) => {
+                    const related = mention.projectSlug
+                      ? projects.find((p) => p.slug === mention.projectSlug)
+                      : undefined;
+                    return (
+                      <div
+                        className="micro-divider-top grid gap-2 py-5 first:bg-none md:grid-cols-[1fr_auto]"
+                        key={mention.href}
+                      >
+                        <div>
+                          <a
+                            className="text-lg leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-xl"
+                            href={mention.href}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            <span className="text-(--foreground)">
+                              {mention.outlet}
+                            </span>
+                            <span className="text-(--text-muted)">
+                              {" "}
+                              , {mention.title}
+                            </span>
+                          </a>
+                          {related && (
+                            <button
+                              className="mt-2.5 block font-mono text-(--text-muted) text-[11px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                              onClick={() => onProjectClick(related.slug)}
+                              type="button"
+                            >
+                              Related project: {related.title} →
+                            </button>
+                          )}
+                        </div>
+                        {mention.year && (
+                          <span className="font-mono text-(--text-muted) text-[11px] uppercase tracking-widest md:text-right">
+                            {mention.year}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
