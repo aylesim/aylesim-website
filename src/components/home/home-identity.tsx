@@ -82,15 +82,18 @@ const FEATURED_CARDS: FeaturedCard[] = [
   },
 ];
 
+const CARD_TAG_CLASS =
+  "border border-(--index-divider) px-2 py-0.5 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest";
+
 interface HowIWorkCard {
   eyebrow: string;
   stripe: string;
   badgeBg: string;
   pillClass: string;
-  chipClass: string;
   title: string;
   tags: readonly string[];
   description: string;
+  rotation: number;
 }
 
 const HOW_I_WORK_CARDS: HowIWorkCard[] = [
@@ -99,9 +102,9 @@ const HOW_I_WORK_CARDS: HowIWorkCard[] = [
     stripe: "bg-(--accent)",
     badgeBg: "bg-(--accent)/8",
     pillClass: "border-(--accent)/45 bg-(--accent)/12 text-(--accent)",
-    chipClass: "border-(--accent)/35 bg-(--accent)/6 text-(--foreground)",
     title: "Relations, not surfaces",
     tags: ["Systems", "Constraints", "Behavior"],
+    rotation: -1.5,
     description:
       "I do not treat a project as a surface to style. I treat it as an interconnected network of data flows, state changes, user inputs, constraints, and system feedback.",
   },
@@ -110,9 +113,9 @@ const HOW_I_WORK_CARDS: HowIWorkCard[] = [
     stripe: "bg-(--role-web)",
     badgeBg: "bg-(--role-web)/8",
     pillClass: "border-(--role-web)/45 bg-(--role-web)/12 text-(--role-web)",
-    chipClass: "border-(--role-web)/35 bg-(--role-web)/6 text-(--foreground)",
     title: "Cross-media fluency",
     tags: ["Media Art", "Engineering", "Interaction"],
+    rotation: 1.2,
     description:
       "I bridge diverse digital mediums because the engineering challenges are identical: managing state visibility, exposing intuitive controls, optimizing performance, and giving the end-user ultimate leverage over the system.",
   },
@@ -122,10 +125,9 @@ const HOW_I_WORK_CARDS: HowIWorkCard[] = [
     badgeBg: "bg-(--role-audio)/8",
     pillClass:
       "border-(--role-audio)/45 bg-(--role-audio)/12 text-(--role-audio)",
-    chipClass:
-      "border-(--role-audio)/35 bg-(--role-audio)/6 text-(--foreground)",
     title: "Governing complexity",
     tags: ["Architecture", "Control", "Human factors"],
+    rotation: -2,
     description:
       "I thrive on projects where the true challenge lies in architecting the system: deciding what remains immutable, what must be dynamic, and how to abstract deep technical complexity into a seamless, high-performance user experience.",
   },
@@ -732,7 +734,7 @@ function HowIWorkCardItem({
 
   return (
     <div
-      className="h-full"
+      className="h-full w-full"
       ref={wrapperRef}
       style={{
         opacity: visible ? 1 : 0,
@@ -740,39 +742,40 @@ function HowIWorkCardItem({
         transition: `opacity 0.65s ease ${index * 120}ms, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) ${index * 120}ms`,
       }}
     >
-      <div className="flex h-full w-full flex-col overflow-hidden border border-(--index-divider) border-t-0">
-        <div aria-hidden className={`h-[2px] w-full shrink-0 ${card.stripe}`} />
+      <div className={`h-full w-full ${card.badgeBg}`}>
         <div
-          className={`border-(--index-divider)/50 border-b px-5 py-4 ${card.badgeBg}`}
+          className="fw-card group flex h-full w-full flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
+          style={{ "--card-rotation": card.rotation } as CSSProperties}
         >
-          <span
-            className={`inline-block border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${card.pillClass}`}
-          >
-            {card.eyebrow}
-          </span>
-        </div>
-        <div
-          className={`relative aspect-4/3 w-full overflow-hidden ${card.badgeBg}`}
-        >
-          {Diagram && <Diagram />}
-        </div>
-        <div className="flex flex-1 flex-col p-5 pt-4">
-          <p className="text-xl leading-snug tracking-tight md:text-2xl">
-            {card.title}
-          </p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {card.tags.map((tag) => (
-              <span
-                className={`border px-2.5 py-1 font-mono text-[11px] leading-snug tracking-wide ${card.chipClass}`}
-                key={tag}
-              >
-                {tag}
-              </span>
-            ))}
+          <div
+            aria-hidden
+            className={`h-[2px] w-full shrink-0 ${card.stripe}`}
+          />
+          <div className="border-(--index-divider)/50 border-b px-5 py-4">
+            <span
+              className={`inline-block border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${card.pillClass}`}
+            >
+              {card.eyebrow}
+            </span>
           </div>
-          <p className="mt-3 text-(--text-muted) text-sm leading-relaxed">
-            {card.description}
-          </p>
+          <div className="relative aspect-4/3 w-full overflow-hidden">
+            {Diagram && <Diagram />}
+          </div>
+          <div className="flex flex-1 flex-col p-5 pt-4">
+            <p className="text-xl leading-snug tracking-tight transition-colors group-hover:text-(--accent) md:text-2xl">
+              {card.title}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {card.tags.map((tag) => (
+                <span className={CARD_TAG_CLASS} key={tag}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p className="mt-3 text-(--text-muted) text-sm leading-relaxed">
+              {card.description}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -894,9 +897,7 @@ function FeaturedWorkBadge({
   badge: (typeof BADGE_STYLES)[FeaturedCard["badgeVariant"]];
 }) {
   return (
-    <div
-      className={`border-(--index-divider)/50 border-b px-5 py-4 ${badge.badgeBg}`}
-    >
+    <div className="border-(--index-divider)/50 border-b px-5 py-4">
       <span
         className={`inline-block border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${badge.pillClass}`}
       >
@@ -940,9 +941,9 @@ function FeaturedWorkCard({
   const badge = BADGE_STYLES[card.badgeVariant];
 
   return (
-    <div>
+    <div className={`h-full w-full ${badge.badgeBg}`}>
       <button
-        className="fw-card group flex w-full cursor-pointer flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
+        className="fw-card group flex h-full w-full cursor-pointer flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
         onClick={() => onProjectClick(card.slug)}
         style={{ "--card-rotation": card.rotation } as React.CSSProperties}
         type="button"
@@ -956,7 +957,7 @@ function FeaturedWorkCard({
         <div className="relative aspect-4/3 w-full overflow-hidden">
           <Image
             alt={card.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="h-full w-full object-cover"
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             src={card.cover}
@@ -969,10 +970,7 @@ function FeaturedWorkCard({
           </p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {card.tags.map((tag) => (
-              <span
-                className="border border-(--index-divider) px-2 py-0.5 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest"
-                key={tag}
-              >
+              <span className={CARD_TAG_CLASS} key={tag}>
                 {tag}
               </span>
             ))}
@@ -1368,7 +1366,7 @@ export function HomeIdentity({
         <p className="mb-10 font-mono text-(--accent) text-sm uppercase tracking-[0.18em]">
           Selected works
         </p>
-        <div className="grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-stretch gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURED_CARDS.map((card) => (
             <FeaturedWorkCard
               card={card}
