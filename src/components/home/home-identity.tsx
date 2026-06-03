@@ -1062,12 +1062,12 @@ function PracticeProjectIndex({
           >
             <button
               aria-label={`Open ${project.title}`}
-              className="group flex w-full items-baseline justify-between gap-3 py-1.5 text-left"
+              className="group -mx-1 flex w-full cursor-pointer items-baseline justify-between gap-3 rounded-sm px-1 py-1.5 text-left transition-colors hover:bg-(--surface-dim)/80"
               onClick={() => onProjectClick(project.slug)}
               type="button"
             >
-              <span className="min-w-0 leading-snug tracking-tight transition-colors group-hover:text-(--accent)">
-                <span className="text-(--foreground) text-sm md:text-[0.9375rem]">
+              <span className="min-w-0 leading-snug tracking-tight">
+                <span className="text-(--foreground) text-sm underline decoration-transparent underline-offset-4 transition-[color,text-decoration-color] duration-200 group-hover:text-(--accent) group-hover:decoration-(--accent)/70 md:text-[0.9375rem]">
                   {project.title}
                 </span>
                 {hasAward ? (
@@ -1076,15 +1076,19 @@ function PracticeProjectIndex({
                   </span>
                 ) : null}
               </span>
-              {project.year ? (
-                <span className="shrink-0 font-mono text-(--text-muted) text-[10px] tabular-nums tracking-wide">
-                  {project.year}
-                </span>
-              ) : (
-                <span className="shrink-0 text-(--text-muted) text-sm opacity-0 transition-opacity group-hover:opacity-100">
+              <span className="flex shrink-0 items-baseline gap-2">
+                {project.year ? (
+                  <span className="font-mono text-(--text-muted) text-[10px] tabular-nums tracking-wide">
+                    {project.year}
+                  </span>
+                ) : null}
+                <span
+                  aria-hidden
+                  className="text-(--text-muted) text-sm opacity-45 transition-[opacity,color] duration-200 group-hover:text-(--accent) group-hover:opacity-100"
+                >
                   →
                 </span>
-              )}
+              </span>
             </button>
           </li>
         );
@@ -1350,29 +1354,29 @@ export function HomeIdentity({
               aria-hidden
               className="h-[2px] w-full shrink-0 bg-(--accent)/70"
             />
-            <div className="flex flex-col p-5 md:p-6 lg:p-8">
-              <p className="mb-5 font-mono text-(--text-muted) text-xs uppercase tracking-widest">
+            <div className="flex flex-col p-5 md:p-6">
+              <p className="mb-4 font-mono text-(--accent) text-[11px] uppercase tracking-widest">
                 Recognition
               </p>
-              <p className="max-w-2xl text-(--text-muted) text-base leading-relaxed md:text-lg">
+              <p className="max-w-2xl text-(--text-muted) text-sm leading-relaxed">
                 State-backed award for installation work, plus press on audio
                 tools.
               </p>
-              <div className="mt-10 space-y-12">
-                <div className="border-(--accent)/35 border-t-2 pt-6">
-                  <p className="mb-3 font-mono text-(--accent) text-[11px] uppercase tracking-widest">
+              <div className="mt-6 space-y-8">
+                <div className="border-(--accent)/35 border-t-2 pt-4">
+                  <p className="mb-2 font-mono text-(--accent) text-[10px] uppercase tracking-widest">
                     {primaryAward.issuer}
                   </p>
-                  <p className="text-3xl leading-[1.1] tracking-tight md:text-4xl lg:text-[2.75rem]">
+                  <p className="text-xl leading-snug tracking-tight md:text-2xl">
                     {primaryAward.headline}
                   </p>
-                  <p className="mt-4 max-w-3xl text-(--text-muted) text-base leading-relaxed md:text-lg">
+                  <p className="mt-3 max-w-2xl text-(--text-muted) text-sm leading-relaxed">
                     {primaryAward.title}, {primaryAward.subtitle} (
                     {primaryAward.year}).
                   </p>
-                  <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
                     <button
-                      className="font-mono text-(--foreground) text-[11px] uppercase tracking-widest transition-colors hover:text-(--accent)"
+                      className="font-mono text-(--foreground) text-[10px] uppercase tracking-widest transition-colors hover:text-(--accent)"
                       onClick={() => onProjectClick(primaryAward.projectSlug)}
                       type="button"
                     >
@@ -1382,7 +1386,7 @@ export function HomeIdentity({
                       →
                     </button>
                     <a
-                      className="font-mono text-(--text-muted) text-[11px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                      className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
                       href={primaryAward.externalHref}
                       rel="noopener noreferrer"
                       target="_blank"
@@ -1392,7 +1396,7 @@ export function HomeIdentity({
                   </div>
                 </div>
                 <div>
-                  <p className="mb-4 font-mono text-(--text-muted) text-[11px] uppercase tracking-widest">
+                  <p className="mb-3 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
                     Press
                   </p>
                   {pressMentions.map((mention) => {
@@ -1401,12 +1405,12 @@ export function HomeIdentity({
                       : undefined;
                     return (
                       <div
-                        className="micro-divider-top grid gap-2 py-5 first:bg-none md:grid-cols-[1fr_auto]"
+                        className="micro-divider-top grid gap-2 py-3 first:bg-none md:grid-cols-[1fr_auto]"
                         key={mention.href}
                       >
                         <div>
                           <a
-                            className="text-lg leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-xl"
+                            className="text-sm leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-base"
                             href={mention.href}
                             rel="noopener noreferrer"
                             target="_blank"
@@ -1421,7 +1425,7 @@ export function HomeIdentity({
                           </a>
                           {related && (
                             <button
-                              className="mt-2.5 block font-mono text-(--text-muted) text-[11px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                              className="mt-1.5 block font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
                               onClick={() => onProjectClick(related.slug)}
                               type="button"
                             >
@@ -1430,7 +1434,7 @@ export function HomeIdentity({
                           )}
                         </div>
                         {mention.year && (
-                          <span className="font-mono text-(--text-muted) text-[11px] uppercase tracking-widest md:text-right">
+                          <span className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest md:text-right">
                             {mention.year}
                           </span>
                         )}
