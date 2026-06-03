@@ -28,7 +28,7 @@ export function SiteHeader({
   onProjectsClick,
   projectsActive,
 }: SiteHeaderProps) {
-  const projectsIsActive = active === "projects" || projectsActive;
+  const projectsIsActive = active === "projects" || projectsActive === true;
 
   return (
     <header className="sticky top-0 z-20 shrink-0 border-(--index-divider) border-b border-dotted bg-bg/88 backdrop-blur-md supports-[backdrop-filter]:bg-bg/72">
