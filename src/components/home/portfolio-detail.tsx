@@ -21,7 +21,7 @@ function Meta({ children }: { children: React.ReactNode }) {
 
 function PrimaryLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-3 block w-fit bg-white px-3 py-1.5 text-black text-sm leading-none tracking-tight sm:text-base">
+    <p className="mb-3 block w-fit bg-(--badge-bg) px-3 py-1.5 text-(--badge-fg) text-sm leading-none tracking-tight sm:text-base">
       {children}
     </p>
   );
@@ -279,7 +279,7 @@ export function ProjectDetail({
   const galleryPaths = galleryPathsForDetail(project);
   return (
     <div className="w-full max-w-4xl">
-      <h2 className="mb-3 block w-fit bg-white px-4 py-2 text-3xl text-black leading-[0.95] tracking-tight sm:text-5xl">
+      <h2 className="mb-3 block w-fit bg-(--badge-bg) px-4 py-2 text-(--badge-fg) text-3xl leading-[0.95] tracking-tight sm:text-5xl">
         {project.title}
       </h2>
       {primaryLabel ? <PrimaryLabel>{primaryLabel}</PrimaryLabel> : null}

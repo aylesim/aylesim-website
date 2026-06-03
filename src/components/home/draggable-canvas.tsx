@@ -443,7 +443,7 @@ export function DraggableCanvas({
           style={{ opacity: 0, zIndex: 20 + i }}
           type="button"
         >
-          <div className="relative overflow-hidden rounded-lg border border-white/25 shadow-[0_20px_55px_rgba(0,0,0,0.75)] ring-1 ring-white/10 ring-inset">
+          <div className="relative overflow-hidden rounded-lg border border-(--foreground)/25 shadow-[var(--elevated-shadow)] ring-(--foreground)/10 ring-1 ring-inset">
             {item.isVideo ? (
               <>
                 <Image
@@ -465,7 +465,7 @@ export function DraggableCanvas({
                   width={CANVAS_IMG_PX}
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black/55">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-(--scrim)">
                     <div className="ml-1 h-0 w-0 border-y-[6px] border-y-transparent border-l-[11px] border-l-white" />
                   </div>
                 </div>

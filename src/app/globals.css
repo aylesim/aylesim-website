@@ -5,20 +5,52 @@
   --color-bg: var(--bg);
 }
 
-:root {
+:root,
+[data-theme="dark"] {
+  --bg: #000000;
   --foreground: #ffffff;
   --text-muted: #8a8a8a;
   --index-divider: rgba(255, 255, 255, 0.2);
+  --badge-bg: #ffffff;
+  --badge-fg: #000000;
+  --surface-dim: rgba(0, 0, 0, 0.3);
+  --micro-divider-color: rgba(255, 255, 255, 0.16);
+  --selection-bg: rgba(143, 181, 160, 0.28);
+  --elevated-shadow: 0 20px 55px rgba(0, 0, 0, 0.75);
+  --card-hover-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.8), 0 4px 20px rgba(143, 181, 160, 0.08);
+  --scrim: rgba(0, 0, 0, 0.55);
   --accent: #8fb5a0;
   --role-audio: #c3a15d;
   --role-web: #7f93ad;
   --role-creative: #b9796d;
   --font-sans: "Geist", "Lato", sans-serif;
   --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #f6f4f0;
+  --foreground: #141414;
+  --text-muted: #5c5c5c;
+  --index-divider: rgba(0, 0, 0, 0.14);
+  --badge-bg: #141414;
+  --badge-fg: #f6f4f0;
+  --surface-dim: rgba(0, 0, 0, 0.06);
+  --micro-divider-color: rgba(0, 0, 0, 0.12);
+  --selection-bg: rgba(90, 143, 114, 0.22);
+  --elevated-shadow: 0 20px 55px rgba(0, 0, 0, 0.14);
+  --card-hover-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.1), 0 4px 20px rgba(90, 143, 114, 0.12);
+  --scrim: rgba(0, 0, 0, 0.45);
+  --accent: #5a8f72;
+  --role-audio: #9a7a3d;
+  --role-web: #5a6f8a;
+  --role-creative: #9a5f52;
+  color-scheme: light;
 }
 
 html {
-  color-scheme: dark;
   scroll-behavior: smooth;
 }
 
@@ -37,7 +69,7 @@ body {
 }
 
 ::selection {
-  background: rgba(143, 181, 160, 0.28);
+  background: var(--selection-bg);
   color: var(--foreground);
 }
 
@@ -68,8 +100,8 @@ body {
   .micro-divider-top {
     background-image: repeating-linear-gradient(
       to right,
-      rgba(255, 255, 255, 0.16) 0,
-      rgba(255, 255, 255, 0.16) 1px,
+      var(--micro-divider-color) 0,
+      var(--micro-divider-color) 1px,
       transparent 1px,
       transparent 5px
     );
@@ -109,9 +141,7 @@ input:focus-visible {
 .fw-card:hover,
 .fw-card:focus-visible {
   transform: rotate(0deg) scale(1.02);
-  box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.8),
-    0 4px 20px rgba(143, 181, 160, 0.08);
+  box-shadow: var(--card-hover-shadow);
 }
 
 @media (max-width: 640px) {

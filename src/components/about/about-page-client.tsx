@@ -396,7 +396,7 @@ export function AboutPageClient({
               ) : (
                 <div
                   aria-hidden
-                  className="relative aspect-4/5 w-full max-w-56 border border-(--index-divider) bg-[linear-gradient(160deg,rgba(255,255,255,0.06),transparent_55%)]"
+                  className="relative aspect-4/5 w-full max-w-56 border border-(--index-divider) bg-[linear-gradient(160deg,color-mix(in_srgb,var(--foreground)_6%,transparent),transparent_55%)]"
                 />
               )}
               <div className="flex max-w-xl flex-col gap-5 md:pt-2">

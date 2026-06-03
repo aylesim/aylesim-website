@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export type SiteNavActive = "projects" | "about" | "tools" | "ask-ai";
 
@@ -28,7 +29,7 @@ export function SiteHeader({
       {leading}
       <nav
         aria-label="Primary"
-        className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
+        className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-3 gap-y-1"
       >
         <Link className="text-lg tracking-tight md:text-xl" href="/">
           Aylesim
@@ -72,6 +73,7 @@ export function SiteHeader({
           Too lazy to read
         </Link>
       </nav>
+      <ThemeToggle />
     </header>
   );
 }

@@ -62,7 +62,7 @@ function ToolCard({
   return (
     <li>
       <article className="group flex h-full flex-col border border-(--index-divider) bg-(--foreground)/[0.03]">
-        <div className="relative aspect-4/3 overflow-hidden bg-black/30">
+        <div className="relative aspect-4/3 overflow-hidden bg-(--surface-dim)">
           <Image
             alt=""
             className="object-cover"

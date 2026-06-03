@@ -55,7 +55,7 @@ function ProjectCard({
         type="button"
       >
         <span
-          className={`relative block overflow-hidden bg-black/30 ${
+          className={`relative block overflow-hidden bg-(--surface-dim) ${
             layout === "wide" ? "aspect-21/9" : "aspect-4/3"
           }`}
         >
