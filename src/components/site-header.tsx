@@ -4,16 +4,22 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export type SiteNavActive = "projects" | "about" | "tools" | "ask-ai";
 
-const mutedLink =
-  "text-(--text-muted) text-sm tracking-tight transition-colors hover:text-(--foreground) md:text-base";
+const navItem =
+  "rounded-sm px-2.5 py-1 text-sm tracking-tight transition-[color,background-color,box-shadow] duration-200 md:px-3 md:text-[0.9375rem]";
 
-const activeLink = "text-sm tracking-tight md:text-base";
+const navMuted = `${navItem} text-(--text-muted) hover:bg-surface-hover hover:text-(--foreground)`;
+
+const navActive = `${navItem} bg-surface-subtle text-(--foreground) shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_35%,transparent)]`;
 
 interface SiteHeaderProps {
   active?: SiteNavActive;
   leading?: ReactNode;
   onProjectsClick?: () => void;
   projectsActive?: boolean;
+}
+
+function navClass(isActive: boolean) {
+  return isActive ? navActive : navMuted;
 }
 
 export function SiteHeader({
@@ -25,55 +31,65 @@ export function SiteHeader({
   const projectsIsActive = active === "projects" || projectsActive;
 
   return (
-    <header className="sticky top-0 z-20 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-(--index-divider) border-b border-dotted bg-bg px-4 pt-5 pb-3 md:px-5 md:pt-6 md:pb-4">
-      {leading}
-      <nav
-        aria-label="Primary"
-        className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-3 gap-y-1"
-      >
-        <Link className="text-lg tracking-tight md:text-xl" href="/">
+    <header className="sticky top-0 z-20 shrink-0 border-(--index-divider) border-b border-dotted bg-bg/88 backdrop-blur-md supports-[backdrop-filter]:bg-bg/72">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3 md:gap-x-4 md:px-5 md:py-3.5">
+        {leading}
+        <Link
+          className="shrink-0 text-lg tracking-tight transition-colors duration-200 hover:text-(--accent) md:text-xl"
+          href="/"
+        >
           Aylesim
         </Link>
-        {onProjectsClick ? (
-          <button
-            className={`text-sm tracking-tight transition-colors md:text-base ${
-              projectsIsActive
-                ? activeLink
-                : `${mutedLink} hover:text-(--foreground)`
-            }`}
-            onClick={onProjectsClick}
-            type="button"
-          >
-            Projects
-          </button>
-        ) : (
-          <Link
-            className={projectsIsActive ? activeLink : mutedLink}
-            href="/?projects"
-          >
-            Projects
-          </Link>
-        )}
-        <Link
-          className={active === "tools" ? activeLink : mutedLink}
-          href="/tools"
+        <nav
+          aria-label="Primary"
+          className="flex min-w-0 flex-wrap items-center gap-0.5 sm:gap-1"
         >
-          Tools
-        </Link>
-        <Link
-          className={active === "about" ? activeLink : mutedLink}
-          href="/about"
-        >
-          About
-        </Link>
-        <Link
-          className={active === "ask-ai" ? activeLink : mutedLink}
-          href="/ask-ai"
-        >
-          Too lazy to read
-        </Link>
-      </nav>
-      <ThemeToggle />
+          <div className="flex flex-wrap items-center gap-0.5 rounded-sm border border-(--index-divider) border-dotted bg-surface-panel/60 p-0.5 sm:gap-1">
+            {onProjectsClick ? (
+              <button
+                aria-current={projectsIsActive ? "page" : undefined}
+                className={navClass(projectsIsActive)}
+                onClick={onProjectsClick}
+                type="button"
+              >
+                Projects
+              </button>
+            ) : (
+              <Link
+                aria-current={projectsIsActive ? "page" : undefined}
+                className={navClass(projectsIsActive)}
+                href="/?projects"
+              >
+                Projects
+              </Link>
+            )}
+            <Link
+              aria-current={active === "tools" ? "page" : undefined}
+              className={navClass(active === "tools")}
+              href="/tools"
+            >
+              Tools
+            </Link>
+            <Link
+              aria-current={active === "about" ? "page" : undefined}
+              className={navClass(active === "about")}
+              href="/about"
+            >
+              About
+            </Link>
+            <Link
+              aria-current={active === "ask-ai" ? "page" : undefined}
+              className={navClass(active === "ask-ai")}
+              href="/ask-ai"
+            >
+              Too lazy to read
+            </Link>
+          </div>
+        </nav>
+        <div className="ml-auto flex shrink-0 items-center border-(--index-divider) border-l border-dotted pl-3 md:pl-4">
+          <ThemeToggle />
+        </div>
+      </div>
     </header>
   );
 }
