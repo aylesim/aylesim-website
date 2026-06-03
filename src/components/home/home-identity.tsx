@@ -103,7 +103,7 @@ const HOW_I_WORK_CARDS: HowIWorkCard[] = [
     title: "Relations, not surfaces",
     tags: ["Systems", "Constraints", "Behavior"],
     description:
-      "I do not treat a project as a surface to style. I treat it as a set of relations: inputs, constraints, timing, feedback, misuse, attention.",
+      "I do not treat a project as a surface to style. I treat it as an interconnected network of data flows, state changes, user inputs, constraints, and system feedback.",
   },
   {
     eyebrow: "Method",
@@ -114,7 +114,7 @@ const HOW_I_WORK_CARDS: HowIWorkCard[] = [
     title: "Cross-media fluency",
     tags: ["Media Art", "Engineering", "Interaction"],
     description:
-      "I move between media because the underlying questions are often the same: what needs to be visible, what behavior should be exposed, what should stay quiet, and where a user or performer needs leverage.",
+      "I bridge diverse digital mediums because the engineering challenges are identical: managing state visibility, exposing intuitive controls, optimizing performance, and giving the end-user ultimate leverage over the system.",
   },
   {
     eyebrow: "Goal",
@@ -127,7 +127,7 @@ const HOW_I_WORK_CARDS: HowIWorkCard[] = [
     title: "Governing complexity",
     tags: ["Architecture", "Control", "Human factors"],
     description:
-      "I like projects where the hard part is not choosing a technology, but understanding the shape of the system: what should be fixed, what should remain alive, and how much complexity a person can hold while still feeling in control.",
+      "I thrive on projects where the true challenge lies in architecting the system: deciding what remains immutable, what must be dynamic, and how to abstract deep technical complexity into a seamless, high-performance user experience.",
   },
 ];
 
