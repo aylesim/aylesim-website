@@ -1316,9 +1316,9 @@ export function HomeIdentity({
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
-      <section className="grid items-start gap-10 border-(--index-divider) border-b border-dotted py-12 md:grid-cols-[1.15fr_0.85fr] md:py-20">
-        <div>
-          <p className="mb-5 font-mono text-xs tracking-widest">
+      <section className="grid items-start gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[1.12fr_0.88fr] md:items-end md:gap-14 md:py-24 lg:gap-16">
+        <div className="flex flex-col gap-6 md:gap-7">
+          <p className="font-mono text-xs tracking-widest">
             <span className="text-(--accent) uppercase">
               Alessandro Miracapillo /{" "}
             </span>
@@ -1326,27 +1326,42 @@ export function HomeIdentity({
             <span className="text-(--text-muted)"> · </span>
             <span className="text-(--text-muted) uppercase">Berlin</span>
           </p>
-          <h1 className="max-w-5xl font-normal text-4xl leading-[0.98] tracking-tight md:text-7xl">
-            I design and program systems where sound, interfaces, and human
-            behavior meet.
+          <h1 className="max-w-4xl text-pretty font-normal text-3xl leading-[1.08] tracking-[-0.02em] md:text-[2.65rem] md:leading-[1.06] lg:text-[2.85rem]">
+            I design and program{" "}
+            <span className="text-(--accent)">
+              high-performance digital systems
+            </span>{" "}
+            where{" "}
+            <span className="text-(--foreground)/88">
+              advanced frontend engineering
+            </span>{" "}
+            and{" "}
+            <span className="underline decoration-(--accent)/45 decoration-2 underline-offset-[5px]">
+              interactive spaces
+            </span>{" "}
+            meet.
           </h1>
         </div>
-        <p className="max-w-xl text-(--text-muted) text-base leading-relaxed md:self-end md:text-lg">
-          I design and program stable digital systems where code, sound, and
-          space converge. My practice bridges the rigor of{" "}
-          <strong className="font-normal text-(--foreground)">
-            software engineering
-          </strong>{" "}
-          with the research of{" "}
-          <strong className="font-normal text-(--foreground)">media art</strong>
-          . I develop complex frontend architectures (React, TypeScript),
-          applying the same obsession for performance, latency, and state
-          management that I use to engineer spatial installations, generative
-          systems, and audio tools (Max for Live) used by thousands of
-          musicians. Whether building a web ecosystem or a sensory interaction,
-          my goal is to govern technical complexity to create solid logical and
-          aesthetic behaviors.
-        </p>
+        <aside className="max-w-lg border-(--index-divider) border-t border-dotted pt-8 md:border-t-0 md:border-l md:pt-0 md:pl-8 lg:pl-10">
+          <p className="mb-5 font-mono text-(--accent) text-[10px] uppercase tracking-[0.2em]">
+            Profile
+          </p>
+          <div className="space-y-4 text-sm leading-[1.65] md:text-[0.9375rem]">
+            <p className="text-(--foreground)/90">
+              I am a Frontend Engineer and Media Artist specializing in the
+              intersection of robust code, interactive sound, and physical
+              space.
+            </p>
+            <p className="text-(--text-muted)">
+              My work bridges the rigor of enterprise software engineering with
+              the experimentation of creative technology. Day-to-day, I build
+              complex, high-performance web applications using React and
+              TypeScript, applying the same obsession with latency and state
+              management that I use to develop Max for Live audio tools (used by
+              thousands of musicians) and interactive spatial installations.
+            </p>
+          </div>
+        </aside>
       </section>
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
