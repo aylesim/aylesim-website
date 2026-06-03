@@ -148,9 +148,9 @@ function AboutMarkdown({
           const h3Class = H3_ACCENT[title] ?? accent.h3;
 
           return (
-            <div className="micro-divider-top mt-10 pt-8 first:mt-0 first:border-0 first:bg-none first:pt-0 md:pt-10">
+            <div className="micro-divider-top mt-6 pt-5 first:mt-0 first:border-0 first:bg-none first:pt-0 md:pt-6">
               <h3
-                className={`mb-4 font-mono text-[10px] uppercase tracking-widest ${h3Class}`}
+                className={`mb-3 font-mono text-[10px] uppercase tracking-widest ${h3Class}`}
               >
                 {children}
               </h3>
@@ -158,12 +158,12 @@ function AboutMarkdown({
           );
         },
         li: ({ children }) => (
-          <li className="text-(--text-muted) text-base leading-relaxed md:text-lg">
+          <li className="text-(--text-muted) text-sm leading-[1.65] md:text-[0.9375rem]">
             {children}
           </li>
         ),
         p: ({ children }) => (
-          <p className="max-w-3xl text-(--text-muted) text-base leading-relaxed md:text-lg [&+p]:mt-5">
+          <p className="max-w-2xl text-(--text-muted) text-sm leading-[1.65] md:text-[0.9375rem] [&+p]:mt-4">
             {children}
           </p>
         ),
@@ -173,7 +173,7 @@ function AboutMarkdown({
           </strong>
         ),
         ul: ({ children }) => (
-          <ul className="mt-5 list-inside list-disc space-y-2">{children}</ul>
+          <ul className="mt-4 list-inside list-disc space-y-1.5">{children}</ul>
         ),
       }}
     >
@@ -194,23 +194,23 @@ function AboutSectionCard({
 
   return (
     <article
-      className={`${cardShell} ${accent.border} scroll-mt-24 border-t-2 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
+      className={`${cardShell} ${accent.border} scroll-mt-24 border-t-2 px-5 py-6 md:scroll-mt-28 md:px-6 md:py-8`}
       id={sectionId(section.label)}
     >
       <span
         aria-hidden
-        className={`pointer-events-none absolute top-5 right-6 select-none font-mono text-5xl leading-none tracking-tighter md:top-6 md:right-10 md:text-7xl ${accent.index}`}
+        className={`pointer-events-none absolute top-4 right-5 select-none font-mono text-3xl leading-none tracking-tighter md:top-5 md:right-6 md:text-4xl ${accent.index}`}
       >
         {String(index).padStart(2, "0")}
       </span>
-      <header className="relative mb-8 max-w-2xl md:mb-10">
+      <header className="relative mb-5 max-w-2xl md:mb-6">
         <p
-          className={`font-mono text-xs uppercase tracking-widest ${accent.label}`}
+          className={`font-mono text-[11px] uppercase tracking-widest ${accent.label}`}
         >
           {section.label}
         </p>
       </header>
-      <div className={isWide ? "max-w-5xl" : "max-w-4xl"}>
+      <div className={isWide ? "max-w-4xl" : "max-w-3xl"}>
         <AboutMarkdown accent={accent} source={section.content} />
       </div>
     </article>
@@ -264,7 +264,7 @@ function AboutPortrait({ src }: { src: string }) {
   }, [pathname]);
 
   const shellClass =
-    "relative aspect-4/5 w-full max-w-56 overflow-hidden border border-(--index-divider) bg-surface-media";
+    "relative aspect-4/5 w-full max-w-44 overflow-hidden border border-(--index-divider) bg-surface-media";
 
   return (
     <div className={shellClass}>
@@ -275,7 +275,7 @@ function AboutPortrait({ src }: { src: string }) {
         }`}
         fill
         priority
-        sizes="(max-width: 768px) 224px, 224px"
+        sizes="(max-width: 768px) 176px, 176px"
         src={src}
       />
       {revealed ? null : (
@@ -299,7 +299,7 @@ function AboutEyebrow({ subtitle }: { subtitle: string }) {
   const [fullName, alias] = (namePart ?? subtitle).split(" / ");
 
   return (
-    <p className="mb-5 font-mono text-xs tracking-widest">
+    <p className="mb-4 font-mono text-xs tracking-widest">
       <span className="text-(--accent) uppercase">{fullName?.trim()} / </span>
       <span className="text-(--accent)">{alias?.trim()}</span>
       {locationPart ? (
@@ -387,23 +387,23 @@ export function AboutPageClient({
         </aside>
 
         <main className="relative min-w-0 flex-1">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-6 md:gap-6 md:px-8 md:py-12">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-6 md:gap-5 md:px-8 md:py-10">
             <section
-              className={`${cardShell} grid items-start gap-8 px-6 py-10 md:grid-cols-[minmax(11rem,14rem)_1fr] md:gap-10 md:px-8 md:py-12`}
+              className={`${cardShell} grid items-start gap-6 px-5 py-6 md:grid-cols-[minmax(9rem,11rem)_1fr] md:gap-8 md:px-6 md:py-8`}
             >
               {about.portrait ? (
                 <AboutPortrait src={about.portrait} />
               ) : (
                 <div
                   aria-hidden
-                  className="relative aspect-4/5 w-full max-w-56 border border-(--index-divider) bg-[linear-gradient(160deg,color-mix(in_srgb,var(--foreground)_6%,transparent),transparent_55%)]"
+                  className="relative aspect-4/5 w-full max-w-44 border border-(--index-divider) bg-[linear-gradient(160deg,color-mix(in_srgb,var(--foreground)_6%,transparent),transparent_55%)]"
                 />
               )}
-              <div className="flex max-w-xl flex-col gap-5 md:pt-2">
+              <div className="flex max-w-lg flex-col gap-4 md:pt-1">
                 {about.subtitle ? (
                   <AboutEyebrow subtitle={about.subtitle} />
                 ) : null}
-                <p className="text-(--text-muted) text-base leading-relaxed md:text-lg">
+                <p className="text-(--text-muted) text-sm leading-[1.65] md:text-[0.9375rem]">
                   {about.lede}
                 </p>
               </div>
@@ -418,38 +418,38 @@ export function AboutPageClient({
             ))}
 
             <article
-              className={`${cardShell} scroll-mt-24 border-(--accent)/40 border-t-2 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
+              className={`${cardShell} scroll-mt-24 border-(--accent)/40 border-t-2 px-5 py-6 md:scroll-mt-28 md:px-6 md:py-8`}
               id="recognition"
             >
               <span
                 aria-hidden
-                className="pointer-events-none absolute top-5 right-6 select-none font-mono text-(--accent)/25 text-5xl leading-none tracking-tighter md:top-6 md:right-10 md:text-7xl"
+                className="pointer-events-none absolute top-4 right-5 select-none font-mono text-(--accent)/25 text-3xl leading-none tracking-tighter md:top-5 md:right-6 md:text-4xl"
               >
                 {String(bodySections.length + 1).padStart(2, "0")}
               </span>
-              <header className="relative mb-8 md:mb-10">
-                <p className="font-mono text-(--accent) text-xs uppercase tracking-widest">
+              <header className="relative mb-5 md:mb-6">
+                <p className="font-mono text-(--accent) text-[11px] uppercase tracking-widest">
                   Recognition
                 </p>
-                <p className="mt-4 max-w-md text-(--text-muted) text-sm leading-relaxed">
+                <p className="mt-3 max-w-md text-(--text-muted) text-sm leading-relaxed">
                   State-backed award for installation work, plus press on audio
                   tools.
                 </p>
               </header>
-              <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-                <div className="border border-(--index-divider) bg-surface-panel p-6 md:p-8">
+              <div className="grid gap-5 md:grid-cols-2 md:gap-6">
+                <div className="border border-(--index-divider) bg-surface-panel p-5 md:p-6">
                   <p className="mb-2 font-mono text-(--accent) text-[10px] uppercase tracking-widest">
                     {primaryAward.issuer}
                   </p>
-                  <p className="text-2xl leading-snug tracking-tight md:text-3xl">
+                  <p className="text-xl leading-snug tracking-tight md:text-2xl">
                     {primaryAward.headline}
                   </p>
-                  <p className="mt-2 text-(--text-muted) text-base leading-relaxed">
+                  <p className="mt-2 text-(--text-muted) text-sm leading-relaxed">
                     {primaryAward.title}, {primaryAward.subtitle} (
                     {primaryAward.year}).
                   </p>
                   <a
-                    className="mt-6 inline-block font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
+                    className="mt-4 inline-block font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
                     href={primaryAward.externalHref}
                     rel="noopener noreferrer"
                     target="_blank"
@@ -457,18 +457,18 @@ export function AboutPageClient({
                     {primaryAward.externalLabel} ↗
                   </a>
                 </div>
-                <div className="border border-(--index-divider) bg-surface-panel p-6 md:p-8">
-                  <p className="mb-4 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
+                <div className="border border-(--index-divider) bg-surface-panel p-5 md:p-6">
+                  <p className="mb-3 font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
                     Press
                   </p>
                   <div className="space-y-1">
                     {pressMentions.map((mention) => (
                       <div
-                        className="micro-divider-top grid gap-2 py-4 first:bg-none md:grid-cols-[1fr_auto]"
+                        className="micro-divider-top grid gap-2 py-3 first:bg-none md:grid-cols-[1fr_auto]"
                         key={mention.href}
                       >
                         <a
-                          className="text-base leading-snug tracking-tight transition-colors hover:text-(--accent)"
+                          className="text-sm leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-base"
                           href={mention.href}
                           rel="noopener noreferrer"
                           target="_blank"
@@ -495,10 +495,10 @@ export function AboutPageClient({
 
             {currentlySection ? (
               <article
-                className={`${cardShell} scroll-mt-24 border-(--accent) border-t-2 bg-(--accent)/6 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
+                className={`${cardShell} scroll-mt-24 border-(--accent) border-t-2 bg-(--accent)/6 px-5 py-6 md:scroll-mt-28 md:px-6 md:py-8`}
                 id={sectionId(currentlySection.label)}
               >
-                <p className="mb-6 font-mono text-(--accent) text-xs uppercase tracking-widest">
+                <p className="mb-5 font-mono text-(--accent) text-[11px] uppercase tracking-widest">
                   {currentlySection.label}
                 </p>
                 <AboutMarkdown
@@ -509,19 +509,19 @@ export function AboutPageClient({
             ) : null}
 
             <article
-              className={`${cardShell} scroll-mt-24 px-6 py-10 md:scroll-mt-28 md:px-8 md:py-12`}
+              className={`${cardShell} scroll-mt-24 px-5 py-6 md:scroll-mt-28 md:px-6 md:py-8`}
               id="contact"
             >
-              <p className="mb-8 font-mono text-(--text-muted) text-xs uppercase tracking-widest md:mb-10">
+              <p className="mb-5 font-mono text-(--text-muted) text-xs uppercase tracking-widest md:mb-6">
                 Contact
               </p>
-              <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12">
+              <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-10">
                 <div className="flex max-w-xl flex-col gap-3">
                   <p className="text-(--text-muted) text-sm leading-relaxed">
                     {contactAvailability}
                   </p>
                   <a
-                    className="text-3xl leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-5xl"
+                    className="text-2xl leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-4xl"
                     href={`mailto:${contactEmail}`}
                   >
                     {contactEmail}
