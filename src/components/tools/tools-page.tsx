@@ -2,16 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProjectTags } from "@/components/home/project-tags";
 import { SiteHeader } from "@/components/site-header";
-import type { Project } from "@/lib/content";
+import type { Project, SiteConfig, SiteUtility } from "@/lib/content";
 import { getProjectCover } from "@/lib/project-cover";
 import { CATEGORY_LABELS, ROLE_STYLES } from "@/lib/roles";
-import {
-  getToolsSections,
-  SITE_UTILITIES,
-  TOOLS_PAGE_COPY,
-  type ToolAction,
-  type ToolEntry,
-} from "@/lib/tools";
+import { getToolsSections, type ToolAction, type ToolEntry } from "@/lib/tools";
 
 const linkClass =
   "underline decoration-(--index-divider) underline-offset-[3px] transition-colors hover:text-(--accent)";
@@ -48,9 +42,11 @@ function ToolActionLink({
 function ToolCard({
   entry,
   accent,
+  labels,
 }: {
   entry: ToolEntry;
   accent: (typeof ROLE_STYLES)[keyof typeof ROLE_STYLES];
+  labels: SiteConfig["toolsPage"]["labels"];
 }) {
   const { project, action, unavailable } = entry;
   const cover = getProjectCover(project);
@@ -80,7 +76,7 @@ function ToolCard({
               </h3>
               {unavailable ? (
                 <span className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest">
-                  {TOOLS_PAGE_COPY.labels.unavailable}
+                  {labels.unavailable}
                 </span>
               ) : null}
             </div>
@@ -106,7 +102,7 @@ function ToolCard({
                 className={`${linkClass} text-(--text-muted) text-sm`}
                 href={`/?project=${project.slug}`}
               >
-                {TOOLS_PAGE_COPY.labels.portfolioLink}
+                {labels.portfolioLink}
               </Link>
             ) : null}
           </div>
@@ -116,11 +112,7 @@ function ToolCard({
   );
 }
 
-function UtilityCard({
-  utility,
-}: {
-  utility: (typeof SITE_UTILITIES)[number];
-}) {
+function UtilityCard({ utility }: { utility: SiteUtility }) {
   const body = (
     <>
       <h3 className="text-sm leading-snug tracking-tight md:text-[0.9375rem]">
@@ -163,9 +155,16 @@ function UtilityCard({
   );
 }
 
-export function ToolsPage({ projects }: { projects: Project[] }) {
-  const sections = getToolsSections(projects);
-  const { shortcuts } = TOOLS_PAGE_COPY.sections;
+export function ToolsPage({
+  projects,
+  site,
+}: {
+  projects: Project[];
+  site: SiteConfig;
+}) {
+  const sections = getToolsSections(projects, site);
+  const { toolsPage, siteUtilities } = site;
+  const { shortcuts } = toolsPage.sections;
 
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
@@ -178,7 +177,7 @@ export function ToolsPage({ projects }: { projects: Project[] }) {
               Tools
             </h1>
             <p className="mt-3 max-w-xl text-(--text-muted) text-sm leading-[1.65] md:text-[0.9375rem]">
-              {TOOLS_PAGE_COPY.lede}
+              {toolsPage.lede}
             </p>
           </header>
 
@@ -211,6 +210,7 @@ export function ToolsPage({ projects }: { projects: Project[] }) {
                         accent={accent}
                         entry={entry}
                         key={entry.project.slug}
+                        labels={toolsPage.labels}
                       />
                     ))}
                   </ul>
@@ -228,7 +228,7 @@ export function ToolsPage({ projects }: { projects: Project[] }) {
                 </p>
               </header>
               <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4">
-                {SITE_UTILITIES.map((utility) => (
+                {siteUtilities.map((utility) => (
                   <UtilityCard key={utility.href} utility={utility} />
                 ))}
               </ul>
@@ -236,9 +236,9 @@ export function ToolsPage({ projects }: { projects: Project[] }) {
           </div>
 
           <p className="py-8 text-(--text-muted) text-sm leading-relaxed md:py-10">
-            {TOOLS_PAGE_COPY.footer}{" "}
+            {toolsPage.footer}{" "}
             <Link className={linkClass} href="/?projects">
-              {TOOLS_PAGE_COPY.footerLink}
+              {toolsPage.footerLink}
             </Link>
             .
           </p>

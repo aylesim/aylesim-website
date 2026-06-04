@@ -3,75 +3,21 @@
 import Image from "next/image";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { ProjectTags } from "@/components/home/project-tags";
-import type { Project } from "@/lib/content";
-import {
-  pressMentions,
-  primaryAward,
-  projectHasNationalArtsAward,
-} from "@/lib/credentials";
+import type {
+  HomeContent,
+  HomeFeaturedWork,
+  HomeHowIWorkCard,
+  HowIWorkTheme,
+  PrimaryAward,
+  Project,
+  SiteConfig,
+} from "@/lib/content";
+import { projectHasNationalArtsAward } from "@/lib/credentials";
 import {
   CATEGORY_LABELS,
   type ProjectCategory,
   ROLE_STYLES,
 } from "@/lib/roles";
-import {
-  aylesimDevicesSlug,
-  contactAvailability,
-  contactEmail,
-  contactLinks,
-  maxBerlinCommunitySlug,
-  maxBerlinNetworkUrl,
-  resumeHref,
-  resumeLabel,
-  webDeveloperStack,
-} from "@/lib/site";
-
-interface FeaturedCard {
-  badgeLabel: string;
-  badgeVariant: "award" | "collaboration" | "publisher";
-  slug: string;
-  title: string;
-  tags: readonly string[];
-  description: string;
-  cover: string;
-  rotation: number;
-}
-
-const FEATURED_CARDS: FeaturedCard[] = [
-  {
-    badgeLabel: "Berggruen Institute × Dark Matter Labs",
-    badgeVariant: "collaboration",
-    slug: "planetary-compendium",
-    title: "Planetary Compendium",
-    tags: ["Frontend Architecture", "Data Visualization", "React / TypeScript"],
-    description:
-      "Data-dense research interface for high-throughput state management and render performance across thousands of concurrent heterogeneous data points.",
-    cover: "/planetary.png",
-    rotation: -1.5,
-  },
-  {
-    badgeLabel: "1st Prize · National Arts Award (MUR) · Electronic Arts",
-    badgeVariant: "award",
-    slug: "please-set-a-password",
-    title: "please set a password",
-    tags: ["Media Art", "Spatial Interaction", "System Design"],
-    description:
-      "Installation engineering a bridge between physical security rituals and digital authentication. Designed for real-time reliability in live public-facing contexts.",
-    cover: "/tw2.jpg",
-    rotation: 1.2,
-  },
-  {
-    badgeLabel: "Isotonik Studios · Attack Magazine",
-    badgeVariant: "publisher",
-    slug: "knob-studio",
-    title: "Knob Studio",
-    tags: ["UI/UX Design", "Audio Engineering", "DSP / MaxMSP"],
-    description:
-      "Commercial Max for Live instrument optimized for sub-5ms parameter response and zero-latency UI feedback. Active base of 3,600+ musicians worldwide.",
-    cover: "/knobstudio.png",
-    rotation: -2,
-  },
-];
 
 const CARD_TAG_CLASS =
   "border border-(--index-divider) px-2 py-0.5 font-mono text-(--text-muted) text-[9px] uppercase tracking-widest";
@@ -79,58 +25,32 @@ const CARD_TAG_CLASS =
 const HOME_PANEL_CLASS =
   "flex min-w-0 flex-col overflow-hidden border border-(--index-divider)";
 
-interface HowIWorkCard {
-  eyebrow: string;
-  stripe: string;
-  badgeBg: string;
-  pillClass: string;
-  title: string;
-  tags: readonly string[];
-  description: string;
-  rotation: number;
-}
-
-const HOW_I_WORK_CARDS: HowIWorkCard[] = [
-  {
-    eyebrow: "Approach",
+const HOW_I_WORK_THEME_STYLES: Record<
+  HowIWorkTheme,
+  { stripe: string; badgeBg: string; pillClass: string }
+> = {
+  accent: {
     stripe: "bg-(--accent)",
     badgeBg: "bg-(--accent)/8",
     pillClass: "border-(--accent)/45 bg-(--accent)/12 text-(--accent)",
-    title: "Relations, not surfaces",
-    tags: ["Systems", "Constraints", "Behavior"],
-    rotation: -1.5,
-    description:
-      "I do not treat a project as a surface to style. I treat it as an interconnected network of data flows, state changes, user inputs, constraints, and system feedback.",
   },
-  {
-    eyebrow: "Method",
+  web: {
     stripe: "bg-(--role-web)",
     badgeBg: "bg-(--role-web)/8",
     pillClass: "border-(--role-web)/45 bg-(--role-web)/12 text-(--role-web)",
-    title: "Cross-media fluency",
-    tags: ["Media Art", "Engineering", "Interaction"],
-    rotation: 1.2,
-    description:
-      "I bridge diverse digital mediums because the engineering challenges are identical: managing state visibility, exposing intuitive controls, optimizing performance, and giving the end-user ultimate leverage over the system.",
   },
-  {
-    eyebrow: "Goal",
+  audio: {
     stripe: "bg-(--role-audio)",
     badgeBg: "bg-(--role-audio)/8",
     pillClass:
       "border-(--role-audio)/45 bg-(--role-audio)/12 text-(--role-audio)",
-    title: "Governing complexity",
-    tags: ["Architecture", "Control", "Human factors"],
-    rotation: -2,
-    description:
-      "I thrive on projects where the true challenge lies in architecting the system: deciding what remains immutable, what must be dynamic, and how to abstract deep technical complexity into a seamless, high-performance user experience.",
   },
-];
+};
 
-interface DiagramPointer {
+type DiagramPointer = {
   x: number;
   y: number;
-}
+};
 
 function useDiagramPointer() {
   const ref = useRef<SVGSVGElement>(null);
@@ -701,9 +621,10 @@ function HowIWorkCardItem({
   card,
   index,
 }: {
-  card: HowIWorkCard;
+  card: HomeHowIWorkCard;
   index: number;
 }) {
+  const theme = HOW_I_WORK_THEME_STYLES[card.theme];
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const Diagram = HOW_I_WORK_DIAGRAMS[index];
@@ -736,18 +657,18 @@ function HowIWorkCardItem({
         transition: `opacity 0.65s ease ${index * 120}ms, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) ${index * 120}ms`,
       }}
     >
-      <div className={`h-full w-full ${card.badgeBg}`}>
+      <div className={`h-full w-full ${theme.badgeBg}`}>
         <div
           className="fw-card-tilt flex h-full w-full flex-col overflow-hidden border border-(--index-divider) border-t-0 text-left"
           style={{ "--card-rotation": card.rotation } as CSSProperties}
         >
           <div
             aria-hidden
-            className={`h-[2px] w-full shrink-0 ${card.stripe}`}
+            className={`h-[2px] w-full shrink-0 ${theme.stripe}`}
           />
           <div className="border-(--index-divider)/50 border-b px-5 py-4">
             <span
-              className={`inline-block border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${card.pillClass}`}
+              className={`inline-block border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${theme.pillClass}`}
             >
               {card.eyebrow}
             </span>
@@ -776,55 +697,32 @@ function HowIWorkCardItem({
   );
 }
 
-interface CategoryColumn {
+type ResolvedPracticeColumn = {
   id: ProjectCategory;
   eyebrow: string;
   description: string;
   stack?: string;
   resumeHref?: string;
+};
+
+function resolvePracticeColumns(
+  home: HomeContent,
+  site: SiteConfig
+): ResolvedPracticeColumn[] {
+  return home.practiceColumns.map((column) => ({
+    id: column.id,
+    eyebrow: column.eyebrow,
+    description: column.description,
+    stack: column.useWebStack ? site.webDeveloperStack : undefined,
+    resumeHref: column.useWebStack ? site.resumeHref : undefined,
+  }));
 }
 
-const PRACTICE_COLUMNS: CategoryColumn[] = [
-  {
-    id: "devices",
-    eyebrow:
-      "Tools for composing and performing: rule systems, mappings, constraints, interfaces that stay playable while they generate variation.",
-    description:
-      "I build Max/MSP instruments and Ableton Live devices as playable systems: mappable, generative, precise enough for performance, open enough for misuse.",
-  },
-  {
-    id: "web-interactive",
-    eyebrow:
-      "Web interfaces as problem-solving: sites, editorial systems, archives, and browser-based tools built around the shape of the content.",
-    description:
-      "I ship production sites and editorial systems for cultural organizations and research teams: scrollytelling, data-heavy interfaces, community platforms, and browser-based tools where structure and interaction need to hold up under real use.",
-    stack: webDeveloperStack,
-    resumeHref,
-  },
-  {
-    id: "installations",
-    eyebrow:
-      "Software for situations in space: installations, AV systems, live visuals, sensors, timing, and behavior that has to hold up in front of people.",
-    description:
-      "I develop installations, AV performances, and digital artworks where software becomes part of a room: timing, sound, bodies, sensors, attention.",
-  },
-  {
-    id: "community",
-    eyebrow:
-      "I co-founded, curate, and carry forward Max Berlin Network, a Berlin scene for Max/MSP and creative audio practice.",
-    description:
-      "Alongside the site and newsletter, I keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers. The goal is reliable peer learning in the room, not marketing.",
-  },
-];
-
-const PRACTICE_COLUMNS_MAIN = PRACTICE_COLUMNS.filter(
-  (column) => column.id !== "community"
-);
-const COMMUNITY_COLUMN = PRACTICE_COLUMNS.find(
-  (column) => column.id === "community"
-);
-
-function categoryProjects(projects: Project[], category: ProjectCategory) {
+function categoryProjects(
+  projects: Project[],
+  category: ProjectCategory,
+  aylesimDevicesSlug: string
+) {
   return projects.filter(
     (project) =>
       project.category === category && project.slug !== aylesimDevicesSlug
@@ -832,7 +730,7 @@ function categoryProjects(projects: Project[], category: ProjectCategory) {
 }
 
 const BADGE_STYLES: Record<
-  FeaturedCard["badgeVariant"],
+  HomeFeaturedWork["badgeVariant"],
   {
     stripe: string;
     badgeBg: string;
@@ -878,9 +776,11 @@ function parseBadgeClients(label: string): string[] {
 function FeaturedWorkBadge({
   card,
   badge,
+  primaryAward,
 }: {
-  card: FeaturedCard;
-  badge: (typeof BADGE_STYLES)[FeaturedCard["badgeVariant"]];
+  card: HomeFeaturedWork;
+  badge: (typeof BADGE_STYLES)[HomeFeaturedWork["badgeVariant"]];
+  primaryAward: PrimaryAward;
 }) {
   return (
     <div className="border-(--index-divider)/50 border-b px-5 py-4">
@@ -919,9 +819,11 @@ function FeaturedWorkBadge({
 
 function FeaturedWorkCard({
   card,
+  primaryAward,
   onProjectClick,
 }: {
-  card: FeaturedCard;
+  card: HomeFeaturedWork;
+  primaryAward: PrimaryAward;
   onProjectClick: (slug: string) => void;
 }) {
   const badge = BADGE_STYLES[card.badgeVariant];
@@ -938,7 +840,11 @@ function FeaturedWorkCard({
           aria-hidden
           className={`h-[2px] w-full shrink-0 ${badge.stripe}`}
         />
-        <FeaturedWorkBadge badge={badge} card={card} />
+        <FeaturedWorkBadge
+          badge={badge}
+          card={card}
+          primaryAward={primaryAward}
+        />
 
         <div className="relative aspect-4/3 w-full overflow-hidden">
           <Image
@@ -1024,7 +930,7 @@ function parseStackTags(stack: string): string[] {
 }
 
 function buildColumnTags(
-  column: CategoryColumn,
+  column: ResolvedPracticeColumn,
   projects: Project[]
 ): string[] {
   const projectTags = uniqueProjectTags(projects);
@@ -1042,9 +948,11 @@ function buildColumnTags(
 
 function PracticeProjectIndex({
   items,
+  nationalArtsAwardProjectSlug,
   onProjectClick,
 }: {
   items: Project[];
+  nationalArtsAwardProjectSlug: string;
   onProjectClick: (slug: string) => void;
 }) {
   if (items.length === 0) {
@@ -1054,7 +962,10 @@ function PracticeProjectIndex({
   return (
     <ul className="m-0 flex list-none flex-col p-0">
       {items.map((project, index) => {
-        const hasAward = projectHasNationalArtsAward(project);
+        const hasAward = projectHasNationalArtsAward(
+          project,
+          nationalArtsAwardProjectSlug
+        );
         return (
           <li
             className={index > 0 ? "micro-divider-top" : undefined}
@@ -1098,8 +1009,10 @@ function PracticeProjectIndex({
 }
 
 function CommunityHighlight({
+  site,
   onProjectClick,
 }: {
+  site: SiteConfig;
   onProjectClick: (slug: string) => void;
 }) {
   const styles = ROLE_STYLES.community;
@@ -1109,7 +1022,7 @@ function CommunityHighlight({
         <div className="flex flex-col gap-2">
           <a
             className="text-(--foreground) text-lg leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-xl"
-            href={maxBerlinNetworkUrl}
+            href={site.maxBerlinNetworkUrl}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -1121,7 +1034,7 @@ function CommunityHighlight({
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <a
               className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
-              href={maxBerlinNetworkUrl}
+              href={site.maxBerlinNetworkUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1129,7 +1042,7 @@ function CommunityHighlight({
             </a>
             <button
               className="font-mono text-(--text-muted) text-[10px] uppercase tracking-widest transition-colors hover:text-(--foreground)"
-              onClick={() => onProjectClick(maxBerlinCommunitySlug)}
+              onClick={() => onProjectClick(site.maxBerlinCommunitySlug)}
               type="button"
             >
               Site case study →
@@ -1158,11 +1071,17 @@ function CommunityHighlight({
 function PracticeColumnSection({
   column,
   items,
+  nationalArtsAwardProjectSlug,
+  resumeLabel,
+  site,
   onProjectClick,
   inPanel = false,
 }: {
-  column: CategoryColumn;
+  column: ResolvedPracticeColumn;
   items: Project[];
+  nationalArtsAwardProjectSlug: string;
+  resumeLabel: string;
+  site: SiteConfig;
   onProjectClick: (slug: string) => void;
   inPanel?: boolean;
 }) {
@@ -1206,7 +1125,7 @@ function PracticeColumnSection({
             : "micro-divider-top mt-6 pt-4"
         }
       >
-        <CommunityHighlight onProjectClick={onProjectClick} />
+        <CommunityHighlight onProjectClick={onProjectClick} site={site} />
       </div>
     ) : (
       <div className="mt-6">
@@ -1222,7 +1141,11 @@ function PracticeColumnSection({
               : "micro-divider-top pt-3"
           }
         >
-          <PracticeProjectIndex items={items} onProjectClick={onProjectClick} />
+          <PracticeProjectIndex
+            items={items}
+            nationalArtsAwardProjectSlug={nationalArtsAwardProjectSlug}
+            onProjectClick={onProjectClick}
+          />
         </div>
       </div>
     );
@@ -1237,70 +1160,83 @@ function PracticeColumnSection({
 
 export function HomeIdentity({
   projects,
+  home,
+  site,
   onProjectClick,
 }: {
   projects: Project[];
+  home: HomeContent;
+  site: SiteConfig;
   onProjectClick: (slug: string) => void;
 }) {
+  const practiceColumns = resolvePracticeColumns(home, site);
+  const practiceColumnsMain = practiceColumns.filter(
+    (column) => column.id !== "community"
+  );
+  const communityColumn = practiceColumns.find(
+    (column) => column.id === "community"
+  );
+  const { primaryAward, pressMentions } = site;
+  const { hero } = home;
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
       <section className="grid items-start gap-10 border-(--index-divider) border-b border-dotted py-14 md:grid-cols-[1.12fr_0.88fr] md:items-end md:gap-14 md:py-24 lg:gap-16">
         <div className="flex flex-col gap-6 md:gap-7">
           <p className="font-mono text-xs tracking-widest">
             <span className="text-(--accent) uppercase">
-              Alessandro Miracapillo /{" "}
+              {hero.namePrefix}{" "}
             </span>
-            <span className="text-(--accent)">aylesim</span>
+            <span className="text-(--accent)">{hero.brand}</span>
             <span className="text-(--text-muted)"> · </span>
-            <span className="text-(--text-muted) uppercase">Berlin</span>
+            <span className="text-(--text-muted) uppercase">
+              {hero.location}
+            </span>
           </p>
           <h1 className="max-w-4xl text-pretty font-normal text-3xl leading-[1.08] tracking-[-0.02em] md:text-[2.65rem] md:leading-[1.06] lg:text-[2.85rem]">
-            I design and program{" "}
-            <span className="text-(--accent)">
-              high-performance digital systems
-            </span>{" "}
-            where{" "}
+            {hero.headline.lead}{" "}
+            <span className="text-(--accent)">{hero.headline.accent}</span>{" "}
+            {hero.headline.bridge}{" "}
             <span className="text-(--foreground)">
-              advanced frontend engineering
+              {hero.headline.emphasis}
             </span>{" "}
-            and{" "}
+            {hero.headline.junction}{" "}
             <span className="underline decoration-(--accent)/45 decoration-2 underline-offset-[5px]">
-              interactive spaces
+              {hero.headline.highlight}
             </span>{" "}
-            meet.
+            {hero.headline.close}
           </h1>
         </div>
         <aside className="max-w-lg border-(--index-divider) border-t border-dotted pt-8 md:border-t-0 md:border-l md:pt-0 md:pl-8 lg:pl-10">
           <p className="mb-5 font-mono text-(--accent) text-[10px] uppercase tracking-[0.2em]">
-            Profile
+            {hero.profile.label}
           </p>
           <div className="space-y-4 text-sm leading-[1.65] md:text-[0.9375rem]">
-            <p className="text-(--foreground)">
-              I am a Frontend Engineer and Media Artist specializing in the
-              intersection of code, interactive sound, and physical space.
-            </p>
-            <p className="text-(--text-muted)">
-              My work bridges the rigor of enterprise software engineering with
-              the experimentation of creative technology. Day-to-day, I build
-              complex, high-performance web applications using React and
-              TypeScript, applying the same obsession with latency and state
-              management that I use to develop Max for Live audio tools (used by
-              thousands of musicians) and interactive spatial installations.
-            </p>
+            {hero.profile.paragraphs.map((paragraph, index) => (
+              <p
+                className={
+                  index === 0 ? "text-(--foreground)" : "text-(--text-muted)"
+                }
+                key={paragraph.slice(0, 32)}
+              >
+                {paragraph}
+              </p>
+            ))}
           </div>
         </aside>
       </section>
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
         <p className="mb-10 font-mono text-(--accent) text-sm uppercase tracking-[0.18em]">
-          Selected works
+          {home.sections.selectedWorks}
         </p>
         <div className="grid grid-cols-1 items-stretch gap-x-5 gap-y-12 md:grid-cols-3">
-          {FEATURED_CARDS.map((card) => (
+          {home.featuredWorks.map((card) => (
             <FeaturedWorkCard
               card={card}
               key={card.slug}
               onProjectClick={onProjectClick}
+              primaryAward={primaryAward}
             />
           ))}
         </div>
@@ -1308,10 +1244,10 @@ export function HomeIdentity({
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-24">
         <p className="mb-10 font-mono text-(--accent) text-sm uppercase tracking-[0.18em]">
-          How I work
+          {home.sections.howIWork}
         </p>
         <div className="grid grid-cols-1 items-stretch gap-x-5 gap-y-12 md:grid-cols-3">
-          {HOW_I_WORK_CARDS.map((card, index) => (
+          {home.howIWork.map((card, index) => (
             <HowIWorkCardItem card={card} index={index} key={card.title} />
           ))}
         </div>
@@ -1319,12 +1255,19 @@ export function HomeIdentity({
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
-          {PRACTICE_COLUMNS_MAIN.map((column) => (
+          {practiceColumnsMain.map((column) => (
             <PracticeColumnSection
               column={column}
-              items={categoryProjects(projects, column.id)}
+              items={categoryProjects(
+                projects,
+                column.id,
+                site.aylesimDevicesSlug
+              )}
               key={column.id}
+              nationalArtsAwardProjectSlug={site.nationalArtsAwardProjectSlug}
               onProjectClick={onProjectClick}
+              resumeLabel={site.resumeLabel}
+              site={site}
             />
           ))}
         </div>
@@ -1332,7 +1275,7 @@ export function HomeIdentity({
 
       <section className="border-(--index-divider) border-b border-dotted py-14 md:py-20">
         <div className="flex flex-col gap-5 md:gap-6 lg:gap-8">
-          {COMMUNITY_COLUMN ? (
+          {communityColumn ? (
             <div className={`${HOME_PANEL_CLASS} bg-(--accent)/6`}>
               <div
                 aria-hidden
@@ -1340,10 +1283,19 @@ export function HomeIdentity({
               />
               <div className="flex flex-col p-5 md:p-6">
                 <PracticeColumnSection
-                  column={COMMUNITY_COLUMN}
+                  column={communityColumn}
                   inPanel
-                  items={categoryProjects(projects, COMMUNITY_COLUMN.id)}
+                  items={categoryProjects(
+                    projects,
+                    communityColumn.id,
+                    site.aylesimDevicesSlug
+                  )}
+                  nationalArtsAwardProjectSlug={
+                    site.nationalArtsAwardProjectSlug
+                  }
                   onProjectClick={onProjectClick}
+                  resumeLabel={site.resumeLabel}
+                  site={site}
                 />
               </div>
             </div>
@@ -1355,11 +1307,10 @@ export function HomeIdentity({
             />
             <div className="flex flex-col p-5 md:p-6">
               <p className="mb-4 font-mono text-(--accent) text-[11px] uppercase tracking-widest">
-                Recognition
+                {home.sections.recognition.title}
               </p>
               <p className="max-w-2xl text-(--text-muted) text-sm leading-relaxed">
-                State-backed award for installation work, plus press on audio
-                tools.
+                {home.sections.recognition.intro}
               </p>
               <div className="mt-6 space-y-8">
                 <div className="border-(--accent)/35 border-t-2 pt-4">
@@ -1449,29 +1400,29 @@ export function HomeIdentity({
 
       <section className="grid gap-8 py-14 md:grid-cols-[0.45fr_1fr] md:py-20">
         <p className="font-mono text-(--text-muted) text-xs uppercase tracking-widest">
-          Contact
+          {home.sections.contact}
         </p>
         <div className="grid gap-8 md:grid-cols-[1fr_1fr]">
           <div className="flex max-w-xl flex-col gap-3">
             <p className="text-(--text-muted) text-sm leading-relaxed">
-              {contactAvailability}
+              {site.contactAvailability}
             </p>
             <a
               className="text-2xl leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-4xl"
-              href={`mailto:${contactEmail}`}
+              href={`mailto:${site.contactEmail}`}
             >
-              {contactEmail}
+              {site.contactEmail}
             </a>
           </div>
           <div className="grid grid-cols-2 gap-x-6">
             <a
               className="border-(--index-divider) border-t border-dotted py-3 text-(--text-muted) text-sm transition-colors hover:text-(--foreground)"
               download
-              href={resumeHref}
+              href={site.resumeHref}
             >
-              {resumeLabel}
+              {site.resumeLabel}
             </a>
-            {contactLinks.map((link) => (
+            {site.contactLinks.map((link) => (
               <a
                 className="border-(--index-divider) border-t border-dotted py-3 text-(--text-muted) text-sm transition-colors hover:text-(--foreground)"
                 href={link.href}

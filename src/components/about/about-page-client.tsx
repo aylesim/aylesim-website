@@ -6,15 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { AboutToolkitSection } from "@/components/about/about-toolkit-section";
 import { SiteHeader } from "@/components/site-header";
-import type { About, AboutSection } from "@/lib/content";
-import { pressMentions, primaryAward } from "@/lib/credentials";
-import {
-  contactAvailability,
-  contactEmail,
-  contactLinks,
-  resumeHref,
-  resumeLabel,
-} from "@/lib/site";
+import type { About, AboutSection, SiteConfig } from "@/lib/content";
 
 const linkClass =
   "underline decoration-(--index-divider) underline-offset-[3px] transition-colors hover:text-(--accent)";
@@ -24,12 +16,12 @@ const SKIP_SECTIONS = new Set(["Currently"]);
 const cardShell =
   "relative overflow-hidden border border-(--index-divider) bg-surface-subtle";
 
-interface SectionAccent {
+type SectionAccent = {
   border: string;
   label: string;
   h3: string;
   index: string;
-}
+};
 
 const SECTION_ACCENT: Record<string, SectionAccent> = {
   Biography: {
@@ -75,10 +67,10 @@ function sectionId(label: string): string {
     .replace(/^-|-$/g, "");
 }
 
-interface IndexItem {
+type IndexItem = {
   id: string;
   label: string;
-}
+};
 
 function AboutSectionNav({
   items,
@@ -316,10 +308,13 @@ function AboutEyebrow({ subtitle }: { subtitle: string }) {
 export function AboutPageClient({
   about,
   sections,
+  site,
 }: {
   about: About;
   sections: AboutSection[];
+  site: SiteConfig;
 }) {
+  const { primaryAward, pressMentions } = site;
   const bodySections = sections.filter(
     (section) => !SKIP_SECTIONS.has(section.label)
   );
@@ -517,24 +512,24 @@ export function AboutPageClient({
               <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-10">
                 <div className="flex max-w-xl flex-col gap-3">
                   <p className="text-(--text-muted) text-sm leading-relaxed">
-                    {contactAvailability}
+                    {site.contactAvailability}
                   </p>
                   <a
                     className="text-2xl leading-snug tracking-tight transition-colors hover:text-(--accent) md:text-4xl"
-                    href={`mailto:${contactEmail}`}
+                    href={`mailto:${site.contactEmail}`}
                   >
-                    {contactEmail}
+                    {site.contactEmail}
                   </a>
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-0 self-end">
                   <a
                     className="border-(--index-divider) border-t border-dotted py-3 text-(--text-muted) text-sm transition-colors hover:text-(--foreground)"
                     download
-                    href={resumeHref}
+                    href={site.resumeHref}
                   >
-                    {resumeLabel}
+                    {site.resumeLabel}
                   </a>
-                  {contactLinks.map((link) => (
+                  {site.contactLinks.map((link) => (
                     <a
                       className="border-(--index-divider) border-t border-dotted py-3 text-(--text-muted) text-sm transition-colors hover:text-(--foreground)"
                       href={link.href}

@@ -3,7 +3,6 @@ import { ContentJsonViewer } from "@/components/ask-ai/content-json-viewer";
 import { CopyUrlField } from "@/components/ask-ai/copy-url-field";
 import { ExamplePromptsList } from "@/components/ask-ai/example-prompts-list";
 import { SiteHeader } from "@/components/site-header";
-import { contentJsonUrl } from "@/lib/site";
 
 const linkClass =
   "underline decoration-(--index-divider) underline-offset-[3px] transition-colors hover:text-(--accent)";
@@ -34,7 +33,13 @@ const steps = [
   },
 ] as const;
 
-export function AskAiPage({ json }: { json: string }) {
+export function AskAiPage({
+  json,
+  contentJsonUrl: jsonUrl,
+}: {
+  json: string;
+  contentJsonUrl: string;
+}) {
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
       <SiteHeader active="ask-ai" />
@@ -82,7 +87,7 @@ export function AskAiPage({ json }: { json: string }) {
                           </ul>
                         ) : null}
                         {"showUrlField" in step && step.showUrlField ? (
-                          <CopyUrlField url={contentJsonUrl} />
+                          <CopyUrlField url={jsonUrl} />
                         ) : null}
                       </div>
                     </li>

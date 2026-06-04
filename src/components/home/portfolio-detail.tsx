@@ -1,8 +1,7 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { ProjectTags } from "@/components/home/project-tags";
-import type { Project, ProjectVideo } from "@/lib/content";
-import { aylesimDevicesCustomerProof, aylesimDevicesSlug } from "@/lib/site";
+import type { Project, ProjectVideo, SiteConfig } from "@/lib/content";
 
 const detailLinkClass =
   "underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
@@ -165,7 +164,7 @@ function galleryPathsForDetail(project: {
 }): string[] | undefined {
   const g = project.galleryAfterVideo;
   if (!g?.length) {
-    return undefined;
+    return;
   }
   if (project.slug === THERE_WILL_BE_NO_MORE_SLUG) {
     return g.slice(0, 1);
@@ -267,9 +266,11 @@ function ProjectMarkdownBody({ source }: { source: string }) {
 export function ProjectDetail({
   slug,
   projects,
+  site,
 }: {
   slug: string;
   projects: Project[];
+  site: SiteConfig;
 }) {
   const project = projects.find((p) => p.slug === slug);
   if (!project) {
@@ -287,8 +288,8 @@ export function ProjectDetail({
         <Meta>{remainingPrimaryMeta.join(" · ")}</Meta>
       ) : null}
       {project.secondaryMeta ? <Meta>{project.secondaryMeta}</Meta> : null}
-      {project.slug === aylesimDevicesSlug ? (
-        <Meta>{aylesimDevicesCustomerProof}</Meta>
+      {project.slug === site.aylesimDevicesSlug ? (
+        <Meta>{site.audioDeveloperProductLine}</Meta>
       ) : null}
       {project.tags.length > 0 ? (
         <ProjectTags

@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeScript } from "@/components/theme/theme-script";
-import { siteDescription } from "@/lib/site";
+import { getAllContent } from "@/lib/content";
 import { SITE_BG } from "@/lib/theme";
 import "./globals.css";
 
+const { site } = getAllContent();
+
 export const metadata: Metadata = {
   title: "Aylesim",
-  description: siteDescription,
-  metadataBase: new URL("https://aylesim.com"),
+  description: site.description,
+  metadataBase: new URL(site.origin),
 };
 
 export const viewport: Viewport = {

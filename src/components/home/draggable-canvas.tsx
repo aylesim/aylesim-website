@@ -10,14 +10,14 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(Draggable);
 }
 
-interface CanvasItem {
+type CanvasItem = {
   id: string;
   src: string;
   label: string;
   projectSlug: string;
   stackKey: number;
   isVideo?: boolean;
-}
+};
 
 const CANVAS_TOP_SLUG_BOOST = 1_000_000;
 const CANVAS_STACK_EPS = 1e-6;
@@ -113,13 +113,15 @@ function thumbnailUrlForVideo(url: string): string | null {
 
 const CANVAS_SINGLE_IMAGE_SLUG = "there-will-be-no-more-determination";
 
-function addProjectImageItems(
-  p: Project,
-  items: CanvasItem[],
-  seen: Set<string>,
-  usedSrc: Set<string>,
-  ordMap: Map<string, number>
-): void {
+type CanvasItemBuildCtx = {
+  items: CanvasItem[];
+  seen: Set<string>;
+  usedSrc: Set<string>;
+  ordMap: Map<string, number>;
+};
+
+function addProjectImageItems(p: Project, ctx: CanvasItemBuildCtx): void {
+  const { items, seen, usedSrc, ordMap } = ctx;
   const imgs =
     p.slug === CANVAS_SINGLE_IMAGE_SLUG ? p.images.slice(0, 1) : p.images;
   for (const src of imgs) {
@@ -146,13 +148,8 @@ function addProjectImageItems(
   }
 }
 
-function addCanvasCoverItem(
-  p: Project,
-  items: CanvasItem[],
-  seen: Set<string>,
-  usedSrc: Set<string>,
-  ordMap: Map<string, number>
-): void {
+function addCanvasCoverItem(p: Project, ctx: CanvasItemBuildCtx): void {
+  const { items, seen, usedSrc, ordMap } = ctx;
   if (countItemsForSlug(items, p.slug) > 0) {
     return;
   }
@@ -183,19 +180,14 @@ function countItemsForSlug(items: CanvasItem[], slug: string): number {
   let n = 0;
   for (const it of items) {
     if (it.projectSlug === slug) {
-      n++;
+      n += 1;
     }
   }
   return n;
 }
 
-function ensureFallbackVideoItem(
-  p: Project,
-  items: CanvasItem[],
-  seen: Set<string>,
-  usedSrc: Set<string>,
-  ordMap: Map<string, number>
-): void {
+function ensureFallbackVideoItem(p: Project, ctx: CanvasItemBuildCtx): void {
+  const { items, seen, usedSrc, ordMap } = ctx;
   for (const v of p.videos ?? []) {
     const thumb = thumbnailUrlForVideo(v.url);
     if (!thumb) {
@@ -227,21 +219,24 @@ function ensureFallbackVideoItem(
 }
 
 function buildItems(projects: Project[]): CanvasItem[] {
-  const items: CanvasItem[] = [];
-  const seen = new Set<string>();
-  const usedSrc = new Set<string>();
-  const ordMap = new Map<string, number>();
+  const ctx: CanvasItemBuildCtx = {
+    items: [],
+    seen: new Set<string>(),
+    usedSrc: new Set<string>(),
+    ordMap: new Map<string, number>(),
+  };
   for (const p of projects) {
-    addProjectImageItems(p, items, seen, usedSrc, ordMap);
+    addProjectImageItems(p, ctx);
   }
   for (const p of projects) {
-    addCanvasCoverItem(p, items, seen, usedSrc, ordMap);
+    addCanvasCoverItem(p, ctx);
   }
   for (const p of projects) {
-    if (countItemsForSlug(items, p.slug) === 0) {
-      ensureFallbackVideoItem(p, items, seen, usedSrc, ordMap);
+    if (countItemsForSlug(ctx.items, p.slug) === 0) {
+      ensureFallbackVideoItem(p, ctx);
     }
   }
+  const { items } = ctx;
   items.sort((a, b) => {
     if (a.stackKey < b.stackKey) {
       return -1;
@@ -291,13 +286,14 @@ function centerFarEnough(
   return true;
 }
 
-function layoutCardsScattered(
-  cards: HTMLElement[],
-  width: number,
-  height: number,
-  rand: () => number,
-  relayout = false
-): void {
+function layoutCardsScattered(opts: {
+  cards: HTMLElement[];
+  width: number;
+  height: number;
+  rand: () => number;
+  relayout?: boolean;
+}): void {
+  const { cards, width, height, rand, relayout = false } = opts;
   const centers: { cx: number; cy: number }[] = [];
   const maxAttempts = 180;
 
@@ -363,7 +359,7 @@ export function DraggableCanvas({
     const cards = Array.from(
       container.querySelectorAll<HTMLElement>(".canvas-card")
     );
-    layoutCardsScattered(cards, w, h, lcg(17));
+    layoutCardsScattered({ cards, width: w, height: h, rand: lcg(17) });
 
     gsap.to(cards, {
       opacity: 1,
@@ -414,7 +410,13 @@ export function DraggableCanvas({
         if (newW === 0 || newH === 0) {
           return;
         }
-        layoutCardsScattered(cards, newW, newH, lcg(17), true);
+        layoutCardsScattered({
+          cards,
+          width: newW,
+          height: newH,
+          rand: lcg(17),
+          relayout: true,
+        });
       }, 200);
     });
     observer.observe(container);

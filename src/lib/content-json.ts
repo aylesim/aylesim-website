@@ -1,25 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { getAboutSections, getAllContent, type Project } from "@/lib/content";
-import { pressMentions, primaryAward } from "@/lib/credentials";
 import { CATEGORY_LABELS } from "@/lib/roles";
-import {
-  audioDeveloperProductLine,
-  aylesimDevicesCustomerCount,
-  aylesimDevicesSlug,
-  contactAvailability,
-  contactEmail,
-  contactLinks,
-  maxBerlinCommunityProof,
-  maxBerlinCommunitySlug,
-  maxBerlinNetworkUrl,
-  resumeHref,
-  resumeLabel,
-  siteDescription,
-  siteOrigin,
-  webDeveloperStack,
-} from "@/lib/site";
-import { getToolsSections, TOOLS_PAGE_COPY } from "@/lib/tools";
+import { contentJsonPath } from "@/lib/site";
+import { getToolsSections } from "@/lib/tools";
 
 export const contentJsonPublicPath = path.join(
   process.cwd(),
@@ -55,7 +39,7 @@ function projectToJson(project: Project) {
 }
 
 function toContentPayload() {
-  const { projects, about } = getAllContent();
+  const { projects, about, home, site } = getAllContent();
 
   return {
     projects: projects.map(projectToJson),
@@ -66,13 +50,14 @@ function toContentPayload() {
       body: about.body,
       sections: getAboutSections(about),
     },
+    home,
     tools: {
       page: {
-        lede: TOOLS_PAGE_COPY.lede,
-        footer: TOOLS_PAGE_COPY.footer,
-        footerLink: TOOLS_PAGE_COPY.footerLink,
+        lede: site.toolsPage.lede,
+        footer: site.toolsPage.footer,
+        footerLink: site.toolsPage.footerLink,
       },
-      sections: getToolsSections(projects).map((section) => ({
+      sections: getToolsSections(projects, site).map((section) => ({
         id: section.id,
         title: section.title,
         intro: section.intro,
@@ -85,30 +70,33 @@ function toContentPayload() {
           action: entry.action,
         })),
       })),
+      utilities: site.siteUtilities,
     },
   };
 }
 
 export function getSiteContentPayload() {
+  const { site } = getAllContent();
   return {
     content: toContentPayload(),
     site: {
-      origin: siteOrigin,
-      description: siteDescription,
-      contactEmail,
-      contactLinks,
-      contactAvailability,
-      webDeveloperStack,
-      resumeHref,
-      resumeLabel,
-      primaryAward,
-      pressMentions,
-      maxBerlinNetworkUrl,
-      maxBerlinCommunitySlug,
-      maxBerlinCommunityProof,
-      aylesimDevicesSlug,
-      aylesimDevicesCustomerCount,
-      audioDeveloperProductLine,
+      origin: site.origin,
+      description: site.description,
+      contactEmail: site.contactEmail,
+      contactLinks: site.contactLinks,
+      contactAvailability: site.contactAvailability,
+      webDeveloperStack: site.webDeveloperStack,
+      resumeHref: site.resumeHref,
+      resumeLabel: site.resumeLabel,
+      primaryAward: site.primaryAward,
+      pressMentions: site.pressMentions,
+      maxBerlinNetworkUrl: site.maxBerlinNetworkUrl,
+      maxBerlinCommunitySlug: site.maxBerlinCommunitySlug,
+      maxBerlinCommunityProof: site.maxBerlinCommunityProof,
+      aylesimDevicesSlug: site.aylesimDevicesSlug,
+      aylesimDevicesCustomerCount: site.aylesimDevicesCustomerCount,
+      audioDeveloperProductLine: site.audioDeveloperProductLine,
+      contentJsonUrl: `${site.origin}${contentJsonPath}`,
     },
   };
 }

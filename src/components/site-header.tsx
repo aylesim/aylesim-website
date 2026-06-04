@@ -11,12 +11,12 @@ const navMuted = `${navItem} text-(--text-muted) hover:bg-surface-hover hover:te
 
 const navActive = `${navItem} bg-surface-subtle text-(--foreground) shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_35%,transparent)]`;
 
-interface SiteHeaderProps {
+type SiteHeaderProps = {
   active?: SiteNavActive;
   leading?: ReactNode;
   onProjectsClick?: () => void;
   projectsActive?: boolean;
-}
+};
 
 function navClass(isActive: boolean) {
   return isActive ? navActive : navMuted;

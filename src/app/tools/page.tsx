@@ -8,6 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function Tools() {
-  const { projects } = getAllContent();
-  return <ToolsPage projects={projects} />;
+  const { projects, site } = getAllContent();
+  return <ToolsPage projects={projects} site={site} />;
 }

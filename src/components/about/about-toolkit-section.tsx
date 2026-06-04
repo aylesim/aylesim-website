@@ -1,15 +1,15 @@
 import type { AboutSection } from "@/lib/content";
 
-interface ToolkitCategory {
+type ToolkitCategory = {
   title: string;
   skills: string[];
-}
+};
 
-interface PillarStyle {
+type PillarStyle = {
   stripe: string;
   label: string;
   chip: string;
-}
+};
 
 const PILLAR_STYLES: PillarStyle[] = [
   {

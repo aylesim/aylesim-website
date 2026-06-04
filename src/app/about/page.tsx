@@ -8,6 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function About() {
-  const { about } = getAllContent();
-  return <AboutPage about={about} />;
+  const { about, site } = getAllContent();
+  return <AboutPage about={about} site={site} />;
 }

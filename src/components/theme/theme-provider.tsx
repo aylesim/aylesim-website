@@ -16,11 +16,11 @@ import {
   type Theme,
 } from "@/lib/theme";
 
-interface ThemeContextValue {
+type ThemeContextValue = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
-}
+};
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 

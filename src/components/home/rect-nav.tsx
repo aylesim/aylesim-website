@@ -314,14 +314,17 @@ export default function RectNav({ content }: { content: SiteContent }) {
             <div className="mx-auto w-full max-w-5xl px-4 py-6 md:px-10 md:py-12">
               <ProjectDetail
                 projects={content.projects}
+                site={content.site}
                 slug={state.projectSlug}
               />
             </div>
           )}
           {state.mode === "home" && (
             <HomeIdentity
+              home={content.home}
               onProjectClick={pickProject}
               projects={content.projects}
+              site={content.site}
             />
           )}
           {state.mode === "projects" && (

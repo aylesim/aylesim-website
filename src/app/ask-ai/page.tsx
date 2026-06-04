@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { AskAiPage } from "@/components/ask-ai/ask-ai-page";
+import { getAllContent } from "@/lib/content";
 import { serializeSiteContentJson } from "@/lib/content-json";
+import { contentJsonUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -11,5 +13,11 @@ export const metadata: Metadata = {
 };
 
 export default function AskAi() {
-  return <AskAiPage json={serializeSiteContentJson()} />;
+  const { site } = getAllContent();
+  return (
+    <AskAiPage
+      contentJsonUrl={contentJsonUrl(site.origin)}
+      json={serializeSiteContentJson()}
+    />
+  );
 }
