@@ -1,5 +1,7 @@
 import { serializeSiteContentJson } from "@/lib/content-json";
 
+export const dynamic = "force-dynamic";
+
 export function GET() {
   const body = serializeSiteContentJson();
 

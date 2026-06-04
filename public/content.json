@@ -1,0 +1,715 @@
+{
+  "content": {
+    "projects": [
+      {
+        "slug": "birds",
+        "title": "Birds",
+        "category": "devices",
+        "categoryLabel": "Devices",
+        "tags": [
+          "Max/MSP",
+          "Audio Engineering",
+          "UI/UX Design",
+          "Generative Systems"
+        ],
+        "description": "[Gumroad](https://aylesim.gumroad.com/l/birds) · [Isotonik Studios](https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/)\n\n## Overview\n\nBirds is a generative MIDI sequencer for Ableton Live, developed as a Max for Live device. I built it as a study in algorithmic composition, interface design, and musical constraint: the goal was to create a system that can transform a short MIDI phrase in real time while preserving enough structure to keep the result readable and usable.\n\n![Birds - Max for Live interface](/Birdsgr.png)\n\nThe interface translates the sequence into an animated score where each bird represents a note, the wire represents pitch, and horizontal position represents timing. This made the project as much about visual communication as sequencing logic: the challenge was to expose generative behavior in a way that feels immediate rather than opaque.\n\n## How it works\n\nAt the core of the device is a **Difference Limit system** that measures how far each new generation can move away from a reference pattern. Instead of treating variation as randomness, I approached it as a constrained transformation problem: pitch, rhythm, density, and register can all shift, but only within a controlled distance from the source material.\n\n- **Rule-based melodic generation** with different strategies for transforming source material\n- **Real-time pitch and rhythm mutation** with controls for gate behavior and instability\n- **Scale-aware and chromatic modes** to test different harmonic constraints\n- **Density and range controls** to shape both musical output and system responsiveness\n- **Transport-driven or MIDI-triggered playback** to support different performance contexts\n\n## Skills involved\n\nThe project brought together several parts of my practice: Max/MSP patch design, generative music systems, parameter mapping, interaction design, and the translation of abstract musical processes into a visual interface. It also reflects how I tend to work more broadly: defining a clear behavioral model first, then designing controls and visuals that make the system understandable in use.",
+        "highlights": [
+          "Designed a rule-based generative system for melodic variation inside Max for Live",
+          "Built a visual mapping where pitch, timing, and note state stay legible while the sequence evolves",
+          "Balanced algorithmic behavior with musical constraints through a Difference Limit model"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Aylesim Devices"],
+        "secondaryMeta": "Developer & Designer",
+        "workScope": "commercial",
+        "featured": false,
+        "listTagline": "Generative melody sequencer",
+        "listBadges": [
+          {
+            "prefix": "available on",
+            "label": "Gumroad",
+            "url": "https://aylesim.gumroad.com/l/birds"
+          },
+          {
+            "prefix": "available on",
+            "label": "Isotonik Studios",
+            "url": "https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/"
+          }
+        ],
+        "videos": [
+          {
+            "title": "Carousel demo",
+            "url": "https://www.youtube.com/watch?v=Eax-kVIUId4"
+          },
+          {
+            "title": "Full walkthrough",
+            "url": "https://www.youtube.com/watch?v=0-D_bPzaqfo"
+          }
+        ],
+        "images": ["/Birdsgr.png"],
+        "showInMenu": true,
+        "menuLabel": "max4live"
+      },
+      {
+        "slug": "planetary-compendium",
+        "title": "Planetary Compendium",
+        "category": "web-interactive",
+        "categoryLabel": "Web & Interactive",
+        "tags": [
+          "Frontend Architecture",
+          "Scrollytelling",
+          "Data Visualization"
+        ],
+        "description": "## Overview\n\nPlanetary Compendium is a living, interactive platform developed with the Berggruen Institute and Dark Matter Labs - an evolving *wunderkammer* of planetary governance. The project maps the shifting architectures, imaginaries, and experiments shaping how life on Earth may be organized, sustained, and represented.\n\nBuilt around [governtheplanet.org](https://governtheplanet.org/), the experience weaves together historic precedents, emerging experiments, and speculative futures. Through scrollytelling, spatial data exploration, and audio-driven narrative, visitors can move across case studies and trace how governance ideas emerge across disciplines, regions, and scales.\n\n![Planetary Compendium - interface](/planetary.png)\n\n## What the platform does\n\n- Presents case studies on planetary governance through immersive, long-form editorial flows\n- Connects themes across sovereignty, shared vulnerability, ecology, and more-than-human agency\n- Enables spatial and visual exploration of complex, interconnected governance concepts\n- Supports live facilitation and collaborative workshop contexts with stable group-session rendering\n\n## My contribution\n\nI joined the project as a freelance web developer from May to November 2025, working remotely within a multidisciplinary team. My focus was on building engaging and immersive digital environments using modern web technologies:\n\n- **Scrollytelling interfaces** - sequenced narrative experiences tied to content and visual transitions\n- **Spatial data exploration** - interactive layouts for navigating interconnected concepts and case studies\n- **Audio-driven narratives** - sound-integrated content layers for a richer, multimodal reading experience\n- **Rich content visualization** - flexible display modules handling dense conceptual and editorial material\n- **Accessibility** - reduced-motion paths and inclusive interaction patterns from the first release\n\n## Context and outcome\n\nThe Compendium launched publicly in November 2025 with a virtual event and a physical exhibition in Zürich. It is positioned as both a civic publication and a thinking tool - an interface for exploring how planetary governance is already being prototyped through institutions, infrastructures, and place-based experiments.\n\n> \"The Planetary Compendium serves to entangle not only what the Planetary could be but how it is already manifesting regionally and disciplinarily.\"  \n> - Zehra Zaidi OBE, Mission Lead for Planetary Civics, Dark Matter Labs",
+        "highlights": [
+          "Immersive scrollytelling and spatial data exploration",
+          "Audio-driven narrative interfaces",
+          "Accessibility and reduced-motion paths baked in from v1",
+          "Stable rendering during live group sessions and public exhibition"
+        ],
+        "link": "https://governtheplanet.org/",
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Berggruen Institute × Dark Matter Labs"],
+        "secondaryMeta": "Frontend Developer",
+        "featured": false,
+        "listBadges": [],
+        "images": ["/planetary.png"],
+        "showInMenu": true,
+        "menuLabel": "web"
+      },
+      {
+        "slug": "max-berlin-network",
+        "title": "Max Berlin Network",
+        "year": "2025–ongoing",
+        "category": "web-interactive",
+        "categoryLabel": "Web & Interactive",
+        "tags": [
+          "Frontend Architecture",
+          "Next.js / TypeScript",
+          "Content Systems"
+        ],
+        "description": "## Overview\n\n[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The product problem is narrow and practical: when the next session is, where it happens, how to get on the list, and where to read about past meetups, without leaning on scattered social posts.\n\nThe visual language is poster-like, bold type, slight rotations, monospace detail, so the site reads as an event surface rather than a generic landing page.\n\n## What the site does\n\n- **Next meetup** on the homepage with date, venue, time, and a link to the full event page\n- **Newsletter** capture for upcoming meetups, open calls, and announcements\n- **Meetup archive** for past sessions\n- **About**, plus outbound links to Discord and Instagram\n- **Light / dark** theme toggle for readability in different contexts\n\n## My contribution\n\nAs co-founder I shaped the information architecture and built the site in **Next.js** and **TypeScript**, deployed on **Vercel**. Editorial meetup copy and scheduling stay editable without treating the homepage as a one-off static file each time.\n\n- **Event routing**: dedicated pages per meetup with stable URLs for sharing\n- **Homepage data**: next session pulled into the hero so the primary CTA stays current\n- **Newsletter flow**: signup integrated into the main layout\n- **Share metadata**: Open Graph and Twitter cards for link previews\n\nThe recurring in-person meetups and community format are separate from this case study; they are described on my [about page](/about) under **Community**.",
+        "highlights": [
+          "Designed and built the public site at maxberlin.network for a Berlin Max/MSP network",
+          "Homepage surfaces next meetup date, venue, and detail pages without manual redeploys for every edit",
+          "Newsletter signup and social links so people can follow events between sessions",
+          "Meetup archive and about pages so past events and the initiative stay readable over time"
+        ],
+        "link": "https://www.maxberlin.network/",
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Max Berlin Network", "2025–ongoing"],
+        "secondaryMeta": "Co-Founder & Web Developer",
+        "featured": false,
+        "listBadges": [],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "web"
+      },
+      {
+        "slug": "knob-studio",
+        "title": "Knob Studio",
+        "category": "devices",
+        "categoryLabel": "Devices",
+        "tags": [
+          "Max/MSP",
+          "Audio Engineering",
+          "Modulation Design",
+          "Performance Optimization"
+        ],
+        "description": "[Gumroad](https://aylesim.gumroad.com/l/knobstudio) · [Isotonik Studios](https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/) · [Attack Magazine Store](https://store.attackmagazine.com/products/knob-studio)\n\n## Overview\n\nKnob Studio is a Max for Live audio effect I developed to explore alternative approaches to parameter modulation in Ableton Live. Rather than treating modulation as a single control source, I wanted a small environment for mapping experiments: several layers can run in parallel, influence the same targets, and remain editable without the system turning into something you can only operate by trial and error.\n\n![Knob Studio - Max for Live interface](/knobstudio.png)\n\nThe device centers on a waveform-driven modulation graph where functions are layered, shaped, and then interpreted by different reading strategies. A lot of the work went into keeping that graph legible in performance: what the patch is doing should be visible, not only audible.\n\n## How it works\n\nThe modulation path is built around stacked waveform functions, each with its own parameters, and **reading heads** that interpret the combined result under different rules. Heads can be driven manually, by LFOs, or by an envelope follower, which effectively changes how the same underlying material is scanned over time.\n\nRandomization is treated as a controlled perturbation layer: useful for breaking local minima in sound design, but always bounded by smoothing and jitter applied at a global level so the whole field of modulators moves together when you want cohesion.\n\n- **Layered function stack** for building complex modulation shapes from simpler primitives\n- **Multiple head modes** to switch between performative control, periodic motion, and audio-responsive scanning\n- **Real-time waveform display** aligned with what is actually being applied to parameters\n- **Randomization** with clear entry points so exploration does not erase your starting point\n- **Global smoothing and jitter** as cross-cutting dynamics across all active modulations\n\n## Skills involved\n\nThe project sits at the intersection of DSP-facing modulation logic, Max patch architecture, and interaction design for dense parameter spaces. It reflects how I like to build tools: define the behavior model first (what is being modulated, by what structure, and under which constraints), then design the surface so editing and performance stay connected to that model.",
+        "highlights": [
+          "Covered by Rekkerd and Attack Magazine on release and Max for Live modulation practice",
+          "Featured in Attack Magazine long-read on the future of sound design",
+          "Built a layered modulation engine with multiple concurrent function generators in Max for Live",
+          "Implemented reading-head modes (manual, LFO, envelope follower) on shared waveform material",
+          "Tied real-time visualization to modulation output so behavior stays inspectable while it runs",
+          "Used randomization plus global smoothing and jitter as macro controls over the whole modulator field"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Aylesim Devices"],
+        "secondaryMeta": "Developer & Designer",
+        "workScope": "commercial",
+        "featured": false,
+        "listTagline": "Layered modulation engine for Live",
+        "listBadges": [
+          {
+            "prefix": "available on",
+            "label": "Gumroad",
+            "url": "https://aylesim.gumroad.com/l/knobstudio"
+          },
+          {
+            "prefix": "available on",
+            "label": "Isotonik Studios",
+            "url": "https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/"
+          },
+          {
+            "prefix": "available on",
+            "label": "Attack Magazine Store",
+            "url": "https://store.attackmagazine.com/products/knob-studio"
+          },
+          {
+            "prefix": "featured on",
+            "label": "Attack Magazine",
+            "url": "https://www.attackmagazine.com/features/long-read/modulation-revelation-the-future-of-sound-design/"
+          },
+          {
+            "prefix": "featured on",
+            "label": "Rekkerd",
+            "url": "https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/"
+          }
+        ],
+        "videos": [
+          {
+            "title": "Carousel",
+            "url": "https://www.youtube.com/watch?v=nanpp0rhG_I"
+          },
+          {
+            "title": "Walkthrough",
+            "url": "https://www.youtube.com/watch?v=crROD4nBBzE"
+          },
+          {
+            "title": "How it's made",
+            "url": "https://www.youtube.com/watch?v=J0A9h0l-F2s"
+          }
+        ],
+        "images": ["/knobstudio.png"],
+        "showInMenu": true,
+        "menuLabel": "max4live"
+      },
+      {
+        "slug": "glossia",
+        "title": "Glossia",
+        "year": "2026",
+        "category": "web-interactive",
+        "categoryLabel": "Web & Interactive",
+        "tags": [
+          "Frontend Architecture",
+          "React / TypeScript",
+          "Web Audio API"
+        ],
+        "description": "## Overview\n\nGlossia is an open source audio/visual web project: a place to prototype interactive relationships between sound and image using TypeScript, React, and Next.js.\n\nThe repository and live build are the source of truth for scope and implementation details as the project evolves.",
+        "highlights": [
+          "Public codebase on GitHub with a deployed preview for hands-on testing",
+          "Explores real-time audio and visuals in the browser using modern web APIs"
+        ],
+        "link": "https://glossia-seven.vercel.app",
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Open source", "2026"],
+        "secondaryMeta": "Developer",
+        "featured": false,
+        "listTagline": "Interactive audio/visual web playground",
+        "listBadges": [],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "web"
+      },
+      {
+        "slug": "tedx-barletta",
+        "title": "TEDx Barletta",
+        "category": "installations",
+        "categoryLabel": "Installations & Artworks",
+        "tags": [
+          "Max/MSP",
+          "Live Projection",
+          "Generative Visuals",
+          "AV Performance"
+        ],
+        "description": "## Overview\n\nIn October 2020, I performed live visuals at TEDx Barletta alongside Regleow & Ozey. The performance was conceived as a sensory journey through experimental electronic music - a percussive, immersive composition paired with real-time video projections designed to draw the audience into a full audiovisual experience.\n\nThe visuals were projected live, reacting to and complementing the energy and texture of the music in real time.\n\n## What the performance involved\n\n- Real-time generative video projections synced to a live experimental electronic composition\n- Audiovisual storytelling driven by rhythm, percussion, and sensation\n- A large-format projection experience for a live TEDx audience\n\n## Context\n\nTEDx events are known for ideas and talks, but this performance opened up space for a different kind of communication - one driven by sound, image, and visceral energy rather than words. The collaboration with Regleow & Ozey brought together experimental electronic music and the TEDx stage in a format-pushing audiovisual set.",
+        "highlights": [
+          "Live AV performance in front of a TEDx audience",
+          "Real-time video projections synchronized with an experimental electronic composition",
+          "Sensory journey combining percussive music and generative visuals"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["TEDx Barletta"],
+        "secondaryMeta": "Visual Artist",
+        "featured": false,
+        "listBadges": [],
+        "videos": [
+          {
+            "title": "Performance",
+            "url": "https://www.youtube.com/watch?v=GJUaN92rx-0"
+          }
+        ],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "AV performance"
+      },
+      {
+        "slug": "disco",
+        "title": "Disco",
+        "year": "2022",
+        "category": "devices",
+        "categoryLabel": "Devices",
+        "tags": [
+          "Max/MSP",
+          "Audio Engineering",
+          "Signal Processing",
+          "UI/UX Design"
+        ],
+        "description": "[Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/)\n\n## Overview\n\nDisco is a Max for Live audio effect I built around a circular multi-tap delay structure: incoming audio is distributed across several delay lines whose positions can rotate on a ring, together or independently, so repeats bunch, spread, and re-phase over time. The project sits between time-domain DSP, Euclidean pattern logic, and interface design inside Ableton Live.\n\n![Disco - Max for Live interface](/disco.png)\n\nThe patch treats the delay not as a single feedback line, but as a small moving system of timed events. A lot of the work went into making that system legible while it shifts, so the interface helps you understand where rhythmic density and stereo energy are accumulating.\n\n## How it works\n\nEach tap is a controllable point on a cycle: position sets time offset around the ring, gain and pan define how that tap sits in the mix, and rotation continuously re-phases taps relative to the input. Manual control or LFO-driven motion changes the angular velocity of the whole structure or of individual steps, which is what produces the characteristic acceleration and deceleration in the repeats.\n\n- **Multi-tap delay bank** with Euclidean-style spacing as a starting geometry, not a fixed preset\n- **Per-step parameters** for level, stereo placement, and bypass so patterns can be sculpted precisely\n- **Coupled or decoupled rotation** to move all taps as one field or let them drift against each other\n- **LFO and manual modulation** of spin rate for performable sweeps and static “frozen” geometries\n\n## Skills involved\n\nThe project combines time-based audio design, rhythmic system thinking, Max patching, and interface work for moving structures that need to remain readable in use. It reflects an approach I return to often in device design: build a strong behavioral model first, then give it a visual and performative surface that makes the underlying logic feel graspable.",
+        "highlights": [
+          "Built a multi-tap delay engine in Max for Live with per-step gain, pan, and on/off inside a circular layout",
+          "Implemented independent or ganged rotation of delay taps for Euclidean-style patterns and spin effects",
+          "Combined manual control and LFO-driven motion so the same patch scales from subtle movement to extreme modulation",
+          "Tuned the UI around spatial readout of time and level so delay density stays interpretable while taps move"
+        ],
+        "linkLabel": "Buy",
+        "primaryMeta": ["Aylesim Devices", "2022"],
+        "secondaryMeta": "Developer & Designer",
+        "workScope": "commercial",
+        "featured": false,
+        "listBadges": [
+          {
+            "prefix": "available on",
+            "label": "Gumroad",
+            "url": "https://aylesim.gumroad.com/l/disco"
+          },
+          {
+            "prefix": "available on",
+            "label": "Isotonik Studios",
+            "url": "https://isotonikstudios.com/product/disco-by-aylsim/"
+          }
+        ],
+        "videos": [
+          {
+            "title": "Demo",
+            "url": "https://www.youtube.com/watch?v=WpoSqDDA4EY"
+          },
+          {
+            "title": "Walkthrough",
+            "url": "https://www.youtube.com/watch?v=UDeSFi8StDw"
+          }
+        ],
+        "images": ["/disco.png"],
+        "showInMenu": true,
+        "menuLabel": "max4live"
+      },
+      {
+        "slug": "aylesim-devices",
+        "title": "Aylesim Devices",
+        "year": "2020–ongoing",
+        "category": "devices",
+        "categoryLabel": "Devices",
+        "tags": [
+          "Max/MSP",
+          "Product Design",
+          "Audio Engineering",
+          "Max for Live"
+        ],
+        "description": "A growing line of Ableton Live tools: generative birds, spectral FX, utilities, and sequencers. The line is not a side project, **3600+ customers** have bought or downloaded these devices, which means the work has been tested in real sessions, not only in a portfolio context.\n\nEach release ships with a focused preset set, a short walkthrough, and room to misuse the controls on purpose. Distribution runs through **Gumroad** and **Isotonik Studios** so updates, licensing, and support stay tied to the same product surface performers already use.",
+        "highlights": [
+          "Max for Live tools used by 3600+ customers worldwide",
+          "Sold via Gumroad and Isotonik Studios with ongoing updates and support",
+          "Birds featured as flagship generative voice",
+          "Shared UI language across devices",
+          "Roadmap driven by community requests"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Product Line", "2020–ongoing"],
+        "secondaryMeta": "Instrument Builder",
+        "workScope": "commercial",
+        "featured": false,
+        "listTagline": "Max for Live devices for composing and performing",
+        "listBadges": [],
+        "images": [],
+        "showInMenu": false,
+        "menuLabel": "product line"
+      },
+      {
+        "slug": "freesound4live",
+        "title": "Freesound4Live",
+        "year": "2023",
+        "category": "devices",
+        "categoryLabel": "Devices",
+        "tags": [
+          "Max/MSP",
+          "API Integration",
+          "Audio Engineering",
+          "Live Workflow Design"
+        ],
+        "description": "Currently not available.\n\n## Overview\n\nFreesound4Live is a free Max for Live utility I built to browse [Freesound.org](https://freesound.org/) from inside Ableton Live: search, audition, and pull samples into the session without context-switching to a browser. The motivation was practical - community sound libraries are only useful in production if the retrieval loop is short - but the work also sits at the intersection of API integration, UI constraints inside Max, and Live’s object model for where a sample file may land.\n\n![Freesound4Live - Max for Live interface](/ffl.png)\n\nThe patch treats Freesound as a remote catalog with strict metadata: licensing and duration are not optional niceties when you are importing audio into a project someone might publish.\n\n## How it works\n\nSearch requests are parameterized (text, tags, duration bounds, license filters), responses are parsed into a compact list suitable for in-device preview, and previews stream before any commit to disk. When a sound is chosen, the download path hands audio to Live in a way that matches common workflows: dropping onto Drum Rack pads or into Simpler without manual file juggling.\n\n- **Query and filter** against Freesound’s fields so long lists collapse to something you can scan quickly\n- **Preview before download** to keep network use predictable during performance or teaching\n- **License-aware browsing** so CC and other terms stay visible at selection time\n- **Live-native placement** via drag-and-drop into rack and sampler slots\n\n## Skills involved\n\nThe device combines API integration, metadata handling, Max for Live UI design, and workflow thinking inside Ableton Live. It reflects the way I approach utility tools more generally: reduce friction around a real production task, then make the interaction model clear enough that the tool can stay useful in both studio and teaching contexts.",
+        "highlights": [
+          "Featured on Create Digital Music for bringing the Freesound.org community library into Ableton Live",
+          "Integrated the Freesound.org HTTP API inside a Max for Live patch with search, preview, and download paths",
+          "Implemented filtering by tag, duration, and license metadata so results stay usable in a live set",
+          "Wired drag-and-drop and Live-specific targets (Drum Rack, Simpler) so samples land in the right container",
+          "Shipped the device as open source so others can audit, fork, or extend the integration"
+        ],
+        "linkLabel": "Buy",
+        "primaryMeta": ["Aylesim Devices", "2023"],
+        "workScope": "commercial",
+        "featured": false,
+        "listBadges": [
+          {
+            "prefix": "featured on",
+            "label": "Create Digital Music",
+            "url": "https://cdm.link/free-sounds-and-samples-in-ableton-live/"
+          }
+        ],
+        "videos": [
+          {
+            "title": "Demo",
+            "url": "https://www.youtube.com/watch?v=x8-n1uze24s"
+          }
+        ],
+        "images": ["/ffl.png"],
+        "showInMenu": true,
+        "menuLabel": "max4live"
+      },
+      {
+        "slug": "lucky-notes",
+        "title": "Lucky Notes",
+        "year": "2022",
+        "category": "devices",
+        "categoryLabel": "Devices",
+        "tags": [
+          "Max/MSP",
+          "MIDI Systems",
+          "Probability Design",
+          "UI/UX Design"
+        ],
+        "description": "[Gumroad](https://aylesim.gumroad.com/l/luckynotes)\n\n## Overview\n\nLucky Notes is a small Max for Live **MIDI effect** I released as a performance utility: it passes or drops incoming notes according to a single **probability** control, so you can thin out a busy clip or slowly bring a pattern toward full density from the device instead of duplicating clips or drawing automation by hand. I use it most after a mono sequencer on melodic material, but it behaves predictably on rhythmic parts too.\n\n![Lucky Notes - Max for Live interface](/LN.png)\n\nAt **0%** probability the lane stays effectively silent; at **100%** every note is let through. Between those extremes the stream thins or thickens in real time, which makes it easy to rehearse builds or keep a set feeling less static without rewriting MIDI.\n\nThe distribution there is free; over time the page has accumulated **more than two thousand downloads**, which tells me the problem it solves is a common one in Live-centric workflows.\n\n## How it works\n\nThe device sits on a MIDI track in front of an instrument: each note-on is evaluated against the current probability threshold (with sensible randomization so the result is musical rather than a fixed decimation pattern). There is no audio path inside the patch - it is strictly about **which notes fire**, which keeps CPU low and the mental model simple.\n\n- **Single main control** for probability, oriented toward live adjustment\n- **MIDI-only processing** so it stays lightweight in large sets\n- **Compatible with typical Live chains** (before instruments, after sequencers)\n\n## Skills involved\n\nThe patch is intentionally minimal: the engineering work was about correct MIDI handling, clear parameter scaling, and a UI that reads instantly under stage lighting. It also reflects how I sometimes ship tools: a tight scope, a single strong idea, and distribution that stays frictionless for the person downloading it.",
+        "highlights": [
+          "Listed in the ELPHNT Max for Live Curated Collection among hand-picked devices from the ecosystem",
+          "Built a lightweight Max for Live MIDI effect that gates notes by probability for live arrangement",
+          "Tuned the control range so patterns can start sparse and grow in density without extra clip editing",
+          "Shipped as a free Gumroad download with over two thousand downloads to date"
+        ],
+        "linkLabel": "Download",
+        "primaryMeta": ["Aylesim Devices", "2022"],
+        "secondaryMeta": "Developer & Designer",
+        "workScope": "commercial",
+        "featured": false,
+        "listBadges": [
+          {
+            "prefix": "available on",
+            "label": "Gumroad",
+            "url": "https://aylesim.gumroad.com/l/luckynotes"
+          },
+          {
+            "prefix": "featured on",
+            "label": "ELPHNT Curated Collection",
+            "url": "https://elphnt.io/max-for-live-curated-collection/"
+          }
+        ],
+        "images": ["/LN.png"],
+        "showInMenu": true,
+        "menuLabel": "max4live"
+      },
+      {
+        "slug": "please-set-a-password",
+        "title": "Please Set a Password",
+        "year": "2022",
+        "category": "installations",
+        "categoryLabel": "Installations & Artworks",
+        "tags": ["Networked Systems", "Real-time Video", "Generative Audio"],
+        "description": "## Overview\n\n**Please Set a Password** is an audio-visual installation about mass surveillance and personal responsibility online. It asks the audience to sit with how easily private and semi-private spaces end up visible when camera software is left open to the network, and how normalised that exposure has become.\n\nThe title is deliberately plain: it reads like a forgotten default prompt, but it doubles as a direct appeal to anyone who installs or maintains these systems to actually secure them.\n",
+        "descriptionAfterVideos": "## How it works\n\nThe piece runs a custom process that **searches the public internet for hosts serving the web interfaces of unsecured surveillance cameras**, then **pulls and displays their feeds in real time** inside the installation. What appears on screen is not staged footage: it is live material from cameras that are reachable without authentication, which makes the viewing situation ethically charged by construction.\n\nThe **sound** is not a separate soundtrack: it is **generated in real time through audio synthesis shaped by image analysis** of the video stream, so timbre and density track what the image is doing. The aim is an immersive field where image and sound both push toward unease rather than spectacle for its own sake.\n\n## Recognition\n\nThe work was awarded **first place in Electronic Arts** at the **Italian National Arts Award XV** (Premio Nazionale delle Arti Italiane), in **Sassari, Italy**.\n\n## Skills involved\n\nThe project sits at the intersection of **networked systems**, **real-time media**, and **installation dramaturgy**: building a pipeline that can run continuously in a room, deciding what is acceptable to show and how fast the audience should be confronted, and keeping the technical frame legible enough that the political reading does not get lost in jargon.",
+        "highlights": [
+          "Built a system that locates IP addresses exposing unsecured surveillance-camera interfaces and aggregates their live feeds for projection",
+          "Paired the video layer with real-time audio synthesis driven by analysis of the incoming imagery",
+          "Italian National Arts Award XV - first place, Electronic Arts (Sassari, Italy)"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Independent", "2022"],
+        "secondaryMeta": "Artist",
+        "featured": false,
+        "listBadges": [],
+        "videos": [
+          {
+            "title": "Alessandro Miracapillo - Please Set a Password",
+            "url": "https://vimeo.com/595763384"
+          }
+        ],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "artwork"
+      },
+      {
+        "slug": "there-will-be-no-more-determination",
+        "title": "There Will Be No More Determination",
+        "year": "2022",
+        "category": "installations",
+        "categoryLabel": "Installations & Artworks",
+        "tags": ["GAN Training", "Computational Imaging", "Moving Image"],
+        "description": "## Overview\n\n**There Will Be No More Determination** is an artwork about **military imaging technology** and what it does to the people caught inside its frame. It uses **generative adversarial networks (GANs)** to rework **helicopter footage from conflict zones** into abstract images: the source material stays legible as “war vision” from above, while the model’s output pushes toward something uncanny, flattened, and hard to stabilise morally.\n\nThe title nods to **Éléonore Weber**’s documentary **There Will Be No More Night** (with **Nathalie Richard**): not as illustration, but as a shared question about **agency** - what happens to determination, orientation, and care when sight is weaponised and bodies are reduced to coordinates.\n",
+        "descriptionAfterVideos": "## How it works\n\nThe technical core is a **GAN pipeline** trained around **military helicopter video** from **Afghanistan, Iraq, Pakistan**, and comparable contexts. The network learns from patterns in that material, then **generates images** that inherit its textures and motion logic without reproducing a clean “scene.” The point is not to celebrate the model, but to use its capacity for **semantic drift** as a mirror: the same statistical machinery that can produce compelling images is also continuous with the abstraction that makes violence easier to administer at distance.\n\n## Context\n\nThe work was developed during **Con.divisione Residenza 2022** in **Maul**, as a period of focused production around the project’s dataset, training runs, and how the outputs should be shown in space.\n\n## Skills involved\n\nThe piece brought together **dataset ethics and limits**, **GAN training and evaluation**, and **exhibition thinking** - how many images, at what scale, how fast the viewer should move from aesthetic pleasure to recognition of source. It sits in my practice next to other systems-led work: define the behaviour and the political frame first, then let the technical pipeline expose what is already inside the material.",
+        "highlights": [
+          "Trained and ran GANs to produce abstract images from military helicopter footage sourced from conflict zones (including Afghanistan, Iraq, and Pakistan)",
+          "Built a visual field that reads as both familiar and estranged, aimed at the dehumanising distance introduced by military imaging systems",
+          "Residency: Con.divisione Residenza 2022 - Maul"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Independent", "2022"],
+        "secondaryMeta": "Artist",
+        "featured": false,
+        "listBadges": [],
+        "videos": [
+          {
+            "title": "There Will Be No More Determination",
+            "url": "https://vimeo.com/783690002"
+          }
+        ],
+        "images": ["/tw0.jpg"],
+        "showInMenu": true,
+        "menuLabel": "artwork"
+      },
+      {
+        "slug": "wikyslavery",
+        "title": "Wikyslavery",
+        "year": "2023",
+        "category": "installations",
+        "categoryLabel": "Installations & Artworks",
+        "tags": [
+          "Platform Automation",
+          "Net Art Systems",
+          "Real-time Computation"
+        ],
+        "description": "## Overview\n\n**Wikyslavery** is a **net art** installation that intervenes on **Wikipedia** as both infrastructure and cultural symbol. A set of **real-time computational processes** pushes **misleading or inconsistent information** into **unspecified entries**, not to “win” an argument on a single page, but to keep a **moving field of transformed text** alive long enough that the social mechanisms around Wikipedia become visible: patrol workflows, revert speed, and the unpaid attention that holds the encyclopaedia together.\n\nThe provocation is directed at **volunteer labour** as much as at readers: the work occupies time that would otherwise go to ordinary maintenance, and makes the cost of care explicit. Underneath the stunt is a question about **trust**: what counts as a stable source when content can be automated, and who pays the price when it is not.\n",
+        "descriptionAfterVideos": "## How it works\n\nTechnically, the piece is built around **algorithms that run continuously**, selecting targets and mutating text in ways that remain **internally coherent enough to pass quick scans** while still triggering downstream correction. The installation frames Wikipedia as both **a public record** and **a training substrate** for large models: if machine learning systems ingest the open web, then **small, distributed distortions** are not only a human annoyance but a parable about **tainted learning** - data that looks authoritative because of the channel it arrives through.\n\nThe title compresses **wiki** and **slavery** into an ugly neologism on purpose: it names a dependency loop where **human attention is extracted** to repair what machines and scripts break open.\n\n## Context\n\nThe project was developed during **Con.Divisione 12 Art Residency** in **2023**.\n\n## Skills involved\n\nThe work sits at the intersection of **automation**, **platform politics**, and **real-time staging**: writing software that can run for the length of an exhibition, deciding what should never be shown, and keeping the conceptual frame legible so the piece reads as critique of infrastructure rather than random vandalism.",
+        "highlights": [
+          "Built a net-art system that uses real-time computation to introduce misleading edits into unspecified Wikipedia articles, producing a continuous stream of altered content",
+          "Designed the work so volunteer correction labour becomes part of the piece, surfacing platform fragility and contested notions of source reliability",
+          "Residency: Con.Divisione 12 Art Residency (2023)"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Independent", "2023"],
+        "secondaryMeta": "Artist",
+        "featured": false,
+        "listBadges": [],
+        "videos": [
+          {
+            "title": "WIKISLAVERY",
+            "url": "https://vimeo.com/941312315"
+          }
+        ],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "artwork"
+      },
+      {
+        "slug": "fonema",
+        "title": "Fonema",
+        "year": "2022",
+        "category": "installations",
+        "categoryLabel": "Installations & Artworks",
+        "tags": [
+          "Neural Audio Processing",
+          "Machine Listening",
+          "Spatial Installation"
+        ],
+        "description": "## Overview\n\n**Fonema** is an **audio installation** about **artificial intelligence and human communication**. Recorded **voices** are sent through an **artificial neural network**; what returns is still recognisable as speech in grain and rhythm, but **semantic coherence dissolves** - enough remains to suggest a person, not enough to stabilise a sentence. The listening situation becomes **disorienting and slightly surreal**: you are always half a word away from comprehension.\n\nThe piece is not a demo of “good” speech AI. It uses the same family of tools that power classification and recognition systems, but bends them toward **loss of sense** rather than extraction of intent.\n",
+        "descriptionAfterVideos": "## How it works\n\nDevelopment involved a close pass over **neural architectures** and **audio signal processing** chains: how latent spaces and decision boundaries behave when you stop asking the model to label cleanly and instead ask it to **stay in the uncanny valley between word and noise**. The distorted voices can feel like overhearing a conversation when you are not tracking who is speaking - attention drifts, meaning thins, and technology sits in the middle of that gap.\n\nIn the room, the work is meant to **re-open questions** about how machines participate in how we **hear**, **trust**, and **interpret** spoken language, without resolving them into a moral slogan.\n\n## Context\n\n**Fonema** was realised as a **thesis project**: the research, prototyping, and installation form grew out of that academic frame rather than a commission or festival brief alone.\n\n## Skills involved\n\nThe project brought together **model experimentation**, **real-time or installation-grade audio**, and **spatial listening** - deciding how long a listener can stay inside distortion before the piece becomes a gimmick, and how much technical transparency to keep in the presentation so the political reading stays attached to the pipeline, not only to the atmosphere.",
+        "highlights": [
+          "Built an installation that routes speech through a neural network so timbre stays familiar while lexical meaning slips away",
+          "Repurposed models associated with voice classification and recognition toward deliberately unstable, imagistic listening",
+          "Developed as a thesis project combining research into network architectures and real-time audio treatment"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": ["Independent", "2022"],
+        "secondaryMeta": "Artist",
+        "featured": false,
+        "listBadges": [],
+        "videos": [
+          {
+            "title": "Fonema.mp4",
+            "url": "https://vimeo.com/690005463"
+          }
+        ],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "artwork"
+      }
+    ],
+    "about": {
+      "lede": "Frontend Engineer & Media Artist. Software engineer and creative technologist at the convergence of code, interactive systems, and spatial computing.",
+      "subtitle": "Alessandro Miracapillo / aylesim · Berlin",
+      "portrait": "/portrait.png",
+      "body": "## Biography\n\nI am a software engineer and creative technologist working at the convergence of code, interactive systems, and spatial computing. My practice bridges the strict reliability of enterprise web development with the open-ended experimentation of media art.\n\nCurrently, I specialize in architecting complex, low-latency frontend systems using **React and TypeScript**, while simultaneously developing custom audio software and real-time interactive installations.\n\nMy engineering philosophy is rooted in control over technical complexity. Whether I am optimizing data-flows for a highly scalable web ecosystem, managing complex application states, or programming hardware sensors for a live physical exhibition, my objective remains identical: to build rock-solid architectural foundations that deliver flawless, highly responsive user experiences.\n\n## Philosophy\n\n### Engineering as an Art, Art as an Engineering Discipline\n\nI do not view web engineering and creative technology as separate tracks. They feed into one another.\n\n- **From Audio to the Web:** Programming custom audio tools and Max for Live devices (currently trusted by **3600+** musicians worldwide) requires an obsessive focus on performance, memory optimization, and microsecond latency. I bring this exact same performance-first mindset to modern web applications, ensuring fast render times, clean bundle sizes, and flawless state management.\n- **From Space to the Interface:** Designing software for physical installations taught me that user behavior is unpredictable. I build web interfaces with the same structural integrity required of public-facing art installations, systems designed to handle edge cases, adapt to constraints, and remain completely stable under real-world pressure.\n\nI thrive in environments that require deep technical problem-solving, clean code architecture, and a strong sense of visual and structural aesthetics.\n\n## Technical Capabilities & Toolkit\n\n- **Frontend Engineering:** React, TypeScript, Next.js, Node.js, Redux / State Management, JavaScript (ES6+), HTML5/CSS3.\n- **Architecture & Systems:** Complex Data Flows, Performance Optimization, Scalable Web Ecosystems, Headless CMS Integration, Accessibility (a11y).\n- **Creative Technology:** Max/MSP (Max for Live), Interactive Installations, Generative Systems, Hardware-Software Interfacing, Audio & Visual Programming.\n\n## Currently\n\nI am available for frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects.",
+      "sections": [
+        {
+          "label": "Biography",
+          "content": "I am a software engineer and creative technologist working at the convergence of code, interactive systems, and spatial computing. My practice bridges the strict reliability of enterprise web development with the open-ended experimentation of media art.\n\nCurrently, I specialize in architecting complex, low-latency frontend systems using **React and TypeScript**, while simultaneously developing custom audio software and real-time interactive installations.\n\nMy engineering philosophy is rooted in control over technical complexity. Whether I am optimizing data-flows for a highly scalable web ecosystem, managing complex application states, or programming hardware sensors for a live physical exhibition, my objective remains identical: to build rock-solid architectural foundations that deliver flawless, highly responsive user experiences."
+        },
+        {
+          "label": "Philosophy",
+          "content": "### Engineering as an Art, Art as an Engineering Discipline\n\nI do not view web engineering and creative technology as separate tracks. They feed into one another.\n\n- **From Audio to the Web:** Programming custom audio tools and Max for Live devices (currently trusted by **3600+** musicians worldwide) requires an obsessive focus on performance, memory optimization, and microsecond latency. I bring this exact same performance-first mindset to modern web applications, ensuring fast render times, clean bundle sizes, and flawless state management.\n- **From Space to the Interface:** Designing software for physical installations taught me that user behavior is unpredictable. I build web interfaces with the same structural integrity required of public-facing art installations, systems designed to handle edge cases, adapt to constraints, and remain completely stable under real-world pressure.\n\nI thrive in environments that require deep technical problem-solving, clean code architecture, and a strong sense of visual and structural aesthetics."
+        },
+        {
+          "label": "Technical Capabilities & Toolkit",
+          "content": "- **Frontend Engineering:** React, TypeScript, Next.js, Node.js, Redux / State Management, JavaScript (ES6+), HTML5/CSS3.\n- **Architecture & Systems:** Complex Data Flows, Performance Optimization, Scalable Web Ecosystems, Headless CMS Integration, Accessibility (a11y).\n- **Creative Technology:** Max/MSP (Max for Live), Interactive Installations, Generative Systems, Hardware-Software Interfacing, Audio & Visual Programming."
+        },
+        {
+          "label": "Currently",
+          "content": "I am available for frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects."
+        }
+      ]
+    },
+    "tools": {
+      "page": {
+        "lede": "Stuff you can run, buy, or open in a tab. The rest of this site is case studies and context. This is what you can actually use.",
+        "footer": "Installations, performances, and client work are under",
+        "footerLink": "Projects"
+      },
+      "sections": [
+        {
+          "id": "devices",
+          "title": "Aylesim Devices",
+          "intro": "Max for Live patches for Ableton Live: sequencers, modulation, sample tools. I build them for my own sets first; most ship through Gumroad and Isotonik, a couple are free.",
+          "category": "devices",
+          "entries": [
+            {
+              "slug": "birds",
+              "title": "Birds",
+              "listTagline": "Generative melody sequencer",
+              "unavailable": false,
+              "action": {
+                "href": "https://aylesim.gumroad.com/l/birds",
+                "external": true,
+                "label": "Buy / download"
+              }
+            },
+            {
+              "slug": "knob-studio",
+              "title": "Knob Studio",
+              "listTagline": "Layered modulation engine for Live",
+              "unavailable": false,
+              "action": {
+                "href": "https://aylesim.gumroad.com/l/knobstudio",
+                "external": true,
+                "label": "Buy / download"
+              }
+            },
+            {
+              "slug": "disco",
+              "title": "Disco",
+              "unavailable": false,
+              "action": {
+                "href": "https://aylesim.gumroad.com/l/disco",
+                "external": true,
+                "label": "Buy / download"
+              }
+            },
+            {
+              "slug": "freesound4live",
+              "title": "Freesound4Live",
+              "unavailable": true,
+              "action": {
+                "href": "/?project=freesound4live",
+                "external": false,
+                "label": "Read more"
+              }
+            },
+            {
+              "slug": "lucky-notes",
+              "title": "Lucky Notes",
+              "unavailable": false,
+              "action": {
+                "href": "https://aylesim.gumroad.com/l/luckynotes",
+                "external": true,
+                "label": "Buy / download"
+              }
+            }
+          ]
+        },
+        {
+          "id": "web",
+          "title": "In the browser",
+          "intro": "No installer, no Live required. Open the link and try it.",
+          "category": "web-interactive",
+          "entries": [
+            {
+              "slug": "glossia",
+              "title": "Glossia",
+              "listTagline": "Interactive audio/visual web playground",
+              "action": {
+                "href": "https://glossia-seven.vercel.app",
+                "external": true,
+                "label": "Visit live"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "site": {
+    "origin": "https://aylesim.com",
+    "description": "Berlin audio developer, web developer, and creative technologist. Max for Live devices, production websites, installations, and live AV.",
+    "contactEmail": "ay@alessandromiracapillo.com",
+    "contactLinks": [
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/alessandro-miracapillo-21b57895"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/aylesim"
+      },
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/aylesim"
+      },
+      {
+        "label": "Gumroad",
+        "href": "https://aylesim.gumroad.com"
+      },
+      {
+        "label": "Isotonik Studios",
+        "href": "https://isotonikstudios.com/brand/aylesim/"
+      }
+    ],
+    "contactAvailability": "Available for frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects.",
+    "webDeveloperStack": "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems",
+    "resumeHref": "/resume.pdf",
+    "resumeLabel": "Resume (PDF)",
+    "primaryAward": {
+      "headline": "First place, Electronic Arts",
+      "title": "Italian National Arts Award XV",
+      "subtitle": "Premio Nazionale delle Arti Italiane",
+      "issuer": "Ministry of University and Research (MUR), Italy",
+      "year": "2022",
+      "projectSlug": "please-set-a-password",
+      "externalHref": "https://www.mur.gov.it/it/news/venerdi-03122021/universita-sono-13-i-giovani-artisti-vincitori-del-premio-nazionale-delle",
+      "externalLabel": "Official MUR announcement"
+    },
+    "pressMentions": [
+      {
+        "outlet": "Create Digital Music",
+        "title": "Free sounds and samples in Ableton Live",
+        "year": "2020",
+        "projectSlug": "freesound4live",
+        "href": "https://cdm.link/free-sounds-and-samples-in-ableton-live/"
+      },
+      {
+        "outlet": "Attack Magazine",
+        "title": "Modulation revelation: the future of sound design",
+        "year": "2024",
+        "projectSlug": "knob-studio",
+        "href": "https://www.attackmagazine.com/features/long-read/modulation-revelation-the-future-of-sound-design/"
+      },
+      {
+        "outlet": "Rekkerd",
+        "title": "Knob Studio experimental mapping device for Live",
+        "year": "2024",
+        "projectSlug": "knob-studio",
+        "href": "https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/"
+      }
+    ],
+    "maxBerlinNetworkUrl": "https://www.maxberlin.network/",
+    "maxBerlinCommunitySlug": "max-berlin-network",
+    "maxBerlinCommunityProof": "Co-founded in 2025. Recurring in-person meetups for Max/MSP and creative audio in Berlin, demos, troubleshooting, shared patching.",
+    "aylesimDevicesSlug": "aylesim-devices",
+    "aylesimDevicesCustomerCount": 3600,
+    "audioDeveloperProductLine": "Through Aylesim Devices, I design and maintain a line of Max for Live tools used by 3,600+ customers and featured by Isotonik Studios and Attack Magazine."
+  }
+}

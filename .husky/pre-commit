@@ -1,1 +1,3 @@
+pnpm content:json
+git add public/content.json
 pnpm lint-staged

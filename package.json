@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "content:json": "tsx scripts/generate-content-json.ts",
+    "content:json:check": "tsx scripts/generate-content-json.ts --check",
+    "build": "pnpm content:json && next build",
     "start": "next start",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
-    "check": "biome check .",
+    "check": "pnpm content:json:check && biome check .",
     "check:fix": "biome check --write .",
     "prepare": "husky"
   },
@@ -35,6 +37,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4",
+    "tsx": "^4.20.3",
     "typescript": "^5",
     "ultracite": "^6.3.4"
   }
