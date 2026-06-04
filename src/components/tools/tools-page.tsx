@@ -72,10 +72,10 @@ function ToolCard({
             unoptimized={coverIsRemote}
           />
         </div>
-        <div className="flex min-h-0 flex-1 flex-col gap-3 p-4 md:p-5">
+        <div className="flex min-h-0 flex-1 flex-col gap-2.5 p-3.5 md:gap-3 md:p-4">
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-              <h3 className="text-base leading-snug tracking-tight">
+              <h3 className="text-sm leading-snug tracking-tight md:text-[0.9375rem]">
                 {project.title}
               </h3>
               {unavailable ? (
@@ -96,10 +96,10 @@ function ToolCard({
               </p>
             ) : null}
           </div>
-          <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+          <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
             <ToolActionLink
               action={action}
-              className={`${accent.labelClass} tracking-tight transition-opacity hover:opacity-80`}
+              className={`${accent.labelClass} text-sm tracking-tight transition-opacity hover:opacity-80`}
             />
             {action.external ? (
               <Link
@@ -123,7 +123,9 @@ function UtilityCard({
 }) {
   const body = (
     <>
-      <h3 className="text-base leading-snug tracking-tight">{utility.title}</h3>
+      <h3 className="text-sm leading-snug tracking-tight md:text-[0.9375rem]">
+        {utility.title}
+      </h3>
       <p className="text-(--text-muted) text-sm leading-relaxed">
         {utility.tagline}
       </p>
@@ -135,7 +137,7 @@ function UtilityCard({
   );
 
   const shell =
-    "flex h-full min-h-[9rem] flex-col gap-3 border border-(--index-divider) bg-surface-subtle p-4 transition-colors hover:bg-surface-hover md:p-5";
+    "flex h-full min-h-[7.5rem] flex-col gap-2.5 border border-(--index-divider) bg-surface-subtle p-3.5 transition-colors hover:bg-surface-hover md:gap-3 md:p-4";
 
   if (utility.external) {
     return (
@@ -163,38 +165,47 @@ function UtilityCard({
 
 export function ToolsPage({ projects }: { projects: Project[] }) {
   const sections = getToolsSections(projects);
+  const { shortcuts } = TOOLS_PAGE_COPY.sections;
 
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
       <SiteHeader active="tools" />
 
       <main className="relative min-w-0 flex-1">
-        <div className="mx-auto w-full max-w-7xl px-4 py-8 md:px-8 md:py-12">
-          <header className="mb-10 max-w-2xl space-y-4 md:mb-14">
-            <h1 className="font-normal text-3xl leading-[1.05] tracking-tight md:text-4xl">
+        <div className="mx-auto flex w-full max-w-7xl flex-col px-4 md:px-8">
+          <header className="border-(--index-divider) border-b border-dotted py-10 md:py-14">
+            <h1 className="max-w-2xl font-normal text-3xl leading-[1.08] tracking-[-0.02em] md:text-[2.15rem]">
               Tools
             </h1>
-            <p className="text-(--text-muted) text-base leading-relaxed md:text-lg">
+            <p className="mt-3 max-w-xl text-(--text-muted) text-sm leading-[1.65] md:text-[0.9375rem]">
               {TOOLS_PAGE_COPY.lede}
             </p>
           </header>
 
-          <div className="flex flex-col gap-12 md:gap-16">
+          <div className="flex flex-col">
             {sections.map((section) => {
               const accent = ROLE_STYLES[section.category];
               return (
-                <section key={section.id}>
-                  <header className="mb-6 max-w-2xl space-y-2 md:mb-8">
-                    <h2
-                      className={`text-xl tracking-tight md:text-2xl ${accent.labelClass}`}
+                <section
+                  className="border-(--index-divider) border-b border-dotted py-10 md:py-14"
+                  key={section.id}
+                >
+                  <header
+                    className={`mb-5 max-w-2xl space-y-2 md:mb-6 ${accent.borderClass} border-t-2 pt-5`}
+                  >
+                    <p
+                      className={`font-mono text-[11px] uppercase tracking-widest ${accent.labelClass}`}
                     >
+                      {CATEGORY_LABELS[section.category]}
+                    </p>
+                    <h2 className="text-pretty text-lg leading-[1.2] tracking-tight md:text-xl">
                       {section.title}
                     </h2>
-                    <p className="text-(--text-muted) text-sm leading-relaxed md:text-base">
+                    <p className="text-(--text-muted) text-sm leading-relaxed md:text-[0.9375rem]">
                       {section.intro}
                     </p>
                   </header>
-                  <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+                  <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
                     {section.entries.map((entry) => (
                       <ToolCard
                         accent={accent}
@@ -207,16 +218,16 @@ export function ToolsPage({ projects }: { projects: Project[] }) {
               );
             })}
 
-            <section>
-              <header className="mb-6 max-w-2xl space-y-2 md:mb-8">
-                <h2 className="text-(--accent) text-xl tracking-tight md:text-2xl">
-                  {TOOLS_PAGE_COPY.sections.shortcuts.title}
-                </h2>
-                <p className="text-(--text-muted) text-sm leading-relaxed md:text-base">
-                  {TOOLS_PAGE_COPY.sections.shortcuts.intro}
+            <section className="border-(--index-divider) border-b border-dotted py-10 md:py-14">
+              <header className="mb-5 max-w-2xl space-y-2 border-(--accent)/40 border-t-2 pt-5 md:mb-6">
+                <p className="font-mono text-(--accent) text-[11px] uppercase tracking-widest">
+                  {shortcuts.title}
+                </p>
+                <p className="text-(--text-muted) text-sm leading-relaxed md:text-[0.9375rem]">
+                  {shortcuts.intro}
                 </p>
               </header>
-              <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 sm:gap-5">
+              <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4">
                 {SITE_UTILITIES.map((utility) => (
                   <UtilityCard key={utility.href} utility={utility} />
                 ))}
@@ -224,7 +235,7 @@ export function ToolsPage({ projects }: { projects: Project[] }) {
             </section>
           </div>
 
-          <p className="mt-12 text-(--text-muted) text-sm leading-relaxed md:mt-16">
+          <p className="py-8 text-(--text-muted) text-sm leading-relaxed md:py-10">
             {TOOLS_PAGE_COPY.footer}{" "}
             <Link className={linkClass} href="/?projects">
               {TOOLS_PAGE_COPY.footerLink}

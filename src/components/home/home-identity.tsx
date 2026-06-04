@@ -56,7 +56,7 @@ const FEATURED_CARDS: FeaturedCard[] = [
     title: "please set a password",
     tags: ["Media Art", "Spatial Interaction", "System Design"],
     description:
-      "Installation engineering a bridge between physical security rituals and digital authentication. Designed for robust real-time reliability in live public-facing contexts.",
+      "Installation engineering a bridge between physical security rituals and digital authentication. Designed for real-time reliability in live public-facing contexts.",
     cover: "/tw2.jpg",
     rotation: 1.2,
   },
@@ -1277,8 +1277,7 @@ export function HomeIdentity({
           <div className="space-y-4 text-sm leading-[1.65] md:text-[0.9375rem]">
             <p className="text-(--foreground)">
               I am a Frontend Engineer and Media Artist specializing in the
-              intersection of robust code, interactive sound, and physical
-              space.
+              intersection of code, interactive sound, and physical space.
             </p>
             <p className="text-(--text-muted)">
               My work bridges the rigor of enterprise software engineering with

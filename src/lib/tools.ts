@@ -33,14 +33,14 @@ export interface SiteUtility {
 const WEB_TOOL_SLUGS = new Set(["glossia"]);
 
 export const TOOLS_PAGE_COPY = {
-  lede: "Stuff you can run, buy, or open in a tab. The rest of this site is case studies and context — this is what you can actually use.",
+  lede: "Stuff you can run, buy, or open in a tab. The rest of this site is case studies and context. This is what you can actually use.",
   footer: "Installations, performances, and client work are under",
   footerLink: "Projects",
   sections: {
     devices: {
       title: "Aylesim Devices",
       intro:
-        "Max for Live patches for Ableton Live — sequencers, modulation, sample tools. I build them for my own sets first; most ship through Gumroad and Isotonik, a couple are free.",
+        "Max for Live patches for Ableton Live: sequencers, modulation, sample tools. I build them for my own sets first; most ship through Gumroad and Isotonik, a couple are free.",
     },
     web: {
       title: "In the browser",
@@ -49,7 +49,7 @@ export const TOOLS_PAGE_COPY = {
     shortcuts: {
       title: "In a hurry?",
       intro:
-        "Rather skim with an assistant than read every page — same idea as Too lazy to read.",
+        "Rather skim with an assistant than read every page, same idea as Too lazy to read.",
     },
   },
   labels: {
@@ -72,7 +72,7 @@ export const SITE_UTILITIES: SiteUtility[] = [
   {
     title: "content.json",
     tagline:
-      "The raw file — same data, no walkthrough. Handy for scripts or plugins.",
+      "The raw file, same data, no walkthrough. Handy for scripts or plugins.",
     href: "/content.json",
     external: true,
     actionLabel: "Get the JSON",

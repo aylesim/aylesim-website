@@ -279,7 +279,7 @@ function AboutPortrait({ src }: { src: string }) {
       />
       {revealed ? null : (
         <button
-          aria-label="Reveal portrait — i really want to see your face"
+          aria-label="Reveal portrait, i really want to see your face"
           className="absolute inset-0 flex cursor-pointer items-center justify-center p-4 text-center transition-colors hover:bg-surface-hover motion-reduce:hidden"
           onClick={() => setRevealed(true)}
           type="button"

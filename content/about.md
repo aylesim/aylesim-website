@@ -1,12 +1,12 @@
 ---
 portrait: /portrait.png
-lede: Frontend Engineer & Media Artist. Software engineer and creative technologist at the convergence of robust code, interactive systems, and spatial computing.
+lede: Frontend Engineer & Media Artist. Software engineer and creative technologist at the convergence of code, interactive systems, and spatial computing.
 subtitle: Alessandro Miracapillo / aylesim · Berlin
 ---
 
 ## Biography
 
-I am a software engineer and creative technologist working at the convergence of robust code, interactive systems, and spatial computing. My practice bridges the strict reliability of enterprise web development with the open-ended experimentation of media art.
+I am a software engineer and creative technologist working at the convergence of code, interactive systems, and spatial computing. My practice bridges the strict reliability of enterprise web development with the open-ended experimentation of media art.
 
 Currently, I specialize in architecting complex, low-latency frontend systems using **React and TypeScript**, while simultaneously developing custom audio software and real-time interactive installations.
 
@@ -19,7 +19,7 @@ My engineering philosophy is rooted in control over technical complexity. Whethe
 I do not view web engineering and creative technology as separate tracks. They feed into one another.
 
 - **From Audio to the Web:** Programming custom audio tools and Max for Live devices (currently trusted by **3600+** musicians worldwide) requires an obsessive focus on performance, memory optimization, and microsecond latency. I bring this exact same performance-first mindset to modern web applications, ensuring fast render times, clean bundle sizes, and flawless state management.
-- **From Space to the Interface:** Designing software for physical installations taught me that user behavior is unpredictable. I build web interfaces with the same structural integrity required of public-facing art installations—systems designed to handle edge cases, adapt to constraints, and remain completely stable under real-world pressure.
+- **From Space to the Interface:** Designing software for physical installations taught me that user behavior is unpredictable. I build web interfaces with the same structural integrity required of public-facing art installations, systems designed to handle edge cases, adapt to constraints, and remain completely stable under real-world pressure.
 
 I thrive in environments that require deep technical problem-solving, clean code architecture, and a strong sense of visual and structural aesthetics.
 
@@ -31,4 +31,4 @@ I thrive in environments that require deep technical problem-solving, clean code
 
 ## Currently
 
-I am available for senior frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects.
+I am available for frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects.
