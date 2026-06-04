@@ -2,7 +2,7 @@
 origin: https://aylesim.com
 description: Berlin audio developer, web developer, and creative technologist. Max for Live devices, production websites, installations, and live AV.
 contactEmail: ay@alessandromiracapillo.com
-contactAvailability: Available for frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects.
+contactAvailability: Available for frontend engineering and collaborative creative technology projects.
 webDeveloperStack: TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems
 resumeHref: /resume.pdf
 resumeLabel: Resume (PDF)

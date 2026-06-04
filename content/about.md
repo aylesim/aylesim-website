@@ -31,4 +31,4 @@ I thrive in environments that require deep technical problem-solving, clean code
 
 ## Currently
 
-I am available for frontend engineering contracts, technical architecture consultations, and collaborative creative technology projects.
+I am available for frontend engineering and collaborative creative technology projects.
