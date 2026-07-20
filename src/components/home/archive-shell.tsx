@@ -70,7 +70,7 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
         }
       />
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 md:px-6 md:py-10">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-3 py-6 md:px-5 md:py-8">
         {showingDetail && projectSlug ? (
           <ProjectDetail
             projects={content.projects}
