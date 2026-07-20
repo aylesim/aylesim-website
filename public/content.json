@@ -95,6 +95,38 @@
         "menuLabel": "web"
       },
       {
+        "slug": "max-berlin-community",
+        "title": "Max Berlin Network",
+        "year": "2025–ongoing",
+        "category": "community",
+        "categoryLabel": "Community",
+        "tags": [
+          "Community Organizing",
+          "Event Programming",
+          "Peer Learning"
+        ],
+        "description": "## Overview\n\nMax Berlin Network is a Berlin scene for Max/MSP and creative audio practice. I co-founded it in **2025** and help keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers.\n\nThe goal is reliable peer learning in the room — demos, troubleshooting, shared patching — not marketing.\n\n## What it is\n\n- Recurring in-person meetups for Max/MSP and creative audio\n- Open format for demos, questions, and collaborative patching\n- A local network that sits alongside the public site and newsletter\n\n## My contribution\n\nAs co-founder I carry forward the community side: finding venues, setting a sustainable cadence, hosting sessions, and keeping communication clear between organizers and participants.",
+        "highlights": [
+          "Co-founded Max Berlin Network in 2025",
+          "Recurring in-person meetups for Max/MSP and creative audio in Berlin",
+          "Format covers demos, troubleshooting, and shared patching",
+          "Keeps venue, rhythm, hosting, and communication running with other core organizers"
+        ],
+        "link": "https://www.maxberlin.network/",
+        "linkLabel": "Visit live",
+        "primaryMeta": [
+          "Max Berlin Network",
+          "2025–ongoing"
+        ],
+        "secondaryMeta": "Co-Founder & Curator",
+        "featured": false,
+        "listTagline": "In-person Max/MSP meetups in Berlin",
+        "listBadges": [],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "community"
+      },
+      {
         "slug": "max-berlin-network",
         "title": "Max Berlin Network",
         "year": "2025–ongoing",
@@ -105,9 +137,9 @@
           "Next.js / TypeScript",
           "Content Systems"
         ],
-        "description": "## Overview\n\n[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The product problem is narrow and practical: when the next session is, where it happens, how to get on the list, and where to read about past meetups, without leaning on scattered social posts.\n\nThe visual language is poster-like, bold type, slight rotations, monospace detail, so the site reads as an event surface rather than a generic landing page.\n\n## What the site does\n\n- **Next meetup** on the homepage with date, venue, time, and a link to the full event page\n- **Newsletter** capture for upcoming meetups, open calls, and announcements\n- **Meetup archive** for past sessions\n- **About**, plus outbound links to Discord and Instagram\n- **Light / dark** theme toggle for readability in different contexts\n\n## My contribution\n\nAs co-founder I shaped the information architecture and built the site in **Next.js** and **TypeScript**, deployed on **Vercel**. Editorial meetup copy and scheduling stay editable without treating the homepage as a one-off static file each time.\n\n- **Event routing**: dedicated pages per meetup with stable URLs for sharing\n- **Homepage data**: next session pulled into the hero so the primary CTA stays current\n- **Newsletter flow**: signup integrated into the main layout\n- **Share metadata**: Open Graph and Twitter cards for link previews\n\nThe recurring in-person meetups and community format are separate from this case study; they are described on my [about page](/about) under **Community**.",
+        "description": "## Overview\n\n[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The product problem is narrow and practical: when the next session is, where it happens, how to get on the list, and where to read about past meetups, without leaning on scattered social posts.\n\nThe visual language is poster-like, bold type, slight rotations, monospace detail, so the site reads as an event surface rather than a generic landing page.\n\n## What the site does\n\n- **Next meetup** on the homepage with date, venue, time, and a link to the full event page\n- **Newsletter** capture for upcoming meetups, open calls, and announcements\n- **Meetup archive** for past sessions\n- **About**, plus outbound links to Discord and Instagram\n- **Light / dark** theme toggle for readability in different contexts\n\n## My contribution\n\nI shaped the information architecture and built the site in **Next.js** and **TypeScript**, deployed on **Vercel**. Editorial meetup copy and scheduling stay editable without treating the homepage as a one-off static file each time.\n\n- **Event routing**: dedicated pages per meetup with stable URLs for sharing\n- **Homepage data**: next session pulled into the hero so the primary CTA stays current\n- **Newsletter flow**: signup integrated into the main layout\n- **Share metadata**: Open Graph and Twitter cards for link previews",
         "highlights": [
-          "Designed and built the public site at maxberlin.network for a Berlin Max/MSP network",
+          "Designed and built the public site at maxberlin.network",
           "Homepage surfaces next meetup date, venue, and detail pages without manual redeploys for every edit",
           "Newsletter signup and social links so people can follow events between sessions",
           "Meetup archive and about pages so past events and the initiative stay readable over time"
@@ -120,6 +152,7 @@
         ],
         "secondaryMeta": "Co-Founder & Web Developer",
         "featured": false,
+        "listTagline": "Public site for a Berlin Max/MSP network",
         "listBadges": [],
         "images": [],
         "showInMenu": true,
@@ -692,7 +725,7 @@
       }
     ],
     "maxBerlinNetworkUrl": "https://www.maxberlin.network/",
-    "maxBerlinCommunitySlug": "max-berlin-network",
+    "maxBerlinCommunitySlug": "max-berlin-community",
     "maxBerlinCommunityProof": "Co-founded 2025. In-person Max/MSP meetups, Berlin.",
     "aylesimDevicesSlug": "aylesim-devices",
     "aylesimDevicesCustomerCount": 3600,
