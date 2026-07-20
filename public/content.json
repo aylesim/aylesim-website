@@ -5,7 +5,7 @@
         "slug": "birds",
         "title": "Birds",
         "category": "devices",
-        "categoryLabel": "Devices",
+        "categoryLabel": "Audio tools",
         "tags": [
           "Max/MSP",
           "Audio Engineering",
@@ -129,7 +129,7 @@
         "slug": "knob-studio",
         "title": "Knob Studio",
         "category": "devices",
-        "categoryLabel": "Devices",
+        "categoryLabel": "Audio tools",
         "tags": [
           "Max/MSP",
           "Audio Engineering",
@@ -235,7 +235,7 @@
         "slug": "tedx-barletta",
         "title": "TEDx Barletta",
         "category": "installations",
-        "categoryLabel": "Installations",
+        "categoryLabel": "Artworks",
         "tags": [
           "Max/MSP",
           "Live Projection",
@@ -271,7 +271,7 @@
         "title": "Disco",
         "year": "2022",
         "category": "devices",
-        "categoryLabel": "Devices",
+        "categoryLabel": "Audio tools",
         "tags": [
           "Max/MSP",
           "Audio Engineering",
@@ -326,7 +326,7 @@
         "title": "Aylesim Devices",
         "year": "2020–ongoing",
         "category": "devices",
-        "categoryLabel": "Devices",
+        "categoryLabel": "Audio tools",
         "tags": [
           "Max/MSP",
           "Product Design",
@@ -361,7 +361,7 @@
         "title": "Freesound4Live",
         "year": "2023",
         "category": "devices",
-        "categoryLabel": "Devices",
+        "categoryLabel": "Audio tools",
         "tags": [
           "Max/MSP",
           "API Integration",
@@ -407,7 +407,7 @@
         "title": "Lucky Notes",
         "year": "2022",
         "category": "devices",
-        "categoryLabel": "Devices",
+        "categoryLabel": "Audio tools",
         "tags": [
           "Max/MSP",
           "MIDI Systems",
@@ -452,7 +452,7 @@
         "title": "Please Set a Password",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Installations",
+        "categoryLabel": "Artworks",
         "tags": [
           "Networked Systems",
           "Real-time Video",
@@ -489,7 +489,7 @@
         "title": "There Will Be No More Determination",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Installations",
+        "categoryLabel": "Artworks",
         "tags": [
           "GAN Training",
           "Computational Imaging",
@@ -528,7 +528,7 @@
         "title": "Wikyslavery",
         "year": "2023",
         "category": "installations",
-        "categoryLabel": "Installations",
+        "categoryLabel": "Artworks",
         "tags": [
           "Platform Automation",
           "Net Art Systems",
@@ -565,7 +565,7 @@
         "title": "Fonema",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Installations",
+        "categoryLabel": "Artworks",
         "tags": [
           "Neural Audio Processing",
           "Machine Listening",

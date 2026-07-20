@@ -1,7 +1,11 @@
 "use client";
 
 import type { Award, HomeContent, Project, SiteConfig } from "@/lib/content";
-import { CATEGORY_LABELS } from "@/lib/roles";
+import {
+  CATEGORY_FILTERS,
+  CATEGORY_LABELS,
+  type ProjectCategory,
+} from "@/lib/roles";
 
 function AwardsList({
   awards,
@@ -60,6 +64,92 @@ function AwardsList({
   );
 }
 
+function ProjectRow({
+  project,
+  onSelect,
+}: {
+  project: Project;
+  onSelect: (slug: string) => void;
+}) {
+  return (
+    <li>
+      <button
+        className="group grid w-full grid-cols-[4.5rem_1fr] items-baseline gap-x-3 gap-y-0.5 py-2.5 text-left"
+        onClick={() => onSelect(project.slug)}
+        type="button"
+      >
+        <span className="text-(--text-muted) tabular-nums">
+          {project.year ?? "—"}
+        </span>
+        <span className="min-w-0">
+          <span className="group-hover:underline group-hover:underline-offset-3">
+            {project.title}
+          </span>
+          {project.listTagline ? (
+            <span className="mt-0.5 block text-(--text-muted) text-xs">
+              {project.listTagline}
+            </span>
+          ) : null}
+        </span>
+      </button>
+    </li>
+  );
+}
+
+function IndexSection({
+  category,
+  projects,
+  onSelect,
+}: {
+  category: ProjectCategory;
+  projects: Project[];
+  onSelect: (slug: string) => void;
+}) {
+  if (projects.length === 0) {
+    return null;
+  }
+
+  const headingId = `index-${category}`;
+
+  return (
+    <section aria-labelledby={headingId}>
+      <h3
+        className="mb-1 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
+        id={headingId}
+      >
+        {CATEGORY_LABELS[category]}
+      </h3>
+      <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
+        {projects.map((project) => (
+          <ProjectRow
+            key={project.slug}
+            onSelect={onSelect}
+            project={project}
+          />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function groupByCategory(projects: Project[]) {
+  const grouped = Object.fromEntries(
+    CATEGORY_FILTERS.map((category) => [category, [] as Project[]])
+  ) as Record<ProjectCategory, Project[]>;
+
+  const uncategorized: Project[] = [];
+
+  for (const project of projects) {
+    if (project.category) {
+      grouped[project.category].push(project);
+    } else {
+      uncategorized.push(project);
+    }
+  }
+
+  return { grouped, uncategorized };
+}
+
 export function ArchiveIndex({
   home,
   projects,
@@ -71,6 +161,8 @@ export function ArchiveIndex({
   site: SiteConfig;
   onSelect: (slug: string) => void;
 }) {
+  const { grouped, uncategorized } = groupByCategory(projects);
+
   return (
     <div className="flex flex-col gap-8">
       <header className="space-y-1">
@@ -82,48 +174,44 @@ export function ArchiveIndex({
 
       <AwardsList awards={site.awards} onSelect={onSelect} />
 
-      <section aria-labelledby="index-heading">
+      <section aria-labelledby="index-heading" className="space-y-8">
         <h2
-          className="mb-3 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
+          className="border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
           id="index-heading"
         >
           Index
         </h2>
-        <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
-          {projects.map((project) => {
-            const categoryLabel = project.category
-              ? CATEGORY_LABELS[project.category]
-              : null;
-            return (
-              <li key={project.slug}>
-                <button
-                  className="group grid w-full grid-cols-[4.5rem_1fr] items-baseline gap-x-3 gap-y-0.5 py-2.5 text-left sm:grid-cols-[4.5rem_minmax(0,1fr)_7rem]"
-                  onClick={() => onSelect(project.slug)}
-                  type="button"
-                >
-                  <span className="text-(--text-muted) tabular-nums">
-                    {project.year ?? "—"}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="group-hover:underline group-hover:underline-offset-3">
-                      {project.title}
-                    </span>
-                    {project.listTagline ? (
-                      <span className="mt-0.5 block text-(--text-muted) text-xs">
-                        {project.listTagline}
-                      </span>
-                    ) : null}
-                  </span>
-                  {categoryLabel ? (
-                    <span className="col-start-2 text-(--text-muted) text-xs sm:col-start-auto sm:text-right">
-                      {categoryLabel}
-                    </span>
-                  ) : null}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+
+        <div className="flex flex-col gap-8">
+          {CATEGORY_FILTERS.map((category) => (
+            <IndexSection
+              category={category}
+              key={category}
+              onSelect={onSelect}
+              projects={grouped[category]}
+            />
+          ))}
+
+          {uncategorized.length > 0 ? (
+            <section aria-labelledby="index-other">
+              <h3
+                className="mb-1 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
+                id="index-other"
+              >
+                Other
+              </h3>
+              <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
+                {uncategorized.map((project) => (
+                  <ProjectRow
+                    key={project.slug}
+                    onSelect={onSelect}
+                    project={project}
+                  />
+                ))}
+              </ul>
+            </section>
+          ) : null}
+        </div>
       </section>
 
       <footer className="flex flex-wrap gap-x-4 gap-y-1 border-(--index-divider) border-t pt-4 text-(--text-muted) text-xs">
