@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
-export type SiteNavActive = "index" | "about" | "tools" | "ask-ai";
+export type SiteNavActive = "index" | "about" | "ask-ai";
 
 type SiteHeaderProps = {
   active?: SiteNavActive;
@@ -33,13 +33,6 @@ export function SiteHeader({ active, leading }: SiteHeaderProps) {
             href="/"
           >
             Index
-          </Link>
-          <Link
-            aria-current={active === "tools" ? "page" : undefined}
-            className={navClass(active === "tools")}
-            href="/tools"
-          >
-            Tools
           </Link>
           <Link
             aria-current={active === "about" ? "page" : undefined}

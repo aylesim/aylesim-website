@@ -3,7 +3,6 @@ import path from "node:path";
 import { getAboutSections, getAllContent, type Project } from "@/lib/content";
 import { CATEGORY_LABELS } from "@/lib/roles";
 import { contentJsonPath } from "@/lib/site";
-import { getToolsSections } from "@/lib/tools";
 
 export const contentJsonPublicPath = path.join(
   process.cwd(),
@@ -39,7 +38,7 @@ function projectToJson(project: Project) {
 }
 
 function toContentPayload() {
-  const { projects, about, home, site } = getAllContent();
+  const { projects, about, home } = getAllContent();
 
   return {
     projects: projects.map(projectToJson),
@@ -51,27 +50,6 @@ function toContentPayload() {
       sections: getAboutSections(about),
     },
     home,
-    tools: {
-      page: {
-        lede: site.toolsPage.lede,
-        footer: site.toolsPage.footer,
-        footerLink: site.toolsPage.footerLink,
-      },
-      sections: getToolsSections(projects, site).map((section) => ({
-        id: section.id,
-        title: section.title,
-        intro: section.intro,
-        category: section.category,
-        entries: section.entries.map((entry) => ({
-          slug: entry.project.slug,
-          title: entry.project.title,
-          listTagline: entry.project.listTagline,
-          unavailable: entry.unavailable,
-          action: entry.action,
-        })),
-      })),
-      utilities: site.siteUtilities,
-    },
   };
 }
 

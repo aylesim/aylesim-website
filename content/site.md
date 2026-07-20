@@ -57,34 +57,4 @@ pressMentions:
     year: "2024"
     projectSlug: knob-studio
     href: https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/
-toolsPage:
-  lede: Things you can run, buy, or open.
-  footer: Other work is under
-  footerLink: Index
-  sections:
-    devices:
-      title: Aylesim Devices
-      intro: Max for Live. Sequencers, modulation, sample tools. Gumroad and Isotonik.
-    web:
-      title: Browser
-      intro: No installer. Open the link.
-    shortcuts:
-      title: Shortcuts
-      intro: Site as JSON for assistants.
-  labels:
-    portfolioLink: Entry
-    unavailable: Not distributed
-    buy: Buy / download
-    open: Open
-    readMore: Read
-siteUtilities:
-  - title: Too lazy to read
-    tagline: Whole site as one JSON file.
-    href: /ask-ai
-    actionLabel: How to use
-  - title: content.json
-    tagline: Raw file.
-    href: /content.json
-    external: true
-    actionLabel: Get JSON
 ---

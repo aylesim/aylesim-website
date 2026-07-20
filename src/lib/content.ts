@@ -104,32 +104,6 @@ export type PressMention = {
   href: string;
 };
 
-export type ToolsPageCopy = {
-  lede: string;
-  footer: string;
-  footerLink: string;
-  sections: {
-    devices: { title: string; intro: string };
-    web: { title: string; intro: string };
-    shortcuts: { title: string; intro: string };
-  };
-  labels: {
-    portfolioLink: string;
-    unavailable: string;
-    buy: string;
-    open: string;
-    readMore: string;
-  };
-};
-
-export type SiteUtility = {
-  title: string;
-  tagline: string;
-  href: string;
-  external?: boolean;
-  actionLabel: string;
-};
-
 export type SiteConfig = {
   origin: string;
   description: string;
@@ -148,8 +122,6 @@ export type SiteConfig = {
   contactLinks: ContactLink[];
   awards: Award[];
   pressMentions: PressMention[];
-  toolsPage: ToolsPageCopy;
-  siteUtilities: SiteUtility[];
 };
 
 export type HomeContent = {
@@ -618,90 +590,6 @@ function parsePressMentions(v: unknown): PressMention[] {
   });
 }
 
-function parseToolsPageCopy(v: unknown): ToolsPageCopy {
-  const record = asRecord(v);
-  if (!record) {
-    throw new Error("content/site.md: toolsPage is required");
-  }
-  const sections = asRecord(record.sections);
-  const labels = asRecord(record.labels);
-  if (!(sections && labels)) {
-    throw new Error("content/site.md: toolsPage.sections and labels required");
-  }
-  const devices = asRecord(sections.devices);
-  const web = asRecord(sections.web);
-  const shortcuts = asRecord(sections.shortcuts);
-  if (!(devices && web && shortcuts)) {
-    throw new Error("content/site.md: toolsPage.sections incomplete");
-  }
-  return {
-    lede: requireString(record.lede, "toolsPage.lede"),
-    footer: requireString(record.footer, "toolsPage.footer"),
-    footerLink: requireString(record.footerLink, "toolsPage.footerLink"),
-    sections: {
-      devices: {
-        title: requireString(devices.title, "toolsPage.sections.devices.title"),
-        intro: requireString(devices.intro, "toolsPage.sections.devices.intro"),
-      },
-      web: {
-        title: requireString(web.title, "toolsPage.sections.web.title"),
-        intro: requireString(web.intro, "toolsPage.sections.web.intro"),
-      },
-      shortcuts: {
-        title: requireString(
-          shortcuts.title,
-          "toolsPage.sections.shortcuts.title"
-        ),
-        intro: requireString(
-          shortcuts.intro,
-          "toolsPage.sections.shortcuts.intro"
-        ),
-      },
-    },
-    labels: {
-      portfolioLink: requireString(
-        labels.portfolioLink,
-        "toolsPage.labels.portfolioLink"
-      ),
-      unavailable: requireString(
-        labels.unavailable,
-        "toolsPage.labels.unavailable"
-      ),
-      buy: requireString(labels.buy, "toolsPage.labels.buy"),
-      open: requireString(labels.open, "toolsPage.labels.open"),
-      readMore: requireString(labels.readMore, "toolsPage.labels.readMore"),
-    },
-  };
-}
-
-function parseSiteUtilities(v: unknown): SiteUtility[] {
-  if (!Array.isArray(v)) {
-    return [];
-  }
-  return v.flatMap((item) => {
-    const record = asRecord(item);
-    if (!record) {
-      return [];
-    }
-    const title = asString(record.title);
-    const tagline = asString(record.tagline);
-    const href = asString(record.href);
-    const actionLabel = asString(record.actionLabel);
-    if (!(title && tagline && href && actionLabel)) {
-      return [];
-    }
-    return [
-      {
-        title,
-        tagline,
-        href,
-        actionLabel,
-        external: record.external === true,
-      },
-    ];
-  });
-}
-
 function getSiteConfig(): SiteConfig {
   const filePath = path.join(contentDir, "site.md");
   const { data } = readMd(filePath);
@@ -748,8 +636,6 @@ function getSiteConfig(): SiteConfig {
     contactLinks: parseContactLinks(data.contactLinks),
     awards: parseAwards(data.awards),
     pressMentions: parsePressMentions(data.pressMentions),
-    toolsPage: parseToolsPageCopy(data.toolsPage),
-    siteUtilities: parseSiteUtilities(data.siteUtilities),
   };
 }
 
