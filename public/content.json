@@ -265,6 +265,38 @@
         "menuLabel": "web"
       },
       {
+        "slug": "la-scuola-open-source",
+        "title": "La Scuola Open Source",
+        "year": "2018–2025",
+        "category": "community",
+        "categoryLabel": "Community",
+        "tags": [
+          "Education",
+          "Research",
+          "Workshops"
+        ],
+        "description": "## Overview\n\n[La Scuola Open Source](https://www.lascuolaopensource.xyz/) is a Bari-based cooperative working as an open-source ecosystem for social, cultural, and technological research and education.\n\nI worked there as a **tech researcher and educator** from **2018 to 2025**.\n\n## What I did\n\n- Led R&D around emerging software technologies, system automation, and generative AI data pipelines\n- Ran workshops on software automation, generative AI, and digital audio\n- Mentored developers and engineers through advanced workshop formats",
+        "highlights": [
+          "Tech researcher and educator at La Scuola Open Source, Bari (2018–2025)",
+          "Led workshops on software automation, generative AI, and digital audio",
+          "R&D around emerging software systems and production AI pipelines",
+          "Mentored developers and engineers through advanced workshops"
+        ],
+        "link": "https://www.lascuolaopensource.xyz/",
+        "linkLabel": "Visit live",
+        "primaryMeta": [
+          "La Scuola Open Source",
+          "2018–2025"
+        ],
+        "secondaryMeta": "Tech Researcher & Educator",
+        "featured": false,
+        "listTagline": "Research and education cooperative, Bari",
+        "listBadges": [],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "community"
+      },
+      {
         "slug": "tedx-barletta",
         "title": "TEDx Barletta",
         "category": "installations",
