@@ -10,41 +10,47 @@ function AwardsList({
   awards: Award[];
   onSelect: (slug: string) => void;
 }) {
+  if (awards.length === 0) {
+    return null;
+  }
+
   return (
-    <section aria-labelledby="awards-heading">
+    <section aria-labelledby="awards-heading" className="space-y-3">
       <h2
-        className="mb-3 border-(--index-divider) border-b pb-2 text-(--text-muted) text-xs uppercase tracking-widest"
+        className="border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
         id="awards-heading"
       >
         Prizes
       </h2>
-      <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
+      <ul className="m-0 list-none space-y-4 p-0">
         {awards.map((award) => (
-          <li key={`${award.year}-${award.projectSlug}-${award.title}`}>
-            <div className="grid grid-cols-[4.5rem_1fr] items-baseline gap-x-3 gap-y-1 py-2.5 sm:grid-cols-[4.5rem_minmax(0,1fr)_auto]">
-              <span className="text-(--text-faint) tabular-nums">
-                {award.year}
-              </span>
-              <div className="min-w-0">
+          <li
+            className="border-(--index-divider) border-b pb-4 last:border-b-0 last:pb-0"
+            key={`${award.year}-${award.projectSlug}-${award.title}`}
+          >
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <span className="text-(--text-muted) tabular-nums">
+                  {award.year}
+                </span>
                 <button
-                  className="text-left hover:underline hover:underline-offset-3"
+                  className="text-left underline-offset-3 hover:underline"
                   onClick={() => onSelect(award.projectSlug)}
                   type="button"
                 >
                   {award.headline}
                 </button>
-                <p className="mt-0.5 text-(--text-faint) text-xs">
-                  {award.title}
-                  {award.issuer ? ` · ${award.issuer}` : ""}
-                </p>
               </div>
+              <p className="text-(--text-muted) text-xs">
+                {award.title} · {award.issuer}
+              </p>
               <a
-                className="col-start-2 text-(--text-muted) text-xs sm:col-start-auto sm:text-right"
+                className="w-fit text-xs underline underline-offset-3"
                 href={award.externalHref}
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                {award.externalLabel}
+                Source
               </a>
             </div>
           </li>
@@ -66,7 +72,7 @@ export function ArchiveIndex({
   onSelect: (slug: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8">
       <header className="space-y-1">
         <h1 className="text-base uppercase tracking-wide">{home.name}</h1>
         <p className="text-(--text-muted)">
@@ -78,7 +84,7 @@ export function ArchiveIndex({
 
       <section aria-labelledby="index-heading">
         <h2
-          className="mb-3 border-(--index-divider) border-b pb-2 text-(--text-muted) text-xs uppercase tracking-widest"
+          className="mb-3 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
           id="index-heading"
         >
           Index
@@ -95,7 +101,7 @@ export function ArchiveIndex({
                   onClick={() => onSelect(project.slug)}
                   type="button"
                 >
-                  <span className="text-(--text-faint) tabular-nums">
+                  <span className="text-(--text-muted) tabular-nums">
                     {project.year ?? "—"}
                   </span>
                   <span className="min-w-0">
@@ -103,13 +109,13 @@ export function ArchiveIndex({
                       {project.title}
                     </span>
                     {project.listTagline ? (
-                      <span className="mt-0.5 block text-(--text-faint) text-xs">
+                      <span className="mt-0.5 block text-(--text-muted) text-xs">
                         {project.listTagline}
                       </span>
                     ) : null}
                   </span>
                   {categoryLabel ? (
-                    <span className="col-start-2 text-(--text-faint) text-xs sm:col-start-auto sm:text-right">
+                    <span className="col-start-2 text-(--text-muted) text-xs sm:col-start-auto sm:text-right">
                       {categoryLabel}
                     </span>
                   ) : null}
