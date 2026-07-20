@@ -7,12 +7,18 @@ title: Planetary Compendium
 role: Frontend Developer
 client: Berggruen Institute × Dark Matter Labs
 year: 2025
+listTagline: Case studies on planetary governance
+listBadges:
+  - prefix: Honorary Mention
+    label: Prix Ars Electronica 2026
+    url: https://archive.aec.at/prix/320414/
 tech:
   - Frontend Architecture
   - Scrollytelling
   - Data Visualization
 liveLink: https://governtheplanet.org/
 highlights:
+  - Prix Ars Electronica 2026 — Honorary Mention, Digital Humanity
   - Immersive scrollytelling and spatial data exploration
   - Audio-driven narrative interfaces
   - Accessibility and reduced-motion paths baked in from v1

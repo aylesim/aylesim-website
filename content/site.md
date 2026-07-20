@@ -24,15 +24,23 @@ contactLinks:
     href: https://aylesim.gumroad.com
   - label: Isotonik Studios
     href: https://isotonikstudios.com/brand/aylesim/
-primaryAward:
-  headline: First place, Electronic Arts
-  title: Italian National Arts Award XV
-  subtitle: Premio Nazionale delle Arti Italiane
-  issuer: Ministry of University and Research (MUR), Italy
-  year: "2022"
-  projectSlug: please-set-a-password
-  externalHref: https://www.mur.gov.it/it/news/venerdi-03122021/universita-sono-13-i-giovani-artisti-vincitori-del-premio-nazionale-delle
-  externalLabel: Official MUR announcement
+awards:
+  - headline: Honorary Mention, Digital Humanity
+    title: Prix Ars Electronica
+    subtitle: Anerkennung
+    issuer: Ars Electronica
+    year: "2026"
+    projectSlug: planetary-compendium
+    externalHref: https://archive.aec.at/prix/320414/
+    externalLabel: Prix Ars Electronica archive
+  - headline: First place, Electronic Arts
+    title: Italian National Arts Award XV
+    subtitle: Premio Nazionale delle Arti Italiane
+    issuer: Ministry of University and Research (MUR), Italy
+    year: "2022"
+    projectSlug: please-set-a-password
+    externalHref: https://www.mur.gov.it/it/news/venerdi-03122021/universita-sono-13-i-giovani-artisti-vincitori-del-premio-nazionale-delle
+    externalLabel: Official MUR announcement
 pressMentions:
   - outlet: Create Digital Music
     title: "Free sounds and samples in Ableton Live"

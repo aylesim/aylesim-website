@@ -71,19 +71,23 @@ export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
               </div>
             ) : null}
             <div className="grid gap-1 sm:grid-cols-[6rem_1fr]">
-              <dt className="text-(--text-faint)">Award</dt>
-              <dd>
-                <a
-                  href={site.primaryAward.externalHref}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {site.primaryAward.headline}
-                </a>
-                <span className="text-(--text-faint)">
-                  {" "}
-                  · {site.primaryAward.title} ({site.primaryAward.year})
-                </span>
+              <dt className="text-(--text-faint)">Prizes</dt>
+              <dd className="space-y-1">
+                {site.awards.map((award) => (
+                  <div key={`${award.year}-${award.externalHref}`}>
+                    <a
+                      href={award.externalHref}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {award.headline}
+                    </a>
+                    <span className="text-(--text-faint)">
+                      {" "}
+                      · {award.title} ({award.year})
+                    </span>
+                  </div>
+                ))}
               </dd>
             </div>
           </dl>

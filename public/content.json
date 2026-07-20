@@ -67,6 +67,7 @@
         ],
         "description": "## Overview\n\nPlanetary Compendium is a living, interactive platform developed with the Berggruen Institute and Dark Matter Labs - an evolving *wunderkammer* of planetary governance. The project maps the shifting architectures, imaginaries, and experiments shaping how life on Earth may be organized, sustained, and represented.\n\nBuilt around [governtheplanet.org](https://governtheplanet.org/), the experience weaves together historic precedents, emerging experiments, and speculative futures. Through scrollytelling, spatial data exploration, and audio-driven narrative, visitors can move across case studies and trace how governance ideas emerge across disciplines, regions, and scales.\n\n![Planetary Compendium - interface](/planetary.png)\n\n## What the platform does\n\n- Presents case studies on planetary governance through immersive, long-form editorial flows\n- Connects themes across sovereignty, shared vulnerability, ecology, and more-than-human agency\n- Enables spatial and visual exploration of complex, interconnected governance concepts\n- Supports live facilitation and collaborative workshop contexts with stable group-session rendering\n\n## My contribution\n\nI joined the project as a freelance web developer from May to November 2025, working remotely within a multidisciplinary team. My focus was on building engaging and immersive digital environments using modern web technologies:\n\n- **Scrollytelling interfaces** - sequenced narrative experiences tied to content and visual transitions\n- **Spatial data exploration** - interactive layouts for navigating interconnected concepts and case studies\n- **Audio-driven narratives** - sound-integrated content layers for a richer, multimodal reading experience\n- **Rich content visualization** - flexible display modules handling dense conceptual and editorial material\n- **Accessibility** - reduced-motion paths and inclusive interaction patterns from the first release\n\n## Context and outcome\n\nThe Compendium launched publicly in November 2025 with a virtual event and a physical exhibition in Zürich. It is positioned as both a civic publication and a thinking tool - an interface for exploring how planetary governance is already being prototyped through institutions, infrastructures, and place-based experiments.\n\n> \"The Planetary Compendium serves to entangle not only what the Planetary could be but how it is already manifesting regionally and disciplinarily.\"  \n> - Zehra Zaidi OBE, Mission Lead for Planetary Civics, Dark Matter Labs",
         "highlights": [
+          "Prix Ars Electronica 2026 — Honorary Mention, Digital Humanity",
           "Immersive scrollytelling and spatial data exploration",
           "Audio-driven narrative interfaces",
           "Accessibility and reduced-motion paths baked in from v1",
@@ -79,7 +80,14 @@
         ],
         "secondaryMeta": "Frontend Developer",
         "featured": false,
-        "listBadges": [],
+        "listTagline": "Case studies on planetary governance",
+        "listBadges": [
+          {
+            "prefix": "Honorary Mention",
+            "label": "Prix Ars Electronica 2026",
+            "url": "https://archive.aec.at/prix/320414/"
+          }
+        ],
         "images": [
           "/planetary.png"
         ],
@@ -741,16 +749,28 @@
     "webDeveloperStack": "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance",
     "resumeHref": "/resume.pdf",
     "resumeLabel": "Resume (PDF)",
-    "primaryAward": {
-      "headline": "First place, Electronic Arts",
-      "title": "Italian National Arts Award XV",
-      "subtitle": "Premio Nazionale delle Arti Italiane",
-      "issuer": "Ministry of University and Research (MUR), Italy",
-      "year": "2022",
-      "projectSlug": "please-set-a-password",
-      "externalHref": "https://www.mur.gov.it/it/news/venerdi-03122021/universita-sono-13-i-giovani-artisti-vincitori-del-premio-nazionale-delle",
-      "externalLabel": "Official MUR announcement"
-    },
+    "awards": [
+      {
+        "headline": "Honorary Mention, Digital Humanity",
+        "title": "Prix Ars Electronica",
+        "subtitle": "Anerkennung",
+        "issuer": "Ars Electronica",
+        "year": "2026",
+        "projectSlug": "planetary-compendium",
+        "externalHref": "https://archive.aec.at/prix/320414/",
+        "externalLabel": "Prix Ars Electronica archive"
+      },
+      {
+        "headline": "First place, Electronic Arts",
+        "title": "Italian National Arts Award XV",
+        "subtitle": "Premio Nazionale delle Arti Italiane",
+        "issuer": "Ministry of University and Research (MUR), Italy",
+        "year": "2022",
+        "projectSlug": "please-set-a-password",
+        "externalHref": "https://www.mur.gov.it/it/news/venerdi-03122021/universita-sono-13-i-giovani-artisti-vincitori-del-premio-nazionale-delle",
+        "externalLabel": "Official MUR announcement"
+      }
+    ],
     "pressMentions": [
       {
         "outlet": "Create Digital Music",

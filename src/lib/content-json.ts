@@ -88,7 +88,7 @@ export function getSiteContentPayload() {
       webDeveloperStack: site.webDeveloperStack,
       resumeHref: site.resumeHref,
       resumeLabel: site.resumeLabel,
-      primaryAward: site.primaryAward,
+      awards: site.awards,
       pressMentions: site.pressMentions,
       maxBerlinNetworkUrl: site.maxBerlinNetworkUrl,
       maxBerlinCommunitySlug: site.maxBerlinCommunitySlug,
