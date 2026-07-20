@@ -17,13 +17,10 @@ function navClass(isActive: boolean) {
 
 export function SiteHeader({ active, leading }: SiteHeaderProps) {
   return (
-    <header className="shrink-0 border-(--foreground) border-b-2">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-baseline gap-x-5 gap-y-2 px-3 py-3 md:px-5">
+    <header className="shrink-0 border-(--index-divider) border-b">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-baseline gap-x-5 gap-y-2 px-4 py-3 md:px-6">
         {leading}
-        <Link
-          className="font-semibold text-sm uppercase tracking-wide"
-          href="/"
-        >
+        <Link className="uppercase tracking-wide" href="/">
           Aylesim
         </Link>
         <nav
