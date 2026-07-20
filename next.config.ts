@@ -44,6 +44,8 @@ const nextConfig: NextConfig = {
       { source: "/contact", destination: "/", permanent: true },
       { source: "/newsletter", destination: "/", permanent: true },
       { source: "/elsewhere", destination: "/", permanent: true },
+      { source: "/tools", destination: "/", permanent: true },
+      { source: "/tools/:path*", destination: "/", permanent: true },
     ];
   },
 };
