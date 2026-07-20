@@ -10,7 +10,7 @@ aylesimDevicesSlug: aylesim-devices
 aylesimDevicesCustomerCount: 3600
 audioDeveloperProductLine: Aylesim Devices — Max for Live tools. 3,600+ customers. Isotonik Studios, Attack Magazine.
 maxBerlinNetworkUrl: https://www.maxberlin.network/
-maxBerlinCommunitySlug: max-berlin-network
+maxBerlinCommunitySlug: max-berlin-community
 maxBerlinCommunityProof: Co-founded 2025. In-person Max/MSP meetups, Berlin.
 nationalArtsAwardProjectSlug: please-set-a-password
 contactLinks:
