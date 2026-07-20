@@ -1,6 +1,16 @@
 "use client";
 
+import Image from "next/image";
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import type { Award, HomeContent, Project, SiteConfig } from "@/lib/content";
+import { getProjectCover } from "@/lib/project-cover";
 import {
   CATEGORY_FILTERS,
   CATEGORY_LABELS,
@@ -19,44 +29,35 @@ function AwardsList({
   }
 
   return (
-    <section aria-labelledby="awards-heading" className="space-y-3">
-      <h2
-        className="border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-        id="awards-heading"
-      >
+    <section aria-labelledby="awards-heading" className="archive-block">
+      <h2 className="archive-block__label" id="awards-heading">
         Prizes
       </h2>
-      <ul className="m-0 list-none space-y-4 p-0">
+      <ul className="award-grid">
         {awards.map((award) => (
           <li
-            className="border-(--index-divider) border-b pb-4 last:border-b-0 last:pb-0"
+            className="award-tile"
             key={`${award.year}-${award.projectSlug}-${award.title}`}
           >
-            <div className="flex flex-col gap-1">
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                <span className="text-(--text-muted) tabular-nums">
-                  {award.year}
-                </span>
-                <button
-                  className="text-left underline-offset-3 hover:underline"
-                  onClick={() => onSelect(award.projectSlug)}
-                  type="button"
-                >
-                  {award.headline}
-                </button>
-              </div>
-              <p className="text-(--text-muted) text-xs">
-                {award.title} · {award.issuer}
-              </p>
-              <a
-                className="w-fit text-xs underline underline-offset-3"
-                href={award.externalHref}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Source
-              </a>
-            </div>
+            <span className="award-tile__year">{award.year}</span>
+            <button
+              className="award-tile__headline"
+              onClick={() => onSelect(award.projectSlug)}
+              type="button"
+            >
+              {award.headline}
+            </button>
+            <p className="award-tile__meta">
+              {award.title} · {award.issuer}
+            </p>
+            <a
+              className="award-tile__source"
+              href={award.externalHref}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Source ↗
+            </a>
           </li>
         ))}
       </ul>
@@ -64,33 +65,46 @@ function AwardsList({
   );
 }
 
-function ProjectRow({
+function ProjectTile({
   project,
   onSelect,
+  wide,
 }: {
   project: Project;
   onSelect: (slug: string) => void;
+  wide?: boolean;
 }) {
+  const cover = getProjectCover(project);
+
   return (
-    <li>
+    <li className={wide ? "project-tile project-tile--wide" : "project-tile"}>
       <button
-        className="group grid w-full grid-cols-[4.5rem_1fr] items-baseline gap-x-3 gap-y-0.5 py-2.5 text-left"
+        className="project-tile__hit"
+        data-project-tile
         onClick={() => onSelect(project.slug)}
         type="button"
       >
-        <span className="text-(--text-muted) tabular-nums">
-          {project.year ?? "—"}
-        </span>
-        <span className="min-w-0">
-          <span className="group-hover:underline group-hover:underline-offset-3">
-            {project.title}
-          </span>
+        <div aria-hidden className="project-tile__media">
+          <Image
+            alt=""
+            className="project-tile__img"
+            fill
+            sizes={
+              wide
+                ? "(max-width: 768px) 100vw, 66vw"
+                : "(max-width: 768px) 100vw, 33vw"
+            }
+            src={cover}
+          />
+          <div className="project-tile__scrim" />
+        </div>
+        <div className="project-tile__body">
+          <span className="project-tile__year">{project.year ?? "————"}</span>
+          <span className="project-tile__title">{project.title}</span>
           {project.listTagline ? (
-            <span className="mt-0.5 block text-(--text-muted) text-xs">
-              {project.listTagline}
-            </span>
+            <span className="project-tile__tagline">{project.listTagline}</span>
           ) : null}
-        </span>
+        </div>
       </button>
     </li>
   );
@@ -112,19 +126,17 @@ function IndexSection({
   const headingId = `index-${category}`;
 
   return (
-    <section aria-labelledby={headingId}>
-      <h3
-        className="mb-1 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-        id={headingId}
-      >
+    <section aria-labelledby={headingId} className="archive-block">
+      <h3 className="archive-block__label" id={headingId}>
         {CATEGORY_LABELS[category]}
       </h3>
-      <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
-        {projects.map((project) => (
-          <ProjectRow
+      <ul className="project-grid">
+        {projects.map((project, index) => (
+          <ProjectTile
             key={project.slug}
             onSelect={onSelect}
             project={project}
+            wide={index % 5 === 0}
           />
         ))}
       </ul>
@@ -150,6 +162,69 @@ function groupByCategory(projects: Project[]) {
   return { grouped, uncategorized };
 }
 
+function useScrollHeat(containerRef: RefObject<HTMLElement | null>) {
+  const rafRef = useRef<number | null>(null);
+  const reducedMotion = useRef(false);
+
+  const update = useCallback(() => {
+    rafRef.current = null;
+    const root = containerRef.current;
+    if (!root) {
+      return;
+    }
+
+    const tiles = root.querySelectorAll<HTMLElement>("[data-project-tile]");
+    const vh = window.innerHeight;
+    const viewCenter = vh * 0.48;
+    const range = vh * 0.42;
+
+    for (const tile of tiles) {
+      const rect = tile.getBoundingClientRect();
+      const tileCenter = rect.top + rect.height / 2;
+      const dist = Math.abs(tileCenter - viewCenter);
+      let hot = Math.max(0, 1 - dist / range);
+
+      if (reducedMotion.current) {
+        hot = rect.top < vh && rect.bottom > 0 ? 1 : 0.35;
+      } else {
+        hot **= 1.15;
+      }
+
+      tile.style.setProperty("--hot", hot.toFixed(3));
+      tile.dataset.active = hot > 0.55 ? "true" : "false";
+    }
+  }, [containerRef]);
+
+  const schedule = useCallback(() => {
+    if (rafRef.current !== null) {
+      return;
+    }
+    rafRef.current = window.requestAnimationFrame(update);
+  }, [update]);
+
+  useLayoutEffect(() => {
+    reducedMotion.current = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    schedule();
+  }, [schedule]);
+
+  useEffect(() => {
+    const onScroll = () => schedule();
+    const onResize = () => schedule();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    schedule();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [schedule]);
+}
+
 export function ArchiveIndex({
   home,
   projects,
@@ -162,27 +237,40 @@ export function ArchiveIndex({
   onSelect: (slug: string) => void;
 }) {
   const { grouped, uncategorized } = groupByCategory(projects);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useScrollHeat(rootRef);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
-    <div className="flex flex-col gap-8">
-      <header className="space-y-1">
-        <h1 className="text-base uppercase tracking-wide">{home.name}</h1>
-        <p className="text-(--text-muted)">
-          {home.role} · {home.location}
+    <div
+      className={mounted ? "archive-index is-ready" : "archive-index"}
+      ref={rootRef}
+    >
+      <header className="archive-hero">
+        <p className="archive-hero__eyebrow">Archive / Index</p>
+        <h1 className="archive-hero__name">{home.name}</h1>
+        <p className="archive-hero__meta">
+          {home.role}
+          <span aria-hidden className="archive-hero__slash">
+            /
+          </span>
+          {home.location}
         </p>
       </header>
 
       <AwardsList awards={site.awards} onSelect={onSelect} />
 
-      <section aria-labelledby="index-heading" className="space-y-8">
-        <h2
-          className="border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-          id="index-heading"
-        >
+      <section aria-labelledby="index-heading" className="archive-index__body">
+        <h2 className="archive-block__label" id="index-heading">
           Index
         </h2>
 
-        <div className="flex flex-col gap-8">
+        <div className="archive-index__sections">
           {CATEGORY_FILTERS.map((category) => (
             <IndexSection
               category={category}
@@ -193,19 +281,17 @@ export function ArchiveIndex({
           ))}
 
           {uncategorized.length > 0 ? (
-            <section aria-labelledby="index-other">
-              <h3
-                className="mb-1 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-                id="index-other"
-              >
+            <section aria-labelledby="index-other" className="archive-block">
+              <h3 className="archive-block__label" id="index-other">
                 Other
               </h3>
-              <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
-                {uncategorized.map((project) => (
-                  <ProjectRow
+              <ul className="project-grid">
+                {uncategorized.map((project, index) => (
+                  <ProjectTile
                     key={project.slug}
                     onSelect={onSelect}
                     project={project}
+                    wide={index % 5 === 0}
                   />
                 ))}
               </ul>
@@ -214,7 +300,7 @@ export function ArchiveIndex({
         </div>
       </section>
 
-      <footer className="flex flex-wrap gap-x-4 gap-y-1 border-(--index-divider) border-t pt-4 text-(--text-muted) text-xs">
+      <footer className="archive-footer">
         <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
         {site.contactLinks.map((link) => (
           <a
