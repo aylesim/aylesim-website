@@ -2,6 +2,6 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite/core", "ultracite/react", "ultracite/next"],
   "files": {
-    "includes": ["**", "!!**/.claude"]
+    "includes": ["**", "!!**/.claude", "!!public/content.json"]
   }
 }

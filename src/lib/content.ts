@@ -152,67 +152,11 @@ export type SiteConfig = {
   siteUtilities: SiteUtility[];
 };
 
-export type FeaturedBadgeVariant = "award" | "collaboration" | "publisher";
-
-export type HowIWorkTheme = "accent" | "web" | "audio";
-
-export type HomeHero = {
-  namePrefix: string;
-  brand: string;
-  location: string;
-  headline: {
-    lead: string;
-    accent: string;
-    bridge: string;
-    emphasis: string;
-    junction: string;
-    highlight: string;
-    close: string;
-  };
-  profile: {
-    label: string;
-    paragraphs: string[];
-  };
-};
-
-export type HomeFeaturedWork = {
-  slug: string;
-  badgeLabel: string;
-  badgeVariant: FeaturedBadgeVariant;
-  title: string;
-  tags: string[];
-  description: string;
-  cover: string;
-  rotation: number;
-};
-
-export type HomeHowIWorkCard = {
-  eyebrow: string;
-  theme: HowIWorkTheme;
-  title: string;
-  tags: string[];
-  description: string;
-  rotation: number;
-};
-
-export type HomePracticeColumn = {
-  id: ProjectCategory;
-  eyebrow: string;
-  description: string;
-  useWebStack?: boolean;
-};
-
 export type HomeContent = {
-  hero: HomeHero;
-  sections: {
-    selectedWorks: string;
-    howIWork: string;
-    recognition: { title: string; intro: string };
-    contact: string;
-  };
-  featuredWorks: HomeFeaturedWork[];
-  howIWork: HomeHowIWorkCard[];
-  practiceColumns: HomePracticeColumn[];
+  name: string;
+  brand: string;
+  role: string;
+  location: string;
 };
 
 export type SiteContent = {
@@ -800,176 +744,14 @@ function getSiteConfig(): SiteConfig {
   };
 }
 
-function parseFeaturedBadgeVariant(
-  v: unknown
-): FeaturedBadgeVariant | undefined {
-  if (v === "award" || v === "collaboration" || v === "publisher") {
-    return v;
-  }
-  return;
-}
-
-function parseHowIWorkTheme(v: unknown): HowIWorkTheme | undefined {
-  if (v === "accent" || v === "web" || v === "audio") {
-    return v;
-  }
-  return;
-}
-
-function parseHomeHero(v: unknown): HomeHero {
-  const record = asRecord(v);
-  if (!record) {
-    throw new Error("content/home.md: hero is required");
-  }
-  const headline = asRecord(record.headline);
-  const profile = asRecord(record.profile);
-  if (!(headline && profile)) {
-    throw new Error("content/home.md: hero.headline and hero.profile required");
-  }
-  return {
-    namePrefix: requireString(record.namePrefix, "hero.namePrefix"),
-    brand: requireString(record.brand, "hero.brand"),
-    location: requireString(record.location, "hero.location"),
-    headline: {
-      lead: requireString(headline.lead, "hero.headline.lead"),
-      accent: requireString(headline.accent, "hero.headline.accent"),
-      bridge: requireString(headline.bridge, "hero.headline.bridge"),
-      emphasis: requireString(headline.emphasis, "hero.headline.emphasis"),
-      junction: requireString(headline.junction, "hero.headline.junction"),
-      highlight: requireString(headline.highlight, "hero.headline.highlight"),
-      close: requireString(headline.close, "hero.headline.close"),
-    },
-    profile: {
-      label: requireString(profile.label, "hero.profile.label"),
-      paragraphs: asStringArray(profile.paragraphs),
-    },
-  };
-}
-
-function parseHomeFeaturedWorks(v: unknown): HomeFeaturedWork[] {
-  if (!Array.isArray(v)) {
-    return [];
-  }
-  return v.flatMap((item, index) => {
-    const record = asRecord(item);
-    if (!record) {
-      return [];
-    }
-    const badgeVariant = parseFeaturedBadgeVariant(record.badgeVariant);
-    const rotation = asNumber(record.rotation);
-    if (!badgeVariant || rotation === undefined) {
-      throw new Error(
-        `content/home.md: featuredWorks[${index}] missing badgeVariant or rotation`
-      );
-    }
-    return [
-      {
-        slug: requireString(record.slug, `featuredWorks[${index}].slug`),
-        badgeLabel: requireString(
-          record.badgeLabel,
-          `featuredWorks[${index}].badgeLabel`
-        ),
-        badgeVariant,
-        title: requireString(record.title, `featuredWorks[${index}].title`),
-        tags: asStringArray(record.tags),
-        description: requireString(
-          record.description,
-          `featuredWorks[${index}].description`
-        ),
-        cover: requireString(record.cover, `featuredWorks[${index}].cover`),
-        rotation,
-      },
-    ];
-  });
-}
-
-function parseHomeHowIWork(v: unknown): HomeHowIWorkCard[] {
-  if (!Array.isArray(v)) {
-    return [];
-  }
-  return v.flatMap((item, index) => {
-    const record = asRecord(item);
-    if (!record) {
-      return [];
-    }
-    const theme = parseHowIWorkTheme(record.theme);
-    const rotation = asNumber(record.rotation);
-    if (!theme || rotation === undefined) {
-      throw new Error(
-        `content/home.md: howIWork[${index}] missing theme or rotation`
-      );
-    }
-    return [
-      {
-        eyebrow: requireString(record.eyebrow, `howIWork[${index}].eyebrow`),
-        theme,
-        title: requireString(record.title, `howIWork[${index}].title`),
-        tags: asStringArray(record.tags),
-        description: requireString(
-          record.description,
-          `howIWork[${index}].description`
-        ),
-        rotation,
-      },
-    ];
-  });
-}
-
-function parseHomePracticeColumns(v: unknown): HomePracticeColumn[] {
-  if (!Array.isArray(v)) {
-    return [];
-  }
-  return v.flatMap((item, index) => {
-    const record = asRecord(item);
-    if (!record) {
-      return [];
-    }
-    const id = asProjectCategory(record.id);
-    if (!id) {
-      throw new Error(`content/home.md: practiceColumns[${index}].id invalid`);
-    }
-    return [
-      {
-        id,
-        eyebrow: requireString(
-          record.eyebrow,
-          `practiceColumns[${index}].eyebrow`
-        ),
-        description: requireString(
-          record.description,
-          `practiceColumns[${index}].description`
-        ),
-        useWebStack: record.useWebStack === true,
-      },
-    ];
-  });
-}
-
 function getHome(): HomeContent {
   const filePath = path.join(contentDir, "home.md");
   const { data } = readMd(filePath);
-  const sections = asRecord(data.sections);
-  const recognition = sections ? asRecord(sections.recognition) : undefined;
-  if (!(sections && recognition)) {
-    throw new Error("content/home.md: sections.recognition required");
-  }
   return {
-    hero: parseHomeHero(data.hero),
-    sections: {
-      selectedWorks: requireString(
-        sections.selectedWorks,
-        "sections.selectedWorks"
-      ),
-      howIWork: requireString(sections.howIWork, "sections.howIWork"),
-      recognition: {
-        title: requireString(recognition.title, "sections.recognition.title"),
-        intro: requireString(recognition.intro, "sections.recognition.intro"),
-      },
-      contact: requireString(sections.contact, "sections.contact"),
-    },
-    featuredWorks: parseHomeFeaturedWorks(data.featuredWorks),
-    howIWork: parseHomeHowIWork(data.howIWork),
-    practiceColumns: parseHomePracticeColumns(data.practiceColumns),
+    name: requireString(data.name, "name"),
+    brand: requireString(data.brand, "brand"),
+    role: requireString(data.role, "role"),
+    location: requireString(data.location, "location"),
   };
 }
 

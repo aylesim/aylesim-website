@@ -7,9 +7,8 @@ import { contentJsonUrl } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "I feel too lazy to read all this | Aylesim",
-  description:
-    "Structured JSON of this portfolio. Paste or link it into your AI and ask anything about Alessandro Miracapillo’s work.",
+  title: "JSON | Aylesim",
+  description: "Structured JSON of this portfolio.",
 };
 
 export default function AskAi() {

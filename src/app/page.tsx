@@ -1,14 +1,12 @@
 import { Suspense } from "react";
-import RectNav from "@/components/home/rect-nav";
+import ArchiveShell from "@/components/home/archive-shell";
 import { getAllContent } from "@/lib/content";
 
 export default function Home() {
   const content = getAllContent();
   return (
-    <div className="flex min-h-dvh flex-col bg-bg">
-      <Suspense>
-        <RectNav content={content} />
-      </Suspense>
-    </div>
+    <Suspense>
+      <ArchiveShell content={content} />
+    </Suspense>
   );
 }

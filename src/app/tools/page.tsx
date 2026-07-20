@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { ToolsPage } from "@/components/tools/tools-page";
 import { getAllContent } from "@/lib/content";
+
 export const metadata: Metadata = {
   title: "Tools | Aylesim",
-  description:
-    "Max for Live devices, Glossia, and shortcuts for using this portfolio with an assistant.",
+  description: "Max for Live devices and browser tools.",
 };
 
 export default function Tools() {
