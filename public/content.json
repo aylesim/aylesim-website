@@ -297,6 +297,37 @@
         "menuLabel": "community"
       },
       {
+        "slug": "isotonik-studios",
+        "title": "Isotonik Studios",
+        "year": "ongoing",
+        "category": "community",
+        "categoryLabel": "Community",
+        "tags": [
+          "Max for Live",
+          "Product Distribution",
+          "Developer Collective"
+        ],
+        "description": "## Overview\n\n[Isotonik Studios](https://isotonikstudios.com/) is an independent collective of developers for electronic music production, with a strong Max for Live and Ableton Live catalog.\n\nI publish under the **Aylesim** brand on their store: devices ship through Isotonik alongside Gumroad, so performers get a single place for purchase, updates, and support.\n\n## What it covers\n\n- Distribution of Aylesim Max for Live devices through the Isotonik catalog\n- Brand presence at [isotonikstudios.com/brand/aylesim](https://isotonikstudios.com/brand/aylesim/)\n- Ongoing product updates and support tied to that storefront",
+        "highlights": [
+          "Aylesim Devices distributed through the Isotonik Studios collective",
+          "Brand page for Birds, Knob Studio, Disco, and related Max for Live tools",
+          "Shared storefront for updates, licensing, and support alongside Gumroad"
+        ],
+        "link": "https://isotonikstudios.com/brand/aylesim/",
+        "linkLabel": "Visit live",
+        "primaryMeta": [
+          "Isotonik Studios",
+          "ongoing"
+        ],
+        "secondaryMeta": "Developer (Aylesim)",
+        "featured": false,
+        "listTagline": "Independent Max for Live developer collective",
+        "listBadges": [],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "community"
+      },
+      {
         "slug": "tedx-barletta",
         "title": "TEDx Barletta",
         "category": "installations",
