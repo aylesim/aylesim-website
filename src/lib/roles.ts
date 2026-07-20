@@ -5,15 +5,15 @@ export type ProjectCategory =
   | "community";
 
 export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
-  devices: "Devices",
+  devices: "Audio tools",
   "web-interactive": "Web",
-  installations: "Installations",
   community: "Community",
+  installations: "Artworks",
 };
 
 export const CATEGORY_FILTERS: ProjectCategory[] = [
   "devices",
   "web-interactive",
-  "installations",
   "community",
+  "installations",
 ];
