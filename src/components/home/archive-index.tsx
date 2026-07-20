@@ -1,7 +1,64 @@
 "use client";
 
-import type { HomeContent, Project, SiteConfig } from "@/lib/content";
+import type { Award, HomeContent, Project, SiteConfig } from "@/lib/content";
 import { CATEGORY_LABELS } from "@/lib/roles";
+
+function AwardsList({
+  awards,
+  onSelect,
+}: {
+  awards: Award[];
+  onSelect: (slug: string) => void;
+}) {
+  if (awards.length === 0) {
+    return null;
+  }
+
+  return (
+    <section aria-labelledby="awards-heading" className="space-y-3">
+      <h2
+        className="border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
+        id="awards-heading"
+      >
+        Prizes
+      </h2>
+      <ul className="m-0 list-none space-y-4 p-0">
+        {awards.map((award) => (
+          <li
+            className="border-(--index-divider) border-b pb-4 last:border-b-0 last:pb-0"
+            key={`${award.year}-${award.projectSlug}-${award.title}`}
+          >
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <span className="text-(--text-muted) tabular-nums">
+                  {award.year}
+                </span>
+                <button
+                  className="text-left underline-offset-3 hover:underline"
+                  onClick={() => onSelect(award.projectSlug)}
+                  type="button"
+                >
+                  {award.headline}
+                </button>
+              </div>
+              <p className="text-(--text-muted) text-xs">
+                {award.title} · {award.issuer}
+              </p>
+              <a
+                className="w-fit text-xs underline underline-offset-3"
+                href={award.externalHref}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Source
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
 
 export function ArchiveIndex({
   home,
@@ -15,7 +72,7 @@ export function ArchiveIndex({
   onSelect: (slug: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8">
       <header className="space-y-1">
         <h1 className="text-base uppercase tracking-wide">{home.name}</h1>
         <p className="text-(--text-muted)">
@@ -23,9 +80,11 @@ export function ArchiveIndex({
         </p>
       </header>
 
+      <AwardsList awards={site.awards} onSelect={onSelect} />
+
       <section aria-labelledby="index-heading">
         <h2
-          className="mb-3 border-(--index-divider) border-b pb-2 text-(--text-muted) text-xs uppercase tracking-widest"
+          className="mb-3 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
           id="index-heading"
         >
           Index
@@ -42,7 +101,7 @@ export function ArchiveIndex({
                   onClick={() => onSelect(project.slug)}
                   type="button"
                 >
-                  <span className="text-(--text-faint) tabular-nums">
+                  <span className="text-(--text-muted) tabular-nums">
                     {project.year ?? "—"}
                   </span>
                   <span className="min-w-0">
@@ -50,13 +109,13 @@ export function ArchiveIndex({
                       {project.title}
                     </span>
                     {project.listTagline ? (
-                      <span className="mt-0.5 block text-(--text-faint) text-xs">
+                      <span className="mt-0.5 block text-(--text-muted) text-xs">
                         {project.listTagline}
                       </span>
                     ) : null}
                   </span>
                   {categoryLabel ? (
-                    <span className="col-start-2 text-(--text-faint) text-xs sm:col-start-auto sm:text-right">
+                    <span className="col-start-2 text-(--text-muted) text-xs sm:col-start-auto sm:text-right">
                       {categoryLabel}
                     </span>
                   ) : null}

@@ -85,7 +85,7 @@ export type ContactLink = {
   href: string;
 };
 
-export type PrimaryAward = {
+export type Award = {
   headline: string;
   title: string;
   subtitle: string;
@@ -146,7 +146,7 @@ export type SiteConfig = {
   maxBerlinCommunityProof: string;
   nationalArtsAwardProjectSlug: string;
   contactLinks: ContactLink[];
-  primaryAward: PrimaryAward;
+  awards: Award[];
   pressMentions: PressMention[];
   toolsPage: ToolsPageCopy;
   siteUtilities: SiteUtility[];
@@ -559,27 +559,36 @@ function parseContactLinks(v: unknown): ContactLink[] {
   });
 }
 
-function parsePrimaryAward(v: unknown): PrimaryAward {
-  const record = asRecord(v);
-  if (!record) {
-    throw new Error("content/site.md: primaryAward is required");
-  }
+function parseAward(record: Record<string, unknown>, fieldPath: string): Award {
   return {
-    headline: requireString(record.headline, "primaryAward.headline"),
-    title: requireString(record.title, "primaryAward.title"),
-    subtitle: requireString(record.subtitle, "primaryAward.subtitle"),
-    issuer: requireString(record.issuer, "primaryAward.issuer"),
-    year: requireString(record.year, "primaryAward.year"),
-    projectSlug: requireString(record.projectSlug, "primaryAward.projectSlug"),
+    headline: requireString(record.headline, `${fieldPath}.headline`),
+    title: requireString(record.title, `${fieldPath}.title`),
+    subtitle: requireString(record.subtitle, `${fieldPath}.subtitle`),
+    issuer: requireString(record.issuer, `${fieldPath}.issuer`),
+    year: requireString(record.year, `${fieldPath}.year`),
+    projectSlug: requireString(record.projectSlug, `${fieldPath}.projectSlug`),
     externalHref: requireString(
       record.externalHref,
-      "primaryAward.externalHref"
+      `${fieldPath}.externalHref`
     ),
     externalLabel: requireString(
       record.externalLabel,
-      "primaryAward.externalLabel"
+      `${fieldPath}.externalLabel`
     ),
   };
+}
+
+function parseAwards(v: unknown): Award[] {
+  if (!Array.isArray(v) || v.length === 0) {
+    throw new Error("content/site.md: awards must be a non-empty array");
+  }
+  return v.map((item, index) => {
+    const record = asRecord(item);
+    if (!record) {
+      throw new Error(`content/site.md: awards[${index}] invalid`);
+    }
+    return parseAward(record, `awards[${index}]`);
+  });
 }
 
 function parsePressMentions(v: unknown): PressMention[] {
@@ -737,7 +746,7 @@ function getSiteConfig(): SiteConfig {
       "nationalArtsAwardProjectSlug"
     ),
     contactLinks: parseContactLinks(data.contactLinks),
-    primaryAward: parsePrimaryAward(data.primaryAward),
+    awards: parseAwards(data.awards),
     pressMentions: parsePressMentions(data.pressMentions),
     toolsPage: parseToolsPageCopy(data.toolsPage),
     siteUtilities: parseSiteUtilities(data.siteUtilities),
