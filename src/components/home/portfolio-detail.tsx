@@ -3,8 +3,7 @@ import ReactMarkdown from "react-markdown";
 import { ProjectTags } from "@/components/home/project-tags";
 import type { Project, ProjectVideo, SiteConfig } from "@/lib/content";
 
-const detailLinkClass =
-  "underline decoration-[var(--foreground)]/35 underline-offset-[3px]";
+const detailLinkClass = "underline underline-offset-3";
 
 const youtubeEmbedPath = /^\/embed\/([^/?]+)/;
 const vimeoPlayerPath = /^\/video\/(\d+)/;
@@ -13,22 +12,12 @@ const vimeoNumericSegment = /^\d+$/;
 const hostnameWwwPrefix = /^www\./;
 
 function Meta({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-(--text-muted) text-xs leading-relaxed">{children}</p>
-  );
-}
-
-function PrimaryLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mb-3 block w-fit bg-(--badge-bg) px-3 py-1.5 text-(--badge-fg) text-sm leading-none tracking-tight sm:text-base">
-      {children}
-    </p>
-  );
+  return <p className="text-(--text-muted) text-xs">{children}</p>;
 }
 
 function DetailLinks({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-4 flex flex-wrap gap-x-5 gap-y-1 text-xs">
+    <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs">
       {children}
     </div>
   );
@@ -36,7 +25,7 @@ function DetailLinks({ children }: { children: React.ReactNode }) {
 
 function HighlightsList({ items }: { items: string[] }) {
   return (
-    <ul className="mt-4 list-inside list-disc space-y-1 text-(--text-muted) text-xs leading-relaxed">
+    <ul className="mt-6 list-inside list-disc space-y-1 text-(--text-muted) text-xs">
       {items.map((h) => (
         <li key={h}>{h}</li>
       ))}
@@ -278,23 +267,24 @@ export function ProjectDetail({
   }
   const [primaryLabel, ...remainingPrimaryMeta] = project.primaryMeta;
   const galleryPaths = galleryPathsForDetail(project);
+  const metaParts = [
+    primaryLabel,
+    ...remainingPrimaryMeta,
+    project.secondaryMeta,
+  ].filter(Boolean);
   return (
-    <div className="w-full max-w-4xl">
-      <h2 className="mb-3 block w-fit bg-(--badge-bg) px-4 py-2 text-(--badge-fg) text-3xl leading-[0.95] tracking-tight sm:text-5xl">
+    <article className="w-full max-w-3xl">
+      <h1 className="mb-2 text-xl tracking-tight sm:text-2xl">
         {project.title}
-      </h2>
-      {primaryLabel ? <PrimaryLabel>{primaryLabel}</PrimaryLabel> : null}
-      {remainingPrimaryMeta.length > 0 ? (
-        <Meta>{remainingPrimaryMeta.join(" · ")}</Meta>
-      ) : null}
-      {project.secondaryMeta ? <Meta>{project.secondaryMeta}</Meta> : null}
+      </h1>
+      {metaParts.length > 0 ? <Meta>{metaParts.join(" · ")}</Meta> : null}
       {project.slug === site.aylesimDevicesSlug ? (
         <Meta>{site.audioDeveloperProductLine}</Meta>
       ) : null}
       {project.tags.length > 0 ? (
         <ProjectTags
           category={project.category}
-          className="mt-2 mb-1"
+          className="mt-3 mb-1"
           tags={project.tags}
         />
       ) : null}
@@ -310,7 +300,7 @@ export function ProjectDetail({
           </a>
         </DetailLinks>
       ) : null}
-      <div className="mt-4 text-(--foreground) text-sm leading-relaxed">
+      <div className="mt-6 text-(--foreground) text-sm leading-relaxed">
         <ProjectMarkdownBody source={project.description} />
       </div>
       {project.videos && project.videos.length > 0 ? (
@@ -327,6 +317,6 @@ export function ProjectDetail({
       {project.highlights.length > 0 ? (
         <HighlightsList items={project.highlights} />
       ) : null}
-    </div>
+    </article>
   );
 }

@@ -1,17 +1,17 @@
 ---
 origin: https://aylesim.com
-description: Berlin audio developer, web developer, and creative technologist. Max for Live devices, production websites, installations, and live AV.
+description: Creative technologist. Max for Live devices, web, installations, live AV. Berlin.
 contactEmail: ay@alessandromiracapillo.com
 contactAvailability: Available for frontend engineering and collaborative creative technology projects.
-webDeveloperStack: TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems
+webDeveloperStack: TypeScript · React · Next.js · Node · headless CMS · accessibility · performance
 resumeHref: /resume.pdf
 resumeLabel: Resume (PDF)
 aylesimDevicesSlug: aylesim-devices
 aylesimDevicesCustomerCount: 3600
-audioDeveloperProductLine: Through Aylesim Devices, I design and maintain a line of Max for Live tools used by 3,600+ customers and featured by Isotonik Studios and Attack Magazine.
+audioDeveloperProductLine: Aylesim Devices — Max for Live tools. 3,600+ customers. Isotonik Studios, Attack Magazine.
 maxBerlinNetworkUrl: https://www.maxberlin.network/
 maxBerlinCommunitySlug: max-berlin-network
-maxBerlinCommunityProof: Co-founded in 2025. Recurring in-person meetups for Max/MSP and creative audio in Berlin, demos, troubleshooting, shared patching.
+maxBerlinCommunityProof: Co-founded 2025. In-person Max/MSP meetups, Berlin.
 nationalArtsAwardProjectSlug: please-set-a-password
 contactLinks:
   - label: LinkedIn
@@ -50,33 +50,33 @@ pressMentions:
     projectSlug: knob-studio
     href: https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/
 toolsPage:
-  lede: Stuff you can run, buy, or open in a tab. The rest of this site is case studies and context. This is what you can actually use.
-  footer: Installations, performances, and client work are under
-  footerLink: Projects
+  lede: Things you can run, buy, or open.
+  footer: Other work is under
+  footerLink: Index
   sections:
     devices:
       title: Aylesim Devices
-      intro: "Max for Live patches for Ableton Live: sequencers, modulation, sample tools. I build them for my own sets first; most ship through Gumroad and Isotonik, a couple are free."
+      intro: Max for Live. Sequencers, modulation, sample tools. Gumroad and Isotonik.
     web:
-      title: In the browser
-      intro: No installer, no Live required. Open the link and try it.
+      title: Browser
+      intro: No installer. Open the link.
     shortcuts:
-      title: In a hurry?
-      intro: Rather skim with an assistant than read every page, same idea as Too lazy to read.
+      title: Shortcuts
+      intro: Site as JSON for assistants.
   labels:
-    portfolioLink: Case study
+    portfolioLink: Entry
     unavailable: Not distributed
     buy: Buy / download
     open: Open
-    readMore: Read more
+    readMore: Read
 siteUtilities:
   - title: Too lazy to read
-    tagline: The whole site as one JSON file. Paste the URL into a chat, or copy the dump from the page.
+    tagline: Whole site as one JSON file.
     href: /ask-ai
-    actionLabel: How to use it
+    actionLabel: How to use
   - title: content.json
-    tagline: The raw file, same data, no walkthrough. Handy for scripts or plugins.
+    tagline: Raw file.
     href: /content.json
     external: true
-    actionLabel: Get the JSON
+    actionLabel: Get JSON
 ---

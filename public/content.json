@@ -20,7 +20,9 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["Aylesim Devices"],
+        "primaryMeta": [
+          "Aylesim Devices"
+        ],
         "secondaryMeta": "Developer & Designer",
         "workScope": "commercial",
         "featured": false,
@@ -47,7 +49,9 @@
             "url": "https://www.youtube.com/watch?v=0-D_bPzaqfo"
           }
         ],
-        "images": ["/Birdsgr.png"],
+        "images": [
+          "/Birdsgr.png"
+        ],
         "showInMenu": true,
         "menuLabel": "max4live"
       },
@@ -55,7 +59,7 @@
         "slug": "planetary-compendium",
         "title": "Planetary Compendium",
         "category": "web-interactive",
-        "categoryLabel": "Web & Interactive",
+        "categoryLabel": "Web",
         "tags": [
           "Frontend Architecture",
           "Scrollytelling",
@@ -70,11 +74,15 @@
         ],
         "link": "https://governtheplanet.org/",
         "linkLabel": "Visit live",
-        "primaryMeta": ["Berggruen Institute × Dark Matter Labs"],
+        "primaryMeta": [
+          "Berggruen Institute × Dark Matter Labs"
+        ],
         "secondaryMeta": "Frontend Developer",
         "featured": false,
         "listBadges": [],
-        "images": ["/planetary.png"],
+        "images": [
+          "/planetary.png"
+        ],
         "showInMenu": true,
         "menuLabel": "web"
       },
@@ -83,7 +91,7 @@
         "title": "Max Berlin Network",
         "year": "2025–ongoing",
         "category": "web-interactive",
-        "categoryLabel": "Web & Interactive",
+        "categoryLabel": "Web",
         "tags": [
           "Frontend Architecture",
           "Next.js / TypeScript",
@@ -98,7 +106,10 @@
         ],
         "link": "https://www.maxberlin.network/",
         "linkLabel": "Visit live",
-        "primaryMeta": ["Max Berlin Network", "2025–ongoing"],
+        "primaryMeta": [
+          "Max Berlin Network",
+          "2025–ongoing"
+        ],
         "secondaryMeta": "Co-Founder & Web Developer",
         "featured": false,
         "listBadges": [],
@@ -128,7 +139,9 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["Aylesim Devices"],
+        "primaryMeta": [
+          "Aylesim Devices"
+        ],
         "secondaryMeta": "Developer & Designer",
         "workScope": "commercial",
         "featured": false,
@@ -174,7 +187,9 @@
             "url": "https://www.youtube.com/watch?v=J0A9h0l-F2s"
           }
         ],
-        "images": ["/knobstudio.png"],
+        "images": [
+          "/knobstudio.png"
+        ],
         "showInMenu": true,
         "menuLabel": "max4live"
       },
@@ -183,7 +198,7 @@
         "title": "Glossia",
         "year": "2026",
         "category": "web-interactive",
-        "categoryLabel": "Web & Interactive",
+        "categoryLabel": "Web",
         "tags": [
           "Frontend Architecture",
           "React / TypeScript",
@@ -196,7 +211,10 @@
         ],
         "link": "https://glossia-seven.vercel.app",
         "linkLabel": "Visit live",
-        "primaryMeta": ["Open source", "2026"],
+        "primaryMeta": [
+          "Open source",
+          "2026"
+        ],
         "secondaryMeta": "Developer",
         "featured": false,
         "listTagline": "Interactive audio/visual web playground",
@@ -209,7 +227,7 @@
         "slug": "tedx-barletta",
         "title": "TEDx Barletta",
         "category": "installations",
-        "categoryLabel": "Installations & Artworks",
+        "categoryLabel": "Installations",
         "tags": [
           "Max/MSP",
           "Live Projection",
@@ -224,7 +242,9 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["TEDx Barletta"],
+        "primaryMeta": [
+          "TEDx Barletta"
+        ],
         "secondaryMeta": "Visual Artist",
         "featured": false,
         "listBadges": [],
@@ -258,7 +278,10 @@
           "Tuned the UI around spatial readout of time and level so delay density stays interpretable while taps move"
         ],
         "linkLabel": "Buy",
-        "primaryMeta": ["Aylesim Devices", "2022"],
+        "primaryMeta": [
+          "Aylesim Devices",
+          "2022"
+        ],
         "secondaryMeta": "Developer & Designer",
         "workScope": "commercial",
         "featured": false,
@@ -284,7 +307,9 @@
             "url": "https://www.youtube.com/watch?v=UDeSFi8StDw"
           }
         ],
-        "images": ["/disco.png"],
+        "images": [
+          "/disco.png"
+        ],
         "showInMenu": true,
         "menuLabel": "max4live"
       },
@@ -310,7 +335,10 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["Product Line", "2020–ongoing"],
+        "primaryMeta": [
+          "Product Line",
+          "2020–ongoing"
+        ],
         "secondaryMeta": "Instrument Builder",
         "workScope": "commercial",
         "featured": false,
@@ -341,7 +369,10 @@
           "Shipped the device as open source so others can audit, fork, or extend the integration"
         ],
         "linkLabel": "Buy",
-        "primaryMeta": ["Aylesim Devices", "2023"],
+        "primaryMeta": [
+          "Aylesim Devices",
+          "2023"
+        ],
         "workScope": "commercial",
         "featured": false,
         "listBadges": [
@@ -357,7 +388,9 @@
             "url": "https://www.youtube.com/watch?v=x8-n1uze24s"
           }
         ],
-        "images": ["/ffl.png"],
+        "images": [
+          "/ffl.png"
+        ],
         "showInMenu": true,
         "menuLabel": "max4live"
       },
@@ -381,7 +414,10 @@
           "Shipped as a free Gumroad download with over two thousand downloads to date"
         ],
         "linkLabel": "Download",
-        "primaryMeta": ["Aylesim Devices", "2022"],
+        "primaryMeta": [
+          "Aylesim Devices",
+          "2022"
+        ],
         "secondaryMeta": "Developer & Designer",
         "workScope": "commercial",
         "featured": false,
@@ -397,7 +433,9 @@
             "url": "https://elphnt.io/max-for-live-curated-collection/"
           }
         ],
-        "images": ["/LN.png"],
+        "images": [
+          "/LN.png"
+        ],
         "showInMenu": true,
         "menuLabel": "max4live"
       },
@@ -406,8 +444,12 @@
         "title": "Please Set a Password",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Installations & Artworks",
-        "tags": ["Networked Systems", "Real-time Video", "Generative Audio"],
+        "categoryLabel": "Installations",
+        "tags": [
+          "Networked Systems",
+          "Real-time Video",
+          "Generative Audio"
+        ],
         "description": "## Overview\n\n**Please Set a Password** is an audio-visual installation about mass surveillance and personal responsibility online. It asks the audience to sit with how easily private and semi-private spaces end up visible when camera software is left open to the network, and how normalised that exposure has become.\n\nThe title is deliberately plain: it reads like a forgotten default prompt, but it doubles as a direct appeal to anyone who installs or maintains these systems to actually secure them.\n",
         "descriptionAfterVideos": "## How it works\n\nThe piece runs a custom process that **searches the public internet for hosts serving the web interfaces of unsecured surveillance cameras**, then **pulls and displays their feeds in real time** inside the installation. What appears on screen is not staged footage: it is live material from cameras that are reachable without authentication, which makes the viewing situation ethically charged by construction.\n\nThe **sound** is not a separate soundtrack: it is **generated in real time through audio synthesis shaped by image analysis** of the video stream, so timbre and density track what the image is doing. The aim is an immersive field where image and sound both push toward unease rather than spectacle for its own sake.\n\n## Recognition\n\nThe work was awarded **first place in Electronic Arts** at the **Italian National Arts Award XV** (Premio Nazionale delle Arti Italiane), in **Sassari, Italy**.\n\n## Skills involved\n\nThe project sits at the intersection of **networked systems**, **real-time media**, and **installation dramaturgy**: building a pipeline that can run continuously in a room, deciding what is acceptable to show and how fast the audience should be confronted, and keeping the technical frame legible enough that the political reading does not get lost in jargon.",
         "highlights": [
@@ -417,7 +459,10 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["Independent", "2022"],
+        "primaryMeta": [
+          "Independent",
+          "2022"
+        ],
         "secondaryMeta": "Artist",
         "featured": false,
         "listBadges": [],
@@ -436,8 +481,12 @@
         "title": "There Will Be No More Determination",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Installations & Artworks",
-        "tags": ["GAN Training", "Computational Imaging", "Moving Image"],
+        "categoryLabel": "Installations",
+        "tags": [
+          "GAN Training",
+          "Computational Imaging",
+          "Moving Image"
+        ],
         "description": "## Overview\n\n**There Will Be No More Determination** is an artwork about **military imaging technology** and what it does to the people caught inside its frame. It uses **generative adversarial networks (GANs)** to rework **helicopter footage from conflict zones** into abstract images: the source material stays legible as “war vision” from above, while the model’s output pushes toward something uncanny, flattened, and hard to stabilise morally.\n\nThe title nods to **Éléonore Weber**’s documentary **There Will Be No More Night** (with **Nathalie Richard**): not as illustration, but as a shared question about **agency** - what happens to determination, orientation, and care when sight is weaponised and bodies are reduced to coordinates.\n",
         "descriptionAfterVideos": "## How it works\n\nThe technical core is a **GAN pipeline** trained around **military helicopter video** from **Afghanistan, Iraq, Pakistan**, and comparable contexts. The network learns from patterns in that material, then **generates images** that inherit its textures and motion logic without reproducing a clean “scene.” The point is not to celebrate the model, but to use its capacity for **semantic drift** as a mirror: the same statistical machinery that can produce compelling images is also continuous with the abstraction that makes violence easier to administer at distance.\n\n## Context\n\nThe work was developed during **Con.divisione Residenza 2022** in **Maul**, as a period of focused production around the project’s dataset, training runs, and how the outputs should be shown in space.\n\n## Skills involved\n\nThe piece brought together **dataset ethics and limits**, **GAN training and evaluation**, and **exhibition thinking** - how many images, at what scale, how fast the viewer should move from aesthetic pleasure to recognition of source. It sits in my practice next to other systems-led work: define the behaviour and the political frame first, then let the technical pipeline expose what is already inside the material.",
         "highlights": [
@@ -447,7 +496,10 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["Independent", "2022"],
+        "primaryMeta": [
+          "Independent",
+          "2022"
+        ],
         "secondaryMeta": "Artist",
         "featured": false,
         "listBadges": [],
@@ -457,7 +509,9 @@
             "url": "https://vimeo.com/783690002"
           }
         ],
-        "images": ["/tw0.jpg"],
+        "images": [
+          "/tw0.jpg"
+        ],
         "showInMenu": true,
         "menuLabel": "artwork"
       },
@@ -466,7 +520,7 @@
         "title": "Wikyslavery",
         "year": "2023",
         "category": "installations",
-        "categoryLabel": "Installations & Artworks",
+        "categoryLabel": "Installations",
         "tags": [
           "Platform Automation",
           "Net Art Systems",
@@ -481,7 +535,10 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["Independent", "2023"],
+        "primaryMeta": [
+          "Independent",
+          "2023"
+        ],
         "secondaryMeta": "Artist",
         "featured": false,
         "listBadges": [],
@@ -500,7 +557,7 @@
         "title": "Fonema",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Installations & Artworks",
+        "categoryLabel": "Installations",
         "tags": [
           "Neural Audio Processing",
           "Machine Listening",
@@ -515,7 +572,10 @@
         ],
         "link": null,
         "linkLabel": "Visit live",
-        "primaryMeta": ["Independent", "2022"],
+        "primaryMeta": [
+          "Independent",
+          "2022"
+        ],
         "secondaryMeta": "Artist",
         "featured": false,
         "listBadges": [],
@@ -531,160 +591,33 @@
       }
     ],
     "about": {
-      "lede": "Frontend Engineer & Media Artist. Software engineer and creative technologist at the convergence of code, interactive systems, and spatial computing.",
+      "lede": "I'm a creative technologist.",
       "subtitle": "Alessandro Miracapillo / aylesim · Berlin",
-      "portrait": "/portrait.png",
-      "body": "## Biography\n\nI am a software engineer and creative technologist working at the convergence of code, interactive systems, and spatial computing. My practice bridges the strict reliability of enterprise web development with the open-ended experimentation of media art.\n\nCurrently, I specialize in architecting complex, low-latency frontend systems using **React and TypeScript**, while simultaneously developing custom audio software and real-time interactive installations.\n\nMy engineering philosophy is rooted in control over technical complexity. Whether I am optimizing data-flows for a highly scalable web ecosystem, managing complex application states, or programming hardware sensors for a live physical exhibition, my objective remains identical: to build rock-solid architectural foundations that deliver flawless, highly responsive user experiences.\n\n## Philosophy\n\n### Engineering as an Art, Art as an Engineering Discipline\n\nI do not view web engineering and creative technology as separate tracks. They feed into one another.\n\n- **From Audio to the Web:** Programming custom audio tools and Max for Live devices (currently trusted by **3600+** musicians worldwide) requires an obsessive focus on performance, memory optimization, and microsecond latency. I bring this exact same performance-first mindset to modern web applications, ensuring fast render times, clean bundle sizes, and flawless state management.\n- **From Space to the Interface:** Designing software for physical installations taught me that user behavior is unpredictable. I build web interfaces with the same structural integrity required of public-facing art installations, systems designed to handle edge cases, adapt to constraints, and remain completely stable under real-world pressure.\n\nI thrive in environments that require deep technical problem-solving, clean code architecture, and a strong sense of visual and structural aesthetics.\n\n## Technical Capabilities & Toolkit\n\n- **Frontend Engineering:** React, TypeScript, Next.js, Node.js, Redux / State Management, JavaScript (ES6+), HTML5/CSS3.\n- **Architecture & Systems:** Complex Data Flows, Performance Optimization, Scalable Web Ecosystems, Headless CMS Integration, Accessibility (a11y).\n- **Creative Technology:** Max/MSP (Max for Live), Interactive Installations, Generative Systems, Hardware-Software Interfacing, Audio & Visual Programming.\n\n## Currently\n\nI am available for frontend engineering and collaborative creative technology projects.",
+      "body": "Berlin. Frontend, Max for Live, installations, live AV.\n\nAvailable for frontend engineering and collaborative creative technology projects.",
       "sections": [
         {
-          "label": "Biography",
-          "content": "I am a software engineer and creative technologist working at the convergence of code, interactive systems, and spatial computing. My practice bridges the strict reliability of enterprise web development with the open-ended experimentation of media art.\n\nCurrently, I specialize in architecting complex, low-latency frontend systems using **React and TypeScript**, while simultaneously developing custom audio software and real-time interactive installations.\n\nMy engineering philosophy is rooted in control over technical complexity. Whether I am optimizing data-flows for a highly scalable web ecosystem, managing complex application states, or programming hardware sensors for a live physical exhibition, my objective remains identical: to build rock-solid architectural foundations that deliver flawless, highly responsive user experiences."
-        },
-        {
-          "label": "Philosophy",
-          "content": "### Engineering as an Art, Art as an Engineering Discipline\n\nI do not view web engineering and creative technology as separate tracks. They feed into one another.\n\n- **From Audio to the Web:** Programming custom audio tools and Max for Live devices (currently trusted by **3600+** musicians worldwide) requires an obsessive focus on performance, memory optimization, and microsecond latency. I bring this exact same performance-first mindset to modern web applications, ensuring fast render times, clean bundle sizes, and flawless state management.\n- **From Space to the Interface:** Designing software for physical installations taught me that user behavior is unpredictable. I build web interfaces with the same structural integrity required of public-facing art installations, systems designed to handle edge cases, adapt to constraints, and remain completely stable under real-world pressure.\n\nI thrive in environments that require deep technical problem-solving, clean code architecture, and a strong sense of visual and structural aesthetics."
-        },
-        {
-          "label": "Technical Capabilities & Toolkit",
-          "content": "- **Frontend Engineering:** React, TypeScript, Next.js, Node.js, Redux / State Management, JavaScript (ES6+), HTML5/CSS3.\n- **Architecture & Systems:** Complex Data Flows, Performance Optimization, Scalable Web Ecosystems, Headless CMS Integration, Accessibility (a11y).\n- **Creative Technology:** Max/MSP (Max for Live), Interactive Installations, Generative Systems, Hardware-Software Interfacing, Audio & Visual Programming."
-        },
-        {
-          "label": "Currently",
-          "content": "I am available for frontend engineering and collaborative creative technology projects."
+          "label": "Berlin. Frontend, Max for Live, installations, live AV.",
+          "content": "Available for frontend engineering and collaborative creative technology projects."
         }
       ]
     },
     "home": {
-      "hero": {
-        "namePrefix": "Alessandro Miracapillo /",
-        "brand": "aylesim",
-        "location": "Berlin",
-        "headline": {
-          "lead": "I design and program",
-          "accent": "high-performance digital systems",
-          "bridge": "where",
-          "emphasis": "advanced frontend engineering",
-          "junction": "and",
-          "highlight": "interactive spaces",
-          "close": "meet."
-        },
-        "profile": {
-          "label": "Profile",
-          "paragraphs": [
-            "I am a Frontend Engineer and Media Artist specializing in the intersection of code, interactive sound, and physical space.",
-            "My work bridges the rigor of enterprise software engineering with the experimentation of creative technology. Day-to-day, I build complex, high-performance web applications using React and TypeScript, applying the same obsession with latency and state management that I use to develop Max for Live audio tools (used by thousands of musicians) and interactive spatial installations."
-          ]
-        }
-      },
-      "sections": {
-        "selectedWorks": "Selected works",
-        "howIWork": "How I work",
-        "recognition": {
-          "title": "Recognition",
-          "intro": "State-backed award for installation work, plus press on audio tools."
-        },
-        "contact": "Contact"
-      },
-      "featuredWorks": [
-        {
-          "slug": "planetary-compendium",
-          "badgeLabel": "Berggruen Institute × Dark Matter Labs",
-          "badgeVariant": "collaboration",
-          "title": "Planetary Compendium",
-          "tags": [
-            "Frontend Architecture",
-            "Data Visualization",
-            "React / TypeScript"
-          ],
-          "description": "Data-dense research interface for high-throughput state management and render performance across thousands of concurrent heterogeneous data points.",
-          "cover": "/planetary.png",
-          "rotation": -1.5
-        },
-        {
-          "slug": "please-set-a-password",
-          "badgeLabel": "1st Prize · National Arts Award (MUR) · Electronic Arts",
-          "badgeVariant": "award",
-          "title": "please set a password",
-          "tags": ["Media Art", "Spatial Interaction", "System Design"],
-          "description": "Installation engineering a bridge between physical security rituals and digital authentication. Designed for real-time reliability in live public-facing contexts.",
-          "cover": "/tw2.jpg",
-          "rotation": 1.2
-        },
-        {
-          "slug": "knob-studio",
-          "badgeLabel": "Isotonik Studios · Attack Magazine",
-          "badgeVariant": "publisher",
-          "title": "Knob Studio",
-          "tags": ["UI/UX Design", "Audio Engineering", "DSP / MaxMSP"],
-          "description": "Commercial Max for Live instrument optimized for sub-5ms parameter response and zero-latency UI feedback. Active base of 3,600+ musicians worldwide.",
-          "cover": "/knobstudio.png",
-          "rotation": -2
-        }
-      ],
-      "howIWork": [
-        {
-          "eyebrow": "Approach",
-          "theme": "accent",
-          "title": "Relations, not surfaces",
-          "tags": ["Systems", "Constraints", "Behavior"],
-          "description": "I do not treat a project as a surface to style. I treat it as an interconnected network of data flows, state changes, user inputs, constraints, and system feedback.",
-          "rotation": -1.5
-        },
-        {
-          "eyebrow": "Method",
-          "theme": "web",
-          "title": "Cross-media fluency",
-          "tags": ["Media Art", "Engineering", "Interaction"],
-          "description": "I bridge diverse digital mediums because the engineering challenges are identical: managing state visibility, exposing intuitive controls, optimizing performance, and giving the end-user ultimate leverage over the system.",
-          "rotation": 1.2
-        },
-        {
-          "eyebrow": "Goal",
-          "theme": "audio",
-          "title": "Governing complexity",
-          "tags": ["Architecture", "Control", "Human factors"],
-          "description": "I thrive on projects where the true challenge lies in architecting the system: deciding what remains immutable, what must be dynamic, and how to abstract deep technical complexity into a seamless, high-performance user experience.",
-          "rotation": -2
-        }
-      ],
-      "practiceColumns": [
-        {
-          "id": "devices",
-          "eyebrow": "Tools for composing and performing: rule systems, mappings, constraints, interfaces that stay playable while they generate variation.",
-          "description": "I build Max/MSP instruments and Ableton Live devices as playable systems: mappable, generative, precise enough for performance, open enough for misuse.",
-          "useWebStack": false
-        },
-        {
-          "id": "web-interactive",
-          "eyebrow": "Web interfaces as problem-solving: sites, editorial systems, archives, and browser-based tools built around the shape of the content.",
-          "description": "I ship production sites and editorial systems for cultural organizations and research teams: scrollytelling, data-heavy interfaces, community platforms, and browser-based tools where structure and interaction need to hold up under real use.",
-          "useWebStack": true
-        },
-        {
-          "id": "installations",
-          "eyebrow": "Software for situations in space: installations, AV systems, live visuals, sensors, timing, and behavior that has to hold up in front of people.",
-          "description": "I develop installations, AV performances, and digital artworks where software becomes part of a room: timing, sound, bodies, sensors, attention.",
-          "useWebStack": false
-        },
-        {
-          "id": "community",
-          "eyebrow": "I co-founded, curate, and carry forward Max Berlin Network, a Berlin scene for Max/MSP and creative audio practice.",
-          "description": "Alongside the site and newsletter, I keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers. The goal is reliable peer learning in the room, not marketing.",
-          "useWebStack": false
-        }
-      ]
+      "name": "Alessandro Miracapillo",
+      "brand": "aylesim",
+      "role": "Creative technologist",
+      "location": "Berlin"
     },
     "tools": {
       "page": {
-        "lede": "Stuff you can run, buy, or open in a tab. The rest of this site is case studies and context. This is what you can actually use.",
-        "footer": "Installations, performances, and client work are under",
-        "footerLink": "Projects"
+        "lede": "Things you can run, buy, or open.",
+        "footer": "Other work is under",
+        "footerLink": "Index"
       },
       "sections": [
         {
           "id": "devices",
           "title": "Aylesim Devices",
-          "intro": "Max for Live patches for Ableton Live: sequencers, modulation, sample tools. I build them for my own sets first; most ship through Gumroad and Isotonik, a couple are free.",
+          "intro": "Max for Live. Sequencers, modulation, sample tools. Gumroad and Isotonik.",
           "category": "devices",
           "entries": [
             {
@@ -726,7 +659,7 @@
               "action": {
                 "href": "/?project=freesound4live",
                 "external": false,
-                "label": "Read more"
+                "label": "Read"
               }
             },
             {
@@ -743,8 +676,8 @@
         },
         {
           "id": "web",
-          "title": "In the browser",
-          "intro": "No installer, no Live required. Open the link and try it.",
+          "title": "Browser",
+          "intro": "No installer. Open the link.",
           "category": "web-interactive",
           "entries": [
             {
@@ -763,16 +696,16 @@
       "utilities": [
         {
           "title": "Too lazy to read",
-          "tagline": "The whole site as one JSON file. Paste the URL into a chat, or copy the dump from the page.",
+          "tagline": "Whole site as one JSON file.",
           "href": "/ask-ai",
-          "actionLabel": "How to use it",
+          "actionLabel": "How to use",
           "external": false
         },
         {
           "title": "content.json",
-          "tagline": "The raw file, same data, no walkthrough. Handy for scripts or plugins.",
+          "tagline": "Raw file.",
           "href": "/content.json",
-          "actionLabel": "Get the JSON",
+          "actionLabel": "Get JSON",
           "external": true
         }
       ]
@@ -780,7 +713,7 @@
   },
   "site": {
     "origin": "https://aylesim.com",
-    "description": "Berlin audio developer, web developer, and creative technologist. Max for Live devices, production websites, installations, and live AV.",
+    "description": "Creative technologist. Max for Live devices, web, installations, live AV. Berlin.",
     "contactEmail": "ay@alessandromiracapillo.com",
     "contactLinks": [
       {
@@ -805,7 +738,7 @@
       }
     ],
     "contactAvailability": "Available for frontend engineering and collaborative creative technology projects.",
-    "webDeveloperStack": "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance · editorial systems",
+    "webDeveloperStack": "TypeScript · React · Next.js · Node · headless CMS · accessibility · performance",
     "resumeHref": "/resume.pdf",
     "resumeLabel": "Resume (PDF)",
     "primaryAward": {
@@ -843,10 +776,10 @@
     ],
     "maxBerlinNetworkUrl": "https://www.maxberlin.network/",
     "maxBerlinCommunitySlug": "max-berlin-network",
-    "maxBerlinCommunityProof": "Co-founded in 2025. Recurring in-person meetups for Max/MSP and creative audio in Berlin, demos, troubleshooting, shared patching.",
+    "maxBerlinCommunityProof": "Co-founded 2025. In-person Max/MSP meetups, Berlin.",
     "aylesimDevicesSlug": "aylesim-devices",
     "aylesimDevicesCustomerCount": 3600,
-    "audioDeveloperProductLine": "Through Aylesim Devices, I design and maintain a line of Max for Live tools used by 3,600+ customers and featured by Isotonik Studios and Attack Magazine.",
+    "audioDeveloperProductLine": "Aylesim Devices — Max for Live tools. 3,600+ customers. Isotonik Studios, Attack Magazine.",
     "contentJsonUrl": "https://aylesim.com/content.json"
   }
 }
