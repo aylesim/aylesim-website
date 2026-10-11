@@ -3,16 +3,9 @@ import type { Project } from "@/lib/content";
 const YOUTUBE_ID_REGEX = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
 const VIMEO_ID_REGEX = /vimeo\.com\/(\d+)/;
 
-const SELECTED_COVERS: Record<string, string> = {
-  birds: "/Birdsgr.png",
-  "knob-studio": "/knobstudio.png",
-  freesound4live: "/ffl.png",
-  "lucky-notes": "/LN.png",
-  disco: "/disco.png",
-  "planetary-compendium": "/planetary.png",
-  "tedx-barletta": "https://img.youtube.com/vi/GJUaN92rx-0/hqdefault.jpg",
-  "there-will-be-no-more-determination": "/tw0.jpg",
-  "please-set-a-password": "/tw2.jpg",
+export type ProjectCover = {
+  src: string;
+  kind: "still" | "video";
 };
 
 function videoThumbnail(url: string): string | null {
@@ -27,29 +20,25 @@ function videoThumbnail(url: string): string | null {
   return null;
 }
 
-function picsumPlaceholder(slug: string) {
-  return `https://picsum.photos/seed/${encodeURIComponent(slug)}/1280/720`;
+export function projectStills(project: Project): string[] {
+  const gallery = project.galleryAfterVideo ?? [];
+  const merged = [...project.images, ...gallery]
+    .map((src) => src.trim())
+    .filter(Boolean);
+  return [...new Set(merged)];
 }
 
-export function getProjectCover(project: Project): string {
-  const selected = SELECTED_COVERS[project.slug];
-  if (selected) {
-    return selected;
-  }
-  const canvasCover = project.canvasCover?.trim();
-  if (canvasCover) {
-    return canvasCover;
-  }
-  const firstImage = project.images.map((url) => url.trim()).find(Boolean);
-  if (firstImage) {
-    return firstImage;
+export function getProjectCover(project: Project): ProjectCover | null {
+  const still = projectStills(project)[0];
+  if (still) {
+    return { src: still, kind: "still" };
   }
   const videoUrl = project.videos?.[0]?.url;
   if (videoUrl) {
     const thumb = videoThumbnail(videoUrl);
     if (thumb) {
-      return thumb;
+      return { src: thumb, kind: "video" };
     }
   }
-  return picsumPlaceholder(project.slug);
+  return null;
 }

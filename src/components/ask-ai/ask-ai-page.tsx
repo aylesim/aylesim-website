@@ -20,7 +20,7 @@ export function AskAiPage({
   return (
     <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
       <SiteHeader active="ask-ai" />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 md:px-6 md:py-10">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-6 md:py-10">
         <div className="grid gap-10 md:grid-cols-2">
           <div className="space-y-6">
             <header className="space-y-1">
