@@ -4,6 +4,7 @@
       {
         "slug": "birds",
         "title": "Birds",
+        "year": "2025",
         "category": "devices",
         "categoryLabel": "Audio tools",
         "tags": [
@@ -21,7 +22,8 @@
         "link": null,
         "linkLabel": "Visit live",
         "primaryMeta": [
-          "Aylesim Devices"
+          "Aylesim Devices",
+          "2025"
         ],
         "secondaryMeta": "Developer & Designer",
         "workScope": "commercial",
@@ -58,6 +60,7 @@
       {
         "slug": "planetary-compendium",
         "title": "Planetary Compendium",
+        "year": "2025",
         "category": "web-interactive",
         "categoryLabel": "Web",
         "tags": [
@@ -76,7 +79,8 @@
         "link": "https://governtheplanet.org/",
         "linkLabel": "Visit live",
         "primaryMeta": [
-          "Berggruen Institute × Dark Matter Labs"
+          "Berggruen Institute × Dark Matter Labs",
+          "2025"
         ],
         "secondaryMeta": "Frontend Developer",
         "featured": false,
@@ -161,6 +165,7 @@
       {
         "slug": "knob-studio",
         "title": "Knob Studio",
+        "year": "2024",
         "category": "devices",
         "categoryLabel": "Audio tools",
         "tags": [
@@ -181,7 +186,8 @@
         "link": null,
         "linkLabel": "Visit live",
         "primaryMeta": [
-          "Aylesim Devices"
+          "Aylesim Devices",
+          "2024"
         ],
         "secondaryMeta": "Developer & Designer",
         "workScope": "commercial",
@@ -297,6 +303,43 @@
         "menuLabel": "community"
       },
       {
+        "slug": "tedx-barletta",
+        "title": "TEDx Barletta",
+        "year": "2020",
+        "category": "installations",
+        "categoryLabel": "Artworks",
+        "tags": [
+          "Max/MSP",
+          "Live Projection",
+          "Generative Visuals",
+          "AV Performance"
+        ],
+        "description": "## Overview\n\nIn October 2020, I performed live visuals at TEDx Barletta alongside Regleow & Ozey. The performance was conceived as a sensory journey through experimental electronic music - a percussive, immersive composition paired with real-time video projections designed to draw the audience into a full audiovisual experience.\n\nThe visuals were projected live, reacting to and complementing the energy and texture of the music in real time.\n\n## What the performance involved\n\n- Real-time generative video projections synced to a live experimental electronic composition\n- Audiovisual storytelling driven by rhythm, percussion, and sensation\n- A large-format projection experience for a live TEDx audience\n\n## Context\n\nTEDx events are known for ideas and talks, but this performance opened up space for a different kind of communication - one driven by sound, image, and visceral energy rather than words. The collaboration with Regleow & Ozey brought together experimental electronic music and the TEDx stage in a format-pushing audiovisual set.",
+        "highlights": [
+          "Live AV performance in front of a TEDx audience",
+          "Real-time video projections synchronized with an experimental electronic composition",
+          "Sensory journey combining percussive music and generative visuals"
+        ],
+        "link": null,
+        "linkLabel": "Visit live",
+        "primaryMeta": [
+          "TEDx Barletta",
+          "2020"
+        ],
+        "secondaryMeta": "Visual Artist",
+        "featured": false,
+        "listBadges": [],
+        "videos": [
+          {
+            "title": "Performance",
+            "url": "https://www.youtube.com/watch?v=GJUaN92rx-0"
+          }
+        ],
+        "images": [],
+        "showInMenu": true,
+        "menuLabel": "AV performance"
+      },
+      {
         "slug": "isotonik-studios",
         "title": "Isotonik Studios",
         "year": "ongoing",
@@ -326,41 +369,6 @@
         "images": [],
         "showInMenu": true,
         "menuLabel": "community"
-      },
-      {
-        "slug": "tedx-barletta",
-        "title": "TEDx Barletta",
-        "category": "installations",
-        "categoryLabel": "Artworks",
-        "tags": [
-          "Max/MSP",
-          "Live Projection",
-          "Generative Visuals",
-          "AV Performance"
-        ],
-        "description": "## Overview\n\nIn October 2020, I performed live visuals at TEDx Barletta alongside Regleow & Ozey. The performance was conceived as a sensory journey through experimental electronic music - a percussive, immersive composition paired with real-time video projections designed to draw the audience into a full audiovisual experience.\n\nThe visuals were projected live, reacting to and complementing the energy and texture of the music in real time.\n\n## What the performance involved\n\n- Real-time generative video projections synced to a live experimental electronic composition\n- Audiovisual storytelling driven by rhythm, percussion, and sensation\n- A large-format projection experience for a live TEDx audience\n\n## Context\n\nTEDx events are known for ideas and talks, but this performance opened up space for a different kind of communication - one driven by sound, image, and visceral energy rather than words. The collaboration with Regleow & Ozey brought together experimental electronic music and the TEDx stage in a format-pushing audiovisual set.",
-        "highlights": [
-          "Live AV performance in front of a TEDx audience",
-          "Real-time video projections synchronized with an experimental electronic composition",
-          "Sensory journey combining percussive music and generative visuals"
-        ],
-        "link": null,
-        "linkLabel": "Visit live",
-        "primaryMeta": [
-          "TEDx Barletta"
-        ],
-        "secondaryMeta": "Visual Artist",
-        "featured": false,
-        "listBadges": [],
-        "videos": [
-          {
-            "title": "Performance",
-            "url": "https://www.youtube.com/watch?v=GJUaN92rx-0"
-          }
-        ],
-        "images": [],
-        "showInMenu": true,
-        "menuLabel": "AV performance"
       },
       {
         "slug": "disco",
@@ -695,8 +703,9 @@
       }
     ],
     "about": {
-      "lede": "I'm a creative technologist.",
+      "lede": "I'm a full stack developer and creative technologist.",
       "subtitle": "Alessandro Miracapillo / aylesim · Berlin",
+      "portrait": "/portrait.png",
       "body": "Berlin. Frontend, Max for Live, installations, live AV.\n\nAvailable for frontend engineering and collaborative creative technology projects.",
       "sections": [
         {
@@ -708,13 +717,13 @@
     "home": {
       "name": "Alessandro Miracapillo",
       "brand": "aylesim",
-      "role": "Creative technologist",
+      "role": "Full stack developer and creative technologist",
       "location": "Berlin"
     }
   },
   "site": {
     "origin": "https://aylesim.com",
-    "description": "Creative technologist. Max for Live devices, web, installations, live AV. Berlin.",
+    "description": "Full stack developer and creative technologist. Max for Live devices, web, installations, live AV. Berlin.",
     "contactEmail": "ay@alessandromiracapillo.com",
     "contactLinks": [
       {

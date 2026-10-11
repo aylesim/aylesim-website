@@ -195,6 +195,13 @@ function asString(v: unknown): string | undefined {
   return;
 }
 
+function asYear(v: unknown): string | undefined {
+  if (typeof v === "number" && Number.isFinite(v)) {
+    return String(v);
+  }
+  return asString(v);
+}
+
 function asWorkScope(v: unknown): ProjectWorkScope | undefined {
   if (typeof v === "string" && PROJECT_WORK_SCOPES.has(v)) {
     return v as ProjectWorkScope;
@@ -427,7 +434,7 @@ function getProjects(): Project[] {
     const { data, content } = readMd(filePath);
     const slug = file.replace(".md", "");
     const body = content.trim();
-    const year = typeof data.year === "string" ? data.year : undefined;
+    const year = asYear(data.year);
     const order = menuOrderFromData(data);
 
     const source: ProjectMapSource = { slug, body, year, order, data };

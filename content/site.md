@@ -1,6 +1,6 @@
 ---
 origin: https://aylesim.com
-description: Creative technologist. Max for Live devices, web, installations, live AV. Berlin.
+description: Full stack developer and creative technologist. Max for Live devices, web, installations, live AV. Berlin.
 contactEmail: ay@alessandromiracapillo.com
 contactAvailability: Available for frontend engineering and collaborative creative technology projects.
 webDeveloperStack: TypeScript · React · Next.js · Node · headless CMS · accessibility · performance

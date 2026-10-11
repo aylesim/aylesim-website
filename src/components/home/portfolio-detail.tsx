@@ -2,6 +2,7 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { ProjectTags } from "@/components/home/project-tags";
 import type { Project, ProjectVideo, SiteConfig } from "@/lib/content";
+import { projectStills } from "@/lib/project-cover";
 
 const detailLinkClass = "underline underline-offset-3";
 
@@ -129,12 +130,20 @@ function ProjectVideoEmbed({ item }: { item: ProjectVideo }) {
   );
 }
 
-function ProjectVideos({ videos }: { videos: ProjectVideo[] }) {
+function ProjectVideos({
+  videos,
+  leading = false,
+}: {
+  videos: ProjectVideo[];
+  leading?: boolean;
+}) {
   return (
-    <div className="mt-8 space-y-8">
-      <h3 className="text-xl leading-tight tracking-tight">
-        {videos.length === 1 ? "Video" : "Videos"}
-      </h3>
+    <div className={leading ? "mb-8 space-y-6" : "mt-8 space-y-8"}>
+      {leading ? null : (
+        <h2 className="text-xl leading-tight tracking-tight">
+          {videos.length === 1 ? "Video" : "Videos"}
+        </h2>
+      )}
       {videos.map((item) => (
         <div className="space-y-2" key={item.url}>
           <p className="text-(--text-muted) text-xs">{item.title}</p>
@@ -145,45 +154,57 @@ function ProjectVideos({ videos }: { videos: ProjectVideo[] }) {
   );
 }
 
-const THERE_WILL_BE_NO_MORE_SLUG = "there-will-be-no-more-determination";
-
-function galleryPathsForDetail(project: {
-  slug: string;
-  galleryAfterVideo?: string[];
-}): string[] | undefined {
-  const g = project.galleryAfterVideo;
-  if (!g?.length) {
-    return;
-  }
-  if (project.slug === THERE_WILL_BE_NO_MORE_SLUG) {
-    return g.slice(0, 1);
-  }
-  return g;
+function markdownImagesIn(source: string) {
+  return source.matchAll(/!\[([^\]]*)\]\(([^)\s]+)\)/g);
 }
 
-function ProjectGalleryRow({
-  paths,
-  title,
+function stripHiddenImages(source: string, hiddenSrcs: ReadonlySet<string>) {
+  if (hiddenSrcs.size === 0) {
+    return source;
+  }
+  const stripped = source.replace(
+    /!\[[^\]]*\]\(([^)\s]+)\)/g,
+    (full, src: string) => (hiddenSrcs.has(src) ? "" : full)
+  );
+  return stripped
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function altFromMarkdown(source: string, src: string, fallback: string) {
+  for (const match of markdownImagesIn(source)) {
+    if (match[2] === src && match[1]) {
+      return match[1];
+    }
+  }
+  return fallback;
+}
+
+function ProjectStillLead({
+  stills,
+  alts,
 }: {
-  paths: string[];
-  title: string;
+  stills: string[];
+  alts: string[];
 }) {
   return (
-    <div className="mt-6 flex w-full flex-row gap-1.5 sm:gap-2">
-      {paths.map((src, i) => (
-        <div
-          className="min-w-0 flex-1 overflow-hidden border border-(--index-divider)"
+    <div className="mb-8 flex flex-col gap-2">
+      {stills.map((src, index) => (
+        <figure
+          className="overflow-hidden border border-(--index-divider) bg-(--surface-media)"
           key={src}
         >
           <Image
-            alt={`${title} - still ${i + 1} of ${paths.length}`}
-            className="h-auto w-full object-cover align-bottom"
-            height={800}
+            alt={alts[index] ?? ""}
+            className="h-auto w-full"
+            height={1200}
+            priority={index === 0}
             src={src}
             unoptimized
-            width={600}
+            width={1800}
           />
-        </div>
+        </figure>
       ))}
     </div>
   );
@@ -266,56 +287,81 @@ export function ProjectDetail({
     return null;
   }
   const [primaryLabel, ...remainingPrimaryMeta] = project.primaryMeta;
-  const galleryPaths = galleryPathsForDetail(project);
+  const stills = projectStills(project);
+  const hiddenSrcs = new Set(stills);
+  const markdownSource = [project.description, project.descriptionAfterVideos]
+    .filter(Boolean)
+    .join("\n");
+  const stillAlts = stills.map((src, index) =>
+    altFromMarkdown(
+      markdownSource,
+      src,
+      `${project.title} — still ${index + 1} of ${stills.length}`
+    )
+  );
   const metaParts = [
     primaryLabel,
     ...remainingPrimaryMeta,
     project.secondaryMeta,
   ].filter(Boolean);
+  const videos = project.videos ?? [];
+  const leadWithVideo = stills.length === 0 && videos.length > 0;
   return (
-    <article className="w-full max-w-3xl">
-      <h1 className="mb-2 text-xl tracking-tight sm:text-2xl">
-        {project.title}
-      </h1>
-      {metaParts.length > 0 ? <Meta>{metaParts.join(" · ")}</Meta> : null}
-      {project.slug === site.aylesimDevicesSlug ? (
-        <Meta>{site.audioDeveloperProductLine}</Meta>
+    <article className="w-full">
+      {stills.length > 0 ? (
+        <ProjectStillLead alts={stillAlts} stills={stills} />
       ) : null}
-      {project.tags.length > 0 ? (
-        <ProjectTags
-          category={project.category}
-          className="mt-3 mb-1"
-          tags={project.tags}
-        />
-      ) : null}
-      {project.link ? (
-        <DetailLinks>
-          <a
-            className={detailLinkClass}
-            href={project.link}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {project.linkLabel ?? "Visit"}
-          </a>
-        </DetailLinks>
-      ) : null}
-      <div className="mt-6 text-(--foreground) text-sm leading-relaxed">
-        <ProjectMarkdownBody source={project.description} />
+      {leadWithVideo ? <ProjectVideos leading videos={videos} /> : null}
+      <div className="max-w-2xl">
+        <h1 className="mb-2 text-2xl tracking-tight sm:text-3xl">
+          {project.title}
+        </h1>
+        {metaParts.length > 0 ? <Meta>{metaParts.join(" · ")}</Meta> : null}
+        {project.slug === site.aylesimDevicesSlug ? (
+          <Meta>{site.audioDeveloperProductLine}</Meta>
+        ) : null}
+        {project.tags.length > 0 ? (
+          <ProjectTags
+            category={project.category}
+            className="mt-3 mb-1"
+            tags={project.tags}
+          />
+        ) : null}
+        {project.link ? (
+          <DetailLinks>
+            <a
+              className={detailLinkClass}
+              href={project.link}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {project.linkLabel ?? "Visit"}
+            </a>
+          </DetailLinks>
+        ) : null}
+        <div className="mt-6 text-(--foreground) text-sm leading-relaxed">
+          <ProjectMarkdownBody
+            source={stripHiddenImages(project.description, hiddenSrcs)}
+          />
+        </div>
       </div>
-      {project.videos && project.videos.length > 0 ? (
-        <ProjectVideos videos={project.videos} />
-      ) : null}
-      {galleryPaths && galleryPaths.length > 0 ? (
-        <ProjectGalleryRow paths={galleryPaths} title={project.title} />
-      ) : null}
+      {leadWithVideo || videos.length === 0 ? null : (
+        <ProjectVideos videos={videos} />
+      )}
       {project.descriptionAfterVideos ? (
-        <div className="mt-4 text-(--foreground) text-sm leading-relaxed">
-          <ProjectMarkdownBody source={project.descriptionAfterVideos} />
+        <div className="mt-6 max-w-2xl text-(--foreground) text-sm leading-relaxed">
+          <ProjectMarkdownBody
+            source={stripHiddenImages(
+              project.descriptionAfterVideos,
+              hiddenSrcs
+            )}
+          />
         </div>
       ) : null}
       {project.highlights.length > 0 ? (
-        <HighlightsList items={project.highlights} />
+        <div className="max-w-2xl">
+          <HighlightsList items={project.highlights} />
+        </div>
       ) : null}
     </article>
   );

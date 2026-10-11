@@ -4,7 +4,7 @@ import { getAllContent } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About | Aylesim",
-  description: "Creative technologist. Berlin.",
+  description: "Full stack developer and creative technologist. Berlin.",
 };
 
 export default function About() {

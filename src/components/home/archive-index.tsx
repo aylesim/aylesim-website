@@ -1,11 +1,30 @@
 "use client";
 
+import Image from "next/image";
+import { useState } from "react";
 import type { Award, HomeContent, Project, SiteConfig } from "@/lib/content";
+import { getProjectCover, type ProjectCover } from "@/lib/project-cover";
 import {
   CATEGORY_FILTERS,
   CATEGORY_LABELS,
   type ProjectCategory,
 } from "@/lib/roles";
+
+type IndexFilter = "all" | ProjectCategory;
+
+const FILTERS: IndexFilter[] = ["all", ...CATEGORY_FILTERS];
+
+function filterLabel(filter: IndexFilter) {
+  if (filter === "all") {
+    return "All";
+  }
+  return CATEGORY_LABELS[filter];
+}
+
+function cardMeta(project: Project, extra?: string) {
+  const category = project.category ? CATEGORY_LABELS[project.category] : null;
+  return [project.year ?? "—", category, extra].filter(Boolean).join(" · ");
+}
 
 function AwardsList({
   awards,
@@ -64,30 +83,62 @@ function AwardsList({
   );
 }
 
-function ProjectRow({
+function WorkVisualCard({
   project,
+  cover,
+  awardTitle,
+  featured,
   onSelect,
 }: {
   project: Project;
+  cover: ProjectCover;
+  awardTitle?: string;
+  featured: boolean;
   onSelect: (slug: string) => void;
 }) {
+  const [failed, setFailed] = useState(false);
+  const meta = cardMeta(project, cover.kind === "video" ? "Video" : undefined);
+
   return (
-    <li>
+    <li className={featured ? "min-w-0 sm:col-span-2" : "min-w-0"}>
       <button
-        className="group grid w-full grid-cols-[4.5rem_1fr] items-baseline gap-x-3 gap-y-0.5 py-2.5 text-left"
+        className="group flex h-full w-full flex-col border border-(--index-divider) bg-bg text-left hover:border-(--foreground)"
         onClick={() => onSelect(project.slug)}
         type="button"
       >
-        <span className="text-(--text-muted) tabular-nums">
-          {project.year ?? "—"}
-        </span>
-        <span className="min-w-0">
-          <span className="group-hover:underline group-hover:underline-offset-3">
+        {failed ? null : (
+          <span
+            className={`relative block w-full overflow-hidden bg-(--surface-media) ${featured ? "aspect-[4/3] sm:aspect-[16/9]" : "aspect-[4/3]"}`}
+          >
+            <Image
+              alt=""
+              className="object-cover"
+              fill
+              onError={() => setFailed(true)}
+              priority={featured}
+              sizes={
+                featured
+                  ? "(min-width: 1024px) 66vw, 100vw"
+                  : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              }
+              src={cover.src}
+              unoptimized
+            />
+          </span>
+        )}
+        <span className="flex flex-col gap-1 px-3 py-3">
+          <span className="text-(--text-muted) text-xs">{meta}</span>
+          <span className="text-sm group-hover:underline group-hover:underline-offset-3 sm:text-base">
             {project.title}
           </span>
           {project.listTagline ? (
-            <span className="mt-0.5 block text-(--text-muted) text-xs">
+            <span className="text-(--text-muted) text-xs">
               {project.listTagline}
+            </span>
+          ) : null}
+          {awardTitle ? (
+            <span className="text-(--text-muted) text-xs">
+              Prize · {awardTitle}
             </span>
           ) : null}
         </span>
@@ -96,58 +147,39 @@ function ProjectRow({
   );
 }
 
-function IndexSection({
-  category,
-  projects,
+function WorkTextCard({
+  project,
+  awardTitle,
   onSelect,
 }: {
-  category: ProjectCategory;
-  projects: Project[];
+  project: Project;
+  awardTitle?: string;
   onSelect: (slug: string) => void;
 }) {
-  if (projects.length === 0) {
-    return null;
-  }
-
-  const headingId = `index-${category}`;
-
   return (
-    <section aria-labelledby={headingId}>
-      <h3
-        className="mb-1 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-        id={headingId}
+    <li className="min-w-0">
+      <button
+        className="group flex h-full w-full flex-col gap-2 border border-(--index-divider) bg-bg px-3 py-4 text-left hover:border-(--foreground)"
+        onClick={() => onSelect(project.slug)}
+        type="button"
       >
-        {CATEGORY_LABELS[category]}
-      </h3>
-      <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
-        {projects.map((project) => (
-          <ProjectRow
-            key={project.slug}
-            onSelect={onSelect}
-            project={project}
-          />
-        ))}
-      </ul>
-    </section>
+        <span className="text-(--text-muted) text-xs">{cardMeta(project)}</span>
+        <span className="text-sm group-hover:underline group-hover:underline-offset-3">
+          {project.title}
+        </span>
+        {project.listTagline ? (
+          <span className="text-(--text-muted) text-xs">
+            {project.listTagline}
+          </span>
+        ) : null}
+        {awardTitle ? (
+          <span className="text-(--text-muted) text-xs">
+            Prize · {awardTitle}
+          </span>
+        ) : null}
+      </button>
+    </li>
   );
-}
-
-function groupByCategory(projects: Project[]) {
-  const grouped = Object.fromEntries(
-    CATEGORY_FILTERS.map((category) => [category, [] as Project[]])
-  ) as Record<ProjectCategory, Project[]>;
-
-  const uncategorized: Project[] = [];
-
-  for (const project of projects) {
-    if (project.category) {
-      grouped[project.category].push(project);
-    } else {
-      uncategorized.push(project);
-    }
-  }
-
-  return { grouped, uncategorized };
 }
 
 export function ArchiveIndex({
@@ -161,58 +193,92 @@ export function ArchiveIndex({
   site: SiteConfig;
   onSelect: (slug: string) => void;
 }) {
-  const { grouped, uncategorized } = groupByCategory(projects);
+  const [filter, setFilter] = useState<IndexFilter>("all");
+  const awardTitleBySlug = new Map(
+    site.awards.map((award) => [award.projectSlug, award.title])
+  );
+  const filtered = projects.filter((project) =>
+    filter === "all" ? true : project.category === filter
+  );
+  const annotated = filtered.map((project) => ({
+    project,
+    cover: getProjectCover(project),
+  }));
+  const visual = annotated.filter(
+    (item): item is { project: Project; cover: ProjectCover } =>
+      item.cover !== null
+  );
+  const textual = annotated.filter((item) => item.cover === null);
 
   return (
-    <div className="flex flex-col gap-8">
-      <header className="space-y-1">
-        <h1 className="text-base uppercase tracking-wide">{home.name}</h1>
-        <p className="text-(--text-muted)">
-          {home.role} · {home.location}
+    <div className="flex flex-col gap-10 md:gap-14">
+      <header className="max-w-3xl">
+        <h1 className="text-xl uppercase tracking-wide sm:text-2xl">
+          {home.name}
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed sm:text-base">
+          {home.role}
+          <span className="text-(--text-muted)"> · {home.location}</span>
         </p>
       </header>
 
-      <AwardsList awards={site.awards} onSelect={onSelect} />
-
-      <section aria-labelledby="index-heading" className="space-y-8">
-        <h2
-          className="border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-          id="index-heading"
-        >
-          Index
-        </h2>
-
-        <div className="flex flex-col gap-8">
-          {CATEGORY_FILTERS.map((category) => (
-            <IndexSection
-              category={category}
-              key={category}
-              onSelect={onSelect}
-              projects={grouped[category]}
-            />
-          ))}
-
-          {uncategorized.length > 0 ? (
-            <section aria-labelledby="index-other">
-              <h3
-                className="mb-1 border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-                id="index-other"
-              >
-                Other
-              </h3>
-              <ul className="m-0 list-none divide-y divide-(--index-divider) border-(--index-divider) border-b p-0">
-                {uncategorized.map((project) => (
-                  <ProjectRow
-                    key={project.slug}
-                    onSelect={onSelect}
-                    project={project}
-                  />
-                ))}
-              </ul>
-            </section>
-          ) : null}
+      <section aria-labelledby="index-heading">
+        <div className="mb-4 flex flex-col gap-3 border-(--index-divider) border-b pb-3 sm:flex-row sm:items-baseline sm:justify-between">
+          <h2 className="text-xs uppercase tracking-widest" id="index-heading">
+            Index
+          </h2>
+          <fieldset className="m-0 flex min-w-0 flex-wrap gap-x-4 gap-y-1 border-0 p-0 text-xs uppercase tracking-widest">
+            <legend className="sr-only">Filter by category</legend>
+            {FILTERS.map((item) => {
+              const selected = filter === item;
+              return (
+                <button
+                  aria-pressed={selected}
+                  className={
+                    selected
+                      ? "text-(--foreground) underline underline-offset-3"
+                      : "text-(--text-muted) hover:text-(--foreground)"
+                  }
+                  key={item}
+                  onClick={() => setFilter(item)}
+                  type="button"
+                >
+                  {filterLabel(item)}
+                </button>
+              );
+            })}
+          </fieldset>
         </div>
+
+        {filtered.length === 0 ? (
+          <p className="text-(--text-muted) text-sm">
+            No projects in this category.
+          </p>
+        ) : (
+          <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
+            {visual.map(({ project, cover }, index) => (
+              <WorkVisualCard
+                awardTitle={awardTitleBySlug.get(project.slug)}
+                cover={cover}
+                featured={index === 0}
+                key={project.slug}
+                onSelect={onSelect}
+                project={project}
+              />
+            ))}
+            {textual.map(({ project }) => (
+              <WorkTextCard
+                awardTitle={awardTitleBySlug.get(project.slug)}
+                key={project.slug}
+                onSelect={onSelect}
+                project={project}
+              />
+            ))}
+          </ul>
+        )}
       </section>
+
+      <AwardsList awards={site.awards} onSelect={onSelect} />
 
       <footer className="flex flex-wrap gap-x-4 gap-y-1 border-(--index-divider) border-t pt-4 text-(--text-muted) text-xs">
         <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>

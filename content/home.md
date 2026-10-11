@@ -1,6 +1,6 @@
 ---
 name: Alessandro Miracapillo
 brand: aylesim
-role: Creative technologist
+role: Full stack developer and creative technologist
 location: Berlin
 ---
