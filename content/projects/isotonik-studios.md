@@ -21,12 +21,12 @@ highlights:
 
 ## Overview
 
-[Isotonik Studios](https://isotonikstudios.com/) is an independent collective of developers for electronic music production, with a strong Max for Live and Ableton Live catalog.
+[Isotonik Studios](https://isotonikstudios.com/) is an independent collective of developers for electronic music production, with a Max for Live and Ableton Live catalog.
 
-I publish under the **Aylesim** brand on their store: devices ship through Isotonik alongside Gumroad, so performers get a single place for purchase, updates, and support.
+I publish under the **Aylesim** brand on their store. Devices ship through Isotonik alongside Gumroad, so performers have one place for purchase, updates, and support.
 
 ## What it covers
 
 - Distribution of Aylesim Max for Live devices through the Isotonik catalog
 - Brand presence at [isotonikstudios.com/brand/aylesim](https://isotonikstudios.com/brand/aylesim/)
-- Ongoing product updates and support tied to that storefront
+- Product updates and support tied to that storefront

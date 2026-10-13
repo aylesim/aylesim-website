@@ -39,36 +39,32 @@ videos:
   - title: How it's made
     url: https://www.youtube.com/watch?v=J0A9h0l-F2s
 highlights:
-  - Covered by Rekkerd and Attack Magazine on release and Max for Live modulation practice
-  - Featured in Attack Magazine long-read on the future of sound design
-  - Built a layered modulation engine with multiple concurrent function generators in Max for Live
-  - Implemented reading-head modes (manual, LFO, envelope follower) on shared waveform material
-  - Tied real-time visualization to modulation output so behavior stays inspectable while it runs
-  - Used randomization plus global smoothing and jitter as macro controls over the whole modulator field
+  - Covered by Rekkerd and Attack Magazine on release
+  - Featured in Attack Magazine’s long-read on Max for Live modulation
+  - Layered modulation engine with multiple concurrent function generators
+  - Reading-head modes (manual, LFO, envelope follower) on shared waveform material
+  - Real-time visualization tied to the modulation being applied
+  - Randomization plus global smoothing and jitter as macros over the modulator field
 ---
 
 [Gumroad](https://aylesim.gumroad.com/l/knobstudio) · [Isotonik Studios](https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/) · [Attack Magazine Store](https://store.attackmagazine.com/products/knob-studio)
 
 ## Overview
 
-Knob Studio is a Max for Live audio effect I developed to explore alternative approaches to parameter modulation in Ableton Live. Rather than treating modulation as a single control source, I wanted a small environment for mapping experiments: several layers can run in parallel, influence the same targets, and remain editable without the system turning into something you can only operate by trial and error.
+Knob Studio is a Max for Live audio effect for parameter modulation in Ableton Live. Several layers can run in parallel, hit the same targets, and stay editable.
 
 ![Knob Studio - Max for Live interface](/knobstudio.png)
 
-The device centers on a waveform-driven modulation graph where functions are layered, shaped, and then interpreted by different reading strategies. A lot of the work went into keeping that graph legible in performance: what the patch is doing should be visible, not only audible.
+The device is a waveform-driven modulation graph: functions are stacked, shaped, then read under different strategies. The graph is meant to stay readable while it runs.
 
 ## How it works
 
-The modulation path is built around stacked waveform functions, each with its own parameters, and **reading heads** that interpret the combined result under different rules. Heads can be driven manually, by LFOs, or by an envelope follower, which effectively changes how the same underlying material is scanned over time.
+Stacked waveform functions, each with its own parameters, are interpreted by **reading heads**. Heads can be driven by hand, by LFOs, or by an envelope follower, which changes how the same material is scanned over time.
 
-Randomization is treated as a controlled perturbation layer: useful for breaking local minima in sound design, but always bounded by smoothing and jitter applied at a global level so the whole field of modulators moves together when you want cohesion.
+Randomization adjusts parameters within fixed limits. Global smoothing and jitter keep the whole modulator field moving together when you want cohesion.
 
-- **Layered function stack** for building complex modulation shapes from simpler primitives
-- **Multiple head modes** to switch between performative control, periodic motion, and audio-responsive scanning
-- **Real-time waveform display** aligned with what is actually being applied to parameters
-- **Randomization** with clear entry points so exploration does not erase your starting point
-- **Global smoothing and jitter** as cross-cutting dynamics across all active modulations
-
-## Skills involved
-
-The project sits at the intersection of DSP-facing modulation logic, Max patch architecture, and interaction design for dense parameter spaces. It reflects how I like to build tools: define the behavior model first (what is being modulated, by what structure, and under which constraints), then design the surface so editing and performance stay connected to that model.
+- **Layered function stack** for building modulation shapes from simpler pieces
+- **Multiple head modes**: manual control, periodic motion, audio-responsive scanning
+- **Real-time waveform display** aligned with what is being applied to parameters
+- **Randomization** with clear entry points so exploration does not erase the starting point
+- **Global smoothing and jitter** across active modulations

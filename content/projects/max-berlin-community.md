@@ -17,14 +17,14 @@ highlights:
   - Co-founded Max Berlin Network in 2025
   - Recurring in-person meetups for Max/MSP and creative audio in Berlin
   - Format covers demos, troubleshooting, and shared patching
-  - Keeps venue, rhythm, hosting, and communication running with other core organizers
+  - Venue, rhythm, hosting, and communication with other core organizers
 ---
 
 ## Overview
 
-Max Berlin Network is a Berlin scene for Max/MSP and creative audio practice. I co-founded it in **2025** and help keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers.
+Max Berlin Network is a Berlin scene for Max/MSP and creative audio. I co-founded it in **2025** and help keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers.
 
-The goal is reliable peer learning in the room — demos, troubleshooting, shared patching — not marketing.
+Meetups are for peer learning: demos, troubleshooting, and shared patching.
 
 ## What it is
 
@@ -34,4 +34,4 @@ The goal is reliable peer learning in the room — demos, troubleshooting, share
 
 ## My contribution
 
-As co-founder I carry forward the community side: finding venues, setting a sustainable cadence, hosting sessions, and keeping communication clear between organizers and participants.
+As co-founder I handle the community side: finding venues, setting a cadence that can last, hosting sessions, and keeping communication clear between organizers and participants.

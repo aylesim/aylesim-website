@@ -15,19 +15,19 @@ tech:
 liveLink: https://www.lascuolaopensource.xyz/
 highlights:
   - Tech researcher and educator at La Scuola Open Source, Bari (2018–2025)
-  - Led workshops on software automation, generative AI, and digital audio
+  - Workshops on software automation, generative AI, and digital audio
   - R&D around emerging software systems and production AI pipelines
-  - Mentored developers and engineers through advanced workshops
+  - Mentored developers and engineers in advanced workshops
 ---
 
 ## Overview
 
-[La Scuola Open Source](https://www.lascuolaopensource.xyz/) is a Bari-based cooperative working as an open-source ecosystem for social, cultural, and technological research and education.
+[La Scuola Open Source](https://www.lascuolaopensource.xyz/) is a Bari-based cooperative for social, cultural, and technological research and education.
 
 I worked there as a **tech researcher and educator** from **2018 to 2025**.
 
 ## What I did
 
-- Led R&D around emerging software technologies, system automation, and generative AI data pipelines
-- Ran workshops on software automation, generative AI, and digital audio
-- Mentored developers and engineers through advanced workshop formats
+- R&D around software automation and generative AI data pipelines
+- Workshops on software automation, generative AI, and digital audio
+- Mentoring developers and engineers in advanced workshop formats

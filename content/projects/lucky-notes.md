@@ -22,32 +22,30 @@ tech:
   - UI/UX Design
 price: Free
 highlights:
-  - Listed in the ELPHNT Max for Live Curated Collection among hand-picked devices from the ecosystem
-  - Built a lightweight Max for Live MIDI effect that gates notes by probability for live arrangement
-  - Tuned the control range so patterns can start sparse and grow in density without extra clip editing
-  - Shipped as a free Gumroad download with over two thousand downloads to date
+  - Listed in the ELPHNT Max for Live Curated Collection
+  - MIDI effect that gates notes by probability for live arrangement
+  - Control range lets patterns start sparse and grow denser without extra clip editing
+  - Free Gumroad download, more than two thousand downloads
 ---
 
 [Gumroad](https://aylesim.gumroad.com/l/luckynotes)
 
 ## Overview
 
-Lucky Notes is a small Max for Live **MIDI effect** I released as a performance utility: it passes or drops incoming notes according to a single **probability** control, so you can thin out a busy clip or slowly bring a pattern toward full density from the device instead of duplicating clips or drawing automation by hand. I use it most after a mono sequencer on melodic material, but it behaves predictably on rhythmic parts too.
+Lucky Notes is a small Max for Live MIDI effect. It passes or drops incoming notes according to a single probability control, so you can thin a busy clip or bring a pattern toward full density from the device instead of duplicating clips or drawing automation. I use it most after a mono sequencer on melodic material. It also behaves predictably on rhythmic parts.
 
 ![Lucky Notes - Max for Live interface](/LN.png)
 
-At **0%** probability the lane stays effectively silent; at **100%** every note is let through. Between those extremes the stream thins or thickens in real time, which makes it easy to rehearse builds or keep a set feeling less static without rewriting MIDI.
+At 0% probability the lane stays effectively silent. At 100% every note is let through. Between those extremes the stream thins or thickens in real time, which is useful for rehearsing builds without rewriting MIDI.
 
-The distribution there is free; over time the page has accumulated **more than two thousand downloads**, which tells me the problem it solves is a common one in Live-centric workflows.
+The Gumroad page is free. It has **more than two thousand downloads**.
 
 ## How it works
 
-The device sits on a MIDI track in front of an instrument: each note-on is evaluated against the current probability threshold (with sensible randomization so the result is musical rather than a fixed decimation pattern). There is no audio path inside the patch - it is strictly about **which notes fire**, which keeps CPU low and the mental model simple.
+The device sits on a MIDI track in front of an instrument. Each note-on is evaluated against the current probability threshold, with randomization so the result is musical rather than a fixed skip pattern. There is no audio path. The patch only decides which notes fire, which keeps CPU low.
 
-- **Single main control** for probability, oriented toward live adjustment
-- **MIDI-only processing** so it stays lightweight in large sets
-- **Compatible with typical Live chains** (before instruments, after sequencers)
+- **Single main control** for probability, meant for live adjustment
+- **MIDI-only processing** so it stays light in large sets
+- **Typical Live chains**: before instruments, after sequencers
 
-## Skills involved
-
-The patch is intentionally minimal: the engineering work was about correct MIDI handling, clear parameter scaling, and a UI that reads instantly under stage lighting. It also reflects how I sometimes ship tools: a tight scope, a single strong idea, and distribution that stays frictionless for the person downloading it.
+I implemented MIDI note gating, probability scaling, and a UI that stays legible under stage lighting.

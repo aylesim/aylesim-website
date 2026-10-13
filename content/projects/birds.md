@@ -28,31 +28,27 @@ videos:
   - title: Full walkthrough
     url: https://www.youtube.com/watch?v=0-D_bPzaqfo
 highlights:
-  - Designed a rule-based generative system for melodic variation inside Max for Live
-  - Built a visual mapping where pitch, timing, and note state stay legible while the sequence evolves
-  - Balanced algorithmic behavior with musical constraints through a Difference Limit model
+  - Rule-based generative system for melodic variation inside Max for Live
+  - Visual mapping where pitch, timing, and note state stay readable while the sequence changes
+  - Difference Limit model keeps algorithmic output inside musical bounds
 ---
 
 [Gumroad](https://aylesim.gumroad.com/l/birds) · [Isotonik Studios](https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/)
 
 ## Overview
 
-Birds is a generative MIDI sequencer for Ableton Live, developed as a Max for Live device. I built it as a study in algorithmic composition, interface design, and musical constraint: the goal was to create a system that can transform a short MIDI phrase in real time while preserving enough structure to keep the result readable and usable.
+Birds is a generative MIDI sequencer for Ableton Live, built as a Max for Live device. It takes a short MIDI phrase and rewrites it in real time, with enough of the original structure left that the result stays usable.
 
 ![Birds - Max for Live interface](/Birdsgr.png)
 
-The interface translates the sequence into an animated score where each bird represents a note, the wire represents pitch, and horizontal position represents timing. This made the project as much about visual communication as sequencing logic: the challenge was to expose generative behavior in a way that feels immediate rather than opaque.
+The interface is an animated score: each bird is a note, the wire is pitch, horizontal position is timing. Making that readable was as much of the work as the sequencer logic.
 
 ## How it works
 
-At the core of the device is a **Difference Limit system** that measures how far each new generation can move away from a reference pattern. Instead of treating variation as randomness, I approached it as a constrained transformation problem: pitch, rhythm, density, and register can all shift, but only within a controlled distance from the source material.
+A **Difference Limit** measures how far each new generation can move from a reference pattern. Pitch, rhythm, density, and register can shift, but only within a set distance from the source. Variation is a bounded rewrite, not a random scramble.
 
-- **Rule-based melodic generation** with different strategies for transforming source material
+- **Rule-based melodic generation** with different strategies for rewriting source material
 - **Real-time pitch and rhythm mutation** with controls for gate behavior and instability
-- **Scale-aware and chromatic modes** to test different harmonic constraints
-- **Density and range controls** to shape both musical output and system responsiveness
-- **Transport-driven or MIDI-triggered playback** to support different performance contexts
-
-## Skills involved
-
-The project brought together several parts of my practice: Max/MSP patch design, generative music systems, parameter mapping, interaction design, and the translation of abstract musical processes into a visual interface. It also reflects how I tend to work more broadly: defining a clear behavioral model first, then designing controls and visuals that make the system understandable in use.
+- **Scale-aware and chromatic modes** for different harmonic constraints
+- **Density and range controls** for both musical output and how the system responds
+- **Transport-driven or MIDI-triggered playback** for studio and performance use

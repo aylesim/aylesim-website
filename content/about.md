@@ -6,4 +6,4 @@ portrait: /portrait.png
 
 Berlin. Frontend, Max for Live, installations, live AV.
 
-Available for frontend engineering and collaborative creative technology projects.
+Available for frontend engineering and creative technology work.

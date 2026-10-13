@@ -14,12 +14,12 @@ tech:
   - Web Audio API
 liveLink: https://glossia-seven.vercel.app
 highlights:
-  - Public codebase on GitHub with a deployed preview for hands-on testing
-  - Explores real-time audio and visuals in the browser using modern web APIs
+  - Public GitHub repo with a deployed preview
+  - Real-time audio and visuals in the browser
 ---
 
 ## Overview
 
-Glossia is an open source audio/visual web project: a place to prototype interactive relationships between sound and image using TypeScript, React, and Next.js.
+Glossia is an open source audio/visual web project. It prototypes relationships between sound and image in TypeScript, React, and Next.js.
 
-The repository and live build are the source of truth for scope and implementation details as the project evolves.
+Current behaviour and scope are in the public GitHub repo and on the deployed preview.
