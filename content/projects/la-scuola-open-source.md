@@ -24,6 +24,8 @@ highlights:
 
 [La Scuola Open Source](https://www.lascuolaopensource.xyz/) is a Bari-based cooperative for social, cultural, and technological research and education.
 
+![Workshop at La Scuola Open Source](/la-scuola-open-source.jpg)
+
 I worked there as a **tech researcher and educator** from **2018 to 2025**.
 
 ## What I did

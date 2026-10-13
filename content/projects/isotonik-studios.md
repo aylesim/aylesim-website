@@ -13,6 +13,7 @@ tech:
   - Product Distribution
   - Developer Collective
 liveLink: https://isotonikstudios.com/brand/aylesim/
+canvasImage: /isotonik-aylesim.png
 highlights:
   - Aylesim Devices distributed through the Isotonik Studios collective
   - Brand page for Birds, Knob Studio, Disco, and related Max for Live tools

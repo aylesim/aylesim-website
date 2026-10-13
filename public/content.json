@@ -100,7 +100,7 @@
       },
       {
         "slug": "max-berlin-community",
-        "title": "Max Berlin Network",
+        "title": "Max Berlin Meetups",
         "year": "2025–ongoing",
         "category": "community",
         "categoryLabel": "Community",
@@ -109,7 +109,7 @@
           "Event Programming",
           "Peer Learning"
         ],
-        "description": "## Overview\n\nMax Berlin Network is a Berlin scene for Max/MSP and creative audio. I co-founded it in **2025** and help keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers.\n\nMeetups are for peer learning: demos, troubleshooting, and shared patching.\n\n## What it is\n\n- Recurring in-person meetups for Max/MSP and creative audio\n- Open format for demos, questions, and collaborative patching\n- A local network that sits alongside the public site and newsletter\n\n## My contribution\n\nAs co-founder I handle the community side: finding venues, setting a cadence that can last, hosting sessions, and keeping communication clear between organizers and participants.",
+        "description": "## Overview\n\nMax Berlin Network is a Berlin scene for Max/MSP and creative audio. I co-founded it in **2025** and help keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers.\n\n![Max Berlin Network meetup archive](/max-berlin-meetups.png)\n\nMeetups are for peer learning: demos, troubleshooting, and shared patching.\n\n## What it is\n\n- Recurring in-person meetups for Max/MSP and creative audio\n- Open format for demos, questions, and collaborative patching\n- A local network that sits alongside the public site and newsletter\n\n## My contribution\n\nAs co-founder I handle the community side: finding venues, setting a cadence that can last, hosting sessions, and keeping communication clear between organizers and participants.",
         "highlights": [
           "Co-founded Max Berlin Network in 2025",
           "Recurring in-person meetups for Max/MSP and creative audio in Berlin",
@@ -126,7 +126,9 @@
         "featured": false,
         "listTagline": "In-person Max/MSP meetups in Berlin",
         "listBadges": [],
-        "images": [],
+        "images": [
+          "/max-berlin-meetups.png"
+        ],
         "showInMenu": true,
         "menuLabel": "community"
       },
@@ -141,7 +143,7 @@
           "Next.js / TypeScript",
           "Content Systems"
         ],
-        "description": "## Overview\n\n[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The job is narrow: when the next session is, where it happens, how to get on the list, and where to read about past meetups, without relying on scattered social posts.\n\nThe visual language is poster-like: bold type, slight rotations, monospace detail. The layout puts date, venue, and signup first.\n\n## What the site does\n\n- **Next meetup** on the homepage with date, venue, time, and a link to the full event page\n- **Newsletter** capture for upcoming meetups, open calls, and announcements\n- **Meetup archive** for past sessions\n- **About**, plus outbound links to Discord and Instagram\n- **Light / dark** theme toggle\n\n## My contribution\n\nI shaped the information architecture and built the site in **Next.js** and **TypeScript**, deployed on **Vercel**. Meetup copy and scheduling stay editable without treating the homepage as a one-off static file.\n\n- **Event routing**: a page per meetup with a stable URL\n- **Homepage data**: next session pulled into the hero so the primary call to action stays current\n- **Newsletter flow**: signup in the main layout\n- **Share metadata**: Open Graph and Twitter cards for link previews",
+        "description": "## Overview\n\n[Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The job is narrow: when the next session is, where it happens, how to get on the list, and where to read about past meetups, without relying on scattered social posts.\n\n![Max Berlin Network homepage](/max-berlin-network.png)\n\nThe visual language is poster-like: bold type, slight rotations, monospace detail. The layout puts date, venue, and signup first.\n\n## What the site does\n\n- **Next meetup** on the homepage with date, venue, time, and a link to the full event page\n- **Newsletter** capture for upcoming meetups, open calls, and announcements\n- **Meetup archive** for past sessions\n- **About**, plus outbound links to Discord and Instagram\n- **Light / dark** theme toggle\n\n## My contribution\n\nI shaped the information architecture and built the site in **Next.js** and **TypeScript**, deployed on **Vercel**. Meetup copy and scheduling stay editable without treating the homepage as a one-off static file.\n\n- **Event routing**: a page per meetup with a stable URL\n- **Homepage data**: next session pulled into the hero so the primary call to action stays current\n- **Newsletter flow**: signup in the main layout\n- **Share metadata**: Open Graph and Twitter cards for link previews",
         "highlights": [
           "Designed and built the public site at maxberlin.network",
           "Homepage shows next meetup date, venue, and detail pages without a redeploy for every edit",
@@ -158,7 +160,9 @@
         "featured": false,
         "listTagline": "Public site for a Berlin Max/MSP network",
         "listBadges": [],
-        "images": [],
+        "images": [
+          "/max-berlin-network.png"
+        ],
         "showInMenu": true,
         "menuLabel": "web"
       },
@@ -251,7 +255,7 @@
           "React / TypeScript",
           "Web Audio API"
         ],
-        "description": "## Overview\n\nGlossia is an open source audio/visual web project. It prototypes relationships between sound and image in TypeScript, React, and Next.js.\n\nCurrent behaviour and scope are in the public GitHub repo and on the deployed preview.",
+        "description": "## Overview\n\nGlossia is an open source audio/visual web project. It prototypes relationships between sound and image in TypeScript, React, and Next.js.\n\n![Glossia workspace](/glossia.png)\n\nCurrent behaviour and scope are in the public GitHub repo and on the deployed preview.",
         "highlights": [
           "Public GitHub repo with a deployed preview",
           "Real-time audio and visuals in the browser"
@@ -266,7 +270,9 @@
         "featured": false,
         "listTagline": "Interactive audio/visual web playground",
         "listBadges": [],
-        "images": [],
+        "images": [
+          "/glossia.png"
+        ],
         "showInMenu": true,
         "menuLabel": "web"
       },
@@ -281,7 +287,7 @@
           "Research",
           "Workshops"
         ],
-        "description": "## Overview\n\n[La Scuola Open Source](https://www.lascuolaopensource.xyz/) is a Bari-based cooperative for social, cultural, and technological research and education.\n\nI worked there as a **tech researcher and educator** from **2018 to 2025**.\n\n## What I did\n\n- R&D around software automation and generative AI data pipelines\n- Workshops on software automation, generative AI, and digital audio\n- Mentoring developers and engineers in advanced workshop formats",
+        "description": "## Overview\n\n[La Scuola Open Source](https://www.lascuolaopensource.xyz/) is a Bari-based cooperative for social, cultural, and technological research and education.\n\n![Workshop at La Scuola Open Source](/la-scuola-open-source.jpg)\n\nI worked there as a **tech researcher and educator** from **2018 to 2025**.\n\n## What I did\n\n- R&D around software automation and generative AI data pipelines\n- Workshops on software automation, generative AI, and digital audio\n- Mentoring developers and engineers in advanced workshop formats",
         "highlights": [
           "Tech researcher and educator at La Scuola Open Source, Bari (2018–2025)",
           "Workshops on software automation, generative AI, and digital audio",
@@ -298,7 +304,9 @@
         "featured": false,
         "listTagline": "Research and education cooperative, Bari",
         "listBadges": [],
-        "images": [],
+        "images": [
+          "/la-scuola-open-source.jpg"
+        ],
         "showInMenu": true,
         "menuLabel": "community"
       },

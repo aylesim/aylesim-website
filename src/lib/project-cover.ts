@@ -33,6 +33,9 @@ export function getProjectCover(project: Project): ProjectCover | null {
   if (still) {
     return { src: still, kind: "still" };
   }
+  if (project.canvasCover?.trim()) {
+    return { src: project.canvasCover.trim(), kind: "still" };
+  }
   const videoUrl = project.videos?.[0]?.url;
   if (videoUrl) {
     const thumb = videoThumbnail(videoUrl);

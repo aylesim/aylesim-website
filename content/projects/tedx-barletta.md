@@ -16,6 +16,7 @@ highlights:
   - Live AV performance for a TEDx audience
   - Real-time video projections synced to an experimental electronic set
 liveLink:
+canvasImage: /tedx-barletta.jpg
 videos:
   - title: Performance
     url: https://www.youtube.com/watch?v=GJUaN92rx-0

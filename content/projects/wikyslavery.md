@@ -17,6 +17,7 @@ highlights:
   - Volunteer correction labour is part of the piece: patrol work, revert speed, and unpaid attention become visible
   - "Residency: Con.Divisione 12 Art Residency (2023)"
 liveLink:
+canvasImage: /wikyslavery.jpg
 videos:
   - title: WIKISLAVERY
     url: https://vimeo.com/941312315

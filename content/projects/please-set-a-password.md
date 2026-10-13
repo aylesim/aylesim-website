@@ -16,6 +16,7 @@ highlights:
   - Real-time audio synthesis driven by analysis of the incoming imagery
   - Italian National Arts Award XV - first place, Electronic Arts (Sassari, Italy)
 liveLink:
+canvasImage: /please-set-a-password.jpg
 videos:
   - title: Alessandro Miracapillo - Please Set a Password
     url: https://vimeo.com/595763384

@@ -4,7 +4,7 @@ category: community
 order: 2
 menuLabel: community
 listTagline: In-person Max/MSP meetups in Berlin
-title: Max Berlin Network
+title: Max Berlin Meetups
 role: Co-Founder & Curator
 client: Max Berlin Network
 year: 2025–ongoing
@@ -23,6 +23,8 @@ highlights:
 ## Overview
 
 Max Berlin Network is a Berlin scene for Max/MSP and creative audio. I co-founded it in **2025** and help keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers.
+
+![Max Berlin Network meetup archive](/max-berlin-meetups.png)
 
 Meetups are for peer learning: demos, troubleshooting, and shared patching.
 

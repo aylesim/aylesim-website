@@ -449,7 +449,7 @@ function getProjects(): Project[] {
     }
   }
 
-  return projects.sort((a, b) => {
+  const sorted = projects.sort((a, b) => {
     if (a.order !== b.order) {
       return a.order - b.order;
     }
@@ -458,6 +458,35 @@ function getProjects(): Project[] {
     }
     return a.title.localeCompare(b.title);
   });
+  assertVisibleProjectsHaveCovers(sorted);
+  return sorted;
+}
+
+function projectHasCover(project: Project): boolean {
+  if (project.images.length > 0) {
+    return true;
+  }
+  if ((project.galleryAfterVideo?.length ?? 0) > 0) {
+    return true;
+  }
+  if (project.canvasCover) {
+    return true;
+  }
+  if ((project.videos?.length ?? 0) > 0) {
+    return true;
+  }
+  return false;
+}
+
+function assertVisibleProjectsHaveCovers(projects: Project[]) {
+  const missing = projects
+    .filter((project) => project.showInMenu && !projectHasCover(project))
+    .map((project) => project.slug);
+  if (missing.length > 0) {
+    throw new Error(
+      `Visible projects need an image, canvasImage, or video: ${missing.join(", ")}`
+    );
+  }
 }
 
 function parseAboutSections(body: string): AboutSection[] {

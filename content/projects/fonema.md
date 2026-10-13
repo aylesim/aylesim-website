@@ -16,6 +16,7 @@ highlights:
   - Models associated with voice classification and recognition, used toward unstable listening instead of labelling
   - Thesis project: network architectures and real-time audio treatment
 liveLink:
+canvasImage: /fonema.jpg
 videos:
   - title: Fonema.mp4
     url: https://vimeo.com/690005463

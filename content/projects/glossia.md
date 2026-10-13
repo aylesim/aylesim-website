@@ -22,4 +22,6 @@ highlights:
 
 Glossia is an open source audio/visual web project. It prototypes relationships between sound and image in TypeScript, React, and Next.js.
 
+![Glossia workspace](/glossia.png)
+
 Current behaviour and scope are in the public GitHub repo and on the deployed preview.

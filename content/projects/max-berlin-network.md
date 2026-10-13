@@ -4,7 +4,6 @@ category: web-interactive
 order: 2
 menuLabel: web
 listTagline: Public site for a Berlin Max/MSP network
-canvasImage: /LN.png
 title: Max Berlin Network
 role: Co-Founder & Web Developer
 client: Max Berlin Network
@@ -24,6 +23,8 @@ highlights:
 ## Overview
 
 [Max Berlin Network](https://www.maxberlin.network/) is the website I co-founded and built in early **2025** for a Berlin-based Max/MSP network. The job is narrow: when the next session is, where it happens, how to get on the list, and where to read about past meetups, without relying on scattered social posts.
+
+![Max Berlin Network homepage](/max-berlin-network.png)
 
 The visual language is poster-like: bold type, slight rotations, monospace detail. The layout puts date, venue, and signup first.
 
