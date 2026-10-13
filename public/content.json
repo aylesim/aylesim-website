@@ -311,6 +311,38 @@
         "menuLabel": "community"
       },
       {
+        "slug": "eduardo-pesole",
+        "title": "Eduardo Pesole",
+        "year": "2026",
+        "category": "web-interactive",
+        "categoryLabel": "Web",
+        "tags": [
+          "Frontend Architecture",
+          "Next.js / TypeScript"
+        ],
+        "description": "## Overview\n\n[Eduardo Pesole](https://www.eduardopesole.com/) is the public site I built for a Berlin-based sound designer and composer. The job is a portfolio. Works sit in a gallery, then services, about, and a way to get in touch.\n\n![Eduardo Pesole homepage](/eduardo-pesole.png)\n\n## What the site does\n\n- **Index** gallery of selected works across games and art collaborations\n- **Works**, **Services**, **About**, and **Contacts**\n- Services for game and interactive audio, installation and spatial sound, composition, and mix and post\n- Showreel on About, plus email, LinkedIn, and Instagram\n\n## My contribution\n\nI built and shipped the public site in **Next.js** and **TypeScript**, deployed on **Vercel**.\n\n- Information architecture for index, works, services, about, and contacts\n- Index gallery as the first thing a visitor sees\n- Share metadata and the live domain at eduardopesole.com",
+        "highlights": [
+          "Public site at eduardopesole.com",
+          "Index gallery, works, services, about, and contacts",
+          "Deployed on Vercel"
+        ],
+        "link": "https://www.eduardopesole.com/",
+        "linkLabel": "Visit live",
+        "primaryMeta": [
+          "Eduardo Pesole",
+          "2026"
+        ],
+        "secondaryMeta": "Web Developer",
+        "featured": false,
+        "listTagline": "Public site for a Berlin sound designer",
+        "listBadges": [],
+        "images": [
+          "/eduardo-pesole.png"
+        ],
+        "showInMenu": true,
+        "menuLabel": "web"
+      },
+      {
         "slug": "tedx-barletta",
         "title": "TEDx Barletta",
         "year": "2020",
