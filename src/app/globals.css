@@ -1,61 +1,68 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
   --color-bg: var(--bg);
   --color-surface-panel: var(--surface-panel);
   --color-surface-subtle: var(--surface-subtle);
   --color-surface-hover: var(--surface-hover);
   --color-surface-media: var(--surface-media);
   --color-text-faint: var(--text-faint);
+  --color-accent: var(--signal);
 }
 
 :root,
 [data-theme="dark"] {
-  --bg: #0a0a0a;
-  --foreground: #f0f0f0;
-  --text-muted: #888888;
-  --index-divider: #333333;
-  --badge-bg: #f0f0f0;
-  --badge-fg: #0a0a0a;
-  --surface-dim: #141414;
-  --micro-divider-color: #333333;
-  --selection-bg: #333333;
-  --scrim: rgba(0, 0, 0, 0.7);
-  --accent: #f0f0f0;
-  --role-audio: #888888;
-  --role-web: #888888;
-  --role-creative: #888888;
-  --surface-panel: #0a0a0a;
-  --surface-subtle: #111111;
-  --surface-hover: #1a1a1a;
-  --surface-media: #141414;
-  --text-faint: #555555;
-  --font-sans: "IBM Plex Mono", ui-monospace, monospace;
-  --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --bg: #1b1e24;
+  --foreground: #eef0f4;
+  --text-muted: #9aa3b0;
+  --index-divider: #2c313b;
+  --badge-bg: #eef0f4;
+  --badge-fg: #1b1e24;
+  --surface-dim: #22262e;
+  --micro-divider-color: #2c313b;
+  --selection-bg: rgba(90, 112, 184, 0.35);
+  --scrim: rgba(12, 14, 18, 0.72);
+  --signal: #8ea0e8;
+  --clip-devices: #c47a52;
+  --clip-web: #5b7eb0;
+  --clip-community: #7a6aa3;
+  --clip-artworks: #4a8f7c;
+  --clip-ink: #14161c;
+  --surface-panel: #1b1e24;
+  --surface-subtle: #22262e;
+  --surface-hover: #2a2f38;
+  --surface-media: #12141a;
+  --text-faint: #6d7582;
+  --font-bricolage: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --spine: #16191e;
   color-scheme: dark;
 }
 
 [data-theme="light"] {
-  --bg: #f5f5f5;
-  --foreground: #0a0a0a;
-  --text-muted: #666666;
-  --index-divider: #cccccc;
-  --badge-bg: #0a0a0a;
-  --badge-fg: #f5f5f5;
-  --surface-dim: #e8e8e8;
-  --micro-divider-color: #cccccc;
-  --selection-bg: #dddddd;
-  --scrim: rgba(0, 0, 0, 0.4);
-  --accent: #0a0a0a;
-  --role-audio: #666666;
-  --role-web: #666666;
-  --role-creative: #666666;
-  --surface-panel: #f5f5f5;
-  --surface-subtle: #eeeeee;
-  --surface-hover: #e0e0e0;
-  --surface-media: #e8e8e8;
-  --text-faint: #999999;
+  --bg: #e6e8ee;
+  --foreground: #16181e;
+  --text-muted: #4e5663;
+  --index-divider: #c5cad3;
+  --badge-bg: #16181e;
+  --badge-fg: #e6e8ee;
+  --surface-dim: #d5d8e0;
+  --micro-divider-color: #c5cad3;
+  --selection-bg: rgba(70, 90, 160, 0.22);
+  --scrim: rgba(22, 24, 30, 0.45);
+  --signal: #3148a0;
+  --clip-devices: #c47a52;
+  --clip-web: #5b7eb0;
+  --clip-community: #7a6aa3;
+  --clip-artworks: #4a8f7c;
+  --clip-ink: #14161c;
+  --surface-panel: #e6e8ee;
+  --surface-subtle: #dfe2e9;
+  --surface-hover: #d0d4dd;
+  --surface-media: #c8ccd4;
+  --text-faint: #7a8290;
+  --spine: #dcdfe6;
   color-scheme: light;
 }
 
@@ -74,8 +81,8 @@ body {
   background-color: var(--bg);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.45;
+  font-size: 16px;
+  line-height: 1.5;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -112,7 +119,18 @@ body {
 
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
-  outline: 1px solid var(--foreground);
-  outline-offset: 2px;
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.clip-strip {
+  color: var(--clip-ink);
+  background: var(--clip);
+}
+
+.clip:hover .clip-still,
+.clip:focus-visible .clip-still {
+  opacity: 1;
 }

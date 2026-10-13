@@ -13,7 +13,7 @@ const vimeoNumericSegment = /^\d+$/;
 const hostnameWwwPrefix = /^www\./;
 
 function Meta({ children }: { children: React.ReactNode }) {
-  return <p className="text-(--text-muted) text-xs">{children}</p>;
+  return <p className="text-(--text-muted) text-sm">{children}</p>;
 }
 
 function DetailLinks({ children }: { children: React.ReactNode }) {
@@ -89,7 +89,7 @@ function ProjectVideoEmbed({ item }: { item: ProjectVideo }) {
   const ytId = youtubeVideoId(item.url);
   if (ytId) {
     return (
-      <div className="relative aspect-video w-full max-w-full overflow-hidden border border-(--index-divider) bg-black">
+      <div className="relative aspect-video w-full max-w-full overflow-hidden bg-black">
         <iframe
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
@@ -105,7 +105,7 @@ function ProjectVideoEmbed({ item }: { item: ProjectVideo }) {
   const vmId = vimeoVideoId(item.url);
   if (vmId) {
     return (
-      <div className="relative aspect-video w-full max-w-full overflow-hidden border border-(--index-divider) bg-black">
+      <div className="relative aspect-video w-full max-w-full overflow-hidden bg-black">
         <iframe
           allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
           allowFullScreen
@@ -191,10 +191,7 @@ function ProjectStillLead({
   return (
     <div className="mb-8 flex flex-col gap-2">
       {stills.map((src, index) => (
-        <figure
-          className="overflow-hidden border border-(--index-divider) bg-(--surface-media)"
-          key={src}
-        >
+        <figure className="overflow-hidden bg-(--surface-media)" key={src}>
           <Image
             alt={alts[index] ?? ""}
             className="h-auto w-full"
@@ -226,7 +223,7 @@ function ProjectMarkdownBody({ source }: { source: string }) {
         ),
         img: ({ alt, src }) =>
           typeof src === "string" ? (
-            <span className="my-4 block overflow-hidden border border-(--index-divider)">
+            <span className="my-4 block overflow-hidden">
               <Image
                 alt={alt ?? ""}
                 className="h-auto w-full"
@@ -238,7 +235,7 @@ function ProjectMarkdownBody({ source }: { source: string }) {
             </span>
           ) : null,
         blockquote: ({ children }) => (
-          <blockquote className="my-4 border-(--index-divider) border-l-2 pl-4 text-(--text-muted)">
+          <blockquote className="my-4 border-(--foreground) border-l pl-4 text-(--text-muted)">
             {children}
           </blockquote>
         ),
@@ -313,10 +310,10 @@ export function ProjectDetail({
       ) : null}
       {leadWithVideo ? <ProjectVideos leading videos={videos} /> : null}
       <div className="max-w-2xl">
-        <h1 className="mb-2 text-2xl tracking-tight sm:text-3xl">
+        <h1 className="mb-2 font-medium text-3xl leading-tight tracking-tight sm:text-4xl">
           {project.title}
         </h1>
-        {metaParts.length > 0 ? <Meta>{metaParts.join(" · ")}</Meta> : null}
+        {metaParts.length > 0 ? <Meta>{metaParts.join(" / ")}</Meta> : null}
         {project.slug === site.aylesimDevicesSlug ? (
           <Meta>{site.audioDeveloperProductLine}</Meta>
         ) : null}

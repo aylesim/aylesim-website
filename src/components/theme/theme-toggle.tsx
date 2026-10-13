@@ -4,12 +4,12 @@ import { useTheme } from "@/components/theme/theme-provider";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
-  const nextLabel = theme === "dark" ? "Light" : "Dark";
+  const nextLabel = theme === "dark" ? "Day" : "Night";
 
   return (
     <button
       aria-label={`Switch to ${nextLabel.toLowerCase()} mode`}
-      className="text-(--text-muted) text-xs uppercase tracking-wide hover:text-(--foreground)"
+      className="text-(--text-muted) text-sm hover:text-(--foreground)"
       onClick={toggleTheme}
       type="button"
     >

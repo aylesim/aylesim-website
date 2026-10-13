@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 import type { Award, HomeContent, Project, SiteConfig } from "@/lib/content";
 import { getProjectCover, type ProjectCover } from "@/lib/project-cover";
 import {
+  CATEGORY_ACCENT,
   CATEGORY_FILTERS,
   CATEGORY_LABELS,
   type ProjectCategory,
@@ -21,9 +22,80 @@ function filterLabel(filter: IndexFilter) {
   return CATEGORY_LABELS[filter];
 }
 
-function cardMeta(project: Project, extra?: string) {
-  const category = project.category ? CATEGORY_LABELS[project.category] : null;
-  return [project.year ?? "—", category, extra].filter(Boolean).join(" · ");
+function clipColor(category: ProjectCategory | null | undefined) {
+  if (!category) {
+    return "var(--clip-web)";
+  }
+  return CATEGORY_ACCENT[category];
+}
+
+function SessionClip({
+  project,
+  cover,
+  awardTitle,
+  priority,
+  onSelect,
+}: {
+  project: Project;
+  cover: ProjectCover | null;
+  awardTitle?: string;
+  priority?: boolean;
+  onSelect: (slug: string) => void;
+}) {
+  const [failed, setFailed] = useState(false);
+  const showStill = Boolean(cover) && !failed;
+  const clip = clipColor(project.category);
+
+  return (
+    <li className="min-w-0">
+      <button
+        className="clip flex h-full w-full flex-col overflow-hidden text-left"
+        onClick={() => onSelect(project.slug)}
+        type="button"
+      >
+        {showStill ? (
+          <span className="relative block aspect-[4/3] w-full overflow-hidden bg-(--surface-media)">
+            <Image
+              alt=""
+              className="clip-still object-cover opacity-[0.82] transition-opacity duration-200 motion-reduce:transition-none"
+              fill
+              onError={() => setFailed(true)}
+              priority={priority}
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+              src={cover?.src ?? ""}
+              unoptimized
+            />
+          </span>
+        ) : (
+          <span
+            className="block aspect-[4/3] w-full"
+            style={{ background: clip }}
+          />
+        )}
+        <span
+          className="clip-strip flex flex-col gap-0.5 px-3 py-2.5"
+          style={{ "--clip": clip } as CSSProperties}
+        >
+          <span className="flex items-baseline justify-between gap-3">
+            <span className="font-medium text-[1.05rem] leading-tight">
+              {project.title}
+            </span>
+            <span className="shrink-0 text-xs tabular-nums opacity-70">
+              {project.year ?? ""}
+            </span>
+          </span>
+          {project.listTagline ? (
+            <span className="text-xs leading-snug opacity-75">
+              {project.listTagline}
+            </span>
+          ) : null}
+          {awardTitle ? (
+            <span className="text-xs opacity-75">{awardTitle}</span>
+          ) : null}
+        </span>
+      </button>
+    </li>
+  );
 }
 
 function AwardsList({
@@ -38,147 +110,35 @@ function AwardsList({
   }
 
   return (
-    <section aria-labelledby="awards-heading" className="space-y-3">
-      <h2
-        className="border-(--index-divider) border-b pb-2 text-xs uppercase tracking-widest"
-        id="awards-heading"
-      >
-        Prizes
+    <section aria-labelledby="awards-heading" className="max-w-2xl">
+      <h2 className="mb-3 font-medium" id="awards-heading">
+        Recognition
       </h2>
       <ul className="m-0 list-none space-y-4 p-0">
         {awards.map((award) => (
-          <li
-            className="border-(--index-divider) border-b pb-4 last:border-b-0 last:pb-0"
-            key={`${award.year}-${award.projectSlug}-${award.title}`}
-          >
-            <div className="flex flex-col gap-1">
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                <span className="text-(--text-muted) tabular-nums">
-                  {award.year}
-                </span>
-                <button
-                  className="text-left underline-offset-3 hover:underline"
-                  onClick={() => onSelect(award.projectSlug)}
-                  type="button"
-                >
-                  {award.headline}
-                </button>
-              </div>
-              <p className="text-(--text-muted) text-xs">
-                {award.title} · {award.issuer}
-              </p>
-              <a
-                className="w-fit text-xs underline underline-offset-3"
-                href={award.externalHref}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Source
-              </a>
-            </div>
+          <li key={`${award.year}-${award.projectSlug}-${award.title}`}>
+            <button
+              className="text-left font-medium hover:underline hover:underline-offset-3"
+              onClick={() => onSelect(award.projectSlug)}
+              type="button"
+            >
+              {award.headline}
+            </button>
+            <p className="text-(--text-muted) text-sm">
+              {award.title}, {award.issuer}, {award.year}
+            </p>
+            <a
+              className="text-sm"
+              href={award.externalHref}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Source
+            </a>
           </li>
         ))}
       </ul>
     </section>
-  );
-}
-
-function WorkVisualCard({
-  project,
-  cover,
-  awardTitle,
-  featured,
-  onSelect,
-}: {
-  project: Project;
-  cover: ProjectCover;
-  awardTitle?: string;
-  featured: boolean;
-  onSelect: (slug: string) => void;
-}) {
-  const [failed, setFailed] = useState(false);
-  const meta = cardMeta(project, cover.kind === "video" ? "Video" : undefined);
-
-  return (
-    <li className={featured ? "min-w-0 sm:col-span-2" : "min-w-0"}>
-      <button
-        className="group flex h-full w-full flex-col border border-(--index-divider) bg-bg text-left hover:border-(--foreground)"
-        onClick={() => onSelect(project.slug)}
-        type="button"
-      >
-        {failed ? null : (
-          <span
-            className={`relative block w-full overflow-hidden bg-(--surface-media) ${featured ? "aspect-[4/3] sm:aspect-[16/9]" : "aspect-[4/3]"}`}
-          >
-            <Image
-              alt=""
-              className="object-cover"
-              fill
-              onError={() => setFailed(true)}
-              priority={featured}
-              sizes={
-                featured
-                  ? "(min-width: 1024px) 66vw, 100vw"
-                  : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              }
-              src={cover.src}
-              unoptimized
-            />
-          </span>
-        )}
-        <span className="flex flex-col gap-1 px-3 py-3">
-          <span className="text-(--text-muted) text-xs">{meta}</span>
-          <span className="text-sm group-hover:underline group-hover:underline-offset-3 sm:text-base">
-            {project.title}
-          </span>
-          {project.listTagline ? (
-            <span className="text-(--text-muted) text-xs">
-              {project.listTagline}
-            </span>
-          ) : null}
-          {awardTitle ? (
-            <span className="text-(--text-muted) text-xs">
-              Prize · {awardTitle}
-            </span>
-          ) : null}
-        </span>
-      </button>
-    </li>
-  );
-}
-
-function WorkTextCard({
-  project,
-  awardTitle,
-  onSelect,
-}: {
-  project: Project;
-  awardTitle?: string;
-  onSelect: (slug: string) => void;
-}) {
-  return (
-    <li className="min-w-0">
-      <button
-        className="group flex h-full w-full flex-col gap-2 border border-(--index-divider) bg-bg px-3 py-4 text-left hover:border-(--foreground)"
-        onClick={() => onSelect(project.slug)}
-        type="button"
-      >
-        <span className="text-(--text-muted) text-xs">{cardMeta(project)}</span>
-        <span className="text-sm group-hover:underline group-hover:underline-offset-3">
-          {project.title}
-        </span>
-        {project.listTagline ? (
-          <span className="text-(--text-muted) text-xs">
-            {project.listTagline}
-          </span>
-        ) : null}
-        {awardTitle ? (
-          <span className="text-(--text-muted) text-xs">
-            Prize · {awardTitle}
-          </span>
-        ) : null}
-      </button>
-    </li>
   );
 }
 
@@ -194,40 +154,46 @@ export function ArchiveIndex({
   onSelect: (slug: string) => void;
 }) {
   const [filter, setFilter] = useState<IndexFilter>("all");
-  const awardTitleBySlug = new Map(
-    site.awards.map((award) => [award.projectSlug, award.title])
+
+  const awardTitleBySlug = useMemo(
+    () => new Map(site.awards.map((award) => [award.projectSlug, award.title])),
+    [site.awards]
   );
-  const filtered = projects.filter((project) =>
-    filter === "all" ? true : project.category === filter
+
+  const filtered = useMemo(
+    () =>
+      projects.filter((project) =>
+        filter === "all" ? true : project.category === filter
+      ),
+    [projects, filter]
   );
-  const annotated = filtered.map((project) => ({
-    project,
-    cover: getProjectCover(project),
-  }));
-  const visual = annotated.filter(
-    (item): item is { project: Project; cover: ProjectCover } =>
-      item.cover !== null
+
+  const annotated = useMemo(
+    () =>
+      filtered.map((project) => ({
+        project,
+        cover: getProjectCover(project),
+      })),
+    [filtered]
   );
-  const textual = annotated.filter((item) => item.cover === null);
 
   return (
-    <div className="flex flex-col gap-10 md:gap-14">
-      <header className="max-w-3xl">
-        <h1 className="text-xl uppercase tracking-wide sm:text-2xl">
+    <div className="flex flex-col gap-8 md:gap-10">
+      <header className="max-w-xl">
+        <h1 className="font-medium text-2xl tracking-tight sm:text-[1.75rem]">
           {home.name}
         </h1>
-        <p className="mt-2 text-sm leading-relaxed sm:text-base">
-          {home.role}
-          <span className="text-(--text-muted)"> · {home.location}</span>
+        <p className="mt-1 text-(--text-muted)">
+          {home.role}, {home.location}
         </p>
       </header>
 
       <section aria-labelledby="index-heading">
-        <div className="mb-4 flex flex-col gap-3 border-(--index-divider) border-b pb-3 sm:flex-row sm:items-baseline sm:justify-between">
-          <h2 className="text-xs uppercase tracking-widest" id="index-heading">
-            Index
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+          <h2 className="sr-only" id="index-heading">
+            Work
           </h2>
-          <fieldset className="m-0 flex min-w-0 flex-wrap gap-x-4 gap-y-1 border-0 p-0 text-xs uppercase tracking-widest">
+          <fieldset className="m-0 flex min-w-0 flex-wrap gap-x-4 gap-y-1 border-0 p-0 text-sm">
             <legend className="sr-only">Filter by category</legend>
             {FILTERS.map((item) => {
               const selected = filter === item;
@@ -236,7 +202,7 @@ export function ArchiveIndex({
                   aria-pressed={selected}
                   className={
                     selected
-                      ? "text-(--foreground) underline underline-offset-3"
+                      ? "text-(--foreground) underline decoration-2 underline-offset-4"
                       : "text-(--text-muted) hover:text-(--foreground)"
                   }
                   key={item}
@@ -251,26 +217,19 @@ export function ArchiveIndex({
         </div>
 
         {filtered.length === 0 ? (
-          <p className="text-(--text-muted) text-sm">
-            No projects in this category.
+          <p className="text-(--text-muted)">
+            Nothing in {filterLabel(filter)}. Choose another group, or show all
+            work.
           </p>
         ) : (
-          <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
-            {visual.map(({ project, cover }, index) => (
-              <WorkVisualCard
+          <ul className="m-0 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2 lg:grid-cols-4">
+            {annotated.map(({ project, cover }, index) => (
+              <SessionClip
                 awardTitle={awardTitleBySlug.get(project.slug)}
                 cover={cover}
-                featured={index === 0}
                 key={project.slug}
                 onSelect={onSelect}
-                project={project}
-              />
-            ))}
-            {textual.map(({ project }) => (
-              <WorkTextCard
-                awardTitle={awardTitleBySlug.get(project.slug)}
-                key={project.slug}
-                onSelect={onSelect}
+                priority={index < 4}
                 project={project}
               />
             ))}
@@ -280,7 +239,7 @@ export function ArchiveIndex({
 
       <AwardsList awards={site.awards} onSelect={onSelect} />
 
-      <footer className="flex flex-wrap gap-x-4 gap-y-1 border-(--index-divider) border-t pt-4 text-(--text-muted) text-xs">
+      <footer className="flex flex-wrap gap-x-5 gap-y-2 pt-2 text-(--text-muted) text-sm">
         <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
         {site.contactLinks.map((link) => (
           <a

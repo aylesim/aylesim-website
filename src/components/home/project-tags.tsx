@@ -12,7 +12,7 @@ export function ProjectTags({
 
   return (
     <ul
-      className={`m-0 flex list-none flex-wrap gap-x-3 gap-y-1 p-0 text-(--text-muted) text-xs ${className ?? ""}`}
+      className={`m-0 flex list-none flex-wrap gap-x-3 gap-y-1 p-0 text-(--text-muted) text-sm ${className ?? ""}`}
     >
       {tags.map((tag) => (
         <li key={tag}>{tag}</li>

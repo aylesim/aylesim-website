@@ -40,12 +40,6 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
     [router]
   );
 
-  const closeProject = useCallback(() => {
-    startTransition(() => {
-      router.replace("/", { scroll: false });
-    });
-  }, [router]);
-
   const visibleProjects = useMemo(
     () => content.projects.filter((item) => item.showInMenu),
     [content.projects]
@@ -54,23 +48,10 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
   const showingDetail = Boolean(projectSlug);
 
   return (
-    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
-      <SiteHeader
-        active={showingDetail ? undefined : "index"}
-        leading={
-          showingDetail ? (
-            <button
-              className="text-(--text-muted) hover:text-(--foreground)"
-              onClick={closeProject}
-              type="button"
-            >
-              ← Index
-            </button>
-          ) : undefined
-        }
-      />
+    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg md:pl-16">
+      <SiteHeader active={showingDetail ? undefined : "index"} />
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-5 md:px-6 md:py-8">
+      <main className="mx-auto w-full max-w-[92rem] flex-1 px-4 py-5 md:px-7 md:py-7">
         {showingDetail && projectSlug ? (
           <ProjectDetail
             projects={content.projects}

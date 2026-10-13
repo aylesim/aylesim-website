@@ -5,12 +5,12 @@ import type { About, SiteConfig } from "@/lib/content";
 
 export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
   return (
-    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg">
+    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg md:pl-16">
       <SiteHeader active="about" />
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 md:px-6 md:py-10">
-        <div className="grid items-start gap-8 md:grid-cols-[minmax(14rem,22rem)_minmax(0,36rem)]">
+      <main className="mx-auto w-full max-w-[92rem] flex-1 px-4 py-6 md:px-7 md:py-8">
+        <div className="grid items-start gap-8 lg:grid-cols-[minmax(16rem,28rem)_minmax(0,38rem)] lg:gap-12">
           {about.portrait ? (
-            <figure className="overflow-hidden border border-(--index-divider) bg-(--surface-media)">
+            <figure className="overflow-hidden bg-(--surface-media)">
               <Image
                 alt="Alessandro Miracapillo"
                 className="h-auto w-full"
@@ -23,35 +23,37 @@ export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
             </figure>
           ) : null}
 
-          <div className="max-w-xl space-y-6">
-            <header className="space-y-1">
-              <h1 className="text-lg leading-snug sm:text-xl">{about.lede}</h1>
+          <div className="max-w-xl space-y-8">
+            <header className="space-y-2">
+              <h1 className="font-medium text-2xl leading-snug sm:text-[1.75rem]">
+                {about.lede}
+              </h1>
               {about.subtitle ? (
-                <p className="text-(--text-muted) text-xs">{about.subtitle}</p>
+                <p className="text-(--text-muted)">{about.subtitle}</p>
               ) : null}
             </header>
 
-            <div className="text-(--foreground) text-sm leading-relaxed [&_p:last-child]:mb-0 [&_p]:mb-3">
+            <div className="max-w-prose leading-relaxed [&_a]:underline [&_a]:underline-offset-3 [&_p:last-child]:mb-0 [&_p]:mb-4">
               <ReactMarkdown>{about.body}</ReactMarkdown>
             </div>
 
-            <dl className="space-y-3 border-(--index-divider) border-t pt-6 text-sm">
-              <div className="grid gap-1 sm:grid-cols-[6rem_1fr]">
-                <dt className="text-(--text-faint)">Email</dt>
+            <dl className="space-y-4 text-sm">
+              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
+                <dt className="text-(--text-muted)">Email</dt>
                 <dd>
                   <a href={`mailto:${site.contactEmail}`}>
                     {site.contactEmail}
                   </a>
                 </dd>
               </div>
-              <div className="grid gap-1 sm:grid-cols-[6rem_1fr]">
-                <dt className="text-(--text-faint)">Resume</dt>
+              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
+                <dt className="text-(--text-muted)">Resume</dt>
                 <dd>
                   <a href={site.resumeHref}>{site.resumeLabel}</a>
                 </dd>
               </div>
-              <div className="grid gap-1 sm:grid-cols-[6rem_1fr]">
-                <dt className="text-(--text-faint)">Links</dt>
+              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
+                <dt className="text-(--text-muted)">Links</dt>
                 <dd className="flex flex-wrap gap-x-4 gap-y-1">
                   {site.contactLinks.map((link) => (
                     <a
@@ -66,9 +68,9 @@ export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
                 </dd>
               </div>
               {site.pressMentions.length > 0 ? (
-                <div className="grid gap-1 sm:grid-cols-[6rem_1fr]">
-                  <dt className="text-(--text-faint)">Press</dt>
-                  <dd className="space-y-1">
+                <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
+                  <dt className="text-(--text-muted)">Press</dt>
+                  <dd className="space-y-2">
                     {site.pressMentions.map((mention) => (
                       <div key={mention.href}>
                         <a
@@ -78,19 +80,19 @@ export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
                         >
                           {mention.outlet}
                         </a>
-                        <span className="text-(--text-faint)">
+                        <span className="text-(--text-muted)">
                           {" "}
-                          · {mention.title}
-                          {mention.year ? ` (${mention.year})` : ""}
+                          {mention.title}
+                          {mention.year ? `, ${mention.year}` : ""}
                         </span>
                       </div>
                     ))}
                   </dd>
                 </div>
               ) : null}
-              <div className="grid gap-1 sm:grid-cols-[6rem_1fr]">
-                <dt className="text-(--text-faint)">Prizes</dt>
-                <dd className="space-y-1">
+              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
+                <dt className="text-(--text-muted)">Recognition</dt>
+                <dd className="space-y-2">
                   {site.awards.map((award) => (
                     <div key={`${award.year}-${award.externalHref}`}>
                       <a
@@ -100,9 +102,9 @@ export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
                       >
                         {award.headline}
                       </a>
-                      <span className="text-(--text-faint)">
+                      <span className="text-(--text-muted)">
                         {" "}
-                        · {award.title} ({award.year})
+                        {award.title}, {award.year}
                       </span>
                     </div>
                   ))}
