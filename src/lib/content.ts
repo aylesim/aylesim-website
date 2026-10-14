@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import type { ProjectCategory } from "@/lib/roles";
+import { CATEGORY_FILTERS, type ProjectCategory } from "./roles";
 
 const contentDir = path.join(process.cwd(), "content");
 
@@ -9,9 +9,7 @@ const aboutSectionSplit = /\n(?=## )/;
 const aboutHeadingPrefix = /^##\s+/;
 
 const PROJECT_CATEGORIES = new Set<string>([
-  "devices",
-  "web-interactive",
-  "installations",
+  ...CATEGORY_FILTERS.filter((category) => category !== "all"),
   "community",
 ]);
 
@@ -163,35 +161,17 @@ function sortYear(y?: string): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-function menuOrderFromData(data: Record<string, unknown>): number {
-  const v = data.order;
-  if (typeof v === "number" && Number.isFinite(v)) {
-    return v;
+function asOrder(value: unknown, fallback: number): number {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
   }
-  if (typeof v === "string") {
-    const n = Number.parseInt(v, 10);
-    if (Number.isFinite(n)) {
-      return n;
+  if (typeof value === "string") {
+    const order = Number.parseInt(value, 10);
+    if (Number.isFinite(order)) {
+      return order;
     }
   }
-  return Number.POSITIVE_INFINITY;
-}
-
-function stackOrderFromData(
-  data: Record<string, unknown>,
-  orderFallback: number
-): number {
-  const v = data.stackOrder;
-  if (typeof v === "number" && Number.isFinite(v)) {
-    return v;
-  }
-  if (typeof v === "string") {
-    const n = Number.parseInt(v, 10);
-    if (Number.isFinite(n)) {
-      return n;
-    }
-  }
-  return orderFallback;
+  return fallback;
 }
 
 function asString(v: unknown): string | undefined {
@@ -250,10 +230,6 @@ function asStringArray(v: unknown): string[] {
     return [];
   }
   return v.filter((item): item is string => typeof item === "string");
-}
-
-function showInMenuFromData(data: Record<string, unknown>): boolean {
-  return data.showInMenu !== false;
 }
 
 function asVideoList(v: unknown): ProjectVideo[] {
@@ -384,14 +360,14 @@ function mapProject(source: ProjectMapSource): Project {
     videos: videos.length > 0 ? videos : undefined,
     sortYear: sortYear(year),
     order,
-    stackOrder: stackOrderFromData(data, order),
+    stackOrder: asOrder(data.stackOrder, order),
     menuLabel: asString(data.menuLabel),
     featured: data.featured === true,
     listTagline: asString(data.listTagline),
     isotonik: data.isotonik === true,
     listBadges: asListBadges(data.listBadges),
     workScope: asWorkScope(data.workScope),
-    showInMenu: showInMenuFromData(data),
+    showInMenu: data.showInMenu !== false,
     category: asProjectCategory(data.category),
   };
 }
@@ -406,7 +382,7 @@ function getProjects(): Project[] {
     const slug = file.replace(".md", "");
     const body = content.trim();
     const year = asYear(data.year);
-    const order = menuOrderFromData(data);
+    const order = asOrder(data.order, Number.POSITIVE_INFINITY);
 
     const source: ProjectMapSource = { slug, body, year, order, data };
     if (data.type !== "work" && data.type !== "device") {
@@ -431,19 +407,12 @@ function getProjects(): Project[] {
 }
 
 function projectHasCover(project: Project): boolean {
-  if (project.images.length > 0) {
-    return true;
-  }
-  if ((project.galleryAfterVideo?.length ?? 0) > 0) {
-    return true;
-  }
-  if (project.canvasCover) {
-    return true;
-  }
-  if ((project.videos?.length ?? 0) > 0) {
-    return true;
-  }
-  return false;
+  return Boolean(
+    project.images.length > 0 ||
+      (project.galleryAfterVideo?.length ?? 0) > 0 ||
+      project.canvasCover ||
+      (project.videos?.length ?? 0) > 0
+  );
 }
 
 function assertVisibleProjectsHaveCovers(projects: Project[]) {

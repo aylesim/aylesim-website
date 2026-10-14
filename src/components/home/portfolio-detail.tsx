@@ -8,18 +8,12 @@ const sectionBoundary = /\n(?=## )/;
 const sectionTitle = /^## ([^\n]+)\n*/;
 
 export function ProjectDetail({
-  slug,
-  projects,
+  project,
   site,
 }: {
-  slug: string;
-  projects: Project[];
+  project: Project;
   site: SiteConfig;
 }) {
-  const project = projects.find((entry) => entry.slug === slug);
-  if (!project) {
-    return null;
-  }
   const stills = projectStills(project);
   const videos = project.videos ?? [];
   const image = stills[0] ? (

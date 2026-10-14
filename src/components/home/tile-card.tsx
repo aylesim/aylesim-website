@@ -3,12 +3,13 @@ import type { MouseEvent, Ref } from "react";
 import type { ProjectCover } from "@/lib/project-cover";
 import type { ProjectPreview } from "@/lib/project-preview";
 import { CATEGORY_LABELS } from "@/lib/roles";
+import { DESKTOP_STAGE_QUERY } from "@/lib/tile-layout";
 
 function keyboardActivate(
   event: MouseEvent<HTMLButtonElement>,
   action: () => void
 ) {
-  if (event.detail === 0) {
+  if (event.detail === 0 || !window.matchMedia(DESKTOP_STAGE_QUERY).matches) {
     action();
   }
 }
@@ -42,6 +43,7 @@ export function TileCard({
       className={project.featured ? "tile is-featured" : "tile"}
       data-slug={project.slug}
       draggable={false}
+      hidden={!visible}
       inert={!visible}
       ref={tileRef}
     >
@@ -51,7 +53,7 @@ export function TileCard({
           className="tile-image"
           height={500}
           loading={project.featured ? "eager" : "lazy"}
-          sizes="(max-aspect-ratio: 1/1) 56vw, 16vw"
+          sizes="(max-width: 767px) calc(100vw - 32px), (max-aspect-ratio: 1/1) 56vw, 16vw"
           src={cover.src}
           width={800}
         />

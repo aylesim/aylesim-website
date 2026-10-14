@@ -4,13 +4,15 @@ export const metadata = pageMetadata("/archive");
 import Link from "next/link";
 import { PageFrame } from "@/components/site/site-chrome";
 import { getAllContent } from "@/lib/content";
+import { buildWorkMenu } from "@/lib/work-menu";
 export default function Page() {
-  const { home, site } = getAllContent();
+  const { home, site, projects } = getAllContent();
   return (
     <PageFrame
       brand={home.brand}
       contactEmail={site.contactEmail}
       current="archive"
+      workMenu={buildWorkMenu(projects)}
     >
       <main className="project-page">
         <h1>Archive</h1>

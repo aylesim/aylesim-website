@@ -21,18 +21,19 @@ import {
   type WorkFilter,
 } from "@/lib/roles";
 
+import { buildWorkMenu } from "@/lib/work-menu";
+
 const savedFilters = new Map<string, WorkFilter>();
 
 export default function ArchiveShell({
   projects: entries,
   brand,
-  contactEmail,
   initialFilter = "all",
   children,
 }: {
   projects: ProjectPreview[];
   brand: string;
-  contactEmail: string;
+  contactEmail?: string;
   initialFilter?: WorkFilter;
   children?: ReactNode;
 }) {
@@ -72,17 +73,11 @@ export default function ArchiveShell({
       router.replace(project ? projectHref(project) : "/about");
     }
   }, [projects, router]);
-  const workMenuProjects = projects
-    .filter((project) => filter === "all" || project.category === filter)
-    .map((project) => ({
-      slug: project.slug,
-      label: project.menuLabel ?? project.title,
-    }));
+  const workMenu = useMemo(() => buildWorkMenu(projects), [projects]);
   return (
     <main className="site-home">
       <SiteChrome
         brand={brand}
-        contactEmail={contactEmail}
         current="home"
         filters={
           <nav aria-label="Project collections" className="site-filters">
@@ -107,7 +102,7 @@ export default function ArchiveShell({
         menuOpen={menuOpen}
         onMenuOpenChange={setMenuOpen}
         workMenu={{
-          projects: workMenuProjects,
+          ...workMenu,
           selectedSlug: null,
           onSelect: openProject,
         }}

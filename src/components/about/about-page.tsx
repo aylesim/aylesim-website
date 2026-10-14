@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
 import { Markdown } from "@/components/markdown";
-import { PageFrame } from "@/components/site/site-chrome";
+import { PageFrame, type WorkMenu } from "@/components/site/site-chrome";
 import type { About, SiteConfig } from "@/lib/content";
 import { spiralPoses } from "@/lib/tile-layout";
 
@@ -19,10 +19,12 @@ export function AboutPage({
   about,
   brand,
   site,
+  workMenu,
 }: {
   about: About;
   brand: string;
   site: SiteConfig;
+  workMenu: WorkMenu;
 }) {
   const rootRef = useRef<HTMLElement>(null);
 
@@ -63,7 +65,12 @@ export function AboutPage({
   );
 
   return (
-    <PageFrame brand={brand} contactEmail={site.contactEmail} current="about">
+    <PageFrame
+      brand={brand}
+      contactEmail={site.contactEmail}
+      current="about"
+      workMenu={workMenu}
+    >
       <main className="about" ref={rootRef}>
         <header className="about-card about-card--hero">
           <div className="about-card-inner">

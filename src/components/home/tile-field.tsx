@@ -10,6 +10,7 @@ import { getProjectCover } from "@/lib/project-cover";
 import type { ProjectPreview } from "@/lib/project-preview";
 import type { WorkFilter } from "@/lib/roles";
 import {
+  DESKTOP_STAGE_QUERY,
   isPortraitViewport,
   layoutPoses,
   type TileView,
@@ -35,6 +36,15 @@ function focusPreview(target: Element) {
     control.focus();
   }
   return Boolean(control);
+}
+
+function tileClick(event: MouseEvent) {
+  const target = event.target;
+  if (!(target instanceof Element)) {
+    return null;
+  }
+  const slug = target.closest("[data-slug]")?.getAttribute("data-slug");
+  return slug ? { target, slug } : null;
 }
 
 function planeBase(portrait: boolean) {
@@ -176,7 +186,8 @@ export function TileField({
     openingSlug.current = slug;
     const world = worldRef.current;
     const pivot = pivotRef.current;
-    if (world && pivot) {
+    const desktop = window.matchMedia(DESKTOP_STAGE_QUERY).matches;
+    if (world && pivot && desktop) {
       stageMemory.set(window.location.pathname, {
         x: Number(gsap.getProperty(world, "x")),
         y: Number(gsap.getProperty(world, "y")),
@@ -185,7 +196,7 @@ export function TileField({
       });
     }
     const tile = tilesRef.current.find((node) => node?.dataset.slug === slug);
-    if (!tile || reducedMotion()) {
+    if (!tile || reducedMotion() || !desktop) {
       onSelectRef.current(slug);
       return;
     }
@@ -223,56 +234,61 @@ export function TileField({
       if (!(world && pivot)) {
         return;
       }
-      const memoryKey = window.location.pathname;
-      savedStage.current = stageMemory.get(memoryKey);
-      if (savedStage.current) {
-        gsap.set(world, { x: savedStage.current.x, y: savedStage.current.y });
-      }
-      let pressX = 0;
-      let pressY = 0;
-      const [drag] = Draggable.create(world, {
-        type: "x,y",
-        inertia: !reducedMotion(),
-        dragClickables: true,
-        cursor: "grab",
-        activeCursor: "grabbing",
-        zIndexBoost: false,
-        allowContextMenu: true,
-        onPress() {
-          pressX = this.x;
-          pressY = this.y;
-        },
-        onRelease() {
-          const dist = Math.hypot(this.x - pressX, this.y - pressY);
-          if (dist < 10) {
-            return;
-          }
-          const extra = gsap.utils.clamp(-20, 20, (this.x - pressX) * 0.05);
-          nudgePlane(pivot, extra);
-        },
-        onClick(event) {
-          if (selectedRef.current) {
-            return;
-          }
-          const target = event.target;
-          if (!(target instanceof Element)) {
-            return;
-          }
-          const slug = target.closest("[data-slug]")?.getAttribute("data-slug");
-          if (slug) {
-            if (focusPreview(target)) {
-              onPreviewRef.current(slug);
-            } else {
+      const media = gsap.matchMedia();
+      media.add(DESKTOP_STAGE_QUERY, (context) => {
+        const memoryKey = window.location.pathname;
+        savedStage.current = stageMemory.get(memoryKey);
+        if (savedStage.current) {
+          gsap.set(world, { x: savedStage.current.x, y: savedStage.current.y });
+        }
+        let pressX = 0;
+        let pressY = 0;
+        const [drag] = Draggable.create(world, {
+          type: "x,y",
+          inertia: !reducedMotion(),
+          dragClickables: true,
+          cursor: "grab",
+          activeCursor: "grabbing",
+          zIndexBoost: false,
+          allowContextMenu: true,
+          onPress() {
+            pressX = this.x;
+            pressY = this.y;
+          },
+          onRelease: context.add("onRelease", function (this: Draggable) {
+            const dist = Math.hypot(this.x - pressX, this.y - pressY);
+            if (dist < 10) {
+              return;
+            }
+            const extra = gsap.utils.clamp(-20, 20, (this.x - pressX) * 0.05);
+            nudgePlane(pivot, extra);
+          }) as (this: Draggable) => void,
+          onClick: context.add(
+            "onClick",
+            function (this: Draggable, event: MouseEvent) {
+              if (selectedRef.current) {
+                return;
+              }
+              const clicked = tileClick(event);
+              if (!clicked) {
+                return;
+              }
+              const { target, slug } = clicked;
+              if (focusPreview(target)) {
+                onPreviewRef.current(slug);
+                return;
+              }
               nudgePlane(pivot);
               activateRef.current(slug);
             }
-          }
-        },
+          ) as (this: Draggable, event: MouseEvent) => void,
+        });
+        return () => {
+          drag.kill();
+          gsap.killTweensOf(pivot);
+        };
       });
-      return () => {
-        drag.kill();
-        gsap.killTweensOf(pivot);
-      };
+      return () => media.revert();
     },
     { scope: stageRef }
   );
@@ -284,61 +300,75 @@ export function TileField({
       if (!(stage && pivot)) {
         return;
       }
-      const reduced = reducedMotion();
-
-      const applyLayout = () => {
-        const width = stage.clientWidth || window.innerWidth;
-        const height = stage.clientHeight || window.innerHeight;
-        const portrait = isPortraitViewport(width, height);
-        const tw = tileWidth(width, portrait);
-        const th = tileHeightFromWidth(tw);
-        const portraitChanged = portraitRef.current !== portrait;
-        const ready = planeReady.current;
-        portraitRef.current = portrait;
-        pivot.classList.toggle("is-portrait", portrait);
-        orientPlane({
-          changed: portraitChanged,
-          pivot,
-          portrait,
-          ready,
-          reduced,
-        });
-
-        if (!ready && savedStage.current?.portrait === portrait) {
-          gsap.set(pivot, { rotation: savedStage.current.rotation });
-        }
-        const visibleItems = items.filter((item) => item.visible);
-        const poses = layoutPoses(view, visibleItems.length, tw, th);
-        const poseBySlug = new Map(
-          visibleItems.map((item, index) => [item.project.slug, poses[index]])
-        );
-
-        const duration = firstLayout.current || reduced ? 0 : 0.28;
-        const locked = selectedSlug !== null;
-        tilesRef.current.forEach((tile, index) => {
-          const item = items[index];
-          if (!(tile && item)) {
-            return;
-          }
-          tweenTile({
-            duration,
-            featured: Boolean(item.project.featured),
-            locked,
-            pose: poseBySlug.get(item.project.slug) ?? { x: 0, y: 0 },
-            selected: item.project.slug === selectedSlug,
-            tile,
-            visible: item.visible,
+      const media = gsap.matchMedia();
+      media.add(DESKTOP_STAGE_QUERY, (context) => {
+        const reduced = reducedMotion();
+        planeReady.current = false;
+        const applyLayout = context.add("applyLayout", () => {
+          const width = stage.clientWidth || window.innerWidth;
+          const height = stage.clientHeight || window.innerHeight;
+          const portrait = isPortraitViewport(width, height);
+          const tw = tileWidth(width, portrait);
+          const th = tileHeightFromWidth(tw);
+          const portraitChanged = portraitRef.current !== portrait;
+          const ready = planeReady.current;
+          portraitRef.current = portrait;
+          pivot.classList.toggle("is-portrait", portrait);
+          orientPlane({
+            changed: portraitChanged,
+            pivot,
+            portrait,
+            ready,
+            reduced,
           });
-        });
-        firstLayout.current = false;
-      };
 
-      applyLayout();
-      planeReady.current = true;
-      window.addEventListener("resize", applyLayout);
-      return () => window.removeEventListener("resize", applyLayout);
+          if (!ready && savedStage.current?.portrait === portrait) {
+            gsap.set(pivot, { rotation: savedStage.current.rotation });
+          }
+          const visibleItems = items.filter((item) => item.visible);
+          const poses = layoutPoses(view, visibleItems.length, tw, th);
+          const poseBySlug = new Map(
+            visibleItems.map((item, index) => [item.project.slug, poses[index]])
+          );
+
+          const duration = firstLayout.current || reduced ? 0 : 0.28;
+          const locked = selectedSlug !== null;
+          tilesRef.current.forEach((tile, index) => {
+            const item = items[index];
+            if (!(tile && item)) {
+              return;
+            }
+            tweenTile({
+              duration,
+              featured: Boolean(item.project.featured),
+              locked,
+              pose: poseBySlug.get(item.project.slug) ?? { x: 0, y: 0 },
+              selected: item.project.slug === selectedSlug,
+              tile,
+              visible: item.visible,
+            });
+          });
+          firstLayout.current = false;
+        }) as () => void;
+
+        applyLayout();
+        planeReady.current = true;
+        window.addEventListener("resize", applyLayout);
+        return () => {
+          window.removeEventListener("resize", applyLayout);
+          for (const tile of tilesRef.current) {
+            tile?.style.removeProperty("pointer-events");
+            tile?.classList.remove("is-on");
+          }
+        };
+      });
+      return () => media.revert();
     },
-    { dependencies: [items, selectedSlug, view], scope: stageRef }
+    {
+      dependencies: [items, selectedSlug, view],
+      scope: stageRef,
+      revertOnUpdate: true,
+    }
   );
 
   useGSAP(
@@ -350,6 +380,12 @@ export function TileField({
         return;
       }
       previousView.current = { filter, view };
+      if (!window.matchMedia(DESKTOP_STAGE_QUERY).matches) {
+        if (stageRef.current) {
+          stageRef.current.scrollTop = 0;
+        }
+        return;
+      }
       const pivot = pivotRef.current;
       if (pivot) {
         nudgePlane(pivot);
@@ -359,7 +395,7 @@ export function TileField({
   );
 
   return (
-    <section className="tile-stage" ref={stageRef}>
+    <section aria-label="Projects" className="tile-stage" ref={stageRef}>
       <div className="tile-pivot" ref={pivotRef}>
         <div className="tile-world" ref={worldRef}>
           {items.map((item, index) => (

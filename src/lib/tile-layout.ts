@@ -1,3 +1,6 @@
+export const DESKTOP_STAGE_QUERY =
+  "(min-width: 48rem) and (hover: hover) and (pointer: fine)";
+
 export type TilePose = {
   x: number;
   y: number;

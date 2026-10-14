@@ -7,6 +7,7 @@ import {
   projectSection,
   sortProjects,
 } from "@/lib/project-routes";
+import { buildWorkMenu } from "@/lib/work-menu";
 
 export function ProjectPage({
   project,
@@ -37,16 +38,13 @@ export function ProjectPage({
       brand={content.home.brand}
       contactEmail={content.site.contactEmail}
       current={section}
+      workMenu={buildWorkMenu(content.projects)}
     >
       <main className="project-page">
         <nav aria-label="Breadcrumb">
           <Link href={`/${section}`}>{section}</Link> / {project.title}
         </nav>
-        <ProjectDetail
-          projects={[project]}
-          site={content.site}
-          slug={project.slug}
-        />
+        <ProjectDetail project={project} site={content.site} />
         {next ? (
           <nav aria-label="Next project" className="project-next">
             <Link href={projectHref(next)}>Next project: {next.title}</Link>

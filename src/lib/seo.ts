@@ -66,10 +66,6 @@ const pageCopy: Record<string, { title: string; description: string }> = {
     description: "Earlier community and teaching work.",
   },
 };
-pageCopy["/ask-ai"] = {
-  title: "JSON | Alessandro Miracapillo",
-  description: "Structured JSON of this portfolio.",
-};
 const origin = "https://aylesim.com";
 
 export function pageMetadata(path: string, project?: Project): Metadata {

@@ -166,10 +166,13 @@ assert.ok(
   media.every((image) => image.size < 500_000),
   "Exported image exceeds 500 KB"
 );
-assert.ok(
-  !banned.test(fs.readFileSync("public/content.json", "utf8")),
-  "Banned claim in public JSON"
-);
+for (const removed of ["/content.json", "/ask-ai"]) {
+  assert.equal(
+    (await fetch(`${base}${removed}`)).status,
+    404,
+    `Removed route ${removed} must stay removed`
+  );
+}
 console.log(
   JSON.stringify(
     {
