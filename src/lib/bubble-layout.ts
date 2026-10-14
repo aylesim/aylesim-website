@@ -12,6 +12,12 @@ export type BubblePose = {
 
 const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 export const FOCAL_Z = 56;
+export const CAMERA_DISTANCE = 980;
+const MAX_FORWARD_Z = 360;
+const MAX_FORWARD_DRIFT = 60;
+const HORIZONTAL_DRIFT = 40;
+const VERTICAL_DRIFT = 34;
+const EDGE_INSET = 52;
 
 export type BubbleLayoutItem = {
   id: string;
@@ -51,6 +57,42 @@ function bubbleSize(item: BubbleLayoutItem, index: number, large: number) {
   return large * (0.78 + ((index * 5) % 7) * 0.04);
 }
 
+export function constrainBubblePose(options: {
+  x: number;
+  y: number;
+  z: number;
+  size: number;
+  width: number;
+  height: number;
+}) {
+  const z = Math.min(MAX_FORWARD_Z, options.z);
+  const scale =
+    CAMERA_DISTANCE /
+    (CAMERA_DISTANCE -
+      Math.min(MAX_FORWARD_Z + MAX_FORWARD_DRIFT, z + MAX_FORWARD_DRIFT));
+  const projectedRadius = (options.size * scale) / 2;
+  const maxX = Math.max(
+    0,
+    (options.width / 2 - projectedRadius - EDGE_INSET) / scale -
+      HORIZONTAL_DRIFT
+  );
+  const centerY = options.height * 0.48;
+  const maxUp = Math.max(
+    0,
+    (centerY - projectedRadius - EDGE_INSET) / scale - VERTICAL_DRIFT
+  );
+  const maxDown = Math.max(
+    0,
+    (options.height - centerY - projectedRadius - EDGE_INSET) / scale -
+      VERTICAL_DRIFT
+  );
+  return {
+    x: Math.max(-maxX, Math.min(maxX, options.x)),
+    y: Math.max(-maxUp, Math.min(maxDown, options.y)),
+    z,
+  };
+}
+
 function placeCloud(options: {
   poses: Map<string, BubblePose>;
   cluster: BubbleLayoutItem[];
@@ -66,7 +108,8 @@ function placeCloud(options: {
   for (const [index, item] of options.cluster.entries()) {
     const unit = units[index] ?? { x: 0, y: 0, z: 0 };
     const jitter = hash01(item.id) - 0.5;
-    options.poses.set(item.id, {
+    const size = bubbleSize(item, index, options.large);
+    const pose = constrainBubblePose({
       x: unit.x * options.width * options.xy + jitter * 36,
       y: unit.y * options.height * options.xy * 0.88 + jitter * 24,
       z:
@@ -74,7 +117,13 @@ function placeCloud(options: {
         unit.z * options.zSpread +
         jitter * 70 +
         (item.featured ? 90 : 0),
-      size: bubbleSize(item, index, options.large),
+      size,
+      width: options.width,
+      height: options.height,
+    });
+    options.poses.set(item.id, {
+      ...pose,
+      size,
       opacity: options.opacity,
     });
   }

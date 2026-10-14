@@ -8,7 +8,7 @@ import { ProjectDetail } from "@/components/home/portfolio-detail";
 import { type BubbleFocus, layoutBubbles } from "@/lib/bubble-layout";
 import {
   applyIdleLayout,
-  attachParallax,
+  attachPointerFocus,
   collapseDetail,
   ensureBokehFloats,
   expandSelectedBubble,
@@ -91,7 +91,8 @@ export function ProjectBubbleField({
   const worldRef = useRef<HTMLDivElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
   const selectedRef = useRef<string | null>(null);
-  const [frame, setFrame] = useState({ w: 0, h: 0 });
+  const frameRef = useRef({ w: 0, h: 0 });
+  const [layoutKey, setLayoutKey] = useState(0);
 
   useLayoutEffect(() => {
     const space = spaceRef.current;
@@ -100,12 +101,15 @@ export function ProjectBubbleField({
     }
     const update = () => {
       const next = spaceFrame(space);
-      setFrame((prev) => {
-        if (Math.abs(prev.w - next.w) < 2 && Math.abs(prev.h - next.h) < 2) {
-          return prev;
-        }
-        return next;
-      });
+      const prev = frameRef.current;
+      const first = prev.w < 2 || prev.h < 2;
+      const jumped =
+        Math.abs(prev.w - next.w) >= 32 || Math.abs(prev.h - next.h) >= 32;
+      if (!(first || jumped)) {
+        return;
+      }
+      frameRef.current = next;
+      setLayoutKey((key) => key + 1);
     };
     const observer = new ResizeObserver(update);
     observer.observe(space);
@@ -150,24 +154,9 @@ export function ProjectBubbleField({
       if (!world || selectedSlug) {
         return;
       }
-      return attachParallax(world);
+      return attachPointerFocus(world);
     },
-    { scope: worldRef, dependencies: [selectedSlug] }
-  );
-
-  useGSAP(
-    () => {
-      const space = spaceRef.current;
-      if (!space) {
-        return;
-      }
-      const { w, h } = layoutFrame(space, frame);
-      if (w < 2 || h < 2) {
-        return;
-      }
-      ensureBokehFloats(bokehNodes(space), w, h);
-    },
-    { scope: spaceRef, dependencies: [frame] }
+    { scope: worldRef, dependencies: [selectedSlug], revertOnUpdate: true }
   );
 
   useGSAP(
@@ -176,7 +165,22 @@ export function ProjectBubbleField({
       if (!space || selectedSlug) {
         return;
       }
-      const { w, h } = layoutFrame(space, frame);
+      const { w, h } = layoutFrame(space, frameRef.current);
+      if (w < 2 || h < 2) {
+        return;
+      }
+      ensureBokehFloats(bokehNodes(space), w, h);
+    },
+    { scope: spaceRef, dependencies: [layoutKey, selectedSlug] }
+  );
+
+  useGSAP(
+    () => {
+      const space = spaceRef.current;
+      if (!space || selectedSlug) {
+        return;
+      }
+      const { w, h } = layoutFrame(space, frameRef.current);
       if (w < 2 || h < 2) {
         return;
       }
@@ -187,7 +191,7 @@ export function ProjectBubbleField({
         gsap.killTweensOf(nodes);
       };
     },
-    { scope: spaceRef, dependencies: [items, focus, selectedSlug, frame] }
+    { scope: spaceRef, dependencies: [items, focus, selectedSlug, layoutKey] }
   );
 
   useGSAP(
@@ -205,7 +209,7 @@ export function ProjectBubbleField({
       if (!space) {
         return;
       }
-      const { w, h } = layoutFrame(space, frame);
+      const { w, h } = layoutFrame(space, frameRef.current);
       if (w < 2 || h < 2) {
         return;
       }
@@ -229,7 +233,7 @@ export function ProjectBubbleField({
         timeline.kill();
       };
     },
-    { scope: spaceRef, dependencies: [selectedSlug, frame] }
+    { scope: spaceRef, dependencies: [selectedSlug, layoutKey] }
   );
 
   return (
@@ -238,57 +242,65 @@ export function ProjectBubbleField({
         <span className="bubble-aurora bubble-aurora--one" />
         <span className="bubble-aurora bubble-aurora--two" />
       </div>
-      <div className="bubble-world" ref={worldRef}>
-        {BOKEH_IDS.map((id) => (
-          <span
-            aria-hidden
-            className="bubble-soap"
-            data-depth
-            data-soap="true"
-            key={id}
-          />
-        ))}
-        {items.map(({ project, cover }) => {
-          const clip = project.category
-            ? CATEGORY_ACCENT[project.category]
-            : "var(--clip-web)";
-          return (
-            <button
-              aria-label={project.title}
-              className="bubble-node"
-              data-base-opacity="1"
-              data-bubble-id={project.slug}
+      <div className="bubble-camera">
+        <div className="bubble-world" ref={worldRef}>
+          {BOKEH_IDS.map((id) => (
+            <span
+              aria-hidden
+              className="bubble-soap"
               data-depth
-              key={project.slug}
-              onClick={() => {
-                if (!selectedSlug) {
-                  onSelect(project.slug);
-                }
-              }}
-              type="button"
-            >
-              <span className="bubble-node-disk relative">
-                {cover ? (
-                  <Image
-                    alt=""
-                    className="bubble-node-image"
-                    fill
-                    sizes="42vw"
-                    src={cover.src}
-                    unoptimized
-                  />
-                ) : (
-                  <span
-                    className="bubble-node-fill"
-                    style={{ background: clip }}
-                  />
-                )}
-                <span className="bubble-node-sheen" />
-              </span>
-              <span className="bubble-node-label">{project.title}</span>
-            </button>
-          );
-        })}
+              data-soap="true"
+              key={id}
+            />
+          ))}
+          {items.map(({ project, cover }) => {
+            const clip = project.category
+              ? CATEGORY_ACCENT[project.category]
+              : "var(--clip-web)";
+            return (
+              <div
+                className="bubble-node"
+                data-base-opacity="1"
+                data-bubble-id={project.slug}
+                data-depth
+                key={project.slug}
+              >
+                <button
+                  aria-label={project.title}
+                  className="bubble-node-button"
+                  onClick={() => {
+                    if (!selectedSlug) {
+                      onSelect(project.slug);
+                    }
+                  }}
+                  type="button"
+                >
+                  <span className="bubble-node-visual">
+                    <span className="bubble-node-disk relative">
+                      {cover ? (
+                        <Image
+                          alt=""
+                          className="bubble-node-image"
+                          fill
+                          sizes="42vw"
+                          src={cover.src}
+                          unoptimized
+                        />
+                      ) : (
+                        <span
+                          className="bubble-node-fill"
+                          style={{ background: clip }}
+                        />
+                      )}
+                      <span className="bubble-node-sheen" />
+                    </span>
+                    <span className="bubble-node-label">{project.title}</span>
+                  </span>
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
       {selectedSlug ? (
         <div

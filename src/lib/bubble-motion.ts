@@ -1,5 +1,10 @@
 import gsap from "gsap";
-import { type BubblePose, depthLook } from "@/lib/bubble-layout";
+import {
+  type BubblePose,
+  CAMERA_DISTANCE,
+  constrainBubblePose,
+  depthLook,
+} from "@/lib/bubble-layout";
 
 type MotionTimeline = ReturnType<typeof gsap.timeline>;
 
@@ -7,7 +12,7 @@ type AppliedLook = {
   blur: number;
   opacity: number;
   zIndex: number;
-  sharp: boolean;
+  labelOpacity: number;
   pointerEvents: string;
 };
 
@@ -18,15 +23,13 @@ type NodeParts = {
 
 const appliedLook = new WeakMap<HTMLElement, AppliedLook>();
 const nodeParts = new WeakMap<HTMLElement, NodeParts>();
+const pointerFocus = new WeakMap<HTMLElement, { amount: number }>();
 
 export function prefersReducedMotion() {
   return false;
 }
 
 export function motionDuration(seconds: number) {
-  if (prefersReducedMotion()) {
-    return 0.01;
-  }
   return seconds;
 }
 
@@ -78,6 +81,7 @@ export function lockDepth(nodes: HTMLElement[]) {
 export function releaseDepthLocks(root: HTMLElement) {
   for (const node of nodesIn(root, "[data-depth]")) {
     node.dataset.lockDepth = "0";
+    appliedLook.delete(node);
   }
 }
 
@@ -99,17 +103,11 @@ export function teardownBubbleMotion(root: HTMLElement) {
   }
 }
 
-function pointerEventsFor(
-  node: HTMLElement,
-  look: ReturnType<typeof depthLook>
-) {
+function pointerEventsFor(node: HTMLElement) {
   if (node.dataset.soap === "true") {
     return "none";
   }
-  if (look.opacity > 0.42 && look.blur < 16) {
-    return "auto";
-  }
-  return "none";
+  return "auto";
 }
 
 function writeLook(
@@ -127,8 +125,8 @@ function writeLook(
   if (!previous || previous.blur !== look.blur) {
     (disk ?? node).style.filter = `blur(${look.blur}px)`;
   }
-  if (label && (!previous || previous.sharp !== look.sharp)) {
-    label.style.opacity = look.sharp ? "1" : "0";
+  if (label && (!previous || previous.labelOpacity !== look.labelOpacity)) {
+    label.style.opacity = String(look.labelOpacity);
   }
   if (!previous || previous.pointerEvents !== look.pointerEvents) {
     node.style.pointerEvents = look.pointerEvents;
@@ -139,14 +137,16 @@ export function syncDepth(node: HTMLElement) {
   if (node.dataset.lockDepth === "1") {
     return;
   }
-  const z = Number(gsap.getProperty(node, "z")) || 0;
+  const z = Number(node.dataset.depthZ) || 0;
   const look = depthLook(z, baseOpacityOf(node));
+  const focus = pointerFocus.get(node)?.amount ?? 0;
   const next: AppliedLook = {
-    blur: Math.round(look.blur * 100) / 100,
-    opacity: Math.round(look.opacity * 1000) / 1000,
-    zIndex: look.zIndex,
-    sharp: look.sharp,
-    pointerEvents: pointerEventsFor(node, look),
+    blur: Math.round(look.blur * (1 - focus) ** 2),
+    opacity:
+      Math.round((look.opacity + (1 - look.opacity) * focus) * 1000) / 1000,
+    zIndex: look.zIndex + Math.round(focus * 800),
+    labelOpacity: look.sharp ? 1 : Math.round(focus * 1000) / 1000,
+    pointerEvents: pointerEventsFor(node),
   };
   writeLook(node, next, appliedLook.get(node));
   appliedLook.set(node, next);
@@ -159,14 +159,16 @@ export function syncDepthTree(root: HTMLElement) {
 }
 
 export function startDepthTicker(root: HTMLElement) {
+  gsap.ticker.lagSmoothing(1000, 33);
+  gsap.ticker.wake();
   syncDepthTree(root);
-  if (prefersReducedMotion()) {
-    return () => {
-      releaseDepthLocks(root);
-    };
-  }
+  let frames = 0;
   const tick = () => {
     if (document.visibilityState !== "visible") {
+      return;
+    }
+    frames += 1;
+    if (frames % 2 !== 0) {
       return;
     }
     syncDepthTree(root);
@@ -175,9 +177,7 @@ export function startDepthTicker(root: HTMLElement) {
   const onVisible = () => {
     if (document.visibilityState === "visible") {
       gsap.ticker.wake();
-      return;
     }
-    gsap.ticker.sleep();
   };
   document.addEventListener("visibilitychange", onVisible);
   return () => {
@@ -186,54 +186,59 @@ export function startDepthTicker(root: HTMLElement) {
   };
 }
 
+function projectScale(z: number) {
+  return (
+    CAMERA_DISTANCE / (CAMERA_DISTANCE - Math.min(z, CAMERA_DISTANCE - 80))
+  );
+}
+
 function poseToVars(pose: BubblePose) {
+  const depth = projectScale(pose.z);
   return {
-    x: pose.x,
-    y: pose.y,
-    z: pose.z,
+    x: pose.x * depth,
+    y: pose.y * depth,
+    z: 0,
     width: pose.size,
     height: pose.size,
     xPercent: -50,
     yPercent: -50,
     rotationY: 0,
-    scale: 1,
+    scale: depth,
     force3D: true,
   };
 }
 
 export function startDreamFloat(node: HTMLElement, pose: BubblePose) {
   gsap.set(node, { transformOrigin: "50% 50%", force3D: true });
-  if (prefersReducedMotion()) {
-    syncDepth(node);
-    return;
-  }
+  const space = node.closest<HTMLElement>(".bubble-space");
+  const width = space?.clientWidth || window.innerWidth;
+  const height = space?.clientHeight || window.innerHeight;
   const seed = Array.from(
     node.dataset.bubbleId ?? node.dataset.soap ?? "soap"
   ).reduce((total, char, index) => total + char.charCodeAt(0) * (index + 7), 0);
   const unit = (offset: number) => ((seed * (offset + 17)) % 97) / 97;
-  const toward = 90 + unit(2) * 150;
-  const swayX = 34 + unit(3) * 82;
-  const swayY = 26 + unit(4) * 66;
   const duration = 8 + unit(5) * 7;
   const directionX = unit(6) > 0.5 ? 1 : -1;
   const directionY = unit(7) > 0.5 ? 1 : -1;
+  const floated = constrainBubblePose({
+    x: pose.x + (16 + unit(3) * 28) * directionX,
+    y: pose.y + (12 + unit(4) * 22) * directionY,
+    z: pose.z + 36 + unit(2) * 54,
+    size: pose.size,
+    width,
+    height,
+  });
+  node.dataset.depthZ = String(pose.z);
+  const next = poseToVars(floated);
   gsap.to(node, {
-    x: pose.x + swayX * directionX,
-    y: pose.y + swayY * directionY,
+    x: next.x,
+    y: next.y,
+    scale: next.scale,
     duration,
     yoyo: true,
     repeat: -1,
     ease: "sine.inOut",
     delay: unit(8) * 2.2,
-    overwrite: "auto",
-  });
-  gsap.to(node, {
-    z: pose.z + toward,
-    duration: duration * 1.12,
-    yoyo: true,
-    repeat: -1,
-    ease: "sine.inOut",
-    delay: unit(9) * 1.8,
     overwrite: "auto",
   });
   const disk = partsOf(node).disk;
@@ -256,14 +261,23 @@ export function startBokehFloat(
   height: number
 ) {
   const size = gsap.utils.random(70, 290);
-  const pose: BubblePose = {
+  const position = constrainBubblePose({
     x: gsap.utils.random(-0.5, 0.5) * width * 0.92,
     y: gsap.utils.random(-0.5, 0.5) * height * 0.82,
     z: gsap.utils.random(-480, 240),
     size,
+    width,
+    height,
+  });
+  const pose: BubblePose = {
+    ...position,
+    size,
     opacity: gsap.utils.random(0.4, 0.8),
   };
+  node.dataset.bokehWidth = String(width);
+  node.dataset.bokehHeight = String(height);
   node.dataset.baseOpacity = String(pose.opacity);
+  node.dataset.depthZ = String(pose.z);
   gsap.set(node, poseToVars(pose));
   syncDepth(node);
   startDreamFloat(node, pose);
@@ -275,7 +289,16 @@ export function ensureBokehFloats(
   height: number
 ) {
   for (const soap of soaps) {
-    if (!gsap.getTweensOf(soap).length) {
+    const tweens = gsap.getTweensOf(soap);
+    const layoutChanged =
+      Number(soap.dataset.bokehWidth) !== width ||
+      Number(soap.dataset.bokehHeight) !== height;
+    if (tweens.length && !layoutChanged) {
+      for (const tween of tweens) {
+        tween.play();
+      }
+    } else {
+      gsap.killTweensOf(soap);
       startBokehFloat(soap, width, height);
     }
   }
@@ -293,6 +316,7 @@ export function tweenNodeToPose(
   }
   node.dataset.lockDepth = "0";
   node.dataset.baseOpacity = String(pose.opacity);
+  node.dataset.depthZ = String(pose.z);
   const vars = poseToVars(pose);
   const first = node.dataset.laidOut !== "1";
   node.dataset.laidOut = "1";
@@ -427,6 +451,7 @@ export function expandSelectedBubble(options: {
   const others = nodes.filter(
     (node) => node.dataset.bubbleId !== options.selectedSlug
   );
+  gsap.ticker.wake();
   gsap.killTweensOf(nodes);
   pauseTweensOf(nodesIn(options.stage, "[data-soap]"));
   lockDepth(nodes);
@@ -447,78 +472,294 @@ export function expandSelectedBubble(options: {
   return timeline;
 }
 
-export function attachParallax(world: HTMLElement) {
-  if (prefersReducedMotion()) {
-    return () => {
-      gsap.set(world, { rotationX: 0, rotationY: 0, x: 0, y: 0 });
-    };
-  }
-  const stage = world.parentElement;
-  if (!stage) {
-    return () => {
-      gsap.set(world, { rotationX: 0, rotationY: 0, x: 0, y: 0 });
-    };
-  }
-  let bounds = stage.getBoundingClientRect();
-  const refreshBounds = () => {
-    bounds = stage.getBoundingClientRect();
+type PointerEntry = {
+  node: HTMLElement;
+  soap: boolean;
+  focus: { amount: number };
+  focusTarget: number;
+  focusTo: ReturnType<typeof gsap.quickTo>;
+  target: HTMLElement | null;
+  motionX: number;
+  motionY: number;
+  motionScale: number;
+  xTo: ReturnType<typeof gsap.quickTo> | undefined;
+  yTo: ReturnType<typeof gsap.quickTo> | undefined;
+  scaleXTo: ReturnType<typeof gsap.quickTo> | undefined;
+  scaleYTo: ReturnType<typeof gsap.quickTo> | undefined;
+};
+
+type ScreenPoint = {
+  x: number;
+  y: number;
+  r: number;
+  z: number;
+  scale: number;
+};
+
+function focusFalloff(distance: number, radius: number) {
+  const t = gsap.utils.clamp(0, 1, (distance - radius - 8) / 170);
+  return 1 - t * t * (3 - 2 * t);
+}
+
+function makePointerEntry(node: HTMLElement): PointerEntry {
+  const focus = { amount: 0 };
+  pointerFocus.set(node, focus);
+  const target = node.querySelector<HTMLElement>(".bubble-node-button");
+  return {
+    node,
+    soap: node.dataset.soap === "true",
+    focus,
+    focusTarget: 0,
+    focusTo: gsap.quickTo(focus, "amount", {
+      duration: 0.3,
+      ease: "power2.out",
+    }),
+    target,
+    motionX: 0,
+    motionY: 0,
+    motionScale: 1,
+    xTo:
+      target &&
+      gsap.quickTo(target, "x", { duration: 0.42, ease: "power3.out" }),
+    yTo:
+      target &&
+      gsap.quickTo(target, "y", { duration: 0.42, ease: "power3.out" }),
+    scaleXTo:
+      target &&
+      gsap.quickTo(target, "scaleX", { duration: 0.42, ease: "power2.out" }),
+    scaleYTo:
+      target &&
+      gsap.quickTo(target, "scaleY", { duration: 0.42, ease: "power2.out" }),
   };
-  const rotateX = gsap.quickTo(world, "rotationX", {
-    duration: 1.15,
-    ease: "power3.out",
-  });
-  const rotateY = gsap.quickTo(world, "rotationY", {
-    duration: 1.15,
-    ease: "power3.out",
-  });
-  const shiftX = gsap.quickTo(world, "x", {
-    duration: 1.3,
-    ease: "power3.out",
-  });
-  const shiftY = gsap.quickTo(world, "y", {
-    duration: 1.3,
-    ease: "power3.out",
-  });
-  const onMove = (event: PointerEvent) => {
-    if (bounds.width === 0 || bounds.height === 0) {
+}
+
+function screenOf(entry: PointerEntry, bounds: DOMRect): ScreenPoint {
+  const x = Number(gsap.getProperty(entry.node, "x")) || 0;
+  const y = Number(gsap.getProperty(entry.node, "y")) || 0;
+  const size = Number(gsap.getProperty(entry.node, "width")) || 0;
+  const scale = Number(gsap.getProperty(entry.node, "scale")) || 1;
+  const z = Number(entry.node.dataset.depthZ) || 0;
+  return {
+    x: bounds.left + bounds.width * 0.5 + x + entry.motionX * scale,
+    y: bounds.top + bounds.height * 0.48 + y + entry.motionY * scale,
+    r: (size * scale) / 2,
+    z,
+    scale,
+  };
+}
+
+function fieldAmount(
+  entry: PointerEntry,
+  point: ScreenPoint,
+  active: PointerEntry | null,
+  activeScreen: ScreenPoint | undefined
+) {
+  let amount = 0;
+  if (activeScreen) {
+    amount = focusFalloff(
+      Math.hypot(point.x - activeScreen.x, point.y - activeScreen.y),
+      activeScreen.r
+    );
+  }
+  if (entry === active || entry.node.contains(document.activeElement)) {
+    amount = 1;
+  }
+  if (entry.soap) {
+    amount *= 0.65;
+  }
+  return amount;
+}
+
+function magnetPose(options: {
+  entry: PointerEntry;
+  point: ScreenPoint;
+  active: PointerEntry | null;
+  activeScreen: ScreenPoint | undefined;
+  reduced: boolean;
+}) {
+  const { entry, point, active, activeScreen, reduced } = options;
+  if (reduced || entry.soap || !activeScreen) {
+    return { x: 0, y: 0, scale: 1 };
+  }
+  if (entry === active) {
+    return { x: 0, y: -12 / point.scale, scale: 1.08 };
+  }
+  const restX = point.x - entry.motionX * point.scale;
+  const restY = point.y - entry.motionY * point.scale;
+  const dx = restX - activeScreen.x;
+  const dy = restY - activeScreen.y;
+  const distance = Math.max(1, Math.hypot(dx, dy));
+  const push = gsap.utils.clamp(
+    0,
+    88,
+    (activeScreen.r + point.r + 36 - distance) * 0.78
+  );
+  if (push <= 0) {
+    return { x: 0, y: 0, scale: 1 };
+  }
+  return {
+    x: ((dx / distance) * push) / point.scale,
+    y: ((dy / distance) * push) / point.scale,
+    scale: 1,
+  };
+}
+
+export function attachPointerFocus(world: HTMLElement) {
+  const reduced = prefersReducedMotion();
+  const nodes = nodesIn(world, "[data-depth]");
+  gsap.set(world, { rotationX: 0, rotationY: 0, x: 0, y: 0 });
+  const entries = nodes.map(makePointerEntry);
+  const projects = entries.filter((entry) => !entry.soap);
+  let hot: PointerEntry | null = null;
+  const updateAmount = (entry: PointerEntry, amount: number) => {
+    if (Math.abs(amount - entry.focusTarget) <= 0.002) {
       return;
     }
-    const nx = gsap.utils.clamp(
-      -0.5,
-      0.5,
-      (event.clientX - bounds.left) / bounds.width - 0.5
-    );
-    const ny = gsap.utils.clamp(
-      -0.5,
-      0.5,
-      (event.clientY - bounds.top) / bounds.height - 0.5
-    );
-    rotateY(nx * 13);
-    rotateX(-ny * 9);
-    shiftX(nx * -22);
-    shiftY(ny * -14);
+    entry.focusTarget = amount;
+    if (reduced) {
+      entry.focus.amount = amount;
+      return;
+    }
+    entry.focusTo.tween.duration(amount > entry.focus.amount ? 0.3 : 0.65);
+    entry.focusTo(amount);
   };
-  const reset = () => {
-    rotateX(0);
-    rotateY(0);
-    shiftX(0);
-    shiftY(0);
+  const updateVisual = (
+    entry: PointerEntry,
+    x: number,
+    y: number,
+    scale: number
+  ) => {
+    if (Math.abs(x - entry.motionX) > 0.01) {
+      entry.motionX = x;
+      entry.xTo?.(x);
+    }
+    if (Math.abs(y - entry.motionY) > 0.01) {
+      entry.motionY = y;
+      entry.yTo?.(y);
+    }
+    if (Math.abs(scale - entry.motionScale) > 0.0001) {
+      entry.motionScale = scale;
+      entry.scaleXTo?.(scale);
+      entry.scaleYTo?.(scale);
+    }
   };
-  const observer = new ResizeObserver(refreshBounds);
-  observer.observe(stage);
-  window.addEventListener("pointermove", onMove, { passive: true });
-  window.addEventListener("blur", reset);
+  const setHot = (next: PointerEntry | null) => {
+    if (hot === next) {
+      return;
+    }
+    hot?.node.classList.remove("is-hot");
+    hot = next;
+    hot?.node.classList.add("is-hot");
+    world.style.cursor = hot ? "pointer" : "";
+  };
+  const pick = (clientX: number, clientY: number) => {
+    const bounds = world.getBoundingClientRect();
+    if (hot) {
+      const current = screenOf(hot, bounds);
+      if (
+        Math.hypot(clientX - current.x, clientY - current.y) <=
+        current.r + 52
+      ) {
+        return hot;
+      }
+    }
+    let best: PointerEntry | null = null;
+    let bestZ = Number.NEGATIVE_INFINITY;
+    for (const entry of projects) {
+      const point = screenOf(entry, bounds);
+      if (
+        Math.hypot(clientX - point.x, clientY - point.y) <= point.r + 18 &&
+        point.z >= bestZ
+      ) {
+        best = entry;
+        bestZ = point.z;
+      }
+    }
+    return best;
+  };
+  const applyField = (active: PointerEntry | null) => {
+    const bounds = world.getBoundingClientRect();
+    const screens = entries.map((entry) => ({
+      entry,
+      point: screenOf(entry, bounds),
+    }));
+    const activeScreen = active
+      ? screens.find((item) => item.entry === active)?.point
+      : undefined;
+    for (const { entry, point } of screens) {
+      updateAmount(entry, fieldAmount(entry, point, active, activeScreen));
+      const pose = magnetPose({
+        entry,
+        point,
+        active,
+        activeScreen,
+        reduced,
+      });
+      updateVisual(entry, pose.x, pose.y, pose.scale);
+    }
+  };
+  const onMove = (event: PointerEvent) => {
+    if (event.pointerType === "touch") {
+      return;
+    }
+    const next = pick(event.clientX, event.clientY);
+    setHot(next);
+    applyField(next);
+  };
+  const onLeave = (event: PointerEvent) => {
+    if (event.relatedTarget && world.contains(event.relatedTarget as Node)) {
+      return;
+    }
+    setHot(null);
+    applyField(null);
+  };
+  const onClick = (event: MouseEvent) => {
+    if ((event.target as Element | null)?.closest(".bubble-node-button")) {
+      return;
+    }
+    const next = pick(event.clientX, event.clientY);
+    next?.target?.click();
+  };
+  const onBlur = () => {
+    setHot(null);
+    applyField(null);
+  };
+  const onFocus = () => {
+    const focused =
+      projects.find((entry) => entry.node.contains(document.activeElement)) ??
+      null;
+    if (!focused) {
+      return;
+    }
+    setHot(focused);
+    applyField(focused);
+  };
+  world.addEventListener("pointermove", onMove);
+  world.addEventListener("pointerleave", onLeave);
+  world.addEventListener("click", onClick);
+  world.addEventListener("focusin", onFocus);
+  window.addEventListener("blur", onBlur);
   return () => {
-    observer.disconnect();
-    window.removeEventListener("pointermove", onMove);
-    window.removeEventListener("blur", reset);
-    gsap.to(world, {
-      rotationX: 0,
-      rotationY: 0,
-      x: 0,
-      y: 0,
-      duration: 0.6,
-      overwrite: true,
-    });
+    world.removeEventListener("pointermove", onMove);
+    world.removeEventListener("pointerleave", onLeave);
+    world.removeEventListener("click", onClick);
+    world.removeEventListener("focusin", onFocus);
+    window.removeEventListener("blur", onBlur);
+    setHot(null);
+    world.style.cursor = "";
+    for (const entry of entries) {
+      entry.focusTo.tween.kill();
+      entry.xTo?.tween.kill();
+      entry.yTo?.tween.kill();
+      entry.scaleXTo?.tween.kill();
+      entry.scaleYTo?.tween.kill();
+      pointerFocus.delete(entry.node);
+      appliedLook.delete(entry.node);
+      if (entry.target) {
+        gsap.set(entry.target, { clearProps: "transform" });
+      }
+      syncDepth(entry.node);
+    }
+    gsap.set(world, { rotationX: 0, rotationY: 0, x: 0, y: 0 });
   };
 }

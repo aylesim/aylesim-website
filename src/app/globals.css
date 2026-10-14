@@ -765,8 +765,6 @@ textarea:focus-visible {
   pointer-events: none;
   isolation: isolate;
   background: #06101c;
-  perspective: 980px;
-  perspective-origin: 50% 47%;
 }
 
 .bubble-space::after {
@@ -838,11 +836,14 @@ textarea:focus-visible {
   animation-delay: -9s;
 }
 
+.bubble-camera,
 .bubble-world {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  will-change: transform;
+}
+
+.bubble-world {
+  pointer-events: auto;
 }
 
 .bubble-detail-panel {
@@ -878,8 +879,6 @@ textarea:focus-visible {
   left: 50%;
   margin: 0;
   transform: translate(-50%, -50%);
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
 }
 
 .bubble-soap {
@@ -902,14 +901,28 @@ textarea:focus-visible {
 }
 
 .bubble-node {
+  overflow: visible;
+  pointer-events: auto;
+}
+
+.bubble-node-button {
   display: block;
+  width: 100%;
+  height: 100%;
   padding: 0;
   border: 0;
+  border-radius: 50%;
   background: none;
   color: inherit;
   cursor: pointer;
-  overflow: visible;
-  pointer-events: auto;
+}
+
+.bubble-node-visual {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .bubble-node-disk {
@@ -976,8 +989,8 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
-.bubble-node:hover .bubble-node-disk,
-.bubble-node:focus-visible .bubble-node-disk {
+.bubble-node.is-hot .bubble-node-disk,
+.bubble-node:has(.bubble-node-button:focus-visible) .bubble-node-disk {
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.7),
     0 0 0 6px rgba(196, 181, 255, 0.22),
