@@ -25,29 +25,18 @@ export type BubbleLayoutItem = {
   featured?: boolean;
 };
 
+// Keep the visible part of the world deliberately short: a project crosses the
+// focal plane, then returns to the deep field instead of becoming a long list.
+export const TUNNEL_NEAR_Z = 360;
+export const TUNNEL_FAR_Z = -840;
+export const TUNNEL_DEPTH = TUNNEL_NEAR_Z - TUNNEL_FAR_Z;
+
 function hash01(id: string) {
   let sum = 0;
   for (let i = 0; i < id.length; i += 1) {
     sum += id.charCodeAt(i) * (i + 13);
   }
   return (sum % 1000) / 1000;
-}
-
-function fibonacciCloud(count: number) {
-  const points: { x: number; y: number; z: number }[] = [];
-  const n = Math.max(count, 1);
-  for (let i = 0; i < count; i += 1) {
-    const t = n === 1 ? 0.5 : i / (n - 1);
-    const y = 1 - t * 2;
-    const radius = Math.sqrt(Math.max(0, 1 - y * y));
-    const theta = i * GOLDEN;
-    points.push({
-      x: Math.cos(theta) * radius,
-      y,
-      z: Math.sin(theta) * radius,
-    });
-  }
-  return points;
 }
 
 function bubbleSize(item: BubbleLayoutItem, index: number, large: number) {
@@ -93,39 +82,36 @@ export function constrainBubblePose(options: {
   };
 }
 
-function placeCloud(options: {
+function placeTunnel(options: {
   poses: Map<string, BubblePose>;
   cluster: BubbleLayoutItem[];
   width: number;
   height: number;
-  xy: number;
-  zSpread: number;
-  zLift: number;
   large: number;
   opacity: number;
+  zOffset?: number;
 }) {
-  const units = fibonacciCloud(options.cluster.length);
-  for (const [index, item] of options.cluster.entries()) {
-    const unit = units[index] ?? { x: 0, y: 0, z: 0 };
-    const jitter = hash01(item.id) - 0.5;
+  const ordered = [...options.cluster].sort(
+    (a, b) => hash01(a.id) - hash01(b.id)
+  );
+  const count = Math.max(ordered.length, 1);
+  for (const [index, item] of ordered.entries()) {
+    const seed = hash01(item.id);
+    const angle = index * GOLDEN + seed * Math.PI * 2;
+    const lane = 0.5 + ((index * 7) % 5) * 0.07;
     const size = bubbleSize(item, index, options.large);
     const pose = constrainBubblePose({
-      x: unit.x * options.width * options.xy + jitter * 36,
-      y: unit.y * options.height * options.xy * 0.88 + jitter * 24,
+      x: Math.cos(angle) * options.width * 0.19 * lane,
+      y: Math.sin(angle * 1.38) * options.height * 0.17 * lane,
       z:
-        options.zLift +
-        unit.z * options.zSpread +
-        jitter * 70 +
-        (item.featured ? 90 : 0),
+        TUNNEL_FAR_Z +
+        ((index + seed * 0.3) / count) * TUNNEL_DEPTH +
+        (options.zOffset ?? 0),
       size,
       width: options.width,
       height: options.height,
     });
-    options.poses.set(item.id, {
-      ...pose,
-      size,
-      opacity: options.opacity,
-    });
+    options.poses.set(item.id, { ...pose, size, opacity: options.opacity });
   }
 }
 
@@ -142,14 +128,11 @@ export function layoutBubbles(
   const large = Math.min(390, Math.max(210, Math.min(width, height) * 0.34));
 
   if (focus === "all") {
-    placeCloud({
+    placeTunnel({
       poses,
       cluster: items,
       width,
       height,
-      xy: 0.47,
-      zSpread: 510,
-      zLift: 72,
       large,
       opacity: 1,
     });
@@ -158,27 +141,22 @@ export function layoutBubbles(
 
   const matches = items.filter((item) => item.category === focus);
   const rest = items.filter((item) => item.category !== focus);
-  placeCloud({
+  placeTunnel({
     poses,
     cluster: matches,
     width,
     height,
-    xy: 0.24,
-    zSpread: 180,
-    zLift: 180,
     large,
     opacity: 1,
   });
-  placeCloud({
+  placeTunnel({
     poses,
     cluster: rest,
     width,
     height,
-    xy: 0.6,
-    zSpread: 360,
-    zLift: -390,
     large: Math.max(110, large * 0.48),
-    opacity: 0.55,
+    opacity: 0.16,
+    zOffset: -360,
   });
   return poses;
 }

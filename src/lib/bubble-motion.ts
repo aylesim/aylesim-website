@@ -4,6 +4,8 @@ import {
   CAMERA_DISTANCE,
   constrainBubblePose,
   depthLook,
+  TUNNEL_DEPTH,
+  TUNNEL_FAR_Z,
 } from "@/lib/bubble-layout";
 
 type MotionTimeline = ReturnType<typeof gsap.timeline>;
@@ -26,7 +28,7 @@ const nodeParts = new WeakMap<HTMLElement, NodeParts>();
 const pointerFocus = new WeakMap<HTMLElement, { amount: number }>();
 
 export function prefersReducedMotion() {
-  return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 export function motionDuration(seconds: number) {
@@ -192,7 +194,7 @@ function projectScale(z: number) {
   );
 }
 
-function poseToVars(pose: BubblePose) {
+function poseToVars(pose: Pick<BubblePose, "x" | "y" | "z" | "size">) {
   const depth = projectScale(pose.z);
   return {
     x: pose.x * depth,
@@ -229,7 +231,7 @@ export function startDreamFloat(node: HTMLElement, pose: BubblePose) {
     height,
   });
   node.dataset.depthZ = String(pose.z);
-  const next = poseToVars(floated);
+  const next = poseToVars({ ...floated, size: pose.size });
   gsap.to(node, {
     x: next.x,
     y: next.y,
@@ -354,6 +356,124 @@ export function applyIdleLayout(
       tweenNodeToPose(node, pose, duration);
     }
   }
+}
+
+function loopTunnelDepth(z: number) {
+  const relative = z - TUNNEL_FAR_Z;
+  return (
+    (((relative % TUNNEL_DEPTH) + TUNNEL_DEPTH) % TUNNEL_DEPTH) + TUNNEL_FAR_Z
+  );
+}
+
+type TunnelEntry = {
+  node: HTMLElement;
+  pose: BubblePose;
+  phase: number;
+};
+
+/**
+ * Runs a camera through a short, looping depth field. Scroll affects only the
+ * camera's z progress; each object keeps a small independent lateral drift.
+ */
+export function startTunnelMotion(options: {
+  root: HTMLElement;
+  nodes: HTMLElement[];
+  poses: Map<string, BubblePose>;
+}) {
+  const reduced = prefersReducedMotion();
+  const entries: TunnelEntry[] = [];
+  for (const node of options.nodes) {
+    const id = node.dataset.bubbleId;
+    if (!id) {
+      continue;
+    }
+    const pose = options.poses.get(id);
+    if (!pose) {
+      continue;
+    }
+    gsap.killTweensOf(node);
+    gsap.killTweensOf(partsOf(node).disk);
+    entries.push({
+      node,
+      pose,
+      phase: hashPhase(id),
+    });
+  }
+
+  let travel = 0;
+  let velocity = 0;
+  let elapsed = 0;
+  const render = () => {
+    for (const entry of entries) {
+      const z = loopTunnelDepth(entry.pose.z + travel);
+      const depth = projectScale(z);
+      const driftX = reduced
+        ? 0
+        : Math.sin(elapsed * 0.000_22 + entry.phase) * 19;
+      const driftY = reduced
+        ? 0
+        : Math.cos(elapsed * 0.000_17 + entry.phase * 1.7) * 15;
+      entry.node.dataset.lockDepth = "0";
+      entry.node.dataset.baseOpacity = String(entry.pose.opacity);
+      entry.node.dataset.depthZ = String(z);
+      entry.node.dataset.laidOut = "1";
+      gsap.set(entry.node, {
+        x: (entry.pose.x + driftX) * depth,
+        y: (entry.pose.y + driftY) * depth,
+        z: 0,
+        width: entry.pose.size,
+        height: entry.pose.size,
+        xPercent: -50,
+        yPercent: -50,
+        scale: depth,
+        force3D: true,
+      });
+      syncDepth(entry.node);
+    }
+  };
+  const tick = (_time: number, delta: number) => {
+    if (document.visibilityState !== "visible") {
+      return;
+    }
+    elapsed += delta;
+    if (!reduced) {
+      const step = delta / 16.667;
+      travel += velocity * step;
+      velocity *= 0.885 ** step;
+      if (Math.abs(velocity) < 0.01) {
+        velocity = 0;
+      }
+    }
+    render();
+  };
+  const onWheel = (event: WheelEvent) => {
+    event.preventDefault();
+    const unit = event.deltaMode === WheelEvent.DOM_DELTA_LINE ? 18 : 1;
+    const delta = event.deltaY * unit;
+    if (reduced) {
+      travel += delta * 0.14;
+      render();
+      return;
+    }
+    velocity = gsap.utils.clamp(-30, 30, velocity + delta * 0.2);
+  };
+
+  options.root.addEventListener("wheel", onWheel, { passive: false });
+  gsap.ticker.add(tick);
+  render();
+  return () => {
+    options.root.removeEventListener("wheel", onWheel);
+    gsap.ticker.remove(tick);
+    gsap.killTweensOf(entries.map((entry) => entry.node));
+  };
+}
+
+function hashPhase(id: string) {
+  let value = 0;
+  for (let index = 0; index < id.length; index += 1) {
+    value = (value * 31 + id.charCodeAt(index)) % 360;
+  }
+  return (value * Math.PI) / 180;
 }
 
 export function collapseDetail(detail: HTMLElement | null) {
@@ -497,8 +617,8 @@ type ScreenPoint = {
 };
 
 function focusFalloff(distance: number, radius: number) {
-  const t = gsap.utils.clamp(0, 1, (distance - radius - 8) / 170);
-  return 1 - t * t * (3 - 2 * t);
+  const t = gsap.utils.clamp(0, 1, (distance - radius) / 130);
+  return (1 - t * t * (3 - 2 * t)) * 0.18;
 }
 
 function makePointerEntry(node: HTMLElement): PointerEntry {
@@ -518,18 +638,24 @@ function makePointerEntry(node: HTMLElement): PointerEntry {
     motionX: 0,
     motionY: 0,
     motionScale: 1,
-    xTo:
-      target &&
-      gsap.quickTo(target, "x", { duration: 0.42, ease: "power3.out" }),
-    yTo:
-      target &&
-      gsap.quickTo(target, "y", { duration: 0.42, ease: "power3.out" }),
-    scaleXTo:
-      target &&
-      gsap.quickTo(target, "scaleX", { duration: 0.42, ease: "power2.out" }),
-    scaleYTo:
-      target &&
-      gsap.quickTo(target, "scaleY", { duration: 0.42, ease: "power2.out" }),
+    xTo: target
+      ? gsap.quickTo(target, "x", { duration: 0.42, ease: "power3.out" })
+      : undefined,
+    yTo: target
+      ? gsap.quickTo(target, "y", { duration: 0.42, ease: "power3.out" })
+      : undefined,
+    scaleXTo: target
+      ? gsap.quickTo(target, "scaleX", {
+          duration: 0.42,
+          ease: "power2.out",
+        })
+      : undefined,
+    scaleYTo: target
+      ? gsap.quickTo(target, "scaleY", {
+          duration: 0.42,
+          ease: "power2.out",
+        })
+      : undefined,
   };
 }
 
@@ -562,7 +688,7 @@ function fieldAmount(
     );
   }
   if (entry === active || entry.node.contains(document.activeElement)) {
-    amount = 1;
+    amount = 0.72;
   }
   if (entry.soap) {
     amount *= 0.65;
@@ -582,26 +708,9 @@ function magnetPose(options: {
     return { x: 0, y: 0, scale: 1 };
   }
   if (entry === active) {
-    return { x: 0, y: -12 / point.scale, scale: 1.08 };
+    return { x: 0, y: -3 / point.scale, scale: 1.025 };
   }
-  const restX = point.x - entry.motionX * point.scale;
-  const restY = point.y - entry.motionY * point.scale;
-  const dx = restX - activeScreen.x;
-  const dy = restY - activeScreen.y;
-  const distance = Math.max(1, Math.hypot(dx, dy));
-  const push = gsap.utils.clamp(
-    0,
-    88,
-    (activeScreen.r + point.r + 36 - distance) * 0.78
-  );
-  if (push <= 0) {
-    return { x: 0, y: 0, scale: 1 };
-  }
-  return {
-    x: ((dx / distance) * push) / point.scale,
-    y: ((dy / distance) * push) / point.scale,
-    scale: 1,
-  };
+  return { x: 0, y: 0, scale: 1 };
 }
 
 export function attachPointerFocus(world: HTMLElement) {

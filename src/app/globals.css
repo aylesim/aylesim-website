@@ -799,9 +799,15 @@ textarea:focus-visible {
   overflow: hidden;
   background:
     radial-gradient(
+      ellipse at 50% 48%,
+      rgba(9, 33, 61, 0.08) 0,
+      rgba(3, 11, 24, 0.48) 43%,
+      rgba(2, 7, 16, 0.82) 100%
+    ),
+    radial-gradient(
       circle at 52% 46%,
-      rgba(31, 116, 168, 0.24),
-      transparent 27%
+      rgba(31, 116, 168, 0.17),
+      transparent 23%
     ),
     radial-gradient(
       circle at 75% 24%,
@@ -872,32 +878,12 @@ textarea:focus-visible {
   margin-bottom: 0.7rem;
 }
 
-.bubble-soap,
 .bubble-node {
   position: absolute;
   top: 48%;
   left: 50%;
   margin: 0;
   transform: translate(-50%, -50%);
-}
-
-.bubble-soap {
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 32% 28%,
-    rgba(255, 255, 255, 0.82),
-    rgba(220, 190, 255, 0.28) 36%,
-    rgba(120, 90, 220, 0.1) 62%,
-    transparent 74%
-  );
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-@supports (mix-blend-mode: plus-lighter) {
-  .bubble-soap {
-    mix-blend-mode: plus-lighter;
-  }
 }
 
 .bubble-node {
