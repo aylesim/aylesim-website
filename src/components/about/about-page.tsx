@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import { PageFrame } from "@/components/site/site-chrome";
 import type { About, SiteConfig } from "@/lib/content";
 import { spiralPoses } from "@/lib/tile-layout";
+import type { buildWorkMenu } from "@/lib/work-menu";
 
 gsap.registerPlugin(useGSAP);
 
@@ -18,10 +19,12 @@ export function AboutPage({
   about,
   brand,
   site,
+  workMenu,
 }: {
   about: About;
   brand: string;
   site: SiteConfig;
+  workMenu: ReturnType<typeof buildWorkMenu>;
 }) {
   const rootRef = useRef<HTMLElement>(null);
   const hasNotes = site.awards.length > 0 || site.pressMentions.length > 0;
@@ -63,7 +66,7 @@ export function AboutPage({
   );
 
   return (
-    <PageFrame brand={brand} current="about">
+    <PageFrame brand={brand} current="about" workMenu={workMenu}>
       <article className="about" ref={rootRef}>
         <header className="about-card about-card--hero">
           <div className="about-card-inner">
@@ -83,7 +86,7 @@ export function AboutPage({
           </div>
         </section>
 
-        <section className="about-card about-card--contact">
+        <section className="about-card about-card--contact" id="contact">
           <div className="about-card-inner">
             <h2 className="about-section-title">Contact</h2>
             <div className="about-chips">

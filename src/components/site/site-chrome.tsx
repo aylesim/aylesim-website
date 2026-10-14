@@ -6,6 +6,13 @@ import type { WorkMenuEntry } from "@/lib/work-menu";
 
 export type SitePage = "work" | "about";
 
+type WorkMenu = {
+  entries: WorkMenuEntry[];
+  projectCount: number;
+  selectedSlug?: string | null;
+  onSelect?: (slug: string) => void;
+};
+
 export function SiteChrome({
   brand,
   current,
@@ -21,18 +28,15 @@ export function SiteChrome({
   onMenuOpenChange: (open: boolean) => void;
   children: ReactNode;
   filters?: ReactNode;
-  workMenu?: {
-    entries: WorkMenuEntry[];
-    projectCount: number;
-    selectedSlug: string | null;
-    onSelect: (slug: string) => void;
-  };
+  workMenu?: WorkMenu;
 }) {
   const menuId = useId();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLUListElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
+  const [projectsOpen, setProjectsOpen] = useState(false);
   useEffect(() => {
     if (!menuOpen) {
+      setProjectsOpen(false);
       return;
     }
     menuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
@@ -102,47 +106,103 @@ export function SiteChrome({
             </button>
           </nav>
         </div>
-        <ul
+        <nav
           aria-hidden={!menuOpen}
+          aria-label="Site menu"
           className={menuOpen ? "site-menu is-open" : "site-menu"}
           id={menuId}
           inert={!menuOpen}
           ref={menuRef}
         >
-          {workMenu ? (
-            <li className="site-menu-summary">
-              All projects ({workMenu.projectCount})
-            </li>
-          ) : null}
-          {workMenu?.entries.map((entry, index) =>
-            entry.type === "heading" ? (
-              <li
-                aria-hidden="true"
-                className="site-menu-heading"
-                key={`heading-${entry.label}-${index}`}
-              >
-                {entry.label}
-              </li>
-            ) : (
-              <li className="site-menu-project" key={entry.slug}>
-                <button
-                  className={
-                    workMenu.selectedSlug === entry.slug
-                      ? "site-menu-link is-on"
-                      : "site-menu-link"
-                  }
-                  onClick={() => {
-                    workMenu.onSelect(entry.slug);
-                    onMenuOpenChange(false);
-                  }}
-                  type="button"
+          <ul className="site-menu-pages">
+            {[
+              {
+                label: "Work",
+                href: "/",
+                page: "work",
+                description: "Projects and collaborations",
+              },
+              {
+                label: "About",
+                href: "/about",
+                page: "about",
+                description: "Background and practice",
+              },
+              {
+                label: "Contact",
+                href: "/about#contact",
+                description: "Get in touch",
+              },
+            ].map((item) => (
+              <li key={item.label}>
+                <Link
+                  aria-current={current === item.page ? "page" : undefined}
+                  className="site-menu-page"
+                  href={item.href}
+                  onClick={() => onMenuOpenChange(false)}
                 >
-                  {entry.label}
-                </button>
+                  <span className="site-menu-page-title">{item.label}</span>
+                  <span className="site-menu-page-description">
+                    {item.description}
+                  </span>
+                </Link>
               </li>
-            )
-          )}
-        </ul>
+            ))}
+          </ul>
+          {workMenu && workMenu.projectCount > 0 ? (
+            <details
+              className="site-menu-projects"
+              onToggle={(event) => setProjectsOpen(event.currentTarget.open)}
+              open={projectsOpen}
+            >
+              <summary>
+                <span>Browse projects</span>
+                <span className="site-menu-project-count">
+                  {workMenu.projectCount}
+                </span>
+              </summary>
+              <ul className="site-menu-project-list">
+                {workMenu?.entries.map((entry, index) =>
+                  entry.type === "heading" ? (
+                    <li
+                      className="site-menu-heading"
+                      key={`heading-${entry.label}-${index}`}
+                    >
+                      {entry.label}
+                    </li>
+                  ) : (
+                    <li className="site-menu-project" key={entry.slug}>
+                      {workMenu.onSelect ? (
+                        <button
+                          className={
+                            workMenu.selectedSlug === entry.slug
+                              ? "site-menu-link is-on"
+                              : "site-menu-link"
+                          }
+                          onClick={() => {
+                            workMenu.onSelect?.(entry.slug);
+                            onMenuOpenChange(false);
+                          }}
+                          type="button"
+                        >
+                          {entry.label}
+                        </button>
+                      ) : (
+                        <Link
+                          className="site-menu-link"
+                          href={`/?project=${encodeURIComponent(entry.slug)}`}
+                          onClick={() => onMenuOpenChange(false)}
+                        >
+                          {entry.label}
+                        </Link>
+                      )}
+                    </li>
+                  )
+                )}
+              </ul>
+            </details>
+          ) : null}
+        </nav>
       </header>
       {filters}
       {children}
@@ -154,10 +214,12 @@ export function PageFrame({
   brand,
   current,
   children,
+  workMenu,
 }: {
   brand: string;
   current: SitePage;
   children: ReactNode;
+  workMenu: WorkMenu;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
@@ -167,6 +229,7 @@ export function PageFrame({
         current={current}
         menuOpen={menuOpen}
         onMenuOpenChange={setMenuOpen}
+        workMenu={workMenu}
       >
         {children}
       </SiteChrome>
