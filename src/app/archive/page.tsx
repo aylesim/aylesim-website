@@ -1,3 +1,6 @@
+import { pageMetadata } from "@/lib/seo";
+export const metadata = pageMetadata("/archive");
+
 import Link from "next/link";
 import { PageFrame } from "@/components/site/site-chrome";
 import { getAllContent } from "@/lib/content";

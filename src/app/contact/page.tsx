@@ -1,3 +1,6 @@
+import { pageMetadata } from "@/lib/seo";
+export const metadata = pageMetadata("/contact");
+
 import { Markdown } from "@/components/markdown";
 import { PageFrame } from "@/components/site/site-chrome";
 import { getAllContent } from "@/lib/content";

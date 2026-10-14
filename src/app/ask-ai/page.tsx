@@ -1,15 +1,12 @@
-import type { Metadata } from "next";
 import { AskAiPage } from "@/components/ask-ai/ask-ai-page";
 import { getAllContent } from "@/lib/content";
 import { serializeSiteContentJson } from "@/lib/content-json";
+import { pageMetadata } from "@/lib/seo";
 import { contentJsonUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "JSON | Aylesim",
-  description: "Structured JSON of this portfolio.",
-};
+export const metadata = pageMetadata("/ask-ai");
 
 export default function AskAi() {
   const { home, site } = getAllContent();

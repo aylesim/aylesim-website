@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+export const metadata = pageMetadata("/about");
+
 import { AboutPage } from "@/components/about/about-page";
 import { getAllContent } from "@/lib/content";
-
-export const metadata: Metadata = {
-  title: "About | Alessandro Miracapillo",
-  description:
-    "Trained in electronic music, based in Berlin. Founder of Aylesim Devices and of the Max Berlin Network.",
-};
 
 export default function About() {
   const { about, home, site } = getAllContent();
