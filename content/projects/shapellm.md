@@ -22,14 +22,26 @@ listTagline: >-
 liveLink: 'https://shape-llm.vercel.app'
 listBadges: []
 ---
-A language model rates how angry a text sounds, from 0 to 1, and a three.js shape gets sharper and redder as the score rises. The call goes through a Next.js API route and zod validates the reply. The live demo needs an OpenAI or OpenRouter key. shape-llm.vercel.app · github.com/aylesim/ShapeLLM
-
-[View code](https://github.com/aylesim/ShapeLLM)
+## Context and constraints
 
 [needs: context and constraints]
 
+## What I built
+
+A language model rates how angry a text sounds, from 0 to 1, and a three.js shape gets sharper and redder as the score rises. The call goes through a Next.js API route and zod validates the reply. The live demo needs an OpenAI or OpenRouter key. shape-llm.vercel.app · github.com/aylesim/ShapeLLM
+
+## Outcome
+
+Proof of concept. [needs: outcome]
+
+## Media
+
 [needs: screenshots or screen recording]
+
+[needs: project image]
 
 [needs clip]
 
-[needs: project image]
+## Links
+
+[Open site](https://shape-llm.vercel.app) · [View code](https://github.com/aylesim/ShapeLLM)

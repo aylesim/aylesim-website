@@ -36,8 +36,22 @@ listBadges:
 buyLink: 'https://aylesim.gumroad.com/l/disco'
 client: Aylesim Devices
 ---
-**Disco** [needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and on/off in a circular layout. The taps rotate together or separately, by hand or by LFO. [Buy] [Video]
+## Context and constraints
 
 [needs: context and constraints]
 
-[needs: manual PDF link]
+## What I built
+
+[needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and on/off in a circular layout. The taps rotate together or separately, by hand or by LFO.
+
+## Outcome
+
+[needs: outcome]
+
+## Media
+
+[needs: video captions]
+
+## Links
+
+[Buy on Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)

@@ -24,11 +24,25 @@ videos:
     url: 'https://www.youtube.com/watch?v=GJUaN92rx-0'
 listBadges: []
 ---
-- Year: October 2020
+## Context and constraints
+
+Large-format projections generated live and synced to a percussive experimental electronic set. A music and image slot within the TEDx programme, not a talk.
+
+## What I built
+
 - Medium: live audiovisual performance, real-time generative video projection
 - With: Regleow & Ozey (music)
-- Text: Large-format projections generated live and synced to a percussive experimental electronic set. A music and image slot within the TEDx programme, not a talk.
+
+## Outcome
+
+[needs: exhibition record]
+
+## Media
 
 [needs: 3 to 5 stills, duration and excerpt]
 
 [needs: better image]
+
+## Links
+
+

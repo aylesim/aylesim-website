@@ -26,14 +26,26 @@ liveLink: 'https://transluoghiecomuseo.it'
 client: Transluoghi Ecomuseo
 listBadges: []
 ---
-Website for Transluoghi, an ecomuseum in Morigerati, Campania: walking and cycling itineraries, sites and artist residencies. The site is in Italian.
+## Context and constraints
 
-- **Role:** Developer (paid client work).
-- **Stack:** Next.js, React, TypeScript, PayloadCMS on MongoDB, run in Docker in production.
-- **Constraints:** [needs: e.g. who edits the content, languages, deadlines]
-- **What I built:** The frontend and the PayloadCMS setup, including its auth configuration and custom endpoints.
-- **Outcome:** Live at transluoghiecomuseo.it. [needs screenshots]
+[needs: e.g. who edits the content, languages, deadlines]
+
+## What I built
+
+The frontend and the PayloadCMS setup, including its auth configuration and custom endpoints.
+
+## Outcome
+
+Live at transluoghiecomuseo.it. [needs screenshots]
+
+## Media
+
+[needs screenshots]
+
+[needs: project image]
 
 [needs clip]
 
-[needs: project image]
+## Links
+
+[Open site](https://transluoghiecomuseo.it)

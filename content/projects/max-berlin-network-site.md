@@ -24,12 +24,24 @@ listTagline: >-
 liveLink: 'https://www.maxberlin.network/'
 listBadges: []
 ---
-Public site for the Max Berlin Network meetups: next meetup on the homepage, event pages, newsletter signup and archive. Organisers update it through PagesCMS without a developer. Next.js, TypeScript, Tailwind. maxberlin.network
-
-[View code](https://github.com/aylesim/max-meetup-berlin-website)
+## Context and constraints
 
 [needs: context and constraints]
+
+## What I built
+
+Public site for the Max Berlin Network meetups: next meetup on the homepage, event pages, newsletter signup and archive. Organisers update it through PagesCMS without a developer. Next.js, TypeScript, Tailwind. maxberlin.network
+
+## Outcome
+
+Live at maxberlin.network.
+
+## Media
 
 [needs: screenshots or screen recording]
 
 [needs clip]
+
+## Links
+
+[Open site](https://www.maxberlin.network/) · [View code](https://github.com/aylesim/max-meetup-berlin-website)

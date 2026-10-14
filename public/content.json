@@ -13,7 +13,7 @@
           "Max for Live",
           "Live API"
         ],
-        "description": "A generative MIDI sequencer for Ableton Live. It plays a 16-step melody and changes it while it plays.\n\n- **Role:** Design, code and user manual.\n- **Stack:** Max/MSP, JavaScript (jsui/mgraphics), Max for Live, Live API.\n- **Constraints:** The melody changes while it plays, so pitch, timing and note state had to stay readable as it changes. [needs: any other constraints, e.g. panel size]\n- **What I built:**\n  - A display where each note is a bird on one of 12 wires, one wire per pitch class. Clicking a bird switches its step on or off.\n  - Colour states for original, drifted and muted notes. The playing bird is drawn in flight.\n  - A Difference Limit control that sets how far the melody can drift from the original before it returns\n  - Pitch and gate mutation strategies, and the manual\n- **Outcome:** Covered by Rekkerd in April 2026. Sold on Gumroad and Isotonik Studios.\n- **Media:** Carousel demo, full walkthrough (YouTube).\n- **Links:** aylesim.gumroad.com/l/birds · Isotonik · Manual (PDF)\n\n[needs: manual PDF link]",
+        "description": "## Context and constraints\n\nThe melody changes while it plays, so pitch, timing and note state had to stay readable as it changes. [needs: any other constraints, e.g. panel size]\n\n## What I built\n\n- A display where each note is a bird on one of 12 wires, one wire per pitch class. Clicking a bird switches its step on or off.\n  - Colour states for original, drifted and muted notes. The playing bird is drawn in flight.\n  - A Difference Limit control that sets how far the melody can drift from the original before it returns\n  - Pitch and gate mutation strategies, and the manual\n\n## Outcome\n\nCovered by Rekkerd in April 2026. Sold on Gumroad and Isotonik Studios.\n\n## Media\n\nCarousel demo, full walkthrough (YouTube).\n\n[needs: video captions and description of the sound]\n\n## Links\n\n[Buy on Gumroad](https://aylesim.gumroad.com/l/birds) · [Isotonik Studios](https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)",
         "highlights": [],
         "link": "https://aylesim.gumroad.com/l/birds",
         "linkLabel": "Buy on Gumroad",
@@ -61,7 +61,7 @@
           "React",
           "TypeScript"
         ],
-        "description": "A scrollytelling chapter of the Berggruen Institute's Planetary Compendium, a set of case studies on planetary governance.\n\n- **Role:** Frontend developer (freelance). Design: Anahat Kaur, Arianna Smaron. Development: Alessandro Miracapillo.\n- **Stack:** Next.js, React, TypeScript. Designs handed over in Figma.\n- **Constraints:** It had to be ready for the public launch and for an exhibition in Zürich in November 2025. [needs other constraints, e.g. performance or accessibility targets, if he wants to state them]\n- **What I built:**\n  - The North Sea scrollytelling chapter, from the designers' Figma files\n  - The map visualisations in the chapter\n  - [needs confirmation: draggable document archive for the Hindu Kush chapter]\n- **Outcome:** The Planetary Compendium received an Honorary Mention in Digital Humanity at Prix Ars Electronica 2026 (team project).\n- **Links:** governtheplanet.org/case-study/north-sea · Prix Ars Electronica archive\n\nThe Planetary Compendium presents case studies on planetary governance. I worked from the designers' Figma files. The chapter had to be ready for the public launch and for an exhibition in Zürich in November 2025. [needs: other constraints, for example performance, accessibility or exhibition hardware]\n\n## What I built\n- The North Sea scrollytelling chapter, from the designers' Figma files\n- The map visualisations in the chapter\n- [needs confirmation: the draggable document archive for the Hindu Kush chapter]\n- [needs confirmation before keeping: reduced-motion support, stable rendering during live group sessions]\n\n## Outcome\n- The Planetary Compendium received an Honorary Mention in Digital Humanity at Prix Ars Electronica 2026 (team project).\n- Shown at an exhibition in Zürich, November 2025.\n\n## Media\n- Screenshot of the immersive part of the chapter (used in the portfolio PDF)\n- Screenshot of the chapter's case page (used in the portfolio PDF)\n- [needs: 3 to 5 more stills, compressed; currently /planetary.png is 3.7 MB]\n\n## Links\n[Open the chapter: governtheplanet.org/case-study/north-sea] · Prix Ars Electronica archive (archive.aec.at/prix/320414)\n\n\n\n[needs clip]",
+        "description": "## Context and constraints\n\nThe Planetary Compendium presents case studies on planetary governance. I worked from the designers' Figma files. The chapter had to be ready for the public launch and for an exhibition in Zürich in November 2025. [needs: other constraints, for example performance, accessibility or exhibition hardware]\n\n## What I built\n\n- The North Sea scrollytelling chapter, from the designers' Figma files\n- The map visualisations in the chapter\n- [needs confirmation: the draggable document archive for the Hindu Kush chapter]\n- [needs confirmation before keeping: reduced-motion support, stable rendering during live group sessions]\n\n## Outcome\n\n- The Planetary Compendium received an Honorary Mention in Digital Humanity at Prix Ars Electronica 2026 (team project).\n- Shown at an exhibition in Zürich, November 2025.\n\n## Media\n\n[needs: screen recording of the chapter scroll; confirmation whether the chapter has audio]\n\n[needs: screenshot of the immersive part of the chapter and its case page]\n\n[needs: 3 to 5 more stills, compressed]\n\n[needs clip]\n\n## Links\n\n[Open site](https://governtheplanet.org/case-study/north-sea) · [Prix Ars Electronica 2026](https://archive.aec.at/prix/320414/) · [Prix Ars Electronica archive](https://archive.aec.at/prix/320414)",
         "highlights": [],
         "link": "https://governtheplanet.org/case-study/north-sea",
         "linkLabel": "Open site",
@@ -94,7 +94,7 @@
           "Tailwind",
           "PagesCMS"
         ],
-        "description": "Public site for the Max Berlin Network meetups: next meetup on the homepage, event pages, newsletter signup and archive. Organisers update it through PagesCMS without a developer. Next.js, TypeScript, Tailwind. maxberlin.network\n\n[View code](https://github.com/aylesim/max-meetup-berlin-website)\n\n[needs: context and constraints]\n\n[needs: screenshots or screen recording]\n\n[needs clip]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\nPublic site for the Max Berlin Network meetups: next meetup on the homepage, event pages, newsletter signup and archive. Organisers update it through PagesCMS without a developer. Next.js, TypeScript, Tailwind. maxberlin.network\n\n## Outcome\n\nLive at maxberlin.network.\n\n## Media\n\n[needs: screenshots or screen recording]\n\n[needs clip]\n\n## Links\n\n[Open site](https://www.maxberlin.network/) · [View code](https://github.com/aylesim/max-meetup-berlin-website)",
         "highlights": [],
         "link": "https://www.maxberlin.network/",
         "linkLabel": "Open site",
@@ -120,7 +120,7 @@
           "JavaScript (UI)",
           "Max for Live"
         ],
-        "description": "A modulation device for Ableton Live. Up to four functions are layered into one waveform, and reading heads move along it and send the values to mapped parameters.\n\n- **Role:** Design and code.\n- **Stack:** Max/MSP, gen~ (DSP), JavaScript (UI), Max for Live.\n- **What I built:** The waveform display, reading heads moved by hand, by LFO or by envelope follower, and a dice button that randomises the functions.\n- **Outcome:** Covered by Rekkerd in August 2024.\n- **Media:** Carousel, walkthrough, how it's made (YouTube).\n- **Links:** aylesim.gumroad.com/l/knobstudio · Isotonik\n\n[needs: manual PDF link]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\nThe waveform display, reading heads moved by hand, by LFO or by envelope follower, and a dice button that randomises the functions.\n\n## Outcome\n\nCovered by Rekkerd in August 2024.\n\n## Media\n\nCarousel, walkthrough, how it's made (YouTube).\n\n## Links\n\n[Buy on Gumroad](https://aylesim.gumroad.com/l/knobstudio) · [Isotonik Studios](https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/) · [Rekkerd](https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)",
         "highlights": [],
         "link": "https://aylesim.gumroad.com/l/knobstudio",
         "linkLabel": "Buy on Gumroad",
@@ -178,7 +178,7 @@
           "zod",
           "React Flow"
         ],
-        "description": "Turns a plain-language workflow description into a node graph. A domain file defines the allowed node types, ports and parameters. The model writes graph JSON, zod validates it, and React Flow renders only validated graphs. It does not run the workflows. glossia-seven.vercel.app · github.com/aylesim/Glossia\n\n[View code](https://github.com/aylesim/Glossia)\n\n[needs: context and constraints]\n\n[needs: screenshots or screen recording]\n\n[needs clip]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\nTurns a plain-language workflow description into a node graph. A domain file defines the allowed node types, ports and parameters. The model writes graph JSON, zod validates it, and React Flow renders only validated graphs. It does not run the workflows. glossia-seven.vercel.app · github.com/aylesim/Glossia\n\n## Outcome\n\nProof of concept. [needs: outcome]\n\n## Media\n\n[needs: screenshots or screen recording]\n\n[needs clip]\n\n## Links\n\n[Open site](https://glossia-seven.vercel.app) · [View code](https://github.com/aylesim/Glossia)",
         "highlights": [],
         "link": "https://glossia-seven.vercel.app",
         "linkLabel": "Open site",
@@ -205,7 +205,7 @@
           "PagesCMS",
           "Vercel"
         ],
-        "description": "Portfolio site for a Berlin sound designer and composer: works gallery, services, about and contact. Next.js, React, three.js, PagesCMS. eduardopesole.com\n\n[View code](https://github.com/aylesim/Eduardo-Pesole-website)\n\n[needs: context and constraints]\n\n[needs: screenshots or screen recording]\n\n[needs clip]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\nPortfolio site for a Berlin sound designer and composer: works gallery, services, about and contact. Next.js, React, three.js, PagesCMS. eduardopesole.com\n\n## Outcome\n\nLive at eduardopesole.com.\n\n## Media\n\n[needs: screenshots or screen recording]\n\n[needs clip]\n\n## Links\n\n[Open site](https://www.eduardopesole.com/) · [View code](https://github.com/aylesim/Eduardo-Pesole-website)",
         "highlights": [],
         "link": "https://www.eduardopesole.com/",
         "linkLabel": "Open site",
@@ -228,7 +228,7 @@
         "tags": [
           "Max/MSP"
         ],
-        "description": "- Year: October 2020\n- Medium: live audiovisual performance, real-time generative video projection\n- With: Regleow & Ozey (music)\n- Text: Large-format projections generated live and synced to a percussive experimental electronic set. A music and image slot within the TEDx programme, not a talk.\n\n[needs: 3 to 5 stills, duration and excerpt]\n\n[needs: better image]",
+        "description": "## Context and constraints\n\nLarge-format projections generated live and synced to a percussive experimental electronic set. A music and image slot within the TEDx programme, not a talk.\n\n## What I built\n\n- Medium: live audiovisual performance, real-time generative video projection\n- With: Regleow & Ozey (music)\n\n## Outcome\n\n[needs: exhibition record]\n\n## Media\n\n[needs: 3 to 5 stills, duration and excerpt]\n\n[needs: better image]\n\n## Links",
         "highlights": [],
         "link": null,
         "linkLabel": "Open site",
@@ -258,7 +258,7 @@
           "Max/MSP",
           "Max for Live"
         ],
-        "description": "**Disco** [needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and on/off in a circular layout. The taps rotate together or separately, by hand or by LFO. [Buy] [Video]\n\n[needs: context and constraints]\n\n[needs: manual PDF link]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\n[needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and on/off in a circular layout. The taps rotate together or separately, by hand or by LFO.\n\n## Outcome\n\n[needs: outcome]\n\n## Media\n\n[needs: video captions]\n\n## Links\n\n[Buy on Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)",
         "highlights": [],
         "link": "https://aylesim.gumroad.com/l/disco",
         "linkLabel": "Buy on Gumroad",
@@ -305,7 +305,7 @@
           "Max for Live",
           "Freesound API"
         ],
-        "description": "**Freesound4Live** (2020). Search and load samples from Freesound.org inside Ableton Live, with Freesound account login. Covered by Create Digital Music. [needs: current store link; whether it is open source] [Video]\n\n[needs: context and constraints]\n\n[needs: repo link or remove]\n\n[needs: manual PDF link]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\n(2020). Search and load samples from Freesound.org inside Ableton Live, with Freesound account login. Covered by Create Digital Music. [needs: current store link; whether it is open source]\n\n## Outcome\n\nCovered by Create Digital Music. [needs: current store link; whether it is open source]\n\n[needs: repo link or remove]\n\n## Media\n\n[needs: video captions]\n\n## Links\n\n[Create Digital Music](https://cdm.link/free-sounds-and-samples-in-ableton-live/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)",
         "highlights": [],
         "linkLabel": "Buy on Gumroad",
         "primaryMeta": [
@@ -341,7 +341,7 @@
           "Max/MSP",
           "Max for Live"
         ],
-        "description": "**Lucky Notes** (free) [needs year]. MIDI effect that lets notes through by probability, so a pattern can start sparse and get denser without editing clips. Listed in the ELPHNT Max for Live Curated Collection. [Download]\n\n[needs: context and constraints]\n\n[needs: better image]\n\n[needs clip]\n\n[needs: manual PDF link]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\n(free) [needs year]. MIDI effect that lets notes through by probability, so a pattern can start sparse and get denser without editing clips. Listed in the ELPHNT Max for Live Curated Collection.\n\n## Outcome\n\nListed in the ELPHNT Max for Live Curated Collection.\n\n## Media\n\n[needs: better image]\n\n[needs clip]\n\n## Links\n\n[Download free](https://aylesim.gumroad.com/l/luckynotes) · [ELPHNT Curated Collection](https://elphnt.io/max-for-live-curated-collection/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)",
         "highlights": [],
         "link": "https://aylesim.gumroad.com/l/luckynotes",
         "linkLabel": "Download free",
@@ -374,7 +374,7 @@
         "category": "installations",
         "categoryLabel": "Art",
         "tags": [],
-        "description": "- Year: [needs: 2021 per award, site says 2022]\n- Medium: audiovisual installation; custom software, live video, real-time audio synthesis\n- Duration / setup: runs continuously [needs: screens or projectors, channel count, room size]\n- Shown: Premio Nazionale delle Arti XV, Accademia di Belle Arti di Sassari, December 2021 [needs other venues]\n- Text: Software searches the internet for surveillance cameras left open without a password and shows their live feeds. The sound is synthesised in real time from analysis of the images, so its timbre and density follow what is on screen. Some feeds are never shown.\n- Recognition: First prize, Electronic Art, Premio Nazionale delle Arti XV (MUR), 2021.\n\n[needs: 3 to 5 stills, duration and excerpt]",
+        "description": "## Context and constraints\n\nSoftware searches the internet for surveillance cameras left open without a password and shows their live feeds. The sound is synthesised in real time from analysis of the images, so its timbre and density follow what is on screen. Some feeds are never shown.\n\n## What I built\n\n- Medium: audiovisual installation; custom software, live video, real-time audio synthesis\n- Duration / setup: runs continuously [needs: screens or projectors, channel count, room size]\n- Shown: Premio Nazionale delle Arti XV, Accademia di Belle Arti di Sassari, December 2021 [needs other venues]\n\n## Outcome\n\nFirst prize, Electronic Art, Premio Nazionale delle Arti XV (MUR), 2021.\n\n## Media\n\n[needs: 3 to 5 stills, duration and excerpt]\n\n## Links",
         "highlights": [],
         "link": null,
         "linkLabel": "Open site",
@@ -401,7 +401,7 @@
         "category": "installations",
         "categoryLabel": "Art",
         "tags": [],
-        "description": "- Year: 2022\n- Medium: moving image; GAN trained on military helicopter footage [needs: single or multi-screen, duration, sound]\n- Shown: developed at Con.divisione Residenza 2022, Maul [needs where it was exhibited]\n- Text: A neural network trained on helicopter footage from conflict zones, including Afghanistan, Iraq and Pakistan, produces images that keep the texture and motion of aerial war video but no longer show an identifiable scene. The title refers to Éléonore Weber's documentary There Will Be No More Night.\n\n[needs: 3 to 5 stills, duration and excerpt]",
+        "description": "## Context and constraints\n\nA neural network trained on helicopter footage from conflict zones, including Afghanistan, Iraq and Pakistan, produces images that keep the texture and motion of aerial war video but no longer show an identifiable scene. The title refers to Éléonore Weber's documentary There Will Be No More Night.\n\n## What I built\n\n- Medium: moving image; GAN trained on military helicopter footage [needs: single or multi-screen, duration, sound]\n- Shown: developed at Con.divisione Residenza 2022, Maul [needs where it was exhibited]\n\n## Outcome\n\n[needs: exhibition record]\n\n## Media\n\n[needs: 3 to 5 stills, duration and excerpt]\n\n## Links",
         "highlights": [],
         "link": null,
         "linkLabel": "Open site",
@@ -430,7 +430,7 @@
         "category": "installations",
         "categoryLabel": "Art",
         "tags": [],
-        "description": "- Year: 2023\n- Medium: net art installation; software running for the length of the exhibition [needs: display setup]\n- Shown: developed at Con.Divisione 12 Art Residency, 2023 [needs where it was exhibited]\n- Text: Software inserts misleading edits into unspecified Wikipedia articles, coherent enough to pass a quick read, and keeps them in circulation until editors revert them. The piece makes visible the unpaid attention that keeps Wikipedia accurate.\n\n[needs: confirm spelling]\n\n[needs: 3 to 5 stills, duration and excerpt]",
+        "description": "## Context and constraints\n\nSoftware inserts misleading edits into unspecified Wikipedia articles, coherent enough to pass a quick read, and keeps them in circulation until editors revert them. The piece makes visible the unpaid attention that keeps Wikipedia accurate.\n\n## What I built\n\n- Medium: net art installation; software running for the length of the exhibition [needs: display setup]\n- Shown: developed at Con.Divisione 12 Art Residency, 2023 [needs where it was exhibited]\n\n## Outcome\n\n[needs: exhibition record]\n\n## Media\n\n[needs: 3 to 5 stills, duration and excerpt]\n\n[needs: confirm spelling]\n\n## Links",
         "highlights": [],
         "link": null,
         "linkLabel": "Open site",
@@ -457,7 +457,7 @@
         "category": "installations",
         "categoryLabel": "Art",
         "tags": [],
-        "description": "- Year: 2022\n- Medium: audio installation; recorded voices processed by a neural network [needs: channel count, duration, speakers]\n- Shown: thesis project [needs: where shown; confirm it was the Conservatorio thesis]\n- Text: Recorded voices pass through a neural network built from voice classification and recognition models. What comes out keeps the grain and rhythm of speech, but the words stop making sense.\n\n[needs: 3 to 5 stills, duration and excerpt]",
+        "description": "## Context and constraints\n\nRecorded voices pass through a neural network built from voice classification and recognition models. What comes out keeps the grain and rhythm of speech, but the words stop making sense.\n\n## What I built\n\n- Medium: audio installation; recorded voices processed by a neural network [needs: channel count, duration, speakers]\n- Shown: thesis project [needs: where shown; confirm it was the Conservatorio thesis]\n\n## Outcome\n\n[needs: exhibition record]\n\n## Media\n\n[needs: 3 to 5 stills, duration and excerpt]\n\n[needs: streamable audio]\n\n## Links",
         "highlights": [],
         "link": null,
         "linkLabel": "Open site",
@@ -488,7 +488,7 @@
           "three.js",
           "zod"
         ],
-        "description": "A language model rates how angry a text sounds, from 0 to 1, and a three.js shape gets sharper and redder as the score rises. The call goes through a Next.js API route and zod validates the reply. The live demo needs an OpenAI or OpenRouter key. shape-llm.vercel.app · github.com/aylesim/ShapeLLM\n\n[View code](https://github.com/aylesim/ShapeLLM)\n\n[needs: context and constraints]\n\n[needs: screenshots or screen recording]\n\n[needs clip]\n\n[needs: project image]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\nA language model rates how angry a text sounds, from 0 to 1, and a three.js shape gets sharper and redder as the score rises. The call goes through a Next.js API route and zod validates the reply. The live demo needs an OpenAI or OpenRouter key. shape-llm.vercel.app · github.com/aylesim/ShapeLLM\n\n## Outcome\n\nProof of concept. [needs: outcome]\n\n## Media\n\n[needs: screenshots or screen recording]\n\n[needs: project image]\n\n[needs clip]\n\n## Links\n\n[Open site](https://shape-llm.vercel.app) · [View code](https://github.com/aylesim/ShapeLLM)",
         "highlights": [],
         "link": "https://shape-llm.vercel.app",
         "linkLabel": "Open site",
@@ -516,7 +516,7 @@
           "MongoDB",
           "Docker"
         ],
-        "description": "Website for Transluoghi, an ecomuseum in Morigerati, Campania: walking and cycling itineraries, sites and artist residencies. The site is in Italian.\n\n- **Role:** Developer (paid client work).\n- **Stack:** Next.js, React, TypeScript, PayloadCMS on MongoDB, run in Docker in production.\n- **Constraints:** [needs: e.g. who edits the content, languages, deadlines]\n- **What I built:** The frontend and the PayloadCMS setup, including its auth configuration and custom endpoints.\n- **Outcome:** Live at transluoghiecomuseo.it. [needs screenshots]\n\n[needs clip]\n\n[needs: project image]",
+        "description": "## Context and constraints\n\n[needs: e.g. who edits the content, languages, deadlines]\n\n## What I built\n\nThe frontend and the PayloadCMS setup, including its auth configuration and custom endpoints.\n\n## Outcome\n\nLive at transluoghiecomuseo.it. [needs screenshots]\n\n## Media\n\n[needs screenshots]\n\n[needs: project image]\n\n[needs clip]\n\n## Links\n\n[Open site](https://transluoghiecomuseo.it)",
         "highlights": [],
         "link": "https://transluoghiecomuseo.it",
         "linkLabel": "Open site",
@@ -538,7 +538,7 @@
         "category": "devices",
         "categoryLabel": "Instruments",
         "tags": [],
-        "description": "**[needs: name]** ([needs: release date]). A plugin version of Disco, the spinning delay: 16 delay voices that rotate in a circular layout, with a rotation LFO. Formats: [needs: formats]. [needs: link]\n\n[needs: stack confirmed for publication]\n\n[needs clip]\n\n[needs: project image]\n\n[needs: manual PDF link]",
+        "description": "## Context and constraints\n\n[needs: context and constraints]\n\n## What I built\n\n([needs: release date]). A plugin version of Disco, the spinning delay: 16 delay voices that rotate in a circular layout, with a rotation LFO. Formats: [needs: formats]. [needs: link]\n\n[needs: stack confirmed for publication]\n\n## Outcome\n\n[needs: release date, formats and link]\n\n## Media\n\n[needs: project image]\n\n[needs clip]\n\n[needs: project image]\n\n## Links\n\n[needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)",
         "highlights": [],
         "linkLabel": "Buy on Gumroad",
         "primaryMeta": [

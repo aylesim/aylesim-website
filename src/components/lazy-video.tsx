@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { type ReactNode, useEffect, useId, useState } from "react";
 import type { ProjectVideo } from "@/lib/content";
 
 function embedUrl(url: string) {
@@ -14,7 +14,13 @@ function embedUrl(url: string) {
   return `https://player.vimeo.com/video${source.pathname}?autoplay=1`;
 }
 
-export function LazyVideo({ video }: { video: ProjectVideo }) {
+export function LazyVideo({
+  video,
+  poster,
+}: {
+  video: ProjectVideo;
+  poster?: ReactNode;
+}) {
   const [playing, setPlaying] = useState(false);
   const id = useId();
   useEffect(() => {
@@ -37,17 +43,20 @@ export function LazyVideo({ video }: { video: ProjectVideo }) {
           title={video.title}
         />
       ) : (
-        <button
-          onClick={() => {
-            window.dispatchEvent(
-              new CustomEvent("aylesim-play", { detail: id })
-            );
-            setPlaying(true);
-          }}
-          type="button"
-        >
-          Play {video.title} with sound
-        </button>
+        <div className="video-preview">
+          {poster}
+          <button
+            onClick={() => {
+              window.dispatchEvent(
+                new CustomEvent("aylesim-play", { detail: id })
+              );
+              setPlaying(true);
+            }}
+            type="button"
+          >
+            Play {video.title} with sound
+          </button>
+        </div>
       )}
       <figcaption>
         <a href={video.url}>Watch video: {video.title}</a>

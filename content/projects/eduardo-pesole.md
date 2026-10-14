@@ -25,12 +25,24 @@ listTagline: >-
 liveLink: 'https://www.eduardopesole.com/'
 listBadges: []
 ---
-Portfolio site for a Berlin sound designer and composer: works gallery, services, about and contact. Next.js, React, three.js, PagesCMS. eduardopesole.com
-
-[View code](https://github.com/aylesim/Eduardo-Pesole-website)
+## Context and constraints
 
 [needs: context and constraints]
+
+## What I built
+
+Portfolio site for a Berlin sound designer and composer: works gallery, services, about and contact. Next.js, React, three.js, PagesCMS. eduardopesole.com
+
+## Outcome
+
+Live at eduardopesole.com.
+
+## Media
 
 [needs: screenshots or screen recording]
 
 [needs clip]
+
+## Links
+
+[Open site](https://www.eduardopesole.com/) · [View code](https://github.com/aylesim/Eduardo-Pesole-website)

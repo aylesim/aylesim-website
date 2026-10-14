@@ -31,10 +31,24 @@ listBadges:
     url: 'https://cdm.link/free-sounds-and-samples-in-ableton-live/'
 client: Aylesim Devices
 ---
-**Freesound4Live** (2020). Search and load samples from Freesound.org inside Ableton Live, with Freesound account login. Covered by Create Digital Music. [needs: current store link; whether it is open source] [Video]
+## Context and constraints
 
 [needs: context and constraints]
 
+## What I built
+
+(2020). Search and load samples from Freesound.org inside Ableton Live, with Freesound account login. Covered by Create Digital Music. [needs: current store link; whether it is open source]
+
+## Outcome
+
+Covered by Create Digital Music. [needs: current store link; whether it is open source]
+
 [needs: repo link or remove]
 
-[needs: manual PDF link]
+## Media
+
+[needs: video captions]
+
+## Links
+
+[Create Digital Music](https://cdm.link/free-sounds-and-samples-in-ableton-live/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)

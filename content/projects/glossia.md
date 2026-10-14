@@ -21,12 +21,24 @@ listTagline: Turns a plain-language workflow description into a node graph.
 liveLink: 'https://glossia-seven.vercel.app'
 listBadges: []
 ---
-Turns a plain-language workflow description into a node graph. A domain file defines the allowed node types, ports and parameters. The model writes graph JSON, zod validates it, and React Flow renders only validated graphs. It does not run the workflows. glossia-seven.vercel.app · github.com/aylesim/Glossia
-
-[View code](https://github.com/aylesim/Glossia)
+## Context and constraints
 
 [needs: context and constraints]
+
+## What I built
+
+Turns a plain-language workflow description into a node graph. A domain file defines the allowed node types, ports and parameters. The model writes graph JSON, zod validates it, and React Flow renders only validated graphs. It does not run the workflows. glossia-seven.vercel.app · github.com/aylesim/Glossia
+
+## Outcome
+
+Proof of concept. [needs: outcome]
+
+## Media
 
 [needs: screenshots or screen recording]
 
 [needs clip]
+
+## Links
+
+[Open site](https://glossia-seven.vercel.app) · [View code](https://github.com/aylesim/Glossia)

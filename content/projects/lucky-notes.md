@@ -32,12 +32,24 @@ buyLink: 'https://aylesim.gumroad.com/l/luckynotes'
 price: Free
 client: Aylesim Devices
 ---
-**Lucky Notes** (free) [needs year]. MIDI effect that lets notes through by probability, so a pattern can start sparse and get denser without editing clips. Listed in the ELPHNT Max for Live Curated Collection. [Download]
+## Context and constraints
 
 [needs: context and constraints]
+
+## What I built
+
+(free) [needs year]. MIDI effect that lets notes through by probability, so a pattern can start sparse and get denser without editing clips. Listed in the ELPHNT Max for Live Curated Collection.
+
+## Outcome
+
+Listed in the ELPHNT Max for Live Curated Collection.
+
+## Media
 
 [needs: better image]
 
 [needs clip]
 
-[needs: manual PDF link]
+## Links
+
+[Download free](https://aylesim.gumroad.com/l/luckynotes) · [ELPHNT Curated Collection](https://elphnt.io/max-for-live-curated-collection/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)

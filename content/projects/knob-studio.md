@@ -45,13 +45,22 @@ listBadges:
 buyLink: 'https://aylesim.gumroad.com/l/knobstudio'
 client: Aylesim Devices
 ---
-A modulation device for Ableton Live. Up to four functions are layered into one waveform, and reading heads move along it and send the values to mapped parameters.
+## Context and constraints
 
-- **Role:** Design and code.
-- **Stack:** Max/MSP, gen~ (DSP), JavaScript (UI), Max for Live.
-- **What I built:** The waveform display, reading heads moved by hand, by LFO or by envelope follower, and a dice button that randomises the functions.
-- **Outcome:** Covered by Rekkerd in August 2024.
-- **Media:** Carousel, walkthrough, how it's made (YouTube).
-- **Links:** aylesim.gumroad.com/l/knobstudio · Isotonik
+[needs: context and constraints]
 
-[needs: manual PDF link]
+## What I built
+
+The waveform display, reading heads moved by hand, by LFO or by envelope follower, and a dice button that randomises the functions.
+
+## Outcome
+
+Covered by Rekkerd in August 2024.
+
+## Media
+
+Carousel, walkthrough, how it's made (YouTube).
+
+## Links
+
+[Buy on Gumroad](https://aylesim.gumroad.com/l/knobstudio) · [Isotonik Studios](https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/) · [Rekkerd](https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)

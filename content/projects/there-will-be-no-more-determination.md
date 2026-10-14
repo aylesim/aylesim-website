@@ -29,9 +29,23 @@ galleryAfterVideo:
   - /media/tw1.webp
   - /media/tw2.webp
 ---
-- Year: 2022
+## Context and constraints
+
+A neural network trained on helicopter footage from conflict zones, including Afghanistan, Iraq and Pakistan, produces images that keep the texture and motion of aerial war video but no longer show an identifiable scene. The title refers to Éléonore Weber's documentary There Will Be No More Night.
+
+## What I built
+
 - Medium: moving image; GAN trained on military helicopter footage [needs: single or multi-screen, duration, sound]
 - Shown: developed at Con.divisione Residenza 2022, Maul [needs where it was exhibited]
-- Text: A neural network trained on helicopter footage from conflict zones, including Afghanistan, Iraq and Pakistan, produces images that keep the texture and motion of aerial war video but no longer show an identifiable scene. The title refers to Éléonore Weber's documentary There Will Be No More Night.
+
+## Outcome
+
+[needs: exhibition record]
+
+## Media
 
 [needs: 3 to 5 stills, duration and excerpt]
+
+## Links
+
+

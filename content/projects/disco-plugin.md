@@ -19,12 +19,28 @@ listTagline: >-
 listBadges: []
 client: Aylesim Devices
 ---
-**[needs: name]** ([needs: release date]). A plugin version of Disco, the spinning delay: 16 delay voices that rotate in a circular layout, with a rotation LFO. Formats: [needs: formats]. [needs: link]
+## Context and constraints
+
+[needs: context and constraints]
+
+## What I built
+
+([needs: release date]). A plugin version of Disco, the spinning delay: 16 delay voices that rotate in a circular layout, with a rotation LFO. Formats: [needs: formats]. [needs: link]
 
 [needs: stack confirmed for publication]
+
+## Outcome
+
+[needs: release date, formats and link]
+
+## Media
+
+[needs: project image]
 
 [needs clip]
 
 [needs: project image]
 
-[needs: manual PDF link]
+## Links
+
+[needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)
