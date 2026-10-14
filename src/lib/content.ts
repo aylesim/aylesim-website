@@ -1,14 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { CATEGORY_FILTERS, type ProjectCategory } from "@/lib/roles";
+import { CATEGORY_FILTERS, type ProjectCategory } from "./roles";
 
 const contentDir = path.join(process.cwd(), "content");
 
 const aboutSectionSplit = /\n(?=## )/;
 const aboutHeadingPrefix = /^##\s+/;
 
-const PROJECT_CATEGORIES = new Set<string>(CATEGORY_FILTERS);
+const PROJECT_CATEGORIES = new Set<string>([
+  ...CATEGORY_FILTERS.filter((category) => category !== "all"),
+  "community",
+]);
 
 export type ProjectVideo = {
   title: string;
@@ -37,6 +40,12 @@ const PROJECT_WORK_SCOPES = new Set<string>([
 export type Project = {
   slug: string;
   title: string;
+  summary?: string;
+  status?: string;
+  credits?: string;
+  client?: string;
+  imageAlt?: string;
+
   year?: string;
   primaryMeta: string[];
   secondaryMeta?: string;
@@ -252,9 +261,9 @@ function deviceLinkLabel(
   price: string | undefined
 ) {
   if (buyLink?.includes("github.com")) {
-    return "Repository / download";
+    return "View code";
   }
-  return price === "Free" ? "Download" : "Buy";
+  return price === "Free" ? "Download free" : "Buy on Gumroad";
 }
 
 function extractMarkdownImages(body: string): string[] {
@@ -322,11 +331,16 @@ function mapProject(source: ProjectMapSource): Project {
   const buyLink = asString(data.buyLink);
   const liveLink = asString(data.liveLink);
   const link = isDevice ? buyLink : (liveLink ?? null);
-  const linkLabel = isDevice ? deviceLinkLabel(buyLink, price) : "Visit live";
+  const linkLabel = isDevice ? deviceLinkLabel(buyLink, price) : "Open site";
 
   return {
     slug,
     title: asString(data.title) ?? slug,
+    summary: asString(data.summary),
+    status: asString(data.status),
+    credits: asString(data.credits),
+    client: asString(data.client),
+    imageAlt: asString(data.imageAlt),
     year,
     primaryMeta: [
       isDevice ? client || price : client,
@@ -403,7 +417,12 @@ function projectHasCover(project: Project): boolean {
 
 function assertVisibleProjectsHaveCovers(projects: Project[]) {
   const missing = projects
-    .filter((project) => project.showInMenu && !projectHasCover(project))
+    .filter(
+      (project) =>
+        project.showInMenu &&
+        !projectHasCover(project) &&
+        !project.description.includes("[needs: project image]")
+    )
     .map((project) => project.slug);
   if (missing.length > 0) {
     throw new Error(

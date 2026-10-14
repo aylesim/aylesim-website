@@ -63,3 +63,5 @@ Allow: /
 
 User-agent: Diffbot
 Allow: /
+
+Sitemap: https://aylesim.com/sitemap.xml

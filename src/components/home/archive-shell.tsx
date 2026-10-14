@@ -1,110 +1,87 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
+  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
   useState,
-  useTransition,
 } from "react";
-import { ProjectDetail } from "@/components/home/portfolio-detail";
 import { TileField } from "@/components/home/tile-field";
 import { SiteChrome } from "@/components/site/site-chrome";
-import type { SiteContent } from "@/lib/content";
+import { VideoPreviewDialog } from "@/components/video-preview-dialog";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
+import type { ProjectPreview } from "@/lib/project-preview";
+import { projectHref, sortProjects } from "@/lib/project-routes";
 import {
   CATEGORY_FILTERS,
   CATEGORY_LABELS,
   type WorkFilter,
 } from "@/lib/roles";
+
 import { buildWorkMenu } from "@/lib/work-menu";
 
-function projectSlugFromSearchParams(
-  searchParams: URLSearchParams
-): string | null {
-  const projectParam = searchParams.get("project");
-  if (projectParam !== null) {
-    return projectParam || null;
-  }
-  return parseLegacyProjectSlug(searchParams);
-}
+const savedFilters = new Map<string, WorkFilter>();
 
-export default function ArchiveShell({ content }: { content: SiteContent }) {
+export default function ArchiveShell({
+  projects: entries,
+  brand,
+  initialFilter = "all",
+  children,
+}: {
+  projects: ProjectPreview[];
+  brand: string;
+  contactEmail?: string;
+  initialFilter?: WorkFilter;
+  children?: ReactNode;
+}) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [, startTransition] = useTransition();
-  const [filter, setFilter] = useState<WorkFilter>("all");
+  const [filter, setFilter] = useState<WorkFilter>(initialFilter);
+  useEffect(() => {
+    const previous = savedFilters.get(window.location.pathname);
+    if (previous) {
+      setFilter(previous);
+    }
+  }, []);
+  useEffect(() => {
+    savedFilters.set(window.location.pathname, filter);
+  }, [filter]);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const selectedSlug = projectSlugFromSearchParams(searchParams);
-
+  const [previewSlug, setPreviewSlug] = useState<string | null>(null);
+  const preview = entries.find((entry) => entry.slug === previewSlug);
+  const projects = useMemo(
+    () => sortProjects(entries.filter((project) => project.showInMenu)),
+    [entries]
+  );
   const openProject = useCallback(
     (slug: string) => {
-      startTransition(() => {
-        router.replace(`/?project=${slug}`, { scroll: false });
-      });
-    },
-    [router]
-  );
-
-  const closeProject = useCallback(() => {
-    startTransition(() => {
-      router.replace("/", { scroll: false });
-    });
-  }, [router]);
-
-  useEffect(() => {
-    if (!selectedSlug) {
-      return;
-    }
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeProject();
+      const project = projects.find((entry) => entry.slug === slug);
+      if (project) {
+        router.push(projectHref(project));
       }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [closeProject, selectedSlug]);
-
-  const selectFilter = (next: WorkFilter) => {
-    setFilter((current) => (current === next ? "all" : next));
-    if (selectedSlug) {
-      closeProject();
-    }
-  };
-
-  const projects = useMemo(
-    () => content.projects.filter((project) => project.showInMenu),
-    [content.projects]
+    },
+    [projects, router]
   );
-
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const slug =
+      searchParams.get("project") ?? parseLegacyProjectSlug(searchParams);
+    if (slug) {
+      const project = projects.find((entry) => entry.slug === slug);
+      router.replace(project ? projectHref(project) : "/about");
+    }
+  }, [projects, router]);
   const workMenu = useMemo(() => buildWorkMenu(projects), [projects]);
-
-  const selectedProject = selectedSlug
-    ? projects.find((project) => project.slug === selectedSlug)
-    : null;
-
   return (
     <main className="site-home">
       <SiteChrome
-        brand={content.home.brand}
-        current="work"
+        brand={brand}
+        current="home"
         filters={
           <nav aria-label="Project collections" className="site-filters">
             <ul>
-              <li>
-                <button
-                  aria-pressed={filter === "all"}
-                  className={
-                    filter === "all" ? "site-filter is-on" : "site-filter"
-                  }
-                  onClick={() => selectFilter("all")}
-                  type="button"
-                >
-                  All work
-                </button>
-              </li>
               {CATEGORY_FILTERS.map((category) => (
                 <li key={category}>
                   <button
@@ -112,10 +89,10 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
                     className={
                       filter === category ? "site-filter is-on" : "site-filter"
                     }
-                    onClick={() => selectFilter(category)}
+                    onClick={() => setFilter(category)}
                     type="button"
                   >
-                    {CATEGORY_LABELS[category]}
+                    {category === "all" ? "All" : CATEGORY_LABELS[category]}
                   </button>
                 </li>
               ))}
@@ -126,33 +103,29 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
         onMenuOpenChange={setMenuOpen}
         workMenu={{
           ...workMenu,
+          selectedSlug: null,
           onSelect: openProject,
-          selectedSlug,
         }}
       >
         <TileField
           filter={filter}
+          onPreview={setPreviewSlug}
           onSelect={openProject}
           projects={projects}
-          selectedSlug={selectedSlug}
+          selectedSlug={null}
           view="spiral"
         />
+        {children}
+        <footer className="stage-footer">
+          <Link href="/archive">Archive</Link>
+        </footer>
       </SiteChrome>
-
-      {selectedProject ? (
-        <div className="site-detail">
-          <button
-            aria-label="Close project"
-            className="site-detail-close"
-            onClick={closeProject}
-            type="button"
-          >
-            Close
-          </button>
-          <div className="site-detail-body">
-            <ProjectDetail project={selectedProject} site={content.site} />
-          </div>
-        </div>
+      {preview?.previewVideo ? (
+        <VideoPreviewDialog
+          onClose={() => setPreviewSlug(null)}
+          title={preview.title}
+          video={preview.previewVideo}
+        />
       ) : null}
     </main>
   );

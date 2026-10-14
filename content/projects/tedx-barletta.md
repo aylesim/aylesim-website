@@ -1,36 +1,48 @@
 ---
 type: work
 category: installations
-order: 4
-menuLabel: AV performance
-title: TEDx Barletta
-role: Visual Artist
-client: TEDx Barletta
-year: 2020
+title: 'Live visuals, TEDx Barletta'
+year: '2020'
+role: Artist
 tech:
   - Max/MSP
-  - Live Projection
-  - Generative Visuals
-  - AV Performance
-highlights:
-  - Live AV performance for a TEDx audience
-  - Real-time video projections synced to an experimental electronic set
-liveLink:
-canvasImage: /tedx-barletta.jpg
+summary: >-
+  Large-format projections generated live and synced to a percussive
+  experimental electronic set. A music and image slot within the TEDx programme,
+  not a talk.
+featured: false
+order: 4
+showInMenu: true
+canvasImage: /media/tedx-barletta.webp
+imageAlt: Performers silhouetted against a red TEDx Barletta stage
+listTagline: >-
+  Large-format projections generated live and synced to a percussive
+  experimental electronic set. A music and image slot within the TEDx programme,
+  not a talk.
 videos:
   - title: Performance
-    url: https://www.youtube.com/watch?v=GJUaN92rx-0
+    url: 'https://www.youtube.com/watch?v=GJUaN92rx-0'
+listBadges: []
 ---
+## Context and constraints
 
-## Overview
+Large-format projections generated live and synced to a percussive experimental electronic set. A music and image slot within the TEDx programme, not a talk.
 
-In October 2020 I played live visuals at TEDx Barletta with Regleow & Ozey. Percussive experimental electronic music, large-format video reacting to the sound as it happened.
+## What I built
 
-## What the performance involved
+- Medium: live audiovisual performance, real-time generative video projection
+- With: Regleow & Ozey (music)
 
-- Real-time generative video projections synced to a live electronic composition
-- Large-format projection for a TEDx audience
+## Outcome
 
-## Context
+[needs: exhibition record]
 
-TEDx Barletta is a talks event. This slot was a music-and-image set, not a talk.
+## Media
+
+[needs: 3 to 5 stills, duration and excerpt]
+
+[needs: better image]
+
+## Links
+
+

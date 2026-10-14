@@ -4,12 +4,13 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
-import Image from "next/image";
 import { useMemo, useRef } from "react";
-import type { Project } from "@/lib/content";
+import { TileCard } from "@/components/home/tile-card";
 import { getProjectCover } from "@/lib/project-cover";
+import type { ProjectPreview } from "@/lib/project-preview";
 import type { WorkFilter } from "@/lib/roles";
 import {
+  DESKTOP_STAGE_QUERY,
   isPortraitViewport,
   layoutPoses,
   type TileView,
@@ -19,12 +20,32 @@ import {
 
 gsap.registerPlugin(useGSAP, Draggable, InertiaPlugin);
 
+const stageMemory = new Map<
+  string,
+  { x: number; y: number; rotation: number; portrait: boolean }
+>();
+
 const PLANE_MIN = -60;
 const PLANE_MAX = 60;
 const NUDGE_MIN = 14;
 const NUDGE_MAX = 32;
-const DESKTOP_QUERY =
-  "(min-width: 48rem) and (hover: hover) and (pointer: fine)";
+
+function focusPreview(target: Element) {
+  const control = target.closest("[data-preview]");
+  if (control instanceof HTMLElement) {
+    control.focus();
+  }
+  return Boolean(control);
+}
+
+function tileClick(event: MouseEvent) {
+  const target = event.target;
+  if (!(target instanceof Element)) {
+    return null;
+  }
+  const slug = target.closest("[data-slug]")?.getAttribute("data-slug");
+  return slug ? { target, slug } : null;
+}
 
 function planeBase(portrait: boolean) {
   return portrait ? 0 : -25;
@@ -100,6 +121,7 @@ function nudgePlane(pivot: HTMLElement, extra = 0) {
 
 function tweenTile({
   duration,
+  featured,
   locked,
   pose,
   selected,
@@ -107,10 +129,11 @@ function tweenTile({
   visible,
 }: {
   duration: number;
+  featured: boolean;
   locked: boolean;
   pose: { x: number; y: number };
   selected: boolean;
-  tile: HTMLButtonElement;
+  tile: HTMLDivElement;
   visible: boolean;
 }) {
   const shown = visible && (!locked || selected) ? 1 : 0.2;
@@ -120,7 +143,7 @@ function tweenTile({
     x: pose.x,
     y: pose.y,
     opacity: visible ? shown : 0,
-    scale: visible ? 1 : 0.92,
+    scale: visible ? 1 + Number(featured) * 0.08 : 0.92,
     duration,
     ease: "power2.out",
     overwrite: "auto",
@@ -132,25 +155,64 @@ function tweenTile({
 export function TileField({
   filter,
   onSelect,
+  onPreview,
   projects,
   selectedSlug,
   view,
 }: {
   filter: WorkFilter;
   onSelect: (slug: string) => void;
-  projects: Project[];
+  onPreview: (slug: string) => void;
+  projects: ProjectPreview[];
   selectedSlug: string | null;
   view: TileView;
 }) {
   const stageRef = useRef<HTMLElement>(null);
   const pivotRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
-  const tilesRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const tilesRef = useRef<(HTMLDivElement | null)[]>([]);
   const onSelectRef = useRef(onSelect);
+  const onPreviewRef = useRef(onPreview);
+  onPreviewRef.current = onPreview;
   const selectedRef = useRef(selectedSlug);
+  const savedStage = useRef<
+    { x: number; y: number; rotation: number; portrait: boolean } | undefined
+  >(undefined);
+  const { contextSafe } = useGSAP({ scope: stageRef });
+  const activateTile = contextSafe((slug: string) => {
+    if (openingSlug.current) {
+      return;
+    }
+    openingSlug.current = slug;
+    const world = worldRef.current;
+    const pivot = pivotRef.current;
+    const desktop = window.matchMedia(DESKTOP_STAGE_QUERY).matches;
+    if (world && pivot && desktop) {
+      stageMemory.set(window.location.pathname, {
+        x: Number(gsap.getProperty(world, "x")),
+        y: Number(gsap.getProperty(world, "y")),
+        rotation: Number(gsap.getProperty(pivot, "rotation")),
+        portrait: portraitRef.current,
+      });
+    }
+    const tile = tilesRef.current.find((node) => node?.dataset.slug === slug);
+    if (!tile || reducedMotion() || !desktop) {
+      onSelectRef.current(slug);
+      return;
+    }
+    gsap.to(tile, {
+      scale: Number(gsap.getProperty(tile, "scaleX")) * 1.15,
+      duration: 0.18,
+      ease: "power2.out",
+      onComplete: () => onSelectRef.current(slug),
+    });
+  });
+  const activateRef = useRef(activateTile);
+  activateRef.current = activateTile;
   const firstLayout = useRef(true);
   const planeReady = useRef(false);
-  const skipViewNudge = useRef(true);
+  const previousView = useRef({ filter, view });
+  const openingSlug = useRef<string | null>(null);
   const portraitRef = useRef(false);
   onSelectRef.current = onSelect;
   selectedRef.current = selectedSlug;
@@ -173,7 +235,12 @@ export function TileField({
         return;
       }
       const media = gsap.matchMedia();
-      media.add(DESKTOP_QUERY, (context) => {
+      media.add(DESKTOP_STAGE_QUERY, (context) => {
+        const memoryKey = window.location.pathname;
+        savedStage.current = stageMemory.get(memoryKey);
+        if (savedStage.current) {
+          gsap.set(world, { x: savedStage.current.x, y: savedStage.current.y });
+        }
         let pressX = 0;
         let pressY = 0;
         const [drag] = Draggable.create(world, {
@@ -202,22 +269,23 @@ export function TileField({
               if (selectedRef.current) {
                 return;
               }
-              const target = event.target;
-              if (!(target instanceof Element)) {
+              const clicked = tileClick(event);
+              if (!clicked) {
                 return;
               }
-              const slug = target
-                .closest("[data-slug]")
-                ?.getAttribute("data-slug");
-              if (slug) {
-                nudgePlane(pivot);
-                onSelectRef.current(slug);
+              const { target, slug } = clicked;
+              if (focusPreview(target)) {
+                onPreviewRef.current(slug);
+                return;
               }
+              nudgePlane(pivot);
+              activateRef.current(slug);
             }
           ) as (this: Draggable, event: MouseEvent) => void,
         });
         return () => {
           drag.kill();
+          gsap.killTweensOf(pivot);
         };
       });
       return () => media.revert();
@@ -233,10 +301,9 @@ export function TileField({
         return;
       }
       const media = gsap.matchMedia();
-      media.add(DESKTOP_QUERY, (context) => {
+      media.add(DESKTOP_STAGE_QUERY, (context) => {
         const reduced = reducedMotion();
         planeReady.current = false;
-
         const applyLayout = context.add("applyLayout", () => {
           const width = stage.clientWidth || window.innerWidth;
           const height = stage.clientHeight || window.innerHeight;
@@ -255,6 +322,9 @@ export function TileField({
             reduced,
           });
 
+          if (!ready && savedStage.current?.portrait === portrait) {
+            gsap.set(pivot, { rotation: savedStage.current.rotation });
+          }
           const visibleItems = items.filter((item) => item.visible);
           const poses = layoutPoses(view, visibleItems.length, tw, th);
           const poseBySlug = new Map(
@@ -270,6 +340,7 @@ export function TileField({
             }
             tweenTile({
               duration,
+              featured: Boolean(item.project.featured),
               locked,
               pose: poseBySlug.get(item.project.slug) ?? { x: 0, y: 0 },
               selected: item.project.slug === selectedSlug,
@@ -302,73 +373,43 @@ export function TileField({
 
   useGSAP(
     () => {
-      if (!window.matchMedia(DESKTOP_QUERY).matches && stageRef.current) {
-        stageRef.current.scrollTop = 0;
+      if (
+        previousView.current.filter === filter &&
+        previousView.current.view === view
+      ) {
+        return;
       }
-      const media = gsap.matchMedia();
-      media.add(DESKTOP_QUERY, () => {
-        if (skipViewNudge.current) {
-          skipViewNudge.current = false;
-          return;
+      previousView.current = { filter, view };
+      if (!window.matchMedia(DESKTOP_STAGE_QUERY).matches) {
+        if (stageRef.current) {
+          stageRef.current.scrollTop = 0;
         }
-        const pivot = pivotRef.current;
-        if (pivot) {
-          nudgePlane(pivot);
-        }
-      });
-      return () => media.revert();
+        return;
+      }
+      const pivot = pivotRef.current;
+      if (pivot) {
+        nudgePlane(pivot);
+      }
     },
-    { dependencies: [filter, view], scope: stageRef, revertOnUpdate: true }
+    { dependencies: [filter, view], scope: stageRef }
   );
 
   return (
-    <section
-      aria-label="Projects"
-      className="tile-stage"
-      inert={selectedSlug !== null}
-      ref={stageRef}
-    >
+    <section aria-label="Projects" className="tile-stage" ref={stageRef}>
       <div className="tile-pivot" ref={pivotRef}>
         <div className="tile-world" ref={worldRef}>
           {items.map((item, index) => (
-            <button
-              aria-label={`Open ${item.project.title}`}
-              className="tile"
-              data-slug={item.project.slug}
-              draggable={false}
-              hidden={!item.visible}
+            <TileCard
+              cover={item.cover}
               key={item.project.slug}
-              onClick={(event) => {
-                if (
-                  event.detail === 0 ||
-                  !window.matchMedia(DESKTOP_QUERY).matches
-                ) {
-                  onSelect(item.project.slug);
-                }
-              }}
-              ref={(node) => {
+              onOpen={() => activateTile(item.project.slug)}
+              onPreview={() => onPreview(item.project.slug)}
+              project={item.project}
+              tileRef={(node) => {
                 tilesRef.current[index] = node;
               }}
-              type="button"
-            >
-              {item.cover ? (
-                <Image
-                  alt={item.project.title}
-                  className="tile-image"
-                  fill
-                  sizes="(max-width: 767px) calc(100vw - 32px), (max-aspect-ratio: 1/1) 56vw, 16vw"
-                  src={item.cover.src}
-                  unoptimized
-                />
-              ) : (
-                <span className="tile-fallback">{item.project.title}</span>
-              )}
-              <span className="tile-veil" />
-              <span className="tile-meta">
-                {item.project.year ? <span>{item.project.year}</span> : null}
-                <span>{item.project.title}</span>
-              </span>
-            </button>
+              visible={item.visible}
+            />
           ))}
         </div>
       </div>

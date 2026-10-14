@@ -5,17 +5,17 @@ export type ProjectCategory =
   | "community";
 
 export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
-  devices: "Audio tools",
-  "web-interactive": "Web",
+  devices: "Instruments",
+  "web-interactive": "Work",
   community: "Community",
-  installations: "Artworks",
+  installations: "Art",
 };
 
 export type WorkFilter = "all" | ProjectCategory;
 
-export const CATEGORY_FILTERS: ProjectCategory[] = [
-  "devices",
+export const CATEGORY_FILTERS: WorkFilter[] = [
+  "all",
   "web-interactive",
-  "community",
+  "devices",
   "installations",
 ];

@@ -13,13 +13,28 @@ const projects = [
 test("all collections preserve category order and project order within each category", () => {
   assert.deepEqual(buildWorkMenu(projects), {
     entries: [
-      { type: "heading", label: "Audio tools" },
-      { type: "project", slug: "second-tool", label: "Second tool" },
-      { type: "project", slug: "first-tool", label: "First tool" },
-      { type: "heading", label: "Web" },
-      { type: "project", slug: "web", label: "Website" },
+      { type: "heading", label: "Instruments" },
+      {
+        type: "project",
+        slug: "second-tool",
+        label: "Second tool",
+        href: "/instruments/second-tool",
+      },
+      {
+        type: "project",
+        slug: "first-tool",
+        label: "First tool",
+        href: "/instruments/first-tool",
+      },
+      { type: "heading", label: "Work" },
+      { type: "project", slug: "web", label: "Website", href: "/work/web" },
       { type: "heading", label: "Community" },
-      { type: "project", slug: "community", label: "Community project" },
+      {
+        type: "project",
+        slug: "community",
+        label: "Community project",
+        href: "/about",
+      },
     ],
     projectCount: 4,
   });

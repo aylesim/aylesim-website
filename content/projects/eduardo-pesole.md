@@ -1,40 +1,48 @@
 ---
 type: work
 category: web-interactive
-order: 4
-menuLabel: web
-listTagline: Public site for a Berlin sound designer
-title: Eduardo Pesole
-role: Web Developer
-client: Eduardo Pesole
-year: "2026"
+title: Eduardo Pesole website
+year: '2026'
+role: Developer
 tech:
-  - Frontend Architecture
-  - Next.js / TypeScript
-liveLink: https://www.eduardopesole.com/
-highlights:
-  - Public site at eduardopesole.com
-  - Index gallery, works, services, about, and contacts
-  - Deployed on Vercel
+  - Next.js
+  - React
+  - three.js
+  - PagesCMS
+  - Vercel
+summary: >-
+  Portfolio site for a Berlin sound designer and composer: works gallery,
+  services, about and contact.
+featured: false
+order: 4
+showInMenu: true
+canvasImage: /media/eduardo-pesole.webp
+imageAlt: Eduardo Pesole homepage with a pink background and a gallery of projects
+status: Live
+listTagline: >-
+  Portfolio site for a Berlin sound designer and composer: works gallery,
+  services, about and contact.
+liveLink: 'https://www.eduardopesole.com/'
+listBadges: []
 ---
+## Context and constraints
 
-## Overview
+[needs: context and constraints]
 
-[Eduardo Pesole](https://www.eduardopesole.com/) is the public site I built for a Berlin-based sound designer and composer. The job is a portfolio. Works sit in a gallery, then services, about, and a way to get in touch.
+## What I built
 
-![Eduardo Pesole homepage](/eduardo-pesole.png)
+Portfolio site for a Berlin sound designer and composer: works gallery, services, about and contact. Next.js, React, three.js, PagesCMS. eduardopesole.com
 
-## What the site does
+## Outcome
 
-- **Index** gallery of selected works across games and art collaborations
-- **Works**, **Services**, **About**, and **Contacts**
-- Services for game and interactive audio, installation and spatial sound, composition, and mix and post
-- Showreel on About, plus email, LinkedIn, and Instagram
+Live at eduardopesole.com.
 
-## My contribution
+## Media
 
-I built and shipped the public site in **Next.js** and **TypeScript**, deployed on **Vercel**.
+[needs: screenshots or screen recording]
 
-- Information architecture for index, works, services, about, and contacts
-- Index gallery as the first thing a visitor sees
-- Share metadata and the live domain at eduardopesole.com
+[needs clip]
+
+## Links
+
+[Open site](https://www.eduardopesole.com/) · [View code](https://github.com/aylesim/Eduardo-Pesole-website)

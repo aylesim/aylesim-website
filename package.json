@@ -15,7 +15,9 @@
     "graph:update": "code-review-graph update",
     "graph:status": "code-review-graph status",
     "graph:changes": "code-review-graph detect-changes --brief",
-    "prepare": "husky"
+    "prepare": "husky",
+    "verify:handoff": "tsx scripts/verify-handoff.mts",
+    "media:compress": "node scripts/compress-images.mjs"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,jsonc}": [
@@ -39,6 +41,7 @@
     "@types/react-dom": "^19",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
+    "sharp": "0.34.5",
     "tailwindcss": "^4",
     "tsx": "^4.20.3",
     "typescript": "^5",

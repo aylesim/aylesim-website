@@ -4,9 +4,16 @@ import Link from "next/link";
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import type { WorkMenuEntry } from "@/lib/work-menu";
 
-export type SitePage = "work" | "about";
+export type SitePage =
+  | "home"
+  | "work"
+  | "instruments"
+  | "art"
+  | "about"
+  | "contact"
+  | "archive";
 
-type WorkMenu = {
+export type WorkMenu = {
   entries: WorkMenuEntry[];
   projectCount: number;
   selectedSlug?: string | null;
@@ -75,7 +82,7 @@ export function SiteChrome({
           <nav aria-label="Main navigation" className="site-primary-nav">
             <Link
               aria-current={current === "work" ? "page" : undefined}
-              href="/"
+              href="/work"
               onClick={() => onMenuOpenChange(false)}
             >
               Work
@@ -118,9 +125,21 @@ export function SiteChrome({
             {[
               {
                 label: "Work",
-                href: "/",
+                href: "/work",
                 page: "work",
                 description: "Projects and collaborations",
+              },
+              {
+                label: "Instruments",
+                href: "/instruments",
+                page: "instruments",
+                description: "Music software",
+              },
+              {
+                label: "Art",
+                href: "/art",
+                page: "art",
+                description: "Installations and live audiovisual work",
               },
               {
                 label: "About",
@@ -130,7 +149,8 @@ export function SiteChrome({
               },
               {
                 label: "Contact",
-                href: "/about#contact",
+                href: "/contact",
+                page: "contact",
                 description: "Get in touch",
               },
             ].map((item) => (
@@ -190,7 +210,7 @@ export function SiteChrome({
                       ) : (
                         <Link
                           className="site-menu-link"
-                          href={`/?project=${encodeURIComponent(entry.slug)}`}
+                          href={entry.href}
                           onClick={() => onMenuOpenChange(false)}
                         >
                           {entry.label}
@@ -212,6 +232,7 @@ export function SiteChrome({
 
 export function PageFrame({
   brand,
+  contactEmail,
   current,
   children,
   workMenu,
@@ -219,7 +240,8 @@ export function PageFrame({
   brand: string;
   current: SitePage;
   children: ReactNode;
-  workMenu: WorkMenu;
+  contactEmail: string;
+  workMenu?: WorkMenu;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
@@ -232,6 +254,11 @@ export function PageFrame({
         workMenu={workMenu}
       >
         {children}
+        <footer className="page-footer" id="contact">
+          <Link href="/archive">Archive</Link>
+          <a href={`mailto:${contactEmail}`}>Email</a>
+          <span>Berlin</span>
+        </footer>
       </SiteChrome>
     </div>
   );

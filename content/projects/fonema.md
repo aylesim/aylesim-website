@@ -1,40 +1,47 @@
 ---
 type: work
 category: installations
-order: 12
-menuLabel: artwork
 title: Fonema
+year: '2022'
 role: Artist
-client: Independent
-year: "2022"
-tech:
-  - Neural Audio Processing
-  - Machine Listening
-  - Spatial Installation
-highlights:
-  - Installation that routes speech through a neural network so timbre stays familiar while lexical meaning slips
-  - Models associated with voice classification and recognition, used toward unstable listening instead of labelling
-  - Thesis project: network architectures and real-time audio treatment
-liveLink:
-canvasImage: /fonema.jpg
+tech: []
+summary: >-
+  Recorded voices pass through a neural network built from voice classification
+  and recognition models. What comes out keeps the grain and rhythm of speech,
+  but the words stop making sense.
+featured: false
+order: 12
+showInMenu: true
+canvasImage: /media/fonema.webp
+imageAlt: A speaker wrapped in green fabric in an industrial space
+listTagline: >-
+  Recorded voices pass through a neural network built from voice classification
+  and recognition models. What comes out keeps the grain and rhythm of speech,
+  but the words stop making sense.
 videos:
-  - title: Fonema.mp4
-    url: https://vimeo.com/690005463
-videosAfterHeading: How it works
+  - title: 'Fonema, installation excerpt'
+    url: 'https://vimeo.com/690005463'
+listBadges: []
 ---
+## Context and constraints
 
-## Overview
+Recorded voices pass through a neural network built from voice classification and recognition models. What comes out keeps the grain and rhythm of speech, but the words stop making sense.
 
-Fonema is an audio installation about artificial intelligence and human communication. Recorded voices pass through an artificial neural network. What comes back still sounds like speech in grain and rhythm, but sentences do not hold: enough to suggest a person, not enough to settle on a meaning.
+## What I built
 
-It uses voice-classification and recognition-style models. The output is tuned to break lexical meaning, not to label speakers or transcribe speech.
+- Medium: audio installation; recorded voices processed by a neural network [needs: channel count, duration, speakers]
+- Shown: thesis project [needs: where shown; confirm it was the Conservatorio thesis]
 
-## How it works
+## Outcome
 
-The work looks at neural architectures and audio signal-processing chains: how latent spaces and decision boundaries behave when you stop asking the model to label cleanly and keep it between word and noise. The voices can feel like overhearing a conversation you are not following.
+[needs: exhibition record]
 
-In the installation, the focus is on how machine-mediated audio shapes whether spoken language feels trustworthy.
+## Media
 
-## Context
+[needs: 3 to 5 stills, duration and excerpt]
 
-Fonema was a thesis project. Research, prototyping, and the installation form came out of that academic frame, not a commission.
+[needs: streamable audio]
+
+## Links
+
+

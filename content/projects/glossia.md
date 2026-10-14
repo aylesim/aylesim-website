@@ -1,27 +1,44 @@
 ---
 type: work
 category: web-interactive
-order: 3
-menuLabel: web
 title: Glossia
+year: '2026'
 role: Developer
-client: Open source
-year: "2026"
-listTagline: Interactive audio/visual web playground
 tech:
-  - Frontend Architecture
-  - React / TypeScript
-  - Web Audio API
-liveLink: https://glossia-seven.vercel.app
-highlights:
-  - Public GitHub repo with a deployed preview
-  - Real-time audio and visuals in the browser
+  - Next.js
+  - React
+  - TypeScript
+  - zod
+  - React Flow
+summary: Turns a plain-language workflow description into a node graph.
+featured: false
+order: 3
+showInMenu: true
+canvasImage: /media/glossia.webp
+imageAlt: Glossia workspace with a workflow description and node graph
+status: Proof of concept
+listTagline: Turns a plain-language workflow description into a node graph.
+liveLink: 'https://glossia-seven.vercel.app'
+listBadges: []
 ---
+## Context and constraints
 
-## Overview
+[needs: context and constraints]
 
-Glossia is an open source audio/visual web project. It prototypes relationships between sound and image in TypeScript, React, and Next.js.
+## What I built
 
-![Glossia workspace](/glossia.png)
+Turns a plain-language workflow description into a node graph. A domain file defines the allowed node types, ports and parameters. The model writes graph JSON, zod validates it, and React Flow renders only validated graphs. It does not run the workflows. glossia-seven.vercel.app · github.com/aylesim/Glossia
 
-Current behaviour and scope are in the public GitHub repo and on the deployed preview.
+## Outcome
+
+Proof of concept. [needs: outcome]
+
+## Media
+
+[needs: screenshots or screen recording]
+
+[needs clip]
+
+## Links
+
+[Open site](https://glossia-seven.vercel.app) · [View code](https://github.com/aylesim/Glossia)

@@ -1,52 +1,57 @@
 ---
 type: device
 category: devices
-workScope: commercial
+title: Disco
+year: '[needs year; site says 2022]'
+role: Design and code
+tech:
+  - Max/MSP
+  - Max for Live
+summary: >-
+  [needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and
+  on/off in a circular layout. The taps rotate together or separately, by hand
+  or by LFO. [Buy] [Video]
+featured: false
 order: 5
-menuLabel: max4live
+showInMenu: true
+canvasImage: /media/disco.webp
+imageAlt: Disco interface with circular delay taps and waveform controls
+status: Released
+listTagline: >-
+  [needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and
+  on/off in a circular layout. The taps rotate together or separately, by hand
+  or by LFO. [Buy] [Video]
+videos:
+  - title: Demo
+    url: 'https://www.youtube.com/watch?v=WpoSqDDA4EY'
+  - title: Walkthrough
+    url: 'https://www.youtube.com/watch?v=UDeSFi8StDw'
 listBadges:
   - prefix: available on
     label: Gumroad
-    url: https://aylesim.gumroad.com/l/disco
+    url: 'https://aylesim.gumroad.com/l/disco'
   - prefix: available on
     label: Isotonik Studios
-    url: https://isotonikstudios.com/product/disco-by-aylsim/
-title: Disco
-role: Developer & Designer
+    url: 'https://isotonikstudios.com/product/disco-by-aylsim/'
+buyLink: 'https://aylesim.gumroad.com/l/disco'
 client: Aylesim Devices
-year: "2022"
-tech:
-  - Max/MSP
-  - Audio Engineering
-  - Signal Processing
-  - UI/UX Design
-videos:
-  - title: Demo
-    url: https://www.youtube.com/watch?v=WpoSqDDA4EY
-  - title: Walkthrough
-    url: https://www.youtube.com/watch?v=UDeSFi8StDw
-highlights:
-  - Multi-tap delay engine in Max for Live with per-step gain, pan, and on/off in a circular layout
-  - Independent or ganged rotation of delay taps for Euclidean-style patterns and spin effects
-  - Manual control and LFO-driven motion, from small movement to extreme modulation
-  - UI built around a spatial readout of time and level so delay density stays readable while taps move
 ---
+## Context and constraints
 
-[Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/)
+[needs: context and constraints]
 
-## Overview
+## What I built
 
-Disco is a Max for Live audio effect built around a circular multi-tap delay. Incoming audio is spread across several delay lines whose positions can rotate on a ring, together or independently, so repeats bunch, spread, and re-phase over time. Time-domain DSP, Euclidean pattern logic, and the Live interface all had to hold together.
+[needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and on/off in a circular layout. The taps rotate together or separately, by hand or by LFO.
 
-![Disco - Max for Live interface](/disco.png)
+## Outcome
 
-The delay is a small moving system of timed events, not a single feedback line. The interface has to stay readable while it shifts, so you can see where rhythmic density and stereo energy are accumulating.
+[needs: outcome]
 
-## How it works
+## Media
 
-Each tap is a point on a cycle. Position sets time offset around the ring. Gain and pan place that tap in the mix. Rotation re-phases taps relative to the input. Manual control or LFO-driven motion changes the angular velocity of the whole structure or of individual steps, which produces the acceleration and deceleration in the repeats.
+[needs: video captions]
 
-- **Multi-tap delay bank** with Euclidean-style spacing as a starting geometry, not a fixed preset
-- **Per-step parameters** for level, stereo placement, and bypass
-- **Coupled or decoupled rotation** so taps move as one field or drift against each other
-- **LFO and manual modulation** of spin rate for sweeps and static geometries
+## Links
+
+[Buy on Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/) · [needs: manual PDF link]
