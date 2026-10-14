@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode, useEffect, useId, useState } from "react";
+import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import type { WorkMenuEntry } from "@/lib/work-menu";
 
 export type SitePage = "work" | "about" | "ask-ai";
 
 export function SiteChrome({
   brand,
-  contactEmail,
   current,
   menuOpen,
   onMenuOpenChange,
@@ -17,7 +16,6 @@ export function SiteChrome({
   workMenu,
 }: {
   brand: string;
-  contactEmail: string;
   current: SitePage;
   menuOpen: boolean;
   onMenuOpenChange: (open: boolean) => void;
@@ -31,23 +29,24 @@ export function SiteChrome({
   };
 }) {
   const menuId = useId();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLUListElement>(null);
   useEffect(() => {
     if (!menuOpen) {
       return;
     }
+    menuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onMenuOpenChange(false);
       }
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      menuButtonRef.current?.focus();
+    };
   }, [menuOpen, onMenuOpenChange]);
-
-  const openMenuLabel = workMenu
-    ? `Open work index, ${workMenu.projectCount} projects`
-    : "Open menu";
-  const openMenuText = workMenu ? `Index · ${workMenu.projectCount}` : "Index";
 
   return (
     <>
@@ -69,35 +68,47 @@ export function SiteChrome({
           >
             {brand}
           </Link>
-          <button
-            aria-controls={menuId}
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Close menu" : openMenuLabel}
-            className="site-burger"
-            onClick={() => onMenuOpenChange(!menuOpen)}
-            type="button"
-          >
-            {menuOpen ? "Close" : openMenuText}
-          </button>
+          <nav aria-label="Main navigation" className="site-primary-nav">
+            <Link
+              aria-current={current === "work" ? "page" : undefined}
+              href="/"
+              onClick={() => onMenuOpenChange(false)}
+            >
+              Work
+            </Link>
+            <Link
+              aria-current={current === "about" ? "page" : undefined}
+              href="/about"
+              onClick={() => onMenuOpenChange(false)}
+            >
+              About
+            </Link>
+            <button
+              aria-controls={menuId}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="site-burger"
+              onClick={() => onMenuOpenChange(!menuOpen)}
+              ref={menuButtonRef}
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className={
+                  menuOpen ? "site-menu-icon is-open" : "site-menu-icon"
+                }
+              />
+              {menuOpen ? "Close" : "Menu"}
+            </button>
+          </nav>
         </div>
         <ul
           aria-hidden={!menuOpen}
           className={menuOpen ? "site-menu is-open" : "site-menu"}
           id={menuId}
           inert={!menuOpen}
+          ref={menuRef}
         >
-          <li className="site-menu-wide">
-            <Link
-              aria-current={current === "work" ? "page" : undefined}
-              className={
-                current === "work" ? "site-menu-link is-on" : "site-menu-link"
-              }
-              href="/"
-              onClick={() => onMenuOpenChange(false)}
-            >
-              Work
-            </Link>
-          </li>
           <li className="site-menu-wide">
             <Link
               aria-current={current === "ask-ai" ? "page" : undefined}
@@ -110,23 +121,11 @@ export function SiteChrome({
               JSON
             </Link>
           </li>
-          <li>
-            <Link
-              aria-current={current === "about" ? "page" : undefined}
-              className={
-                current === "about" ? "site-menu-link is-on" : "site-menu-link"
-              }
-              href="/about"
-              onClick={() => onMenuOpenChange(false)}
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <a className="site-menu-link" href={`mailto:${contactEmail}`}>
-              Contact
-            </a>
-          </li>
+          {workMenu ? (
+            <li className="site-menu-summary">
+              All projects ({workMenu.projectCount})
+            </li>
+          ) : null}
           {workMenu?.entries.map((entry, index) =>
             entry.type === "heading" ? (
               <li
@@ -165,12 +164,10 @@ export function SiteChrome({
 
 export function PageFrame({
   brand,
-  contactEmail,
   current,
   children,
 }: {
   brand: string;
-  contactEmail: string;
   current: SitePage;
   children: ReactNode;
 }) {
@@ -179,7 +176,6 @@ export function PageFrame({
     <div className="site-page">
       <SiteChrome
         brand={brand}
-        contactEmail={contactEmail}
         current={current}
         menuOpen={menuOpen}
         onMenuOpenChange={setMenuOpen}
