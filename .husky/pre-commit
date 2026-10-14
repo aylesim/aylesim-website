@@ -1,3 +1,11 @@
 pnpm content:json
 git add public/content.json
 pnpm lint-staged
+
+if command -v code-review-graph >/dev/null 2>&1; then
+  crg_hook_root=$(git rev-parse --show-toplevel 2>/dev/null) || crg_hook_root=""
+  if [ -n "$crg_hook_root" ]; then
+    code-review-graph update --repo "$crg_hook_root" || true
+    code-review-graph detect-changes --brief --repo "$crg_hook_root" || true
+  fi
+fi

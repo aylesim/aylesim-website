@@ -1,7 +1,18 @@
-import Image from "next/image";
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { PageFrame } from "@/components/site/site-chrome";
 import type { About, SiteConfig } from "@/lib/content";
+import { spiralPoses } from "@/lib/tile-layout";
+
+gsap.registerPlugin(useGSAP);
+
+function reducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 export function AboutPage({
   about,
@@ -12,40 +23,76 @@ export function AboutPage({
   brand: string;
   site: SiteConfig;
 }) {
+  const rootRef = useRef<HTMLElement>(null);
+  const hasNotes = site.awards.length > 0 || site.pressMentions.length > 0;
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root || reducedMotion()) {
+        return;
+      }
+      const cards = gsap.utils.toArray<HTMLElement>(".about-card", root);
+      const poses = spiralPoses(cards.length, 108);
+      cards.forEach((card, index) => {
+        const pose = poses[index] ?? { x: 0, y: 0 };
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            scale: 0.9,
+            rotation: -8,
+            x: pose.x * 0.42,
+            y: pose.y * 0.42 + 36,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotation: 0,
+            x: 0,
+            y: 0,
+            duration: 0.32,
+            delay: index * 0.07,
+            ease: "power2.out",
+            overwrite: "auto",
+          }
+        );
+      });
+    },
+    { scope: rootRef }
+  );
+
   return (
     <PageFrame brand={brand} contactEmail={site.contactEmail} current="about">
-      <article className="page-copy">
-        {about.portrait ? (
-          <figure className="about-portrait">
-            <Image
-              alt="Alessandro Miracapillo"
-              fill
-              priority
-              sizes="(min-width: 900px) 36vw, 88vw"
-              src={about.portrait}
-              unoptimized
-            />
-          </figure>
-        ) : null}
+      <article className="about" ref={rootRef}>
+        <header className="about-card about-card--hero">
+          <div className="about-card-inner">
+            <p className="about-kicker">About</p>
+            <h1>{about.lede}</h1>
+            {about.subtitle ? (
+              <p className="about-subtitle">{about.subtitle}</p>
+            ) : null}
+            <p className="about-availability">{site.contactAvailability}</p>
+            <p className="about-stack">{site.webDeveloperStack}</p>
+          </div>
+        </header>
 
-        <div className="page-copy-body">
-          <p className="page-kicker">About</p>
-          <h1>{about.lede}</h1>
-          {about.subtitle ? (
-            <p className="page-lede">{about.subtitle}</p>
-          ) : null}
-
-          <div className="page-prose">
+        <section className="about-card about-card--body">
+          <div className="about-card-inner about-prose">
             <ReactMarkdown>{about.body}</ReactMarkdown>
           </div>
+        </section>
 
-          <section className="page-block">
-            <h2>Contact</h2>
-            <div className="page-links">
-              <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
-              <a href={site.resumeHref}>{site.resumeLabel}</a>
+        <section className="about-card about-card--contact">
+          <div className="about-card-inner">
+            <h2 className="about-section-title">Contact</h2>
+            <div className="about-chips">
+              <a className="about-chip" href={`mailto:${site.contactEmail}`}>
+                {site.contactEmail}
+              </a>
               {site.contactLinks.map((link) => (
                 <a
+                  className="about-chip"
                   href={link.href}
                   key={link.href}
                   rel="noopener noreferrer"
@@ -55,53 +102,64 @@ export function AboutPage({
                 </a>
               ))}
             </div>
-          </section>
+          </div>
+        </section>
 
-          {site.awards.length > 0 ? (
-            <section className="page-block">
-              <h2>Recognition</h2>
-              <ul className="page-list">
-                {site.awards.map((award) => (
-                  <li key={`${award.year}-${award.externalHref}`}>
-                    <a
-                      href={award.externalHref}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {award.headline}
-                    </a>
-                    <span>
-                      {award.title}, {award.year}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
+        {hasNotes ? (
+          <div className="about-notes">
+            {site.awards.length > 0 ? (
+              <section className="about-card about-card--note">
+                <div className="about-card-inner">
+                  <h2 className="about-section-title">Recognition</h2>
+                  <ul className="about-entries">
+                    {site.awards.map((award) => (
+                      <li
+                        className="about-entry"
+                        key={`${award.year}-${award.externalHref}`}
+                      >
+                        <a
+                          href={award.externalHref}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {award.headline}
+                        </a>
+                        <span>
+                          {award.title}, {award.year}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+            ) : null}
 
-          {site.pressMentions.length > 0 ? (
-            <section className="page-block">
-              <h2>Press</h2>
-              <ul className="page-list">
-                {site.pressMentions.map((mention) => (
-                  <li key={mention.href}>
-                    <a
-                      href={mention.href}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {mention.outlet}
-                    </a>
-                    <span>
-                      {mention.title}
-                      {mention.year ? `, ${mention.year}` : ""}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-        </div>
+            {site.pressMentions.length > 0 ? (
+              <section className="about-card about-card--note">
+                <div className="about-card-inner">
+                  <h2 className="about-section-title">Press</h2>
+                  <ul className="about-entries">
+                    {site.pressMentions.map((mention) => (
+                      <li className="about-entry" key={mention.href}>
+                        <a
+                          href={mention.href}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {mention.outlet}
+                        </a>
+                        <span>
+                          {mention.title}
+                          {mention.year ? `, ${mention.year}` : ""}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+            ) : null}
+          </div>
+        ) : null}
       </article>
     </PageFrame>
   );

@@ -487,17 +487,6 @@ textarea:focus-visible {
   max-width: 64rem;
 }
 
-.about-portrait {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: #111;
-}
-
-.about-portrait img {
-  object-fit: cover;
-}
-
 .page-kicker {
   margin: 0 0 0.75rem;
   font-size: 0.75rem;
@@ -563,6 +552,211 @@ textarea:focus-visible {
   font-size: 0.875rem;
 }
 
+.about {
+  display: flex;
+  width: 100%;
+  max-width: 40rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0 auto;
+  padding: 6.25rem 2rem 4rem;
+  line-height: 1.45;
+  perspective: 28rem;
+}
+
+.about-card {
+  --about-dim: 0;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  aspect-ratio: 300 / 215;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  backface-visibility: hidden;
+  will-change: transform;
+  transition:
+    border-radius 0.3s var(--ease),
+    filter 0.3s var(--ease),
+    opacity 0.3s var(--ease);
+}
+
+.about-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(155deg, #141414 0%, #1b1b1b 52%, #080808 100%);
+  content: "";
+}
+
+.about-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  opacity: var(--about-dim);
+  pointer-events: none;
+  content: "";
+  transition: opacity 0.3s var(--ease);
+}
+
+.about-card-inner {
+  position: relative;
+  z-index: 2;
+  padding: 1rem 0.95rem 1.05rem;
+}
+
+.about-card--hero,
+.about-card--body,
+.about-card--contact,
+.about-card--note {
+  aspect-ratio: auto;
+  min-height: 10.5rem;
+  justify-content: flex-start;
+}
+
+.about-card--hero .about-card-inner {
+  padding-top: 1.2rem;
+}
+
+.about-kicker,
+.about-section-title {
+  margin: 0 0 0.65rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.about-card h1 {
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.5rem, 4.8vw, 2.35rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+
+.about-subtitle {
+  margin: 0 0 1rem;
+  font-size: clamp(0.95rem, 2.2vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.about-availability {
+  display: inline-block;
+  margin: 0 0 0.85rem;
+  padding: 0.42rem 0.7rem 0.38rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0.8125rem #b2b2b2;
+}
+
+.about-stack {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: #ffffff8c;
+}
+
+.about-prose p {
+  margin: 0 0 0.85rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #ffffffd9;
+}
+
+.about-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.about-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.about-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.1;
+  border-radius: 0.375rem;
+  background: #000000bf;
+  box-shadow: inset 0 0 0 1px #272727;
+  transition:
+    box-shadow 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.about-chip:hover,
+.about-chip:focus-visible {
+  box-shadow: inset 0 0 0.8125rem #b2b2b2;
+  text-decoration: none;
+}
+
+.about-notes {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (hover: hover) {
+  .about:has(.about-card:hover) .about-card:not(:hover) {
+    --about-dim: 0.75;
+    filter: blur(0.5rem);
+  }
+
+  .about-card:hover {
+    z-index: 2;
+    border-radius: 0.375rem;
+  }
+}
+
+.about-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #ffffff14;
+}
+
+.about-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.about-entry a {
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: color 0.3s var(--ease);
+}
+
+.about-entry a:hover,
+.about-entry a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.about-entry span {
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
 @media (min-width: 640px) {
   .site-header {
     left: 50%;
@@ -581,6 +775,14 @@ textarea:focus-visible {
   .site-views {
     left: 13px;
     transform: none;
+  }
+
+  .about {
+    padding-top: 7.25rem;
+  }
+
+  .about-notes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .page-copy {
@@ -616,9 +818,20 @@ textarea:focus-visible {
   .tile-meta,
   .site-filter,
   .site-menu-link,
+  .about-card {
+    opacity: 1;
+    filter: none;
+  }
+
+  .about-card,
+  .about-chip,
   .intro-dots i {
     animation: none;
     transition: none;
+  }
+
+  .about:has(.about-card:hover) .about-card:not(:hover) {
+    filter: none;
   }
 
   .tile-stage:has(.tile:hover) .tile:not(:hover) {

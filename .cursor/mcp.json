@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "code-review-graph": {
+      "command": "uvx",
+      "args": ["code-review-graph", "serve"],
+      "cwd": "/Users/alessandromiracapillo/Aree/Web Developement/aylesim-website",
+      "type": "stdio"
+    }
+  }
+}
