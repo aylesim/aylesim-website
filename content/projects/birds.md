@@ -1,4 +1,5 @@
 ---
+featured: true
 type: work
 category: devices
 workScope: commercial

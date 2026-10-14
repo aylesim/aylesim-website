@@ -14,3 +14,5 @@ PASS: `src/app/globals.css` defines the black/white/grey/red palette, frosted ch
 
 - Step 1: PASS, data, routing, all redirects, detail renderer, cards, animation, styles, fonts, and PDF locations documented above.
 - Step 2: PASS, static category-specific project routes build successfully; Birds title and description appear in initial HTML; unknown instrument returns HTTP 404; old `/projects/<slug>` redirects to its category URL. Existing stage and panel code remain, with a full-page link added. Community entries intentionally belong to About. Manual motion checks are scheduled for step 9b.
+
+- Step 3: PASS, section routes reuse TileField and GSAP; main menu has Work, Instruments, Art, About, Contact, with inert closed state and Escape handling. Archive uses a year/title/summary row. Featured flags and category sorting set. Store/label entries removed; Max Berlin merged into one web entry and About community copy is applied in step 4. All section HTTP and keyboard checks are repeated in final validation.

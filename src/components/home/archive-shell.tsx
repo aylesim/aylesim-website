@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import type { ReactNode } from "react";
 import {
   useCallback,
   useEffect,
@@ -14,7 +15,7 @@ import { TileField } from "@/components/home/tile-field";
 import { SiteChrome } from "@/components/site/site-chrome";
 import type { SiteContent } from "@/lib/content";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
-import { projectHref } from "@/lib/project-routes";
+import { projectHref, sortProjects } from "@/lib/project-routes";
 import {
   CATEGORY_FILTERS,
   CATEGORY_LABELS,
@@ -31,11 +32,19 @@ function projectSlugFromSearchParams(
   return parseLegacyProjectSlug(searchParams);
 }
 
-export default function ArchiveShell({ content }: { content: SiteContent }) {
+export default function ArchiveShell({
+  content,
+  initialFilter = "all",
+  children,
+}: {
+  content: SiteContent;
+  initialFilter?: WorkFilter;
+  children?: ReactNode;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
-  const [filter, setFilter] = useState<WorkFilter>("all");
+  const [filter, setFilter] = useState<WorkFilter>(initialFilter);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const selectedSlug = useMemo(
@@ -79,7 +88,8 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
   };
 
   const projects = useMemo(
-    () => content.projects.filter((project) => project.showInMenu),
+    () =>
+      sortProjects(content.projects.filter((project) => project.showInMenu)),
     [content.projects]
   );
 
@@ -117,7 +127,7 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
                     onClick={() => selectFilter(category)}
                     type="button"
                   >
-                    {CATEGORY_LABELS[category]}
+                    {category === "all" ? "All" : CATEGORY_LABELS[category]}
                   </button>
                 </li>
               ))}
@@ -139,6 +149,10 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
           selectedSlug={selectedSlug}
           view="spiral"
         />
+        {children}
+        <footer className="stage-footer">
+          <Link href="/archive">Archive</Link>
+        </footer>
       </SiteChrome>
 
       {selectedProject ? (

@@ -6,7 +6,7 @@
         "title": "Birds",
         "year": "2025",
         "category": "devices",
-        "categoryLabel": "Audio tools",
+        "categoryLabel": "Instruments",
         "tags": [
           "Max/MSP",
           "Audio Engineering",
@@ -27,7 +27,7 @@
         ],
         "secondaryMeta": "Developer & Designer",
         "workScope": "commercial",
-        "featured": false,
+        "featured": true,
         "listTagline": "Generative melody sequencer",
         "listBadges": [
           {
@@ -62,7 +62,7 @@
         "title": "Planetary Compendium",
         "year": "2025",
         "category": "web-interactive",
-        "categoryLabel": "Web",
+        "categoryLabel": "Work",
         "tags": [
           "Frontend Architecture",
           "Scrollytelling",
@@ -83,7 +83,7 @@
           "2025"
         ],
         "secondaryMeta": "Frontend Developer",
-        "featured": false,
+        "featured": true,
         "listTagline": "Case studies on planetary governance",
         "listBadges": [
           {
@@ -99,45 +99,11 @@
         "menuLabel": "web"
       },
       {
-        "slug": "max-berlin-community",
-        "title": "Max Berlin Meetups",
-        "year": "2025–ongoing",
-        "category": "community",
-        "categoryLabel": "Community",
-        "tags": [
-          "Community Organizing",
-          "Event Programming",
-          "Peer Learning"
-        ],
-        "description": "## Overview\n\nMax Berlin Network is a Berlin scene for Max/MSP and creative audio. I co-founded it in **2025** and help keep the meetups running: rhythm, format, hosting, venues, and communication with other core organizers.\n\n![Max Berlin Network meetup archive](/max-berlin-meetups.png)\n\nMeetups are for peer learning: demos, troubleshooting, and shared patching.\n\n## What it is\n\n- Recurring in-person meetups for Max/MSP and creative audio\n- Open format for demos, questions, and collaborative patching\n- A local network that sits alongside the public site and newsletter\n\n## My contribution\n\nAs co-founder I handle the community side: finding venues, setting a cadence that can last, hosting sessions, and keeping communication clear between organizers and participants.",
-        "highlights": [
-          "Co-founded Max Berlin Network in 2025",
-          "Recurring in-person meetups for Max/MSP and creative audio in Berlin",
-          "Format covers demos, troubleshooting, and shared patching",
-          "Venue, rhythm, hosting, and communication with other core organizers"
-        ],
-        "link": "https://www.maxberlin.network/",
-        "linkLabel": "Visit live",
-        "primaryMeta": [
-          "Max Berlin Network",
-          "2025–ongoing"
-        ],
-        "secondaryMeta": "Co-Founder & Curator",
-        "featured": false,
-        "listTagline": "In-person Max/MSP meetups in Berlin",
-        "listBadges": [],
-        "images": [
-          "/max-berlin-meetups.png"
-        ],
-        "showInMenu": true,
-        "menuLabel": "community"
-      },
-      {
-        "slug": "max-berlin-network",
+        "slug": "max-berlin-network-site",
         "title": "Max Berlin Network",
         "year": "2025–ongoing",
         "category": "web-interactive",
-        "categoryLabel": "Web",
+        "categoryLabel": "Work",
         "tags": [
           "Frontend Architecture",
           "Next.js / TypeScript",
@@ -171,7 +137,7 @@
         "title": "Knob Studio",
         "year": "2024",
         "category": "devices",
-        "categoryLabel": "Audio tools",
+        "categoryLabel": "Instruments",
         "tags": [
           "Max/MSP",
           "Audio Engineering",
@@ -249,7 +215,7 @@
         "title": "Glossia",
         "year": "2026",
         "category": "web-interactive",
-        "categoryLabel": "Web",
+        "categoryLabel": "Work",
         "tags": [
           "Frontend Architecture",
           "React / TypeScript",
@@ -277,45 +243,11 @@
         "menuLabel": "web"
       },
       {
-        "slug": "la-scuola-open-source",
-        "title": "La Scuola Open Source",
-        "year": "2018–2025",
-        "category": "community",
-        "categoryLabel": "Community",
-        "tags": [
-          "Education",
-          "Research",
-          "Workshops"
-        ],
-        "description": "## Overview\n\n[La Scuola Open Source](https://www.lascuolaopensource.xyz/) is a Bari-based cooperative for social, cultural, and technological research and education.\n\n![Workshop at La Scuola Open Source](/la-scuola-open-source.jpg)\n\nI worked there as a **tech researcher and educator** from **2018 to 2025**.\n\n## What I did\n\n- R&D around software automation and generative AI data pipelines\n- Workshops on software automation, generative AI, and digital audio\n- Mentoring developers and engineers in advanced workshop formats",
-        "highlights": [
-          "Tech researcher and educator at La Scuola Open Source, Bari (2018–2025)",
-          "Workshops on software automation, generative AI, and digital audio",
-          "R&D around emerging software systems and production AI pipelines",
-          "Mentored developers and engineers in advanced workshops"
-        ],
-        "link": "https://www.lascuolaopensource.xyz/",
-        "linkLabel": "Visit live",
-        "primaryMeta": [
-          "La Scuola Open Source",
-          "2018–2025"
-        ],
-        "secondaryMeta": "Tech Researcher & Educator",
-        "featured": false,
-        "listTagline": "Research and education cooperative, Bari",
-        "listBadges": [],
-        "images": [
-          "/la-scuola-open-source.jpg"
-        ],
-        "showInMenu": true,
-        "menuLabel": "community"
-      },
-      {
         "slug": "eduardo-pesole",
         "title": "Eduardo Pesole",
         "year": "2026",
         "category": "web-interactive",
-        "categoryLabel": "Web",
+        "categoryLabel": "Work",
         "tags": [
           "Frontend Architecture",
           "Next.js / TypeScript"
@@ -347,7 +279,7 @@
         "title": "TEDx Barletta",
         "year": "2020",
         "category": "installations",
-        "categoryLabel": "Artworks",
+        "categoryLabel": "Art",
         "tags": [
           "Max/MSP",
           "Live Projection",
@@ -379,42 +311,11 @@
         "menuLabel": "AV performance"
       },
       {
-        "slug": "isotonik-studios",
-        "title": "Isotonik Studios",
-        "year": "ongoing",
-        "category": "community",
-        "categoryLabel": "Community",
-        "tags": [
-          "Max for Live",
-          "Product Distribution",
-          "Developer Collective"
-        ],
-        "description": "## Overview\n\n[Isotonik Studios](https://isotonikstudios.com/) is an independent collective of developers for electronic music production, with a Max for Live and Ableton Live catalog.\n\nI publish under the **Aylesim** brand on their store. Devices ship through Isotonik alongside Gumroad, so performers have one place for purchase, updates, and support.\n\n## What it covers\n\n- Distribution of Aylesim Max for Live devices through the Isotonik catalog\n- Brand presence at [isotonikstudios.com/brand/aylesim](https://isotonikstudios.com/brand/aylesim/)\n- Product updates and support tied to that storefront",
-        "highlights": [
-          "Aylesim Devices distributed through the Isotonik Studios collective",
-          "Brand page for Birds, Knob Studio, Disco, and related Max for Live tools",
-          "Shared storefront for updates, licensing, and support alongside Gumroad"
-        ],
-        "link": "https://isotonikstudios.com/brand/aylesim/",
-        "linkLabel": "Visit live",
-        "primaryMeta": [
-          "Isotonik Studios",
-          "ongoing"
-        ],
-        "secondaryMeta": "Developer (Aylesim)",
-        "featured": false,
-        "listTagline": "Independent Max for Live developer collective",
-        "listBadges": [],
-        "images": [],
-        "showInMenu": true,
-        "menuLabel": "community"
-      },
-      {
         "slug": "disco",
         "title": "Disco",
         "year": "2022",
         "category": "devices",
-        "categoryLabel": "Audio tools",
+        "categoryLabel": "Instruments",
         "tags": [
           "Max/MSP",
           "Audio Engineering",
@@ -465,46 +366,11 @@
         "menuLabel": "max4live"
       },
       {
-        "slug": "aylesim-devices",
-        "title": "Aylesim Devices",
-        "year": "2020–ongoing",
-        "category": "devices",
-        "categoryLabel": "Audio tools",
-        "tags": [
-          "Max/MSP",
-          "Product Design",
-          "Audio Engineering",
-          "Max for Live"
-        ],
-        "description": "Ableton Live tools: generative sequencers, spectral FX, utilities. **3600+ customers** have bought or downloaded them.\n\nEach release ships with a focused preset set, a short walkthrough, and room to misuse the controls on purpose. Distribution runs through **Gumroad** and **Isotonik Studios**, so purchase, updates, and support sit on the storefronts performers already use.",
-        "highlights": [
-          "Max for Live tools used by 3600+ customers",
-          "Sold via Gumroad and Isotonik Studios, with updates and support",
-          "Birds is the generative sequencer in the line",
-          "Shared UI language across devices",
-          "Roadmap driven by community requests"
-        ],
-        "link": null,
-        "linkLabel": "Visit live",
-        "primaryMeta": [
-          "Product Line",
-          "2020–ongoing"
-        ],
-        "secondaryMeta": "Instrument Builder",
-        "workScope": "commercial",
-        "featured": false,
-        "listTagline": "Max for Live devices for composing and performing",
-        "listBadges": [],
-        "images": [],
-        "showInMenu": false,
-        "menuLabel": "product line"
-      },
-      {
         "slug": "freesound4live",
         "title": "Freesound4Live",
         "year": "2023",
         "category": "devices",
-        "categoryLabel": "Audio tools",
+        "categoryLabel": "Instruments",
         "tags": [
           "Max/MSP",
           "API Integration",
@@ -549,7 +415,7 @@
         "title": "Lucky Notes",
         "year": "2022",
         "category": "devices",
-        "categoryLabel": "Audio tools",
+        "categoryLabel": "Instruments",
         "tags": [
           "Max/MSP",
           "MIDI Systems",
@@ -594,7 +460,7 @@
         "title": "Please Set a Password",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Artworks",
+        "categoryLabel": "Art",
         "tags": [
           "Networked Systems",
           "Real-time Video",
@@ -614,7 +480,7 @@
           "2022"
         ],
         "secondaryMeta": "Artist",
-        "featured": false,
+        "featured": true,
         "listBadges": [],
         "videos": [
           {
@@ -631,7 +497,7 @@
         "title": "There Will Be No More Determination",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Artworks",
+        "categoryLabel": "Art",
         "tags": [
           "GAN Training",
           "Computational Imaging",
@@ -670,7 +536,7 @@
         "title": "Wikyslavery",
         "year": "2023",
         "category": "installations",
-        "categoryLabel": "Artworks",
+        "categoryLabel": "Art",
         "tags": [
           "Platform Automation",
           "Net Art Systems",
@@ -706,7 +572,7 @@
         "title": "Fonema",
         "year": "2022",
         "category": "installations",
-        "categoryLabel": "Artworks",
+        "categoryLabel": "Art",
         "tags": [
           "Neural Audio Processing",
           "Machine Listening",
