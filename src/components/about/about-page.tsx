@@ -1,78 +1,146 @@
-import Image from "next/image";
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
-import { SiteHeader } from "@/components/site-header";
+import { PageFrame } from "@/components/site/site-chrome";
 import type { About, SiteConfig } from "@/lib/content";
+import { spiralPoses } from "@/lib/tile-layout";
 
-export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
+gsap.registerPlugin(useGSAP);
+
+function reducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+export function AboutPage({
+  about,
+  brand,
+  site,
+}: {
+  about: About;
+  brand: string;
+  site: SiteConfig;
+}) {
+  const rootRef = useRef<HTMLElement>(null);
+  const hasNotes = site.awards.length > 0 || site.pressMentions.length > 0;
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root || reducedMotion()) {
+        return;
+      }
+      const cards = gsap.utils.toArray<HTMLElement>(".about-card", root);
+      const poses = spiralPoses(cards.length, 108);
+      cards.forEach((card, index) => {
+        const pose = poses[index] ?? { x: 0, y: 0 };
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            scale: 0.9,
+            rotation: -8,
+            x: pose.x * 0.42,
+            y: pose.y * 0.42 + 36,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotation: 0,
+            x: 0,
+            y: 0,
+            duration: 0.32,
+            delay: index * 0.07,
+            ease: "power2.out",
+            overwrite: "auto",
+          }
+        );
+      });
+    },
+    { scope: rootRef }
+  );
+
   return (
-    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg md:pl-16">
-      <SiteHeader active="about" />
-      <main className="mx-auto w-full max-w-[92rem] flex-1 px-4 py-6 md:px-7 md:py-8">
-        <div className="grid items-start gap-8 lg:grid-cols-[minmax(16rem,28rem)_minmax(0,38rem)] lg:gap-12">
-          {about.portrait ? (
-            <figure className="overflow-hidden bg-(--surface-media)">
-              <Image
-                alt="Alessandro Miracapillo"
-                className="h-auto w-full"
-                height={1024}
-                priority
-                src={about.portrait}
-                unoptimized
-                width={768}
-              />
-            </figure>
-          ) : null}
+    <PageFrame brand={brand} contactEmail={site.contactEmail} current="about">
+      <article className="about" ref={rootRef}>
+        <header className="about-card about-card--hero">
+          <div className="about-card-inner">
+            <p className="about-kicker">About</p>
+            <h1>{about.lede}</h1>
+            {about.subtitle ? (
+              <p className="about-subtitle">{about.subtitle}</p>
+            ) : null}
+            <p className="about-availability">{site.contactAvailability}</p>
+            <p className="about-stack">{site.webDeveloperStack}</p>
+          </div>
+        </header>
 
-          <div className="max-w-xl space-y-8">
-            <header className="space-y-2">
-              <h1 className="font-medium text-2xl leading-snug sm:text-[1.75rem]">
-                {about.lede}
-              </h1>
-              {about.subtitle ? (
-                <p className="text-(--text-muted)">{about.subtitle}</p>
-              ) : null}
-            </header>
+        <section className="about-card about-card--body">
+          <div className="about-card-inner about-prose">
+            <ReactMarkdown>{about.body}</ReactMarkdown>
+          </div>
+        </section>
 
-            <div className="max-w-prose leading-relaxed [&_a]:underline [&_a]:underline-offset-3 [&_p:last-child]:mb-0 [&_p]:mb-4">
-              <ReactMarkdown>{about.body}</ReactMarkdown>
+        <section className="about-card about-card--contact">
+          <div className="about-card-inner">
+            <h2 className="about-section-title">Contact</h2>
+            <div className="about-chips">
+              <a className="about-chip" href={`mailto:${site.contactEmail}`}>
+                {site.contactEmail}
+              </a>
+              {site.contactLinks.map((link) => (
+                <a
+                  className="about-chip"
+                  href={link.href}
+                  key={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
+          </div>
+        </section>
 
-            <dl className="space-y-4 text-sm">
-              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
-                <dt className="text-(--text-muted)">Email</dt>
-                <dd>
-                  <a href={`mailto:${site.contactEmail}`}>
-                    {site.contactEmail}
-                  </a>
-                </dd>
-              </div>
-              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
-                <dt className="text-(--text-muted)">Resume</dt>
-                <dd>
-                  <a href={site.resumeHref}>{site.resumeLabel}</a>
-                </dd>
-              </div>
-              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
-                <dt className="text-(--text-muted)">Links</dt>
-                <dd className="flex flex-wrap gap-x-4 gap-y-1">
-                  {site.contactLinks.map((link) => (
-                    <a
-                      href={link.href}
-                      key={link.href}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {link.label}
-                    </a>
-                  ))}
-                </dd>
-              </div>
-              {site.pressMentions.length > 0 ? (
-                <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
-                  <dt className="text-(--text-muted)">Press</dt>
-                  <dd className="space-y-2">
+        {hasNotes ? (
+          <div className="about-notes">
+            {site.awards.length > 0 ? (
+              <section className="about-card about-card--note">
+                <div className="about-card-inner">
+                  <h2 className="about-section-title">Recognition</h2>
+                  <ul className="about-entries">
+                    {site.awards.map((award) => (
+                      <li
+                        className="about-entry"
+                        key={`${award.year}-${award.externalHref}`}
+                      >
+                        <a
+                          href={award.externalHref}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {award.headline}
+                        </a>
+                        <span>
+                          {award.title}, {award.year}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+            ) : null}
+
+            {site.pressMentions.length > 0 ? (
+              <section className="about-card about-card--note">
+                <div className="about-card-inner">
+                  <h2 className="about-section-title">Press</h2>
+                  <ul className="about-entries">
                     {site.pressMentions.map((mention) => (
-                      <div key={mention.href}>
+                      <li className="about-entry" key={mention.href}>
                         <a
                           href={mention.href}
                           rel="noopener noreferrer"
@@ -80,40 +148,19 @@ export function AboutPage({ about, site }: { about: About; site: SiteConfig }) {
                         >
                           {mention.outlet}
                         </a>
-                        <span className="text-(--text-muted)">
-                          {" "}
+                        <span>
                           {mention.title}
                           {mention.year ? `, ${mention.year}` : ""}
                         </span>
-                      </div>
+                      </li>
                     ))}
-                  </dd>
+                  </ul>
                 </div>
-              ) : null}
-              <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
-                <dt className="text-(--text-muted)">Recognition</dt>
-                <dd className="space-y-2">
-                  {site.awards.map((award) => (
-                    <div key={`${award.year}-${award.externalHref}`}>
-                      <a
-                        href={award.externalHref}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        {award.headline}
-                      </a>
-                      <span className="text-(--text-muted)">
-                        {" "}
-                        {award.title}, {award.year}
-                      </span>
-                    </div>
-                  ))}
-                </dd>
-              </div>
-            </dl>
+              </section>
+            ) : null}
           </div>
-        </div>
-      </main>
-    </div>
+        ) : null}
+      </article>
+    </PageFrame>
   );
 }

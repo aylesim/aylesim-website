@@ -1,0 +1,42 @@
+---
+description: Use code-review-graph as the first source for codebase structure and dependencies
+alwaysApply: true
+---
+
+# Code Review Graph (mandatory)
+
+Same policy for **T3 Code**, **Codex**, and other agents: see root `AGENTS.md`.
+
+**T3 Code:** graph access is **only via shell** (`code-review-graph` / `pnpm graph:*`). T3 does not expose project MCP; never skip the graph because MCP tools are missing.
+
+This repo maintains a **code-review-graph** knowledge graph at `.code-review-graph/graph.db` (see `.code-review-graph/.gitignore`).
+
+## When exploring or planning changes
+
+Before broad `grep`/directory walks or guessing architecture:
+
+1. Ensure the graph is current: `code-review-graph update` (or `code-review-graph build` if missing or broken).
+2. Orient with the graph, then read source files for exact implementations.
+
+| Goal | Command |
+|------|---------|
+| Overview | `code-review-graph architecture` |
+| Find symbols | `code-review-graph search "<query>"` |
+| Relationships | `code-review-graph query` (see `--help`) |
+| Change blast radius | `code-review-graph impact` / `detect-changes` |
+| Execution paths | `code-review-graph flows` / `flow` |
+| Local neighbourhood | `code-review-graph visualize --seed-file <path>` |
+
+Run commands from the **repository root** (auto-detects `--repo`).
+
+## When implementing
+
+- Use graph output to choose **which files to open**; use `Read`/`Grep` for line-accurate edits.
+- After substantive edits in a session, run `code-review-graph update` again before another graph-based impact pass.
+- For reviews or refactors touching multiple modules, prefer `impact` or `detect-changes --brief` over manual call-chain tracing.
+
+## Visualization
+
+Interactive HTML: `code-review-graph visualize` → `.code-review-graph/graph.html`.
+
+**Cursor IDE only:** optional MCP via `.cursor/mcp.json`. **Codex:** optional MCP via `~/.codex/config.toml`. Pre-commit hook and `pnpm graph:update` keep the graph fresh without MCP.

@@ -274,6 +274,16 @@ function asOptionalUrlList(v: unknown): string[] | undefined {
   return arr.length > 0 ? arr : undefined;
 }
 
+function deviceLinkLabel(
+  buyLink: string | undefined,
+  price: string | undefined
+) {
+  if (buyLink?.includes("github.com")) {
+    return "Repository / download";
+  }
+  return price === "Free" ? "Download" : "Buy";
+}
+
 function extractMarkdownImages(body: string): string[] {
   return [...body.matchAll(/!\[[^\]]*\]\(([^)\s]+)\)/g)].map((m) => m[1]);
 }
@@ -324,7 +334,7 @@ type ProjectMapSource = {
   data: Record<string, unknown>;
 };
 
-function mapWorkProject(source: ProjectMapSource): Project {
+function mapProject(source: ProjectMapSource): Project {
   const { slug, body, year, order, data } = source;
   const videos = asVideoList(data.videos);
   const gallery = asOptionalUrlList(data.galleryAfterVideo);
@@ -333,17 +343,27 @@ function mapWorkProject(source: ProjectMapSource): Project {
     videos,
     asString(data.videosAfterHeading)
   );
+  const isDevice = data.type === "device";
+  const price = asString(data.price);
+  const client = asString(data.client);
+  const buyLink = asString(data.buyLink);
+  const liveLink = asString(data.liveLink);
+  const link = isDevice ? buyLink : (liveLink ?? null);
+  const linkLabel = isDevice ? deviceLinkLabel(buyLink, price) : "Visit live";
+
   return {
     slug,
     title: asString(data.title) ?? slug,
     year,
-    primaryMeta: [asString(data.client), year].filter(
-      (value): value is string => Boolean(value)
-    ),
+    primaryMeta: [
+      isDevice ? client || price : client,
+      year,
+      isDevice && data.featured === true ? "Featured" : undefined,
+    ].filter((value): value is string => Boolean(value)),
     secondaryMeta: asString(data.role),
     tags: asStringArray(data.tech),
-    link: asString(data.liveLink) ?? null,
-    linkLabel: "Visit live",
+    link,
+    linkLabel,
     description: split.description,
     descriptionAfterVideos: split.descriptionAfterVideos,
     galleryAfterVideo: gallery,
@@ -365,66 +385,6 @@ function mapWorkProject(source: ProjectMapSource): Project {
   };
 }
 
-function mapDeviceProject(source: ProjectMapSource): Project {
-  const { slug, body, year, order, data } = source;
-  const price = asString(data.price);
-  const client = asString(data.client);
-  const categoryField = asProjectCategory(data.category);
-  const techTags = asStringArray(data.tech);
-  const videos = asVideoList(data.videos);
-  let tags: string[];
-  if (techTags.length > 0) {
-    tags = techTags;
-  } else {
-    tags = [];
-  }
-  const buyLink = asString(data.buyLink);
-  let linkLabel = "Buy";
-  if (buyLink?.includes("github.com")) {
-    linkLabel = "Repository / download";
-  } else if (price === "Free") {
-    linkLabel = "Download";
-  }
-  const gallery = asOptionalUrlList(data.galleryAfterVideo);
-  const split = splitDescriptionForEarlyVideo(
-    body,
-    videos,
-    asString(data.videosAfterHeading)
-  );
-  return {
-    slug,
-    title: asString(data.title) ?? slug,
-    year,
-    primaryMeta: [
-      client || price,
-      year,
-      data.featured === true ? "Featured" : undefined,
-    ].filter((value): value is string => Boolean(value)),
-    secondaryMeta: asString(data.role),
-    tags,
-    link: buyLink,
-    linkLabel,
-    description: split.description,
-    descriptionAfterVideos: split.descriptionAfterVideos,
-    galleryAfterVideo: gallery,
-    images: collectImages(body, gallery, slug),
-    canvasCover: asString(data.canvasImage) ?? null,
-    highlights: asStringArray(data.highlights),
-    videos: videos.length > 0 ? videos : undefined,
-    sortYear: sortYear(year),
-    order,
-    stackOrder: stackOrderFromData(data, order),
-    menuLabel: asString(data.menuLabel),
-    featured: data.featured === true,
-    listTagline: asString(data.listTagline),
-    isotonik: data.isotonik === true,
-    listBadges: asListBadges(data.listBadges),
-    workScope: asWorkScope(data.workScope),
-    showInMenu: showInMenuFromData(data),
-    category: categoryField,
-  };
-}
-
 function getProjects(): Project[] {
   const dir = path.join(contentDir, "projects");
   const projects: Project[] = [];
@@ -438,15 +398,12 @@ function getProjects(): Project[] {
     const order = menuOrderFromData(data);
 
     const source: ProjectMapSource = { slug, body, year, order, data };
-    if (data.type === "work") {
-      projects.push(mapWorkProject(source));
-    } else if (data.type === "device") {
-      projects.push(mapDeviceProject(source));
-    } else {
+    if (data.type !== "work" && data.type !== "device") {
       throw new Error(
         `content/projects/${file}: frontmatter "type" must be "work" or "device"`
       );
     }
+    projects.push(mapProject(source));
   }
 
   const sorted = projects.sort((a, b) => {

@@ -12,9 +12,11 @@ export const metadata: Metadata = {
 };
 
 export default function AskAi() {
-  const { site } = getAllContent();
+  const { home, site } = getAllContent();
   return (
     <AskAiPage
+      brand={home.brand}
+      contactEmail={site.contactEmail}
       contentJsonUrl={contentJsonUrl(site.origin)}
       json={serializeSiteContentJson()}
     />

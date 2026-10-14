@@ -14,6 +14,9 @@
     "format": "biome format --write .",
     "check": "pnpm content:json:check && biome check .",
     "check:fix": "biome check --write .",
+    "graph:update": "code-review-graph update",
+    "graph:status": "code-review-graph status",
+    "graph:changes": "code-review-graph detect-changes --brief",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -22,6 +25,7 @@
     ]
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "gray-matter": "^4.0.3",
     "gsap": "^3.14.2",
     "next": "^16.2.1",
