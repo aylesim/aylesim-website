@@ -4,8 +4,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
-import Image from "next/image";
 import { useMemo, useRef } from "react";
+import { TileCard } from "@/components/home/tile-card";
 import { getProjectCover } from "@/lib/project-cover";
 import type { ProjectPreview } from "@/lib/project-preview";
 import type { WorkFilter } from "@/lib/roles";
@@ -19,10 +19,23 @@ import {
 
 gsap.registerPlugin(useGSAP, Draggable, InertiaPlugin);
 
+const stageMemory = new Map<
+  string,
+  { x: number; y: number; rotation: number; portrait: boolean }
+>();
+
 const PLANE_MIN = -60;
 const PLANE_MAX = 60;
 const NUDGE_MIN = 14;
 const NUDGE_MAX = 32;
+
+function focusPreview(target: Element) {
+  const control = target.closest("[data-preview]");
+  if (control instanceof HTMLElement) {
+    control.focus();
+  }
+  return Boolean(control);
+}
 
 function planeBase(portrait: boolean) {
   return portrait ? 0 : -25;
@@ -98,6 +111,7 @@ function nudgePlane(pivot: HTMLElement, extra = 0) {
 
 function tweenTile({
   duration,
+  featured,
   locked,
   pose,
   selected,
@@ -105,10 +119,11 @@ function tweenTile({
   visible,
 }: {
   duration: number;
+  featured: boolean;
   locked: boolean;
   pose: { x: number; y: number };
   selected: boolean;
-  tile: HTMLButtonElement;
+  tile: HTMLDivElement;
   visible: boolean;
 }) {
   const shown = visible && (!locked || selected) ? 1 : 0.2;
@@ -118,7 +133,7 @@ function tweenTile({
     x: pose.x,
     y: pose.y,
     opacity: visible ? shown : 0,
-    scale: visible ? 1 : 0.92,
+    scale: visible ? 1 + Number(featured) * 0.08 : 0.92,
     duration,
     ease: "power2.out",
     overwrite: "auto",
@@ -130,12 +145,14 @@ function tweenTile({
 export function TileField({
   filter,
   onSelect,
+  onPreview,
   projects,
   selectedSlug,
   view,
 }: {
   filter: WorkFilter;
   onSelect: (slug: string) => void;
+  onPreview: (slug: string) => void;
   projects: ProjectPreview[];
   selectedSlug: string | null;
   view: TileView;
@@ -143,9 +160,30 @@ export function TileField({
   const stageRef = useRef<HTMLElement>(null);
   const pivotRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
-  const tilesRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const tilesRef = useRef<(HTMLDivElement | null)[]>([]);
   const onSelectRef = useRef(onSelect);
+  const onPreviewRef = useRef(onPreview);
+  onPreviewRef.current = onPreview;
   const selectedRef = useRef(selectedSlug);
+  const savedStage = useRef<
+    { x: number; y: number; rotation: number; portrait: boolean } | undefined
+  >(undefined);
+  const { contextSafe } = useGSAP({ scope: stageRef });
+  const activateTile = contextSafe((slug: string) => {
+    const tile = tilesRef.current.find((node) => node?.dataset.slug === slug);
+    if (!tile || reducedMotion()) {
+      onSelectRef.current(slug);
+      return;
+    }
+    gsap.to(tile, {
+      scale: Number(gsap.getProperty(tile, "scaleX")) * 1.15,
+      duration: 0.18,
+      ease: "power2.out",
+      onComplete: () => onSelectRef.current(slug),
+    });
+  });
+  const activateRef = useRef(activateTile);
+  activateRef.current = activateTile;
   const firstLayout = useRef(true);
   const planeReady = useRef(false);
   const skipViewNudge = useRef(true);
@@ -169,6 +207,11 @@ export function TileField({
       const pivot = pivotRef.current;
       if (!(world && pivot)) {
         return;
+      }
+      const memoryKey = window.location.pathname;
+      savedStage.current = stageMemory.get(memoryKey);
+      if (savedStage.current) {
+        gsap.set(world, { x: savedStage.current.x, y: savedStage.current.y });
       }
       let pressX = 0;
       let pressY = 0;
@@ -202,13 +245,24 @@ export function TileField({
           }
           const slug = target.closest("[data-slug]")?.getAttribute("data-slug");
           if (slug) {
-            nudgePlane(pivot);
-            onSelectRef.current(slug);
+            if (focusPreview(target)) {
+              onPreviewRef.current(slug);
+            } else {
+              nudgePlane(pivot);
+              activateRef.current(slug);
+            }
           }
         },
       });
       return () => {
+        stageMemory.set(memoryKey, {
+          x: drag.x,
+          y: drag.y,
+          rotation: Number(gsap.getProperty(pivot, "rotation")),
+          portrait: portraitRef.current,
+        });
         drag.kill();
+        gsap.killTweensOf(pivot);
       };
     },
     { scope: stageRef }
@@ -241,6 +295,9 @@ export function TileField({
           reduced,
         });
 
+        if (!ready && savedStage.current?.portrait === portrait) {
+          gsap.set(pivot, { rotation: savedStage.current.rotation });
+        }
         const visibleItems = items.filter((item) => item.visible);
         const poses = layoutPoses(view, visibleItems.length, tw, th);
         const poseBySlug = new Map(
@@ -256,6 +313,7 @@ export function TileField({
           }
           tweenTile({
             duration,
+            featured: Boolean(item.project.featured),
             locked,
             pose: poseBySlug.get(item.project.slug) ?? { x: 0, y: 0 },
             selected: item.project.slug === selectedSlug,
@@ -293,39 +351,17 @@ export function TileField({
       <div className="tile-pivot" ref={pivotRef}>
         <div className="tile-world" ref={worldRef}>
           {items.map((item, index) => (
-            <button
-              className="tile"
-              data-slug={item.project.slug}
-              draggable={false}
+            <TileCard
+              cover={item.cover}
               key={item.project.slug}
-              onClick={(event) => {
-                if (event.detail === 0) {
-                  onSelect(item.project.slug);
-                }
-              }}
-              ref={(node) => {
+              onOpen={() => activateTile(item.project.slug)}
+              onPreview={() => onPreview(item.project.slug)}
+              project={item.project}
+              tileRef={(node) => {
                 tilesRef.current[index] = node;
               }}
-              type="button"
-            >
-              {item.cover ? (
-                <Image
-                  alt={item.project.imageAlt ?? "[needs alt text]"}
-                  className="tile-image"
-                  height={500}
-                  sizes="(max-aspect-ratio: 1/1) 56vw, 16vw"
-                  src={item.cover.src}
-                  width={800}
-                />
-              ) : (
-                <span className="tile-fallback">{item.project.title}</span>
-              )}
-              <span className="tile-veil" />
-              <span className="tile-meta">
-                {item.project.year ? <span>{item.project.year}</span> : null}
-                <span>{item.project.title}</span>
-              </span>
-            </button>
+              visible={item.visible}
+            />
           ))}
         </div>
       </div>

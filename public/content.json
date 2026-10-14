@@ -39,12 +39,12 @@
         ],
         "videos": [
           {
-            "title": "Carousel demo",
-            "url": "https://www.youtube.com/watch?v=Eax-kVIUId4"
-          },
-          {
             "title": "Full walkthrough",
             "url": "https://www.youtube.com/watch?v=0-D_bPzaqfo"
+          },
+          {
+            "title": "Carousel demo",
+            "url": "https://www.youtube.com/watch?v=Eax-kVIUId4"
           }
         ],
         "images": [],

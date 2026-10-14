@@ -22,10 +22,10 @@ listTagline: >-
   A generative MIDI sequencer for Ableton Live. It plays a 16-step melody and
   changes it while it plays.
 videos:
-  - title: Carousel demo
-    url: 'https://www.youtube.com/watch?v=Eax-kVIUId4'
   - title: Full walkthrough
     url: 'https://www.youtube.com/watch?v=0-D_bPzaqfo'
+  - title: Carousel demo
+    url: 'https://www.youtube.com/watch?v=Eax-kVIUId4'
 listBadges:
   - prefix: available on
     label: Gumroad

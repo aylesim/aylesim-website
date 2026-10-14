@@ -1047,22 +1047,109 @@ textarea:focus-visible {
   margin-top: 3rem;
 }
 @media (max-width: 600px) {
-  :where(.project-page) {
+  .site-page .project-page {
     padding: 6rem 1rem 2rem;
   }
   :where(.project-fields) {
     grid-template-columns: 1fr;
   }
-  :where(.stage-intro) {
+  .site-home .stage-intro {
     left: 1rem;
     bottom: 3.5rem;
     max-width: calc(100% - 2rem);
     font-size: 0.875rem;
   }
-  :where(.stage-intro h1) {
+  .site-home .stage-intro h1 {
     font-size: 1.25rem;
   }
   :where(.section-copy) {
     padding: 2rem 1rem;
   }
+}
+
+:where(.tile-category) {
+  position: absolute;
+  z-index: 3;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: #000c;
+  color: #fff;
+  padding: 0.35rem 0.5rem;
+  font-size: max(0.75rem, 0.75vw);
+  line-height: 1.1;
+  pointer-events: none;
+}
+:where(.tile-open) {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+}
+:where(.tile-sound) {
+  position: absolute;
+  z-index: 5;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.5rem;
+  background: #000e;
+  box-shadow: inset 0 0 0 1px #fff6;
+  font-size: 0.75rem;
+  min-height: 2.75rem;
+}
+:where(.tile-clip) {
+  position: absolute;
+  z-index: 3;
+  right: 0.5rem;
+  top: 0.5rem;
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+.tile-stage .tile .tile-meta {
+  font-size: max(0.875rem, 0.93vw);
+  max-width: calc(100% - 5rem);
+  background: #000c;
+  padding: 0.35rem;
+  pointer-events: none;
+}
+:where(.tile-meta mark) {
+  background: transparent;
+  color: inherit;
+}
+.tile.is-featured .tile-meta,
+.tile:focus-within .tile-meta {
+  opacity: 1;
+}
+:where(.tile.is-featured) {
+  box-shadow: 0 0 0 1px #fff8;
+}
+.site-filters:has(.is-on) .site-filter:not(.is-on) {
+  color: #a8a8a8;
+}
+:where(.sound-preview) {
+  position: fixed;
+  inset: 0;
+  width: min(56rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 1.5rem;
+  margin: auto;
+  color: #fff;
+  background: #0a0a0a;
+  border: 1px solid #a8a8a8;
+  overflow: auto;
+  line-height: 1.5;
+}
+:where(.sound-preview::backdrop) {
+  background: #000d;
+  backdrop-filter: blur(16px);
+}
+:where(.sound-preview-close) {
+  display: block;
+  margin-left: auto;
+  min-height: 2.75rem;
+  padding: 0.5rem;
+}
+:where(.sound-preview h2) {
+  margin: 1rem 0;
+  font-size: 1.5rem;
 }

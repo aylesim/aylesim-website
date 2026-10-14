@@ -17,11 +17,13 @@ function embedUrl(url: string) {
 export function LazyVideo({
   video,
   poster,
+  autoStart = false,
 }: {
   video: ProjectVideo;
   poster?: ReactNode;
+  autoStart?: boolean;
 }) {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(autoStart);
   const id = useId();
   useEffect(() => {
     const stopOther = (event: Event) => {

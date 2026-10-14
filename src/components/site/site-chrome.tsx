@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 export type SitePage =
   | "home"
@@ -40,6 +40,7 @@ export function SiteChrome({
     onSelect: (slug: string) => void;
   };
 }) {
+  const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!menuOpen) {
       return;
@@ -47,6 +48,7 @@ export function SiteChrome({
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onMenuOpenChange(false);
+        menuButton.current?.focus();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -70,6 +72,7 @@ export function SiteChrome({
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             className="site-burger"
             onClick={() => onMenuOpenChange(!menuOpen)}
+            ref={menuButton}
             type="button"
           >
             {menuOpen ? "Close" : "Index"}

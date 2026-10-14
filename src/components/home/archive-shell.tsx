@@ -11,6 +11,7 @@ import {
 } from "react";
 import { TileField } from "@/components/home/tile-field";
 import { SiteChrome } from "@/components/site/site-chrome";
+import { VideoPreviewDialog } from "@/components/video-preview-dialog";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
 import type { ProjectPreview } from "@/lib/project-preview";
 import { projectHref, sortProjects } from "@/lib/project-routes";
@@ -19,6 +20,8 @@ import {
   CATEGORY_LABELS,
   type WorkFilter,
 } from "@/lib/roles";
+
+const savedFilters = new Map<string, WorkFilter>();
 
 export default function ArchiveShell({
   projects: entries,
@@ -36,7 +39,18 @@ export default function ArchiveShell({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [filter, setFilter] = useState<WorkFilter>(initialFilter);
+  useEffect(() => {
+    const previous = savedFilters.get(window.location.pathname);
+    if (previous) {
+      setFilter(previous);
+    }
+  }, []);
+  useEffect(() => {
+    savedFilters.set(window.location.pathname, filter);
+  }, [filter]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [previewSlug, setPreviewSlug] = useState<string | null>(null);
+  const preview = entries.find((entry) => entry.slug === previewSlug);
   const projects = useMemo(
     () => sortProjects(entries.filter((project) => project.showInMenu)),
     [entries]
@@ -100,6 +114,7 @@ export default function ArchiveShell({
       >
         <TileField
           filter={filter}
+          onPreview={setPreviewSlug}
           onSelect={openProject}
           projects={projects}
           selectedSlug={null}
@@ -110,6 +125,13 @@ export default function ArchiveShell({
           <Link href="/archive">Archive</Link>
         </footer>
       </SiteChrome>
+      {preview?.previewVideo ? (
+        <VideoPreviewDialog
+          onClose={() => setPreviewSlug(null)}
+          title={preview.title}
+          video={preview.previewVideo}
+        />
+      ) : null}
     </main>
   );
 }

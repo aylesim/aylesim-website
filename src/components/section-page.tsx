@@ -39,6 +39,7 @@ export function SectionPage({ section }: { section: ProjectSection }) {
         brand={content.home.brand}
         contactEmail={content.site.contactEmail}
         initialFilter={filter}
+        key={section}
         projects={content.projects.map(projectPreview)}
       >
         <section className="stage-intro">

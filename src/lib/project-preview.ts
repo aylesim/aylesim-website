@@ -1,4 +1,4 @@
-import type { Project } from "@/lib/content";
+import type { Project, ProjectVideo } from "@/lib/content";
 
 const webpExtension = /\.webp$/;
 
@@ -15,7 +15,7 @@ export type ProjectPreview = Pick<
   | "sortYear"
   | "showInMenu"
   | "menuLabel"
->;
+> & { previewVideo?: ProjectVideo };
 
 export function projectPreview(project: Project): ProjectPreview {
   const {
@@ -33,6 +33,7 @@ export function projectPreview(project: Project): ProjectPreview {
   } = project;
   const thumbnail = canvasCover?.replace(webpExtension, "-thumb.webp") ?? null;
   return {
+    previewVideo: project.videos?.[0],
     slug,
     title,
     year,
