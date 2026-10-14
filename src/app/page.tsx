@@ -1,3 +1,4 @@
+import { projectPreview } from "@/lib/project-preview";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata("/");
 
@@ -28,7 +29,11 @@ export default function Home() {
         type="application/ld+json"
       />
       <Suspense>
-        <ArchiveShell content={content}>
+        <ArchiveShell
+          brand={content.home.brand}
+          contactEmail={content.site.contactEmail}
+          projects={content.projects.map(projectPreview)}
+        >
           <section className="stage-intro home-intro">
             <h1>{content.home.name}</h1>
             <p>{content.home.role}</p>

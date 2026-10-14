@@ -13,8 +13,8 @@ summary: >-
 featured: true
 order: 9
 showInMenu: true
-canvasImage: /please-set-a-password.jpg
-imageAlt: '[needs alt text]'
+canvasImage: /media/please-set-a-password.webp
+imageAlt: Projected camera view of a street intersection
 listTagline: >-
   Software searches the internet for surveillance cameras left open without a
   password and shows their live feeds. The sound is synthesised in real time

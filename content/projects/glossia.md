@@ -14,8 +14,8 @@ summary: Turns a plain-language workflow description into a node graph.
 featured: false
 order: 3
 showInMenu: true
-canvasImage: /glossia.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/glossia.webp
+imageAlt: Glossia workspace with a workflow description and node graph
 status: Proof of concept
 listTagline: Turns a plain-language workflow description into a node graph.
 liveLink: 'https://glossia-seven.vercel.app'

@@ -15,8 +15,8 @@ summary: >-
 featured: true
 order: 1
 showInMenu: true
-canvasImage: /Birdsgr.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/Birdsgr.webp
+imageAlt: Birds interface with colourful birds arranged on horizontal wires
 status: Released
 listTagline: >-
   A generative MIDI sequencer for Ableton Live. It plays a 16-step melody and

@@ -6,8 +6,8 @@ import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 import Image from "next/image";
 import { useMemo, useRef } from "react";
-import type { Project } from "@/lib/content";
 import { getProjectCover } from "@/lib/project-cover";
+import type { ProjectPreview } from "@/lib/project-preview";
 import type { WorkFilter } from "@/lib/roles";
 import {
   isPortraitViewport,
@@ -136,7 +136,7 @@ export function TileField({
 }: {
   filter: WorkFilter;
   onSelect: (slug: string) => void;
-  projects: Project[];
+  projects: ProjectPreview[];
   selectedSlug: string | null;
   view: TileView;
 }) {
@@ -298,6 +298,11 @@ export function TileField({
               data-slug={item.project.slug}
               draggable={false}
               key={item.project.slug}
+              onClick={(event) => {
+                if (event.detail === 0) {
+                  onSelect(item.project.slug);
+                }
+              }}
               ref={(node) => {
                 tilesRef.current[index] = node;
               }}
@@ -305,12 +310,12 @@ export function TileField({
             >
               {item.cover ? (
                 <Image
-                  alt={item.project.title}
+                  alt={item.project.imageAlt ?? "[needs alt text]"}
                   className="tile-image"
-                  fill
+                  height={500}
                   sizes="(max-aspect-ratio: 1/1) 56vw, 16vw"
                   src={item.cover.src}
-                  unoptimized
+                  width={800}
                 />
               ) : (
                 <span className="tile-fallback">{item.project.title}</span>

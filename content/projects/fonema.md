@@ -12,8 +12,8 @@ summary: >-
 featured: false
 order: 12
 showInMenu: true
-canvasImage: /fonema.jpg
-imageAlt: '[needs alt text]'
+canvasImage: /media/fonema.webp
+imageAlt: A speaker wrapped in green fabric in an industrial space
 listTagline: >-
   Recorded voices pass through a neural network built from voice classification
   and recognition models. What comes out keeps the grain and rhythm of speech,

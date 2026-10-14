@@ -24,7 +24,9 @@ export function projectHref(
   return section ? `/${section}/${project.slug}` : "/about";
 }
 
-export function sortProjects(projects: Project[]): Project[] {
+export function sortProjects<
+  T extends Pick<Project, "featured" | "sortYear" | "title">,
+>(projects: T[]): T[] {
   return [...projects].sort(
     (a, b) =>
       Number(Boolean(b.featured)) - Number(Boolean(a.featured)) ||

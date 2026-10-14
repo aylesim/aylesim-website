@@ -16,8 +16,8 @@ summary: >-
 featured: false
 order: 2
 showInMenu: true
-canvasImage: /knobstudio.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/knobstudio.webp
+imageAlt: Knob Studio panel with a red waveform and modulation controls
 status: Released
 listTagline: >-
   A modulation device for Ableton Live. Up to four functions are layered into

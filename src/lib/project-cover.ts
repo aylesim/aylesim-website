@@ -20,15 +20,19 @@ function videoThumbnail(url: string): string | null {
   return null;
 }
 
-export function projectStills(project: Project): string[] {
+type CoverProject = Pick<Project, "images" | "canvasCover"> &
+  Partial<Pick<Project, "galleryAfterVideo" | "videos">>;
+
+export function projectStills(project: CoverProject): string[] {
   const gallery = project.galleryAfterVideo ?? [];
-  const merged = [...project.images, ...gallery]
+  const merged = [project.canvasCover, ...project.images, ...gallery]
+    .filter((src): src is string => Boolean(src))
     .map((src) => src.trim())
     .filter(Boolean);
   return [...new Set(merged)];
 }
 
-export function getProjectCover(project: Project): ProjectCover | null {
+export function getProjectCover(project: CoverProject): ProjectCover | null {
   const still = projectStills(project)[0];
   if (still) {
     return { src: still, kind: "still" };

@@ -81,8 +81,8 @@ export function pageMetadata(path: string, project?: Project): Metadata {
     description: project?.summary ?? "Software for sound and image.",
   };
   const image = project
-    ? (getProjectCover(project)?.src ?? "/portrait.png")
-    : "/portrait.png";
+    ? (getProjectCover(project)?.src ?? "/media/portrait.webp")
+    : "/media/portrait.webp";
   const url = new URL(path, origin).href;
   return {
     ...copy,

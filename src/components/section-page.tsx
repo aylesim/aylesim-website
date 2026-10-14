@@ -4,6 +4,7 @@ import ArchiveShell from "@/components/home/archive-shell";
 import { Markdown } from "@/components/markdown";
 import { getAllContent } from "@/lib/content";
 import { editorial } from "@/lib/editorial";
+import { projectPreview } from "@/lib/project-preview";
 import {
   type ProjectSection,
   projectHref,
@@ -34,7 +35,12 @@ export function SectionPage({ section }: { section: ProjectSection }) {
   const filter = filters[section];
   return (
     <Suspense>
-      <ArchiveShell content={content} initialFilter={filter}>
+      <ArchiveShell
+        brand={content.home.brand}
+        contactEmail={content.site.contactEmail}
+        initialFilter={filter}
+        projects={content.projects.map(projectPreview)}
+      >
         <section className="stage-intro">
           <h1>{title}</h1>
           <p>{intros[section]}</p>

@@ -13,8 +13,8 @@ summary: >-
 featured: false
 order: 4
 showInMenu: true
-canvasImage: /tedx-barletta.jpg
-imageAlt: '[needs alt text]'
+canvasImage: /media/tedx-barletta.webp
+imageAlt: Performers silhouetted against a red TEDx Barletta stage
 listTagline: >-
   Large-format projections generated live and synced to a percussive
   experimental electronic set. A music and image slot within the TEDx programme,

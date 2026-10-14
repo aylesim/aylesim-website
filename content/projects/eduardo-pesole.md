@@ -16,8 +16,8 @@ summary: >-
 featured: false
 order: 4
 showInMenu: true
-canvasImage: /eduardo-pesole.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/eduardo-pesole.webp
+imageAlt: Eduardo Pesole homepage with a pink background and a gallery of projects
 status: Live
 listTagline: >-
   Portfolio site for a Berlin sound designer and composer: works gallery,

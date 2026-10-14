@@ -14,8 +14,8 @@ summary: >-
 featured: true
 order: 1
 showInMenu: true
-canvasImage: /planetary.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/planetary.webp
+imageAlt: Planetary Compendium interface with connected topic labels over a globe
 status: Live
 listTagline: >-
   A scrollytelling chapter of the Berggruen Institute's Planetary Compendium, a

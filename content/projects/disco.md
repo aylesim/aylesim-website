@@ -14,8 +14,8 @@ summary: >-
 featured: false
 order: 5
 showInMenu: true
-canvasImage: /disco.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/disco.webp
+imageAlt: Disco interface with circular delay taps and waveform controls
 status: Released
 listTagline: >-
   [needs year; site says 2022]. Multi-tap delay with per-tap gain, pan and

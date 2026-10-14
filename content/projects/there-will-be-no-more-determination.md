@@ -13,8 +13,8 @@ summary: >-
 featured: false
 order: 10
 showInMenu: true
-canvasImage: /tw0.jpg
-imageAlt: '[needs alt text]'
+canvasImage: /media/tw0.webp
+imageAlt: Small screen showing a blurred monochrome image on a textured wall
 listTagline: >-
   A neural network trained on helicopter footage from conflict zones, including
   Afghanistan, Iraq and Pakistan, produces images that keep the texture and
@@ -25,9 +25,9 @@ videos:
     url: 'https://vimeo.com/783690002'
 listBadges: []
 galleryAfterVideo:
-  - /tw0.jpg
-  - /tw1.jpg
-  - /tw2.jpg
+  - /media/tw0.webp
+  - /media/tw1.webp
+  - /media/tw2.webp
 ---
 - Year: 2022
 - Medium: moving image; GAN trained on military helicopter footage [needs: single or multi-screen, duration, sound]

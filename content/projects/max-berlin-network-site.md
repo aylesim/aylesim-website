@@ -15,8 +15,8 @@ summary: >-
 featured: false
 order: 2
 showInMenu: true
-canvasImage: /max-berlin-network.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/max-berlin-network.webp
+imageAlt: Max Berlin Network homepage with next meetup information
 status: Live
 listTagline: >-
   Public site for the Max Berlin Network meetups: next meetup on the homepage,

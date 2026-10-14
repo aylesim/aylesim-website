@@ -13,8 +13,8 @@ summary: >-
 featured: false
 order: 11
 showInMenu: true
-canvasImage: /wikyslavery.jpg
-imageAlt: '[needs alt text]'
+canvasImage: /media/wikyslavery.webp
+imageAlt: Wikipedia page with the word Modifico projected over a pink background
 listTagline: >-
   Software inserts misleading edits into unspecified Wikipedia articles,
   coherent enough to pass a quick read, and keeps them in circulation until

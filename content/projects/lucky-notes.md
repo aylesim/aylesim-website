@@ -14,8 +14,8 @@ summary: >-
 featured: false
 order: 8
 showInMenu: true
-canvasImage: /LN.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/LN.webp
+imageAlt: Lucky Notes panel showing a probability percentage
 status: Released
 listTagline: >-
   [needs year]. MIDI effect that lets notes through by probability, so a pattern

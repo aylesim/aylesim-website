@@ -15,8 +15,8 @@ summary: >-
 featured: false
 order: 7
 showInMenu: true
-canvasImage: /ffl.png
-imageAlt: '[needs alt text]'
+canvasImage: /media/ffl.webp
+imageAlt: Freesound4Live search results and sample details panel
 status: Released
 listTagline: >-
   Search and load samples from Freesound.org inside Ableton Live, with Freesound

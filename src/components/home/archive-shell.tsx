@@ -2,19 +2,17 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { ReactNode } from "react";
 import {
+  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
   useState,
-  useTransition,
 } from "react";
-import { ProjectDetail } from "@/components/home/portfolio-detail";
 import { TileField } from "@/components/home/tile-field";
 import { SiteChrome } from "@/components/site/site-chrome";
-import type { SiteContent } from "@/lib/content";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
+import type { ProjectPreview } from "@/lib/project-preview";
 import { projectHref, sortProjects } from "@/lib/project-routes";
 import {
   CATEGORY_FILTERS,
@@ -22,98 +20,56 @@ import {
   type WorkFilter,
 } from "@/lib/roles";
 
-function projectSlugFromSearchParams(
-  searchParams: URLSearchParams
-): string | null {
-  const projectParam = searchParams.get("project");
-  if (projectParam !== null) {
-    return projectParam || null;
-  }
-  return parseLegacyProjectSlug(searchParams);
-}
-
 export default function ArchiveShell({
-  content,
+  projects: entries,
+  brand,
+  contactEmail,
   initialFilter = "all",
   children,
 }: {
-  content: SiteContent;
+  projects: ProjectPreview[];
+  brand: string;
+  contactEmail: string;
   initialFilter?: WorkFilter;
   children?: ReactNode;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [, startTransition] = useTransition();
   const [filter, setFilter] = useState<WorkFilter>(initialFilter);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const selectedSlug = useMemo(
-    () => projectSlugFromSearchParams(searchParams),
-    [searchParams]
+  const projects = useMemo(
+    () => sortProjects(entries.filter((project) => project.showInMenu)),
+    [entries]
   );
-
   const openProject = useCallback(
     (slug: string) => {
-      startTransition(() => {
-        router.replace(`/?project=${slug}`, { scroll: false });
-      });
-    },
-    [router]
-  );
-
-  const closeProject = useCallback(() => {
-    startTransition(() => {
-      router.replace("/", { scroll: false });
-    });
-  }, [router]);
-
-  useEffect(() => {
-    if (!selectedSlug) {
-      return;
-    }
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeProject();
+      const project = projects.find((entry) => entry.slug === slug);
+      if (project) {
+        router.push(projectHref(project));
       }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [closeProject, selectedSlug]);
-
-  const selectFilter = (next: WorkFilter) => {
-    setFilter((current) => (current === next ? "all" : next));
-    if (selectedSlug) {
-      closeProject();
+    },
+    [projects, router]
+  );
+  useEffect(() => {
+    const slug =
+      searchParams.get("project") ?? parseLegacyProjectSlug(searchParams);
+    if (slug) {
+      const project = projects.find((entry) => entry.slug === slug);
+      router.replace(project ? projectHref(project) : "/about");
     }
-  };
-
-  const projects = useMemo(
-    () =>
-      sortProjects(content.projects.filter((project) => project.showInMenu)),
-    [content.projects]
-  );
-
-  const workMenuProjects = useMemo(
-    () =>
-      projects
-        .filter((project) => filter === "all" || project.category === filter)
-        .map((project) => ({
-          slug: project.slug,
-          label: project.menuLabel ?? project.title,
-        })),
-    [filter, projects]
-  );
-
-  const selectedProject = selectedSlug
-    ? projects.find((project) => project.slug === selectedSlug)
-    : null;
-
+  }, [projects, router, searchParams]);
+  const workMenuProjects = projects
+    .filter((project) => filter === "all" || project.category === filter)
+    .map((project) => ({
+      slug: project.slug,
+      label: project.menuLabel ?? project.title,
+    }));
   return (
     <main className="site-home">
       <SiteChrome
-        brand={content.home.brand}
-        contactEmail={content.site.contactEmail}
-        current="work"
+        brand={brand}
+        contactEmail={contactEmail}
+        current="home"
         filters={
           <nav aria-label="Project collections" className="site-filters">
             <ul>
@@ -124,7 +80,7 @@ export default function ArchiveShell({
                     className={
                       filter === category ? "site-filter is-on" : "site-filter"
                     }
-                    onClick={() => selectFilter(category)}
+                    onClick={() => setFilter(category)}
                     type="button"
                   >
                     {category === "all" ? "All" : CATEGORY_LABELS[category]}
@@ -137,16 +93,16 @@ export default function ArchiveShell({
         menuOpen={menuOpen}
         onMenuOpenChange={setMenuOpen}
         workMenu={{
-          onSelect: openProject,
           projects: workMenuProjects,
-          selectedSlug,
+          selectedSlug: null,
+          onSelect: openProject,
         }}
       >
         <TileField
           filter={filter}
           onSelect={openProject}
           projects={projects}
-          selectedSlug={selectedSlug}
+          selectedSlug={null}
           view="spiral"
         />
         {children}
@@ -154,29 +110,6 @@ export default function ArchiveShell({
           <Link href="/archive">Archive</Link>
         </footer>
       </SiteChrome>
-
-      {selectedProject ? (
-        <div className="site-detail">
-          <button
-            aria-label="Close project"
-            className="site-detail-close"
-            onClick={closeProject}
-            type="button"
-          >
-            Close
-          </button>
-          <div className="site-detail-body">
-            <Link className="about-chip" href={projectHref(selectedProject)}>
-              Open project page
-            </Link>
-            <ProjectDetail
-              projects={projects}
-              site={content.site}
-              slug={selectedProject.slug}
-            />
-          </div>
-        </div>
-      ) : null}
     </main>
   );
 }
