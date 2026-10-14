@@ -13,17 +13,15 @@ const examplePrompts = [
 
 export function AskAiPage({
   brand,
-  contactEmail,
   json,
   contentJsonUrl: jsonUrl,
 }: {
   brand: string;
-  contactEmail: string;
   json: string;
   contentJsonUrl: string;
 }) {
   return (
-    <PageFrame brand={brand} contactEmail={contactEmail} current="ask-ai">
+    <PageFrame brand={brand} current="ask-ai">
       <article className="page-copy page-copy--plain">
         <div className="page-copy-body">
           <p className="page-kicker">JSON</p>

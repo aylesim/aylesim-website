@@ -63,7 +63,7 @@ export function AboutPage({
   );
 
   return (
-    <PageFrame brand={brand} contactEmail={site.contactEmail} current="about">
+    <PageFrame brand={brand} current="about">
       <article className="about" ref={rootRef}>
         <header className="about-card about-card--hero">
           <div className="about-card-inner">

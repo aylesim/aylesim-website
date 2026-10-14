@@ -79,10 +79,7 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
     [content.projects]
   );
 
-  const workMenu = useMemo(
-    () => buildWorkMenu(projects, filter),
-    [filter, projects]
-  );
+  const workMenu = useMemo(() => buildWorkMenu(projects), [projects]);
 
   const selectedProject = selectedSlug
     ? projects.find((project) => project.slug === selectedSlug)
@@ -92,11 +89,22 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
     <main className="site-home">
       <SiteChrome
         brand={content.home.brand}
-        contactEmail={content.site.contactEmail}
         current="work"
         filters={
           <nav aria-label="Project collections" className="site-filters">
             <ul>
+              <li>
+                <button
+                  aria-pressed={filter === "all"}
+                  className={
+                    filter === "all" ? "site-filter is-on" : "site-filter"
+                  }
+                  onClick={() => selectFilter("all")}
+                  type="button"
+                >
+                  All work
+                </button>
+              </li>
               {CATEGORY_FILTERS.map((category) => (
                 <li key={category}>
                   <button

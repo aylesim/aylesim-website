@@ -11,7 +11,7 @@ const projects = [
 ] as const;
 
 test("all collections preserve category order and project order within each category", () => {
-  assert.deepEqual(buildWorkMenu(projects, "all"), {
+  assert.deepEqual(buildWorkMenu(projects), {
     entries: [
       { type: "heading", label: "Audio tools" },
       { type: "project", slug: "second-tool", label: "Second tool" },
@@ -25,20 +25,10 @@ test("all collections preserve category order and project order within each cate
   });
 });
 
-test("filtered collections omit headings and other categories", () => {
-  assert.deepEqual(buildWorkMenu(projects, "devices"), {
-    entries: [
-      { type: "project", slug: "second-tool", label: "Second tool" },
-      { type: "project", slug: "first-tool", label: "First tool" },
-    ],
-    projectCount: 2,
-  });
-});
-
 test("empty collections produce no headings or projects", () => {
-  assert.deepEqual(buildWorkMenu(projects, "installations"), {
+  assert.deepEqual(buildWorkMenu([{ slug: "none", title: "None" }]), {
     entries: [],
     projectCount: 0,
   });
-  assert.deepEqual(buildWorkMenu([], "all"), { entries: [], projectCount: 0 });
+  assert.deepEqual(buildWorkMenu([]), { entries: [], projectCount: 0 });
 });

@@ -17,7 +17,6 @@ export default function AskAi() {
   return (
     <AskAiPage
       brand={home.brand}
-      contactEmail={site.contactEmail}
       contentJsonUrl={contentJsonUrl(site.origin)}
       json={serializeSiteContentJson(content)}
     />
