@@ -160,7 +160,7 @@ export function PageFrame({
         <footer className="page-footer">
           <Link href="/archive">Archive</Link>
           <a href={`mailto:${contactEmail}`}>Email</a>
-          <span>Berlin, EU citizen</span>
+          <span>Berlin</span>
         </footer>
       </SiteChrome>
     </div>

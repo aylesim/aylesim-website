@@ -69,7 +69,7 @@ export function AboutPage({
           <div className="about-card-inner">
             <h1>About</h1>
             <p className="about-subtitle">{about.lede}</p>
-            <p className="about-availability">Berlin, EU citizen</p>
+            <p className="about-availability">Berlin</p>
           </div>
         </header>
         {about.body

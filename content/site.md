@@ -5,8 +5,7 @@ description: >-
   plugins, installations and web interfaces.
 contactEmail: ay@alessandromiracapillo.com
 contactAvailability: >-
-  Open to employment in Berlin or remote, including fixed-term contracts. EU
-  citizen.
+  Open to employment in Berlin or remote, including fixed-term contracts.
 webDeveloperStack: 'React, TypeScript, Next.js'
 resumeHref: /cv.pdf
 resumeLabel: CV (PDF)

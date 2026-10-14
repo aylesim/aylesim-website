@@ -59,7 +59,7 @@ const pageCopy: Record<string, { title: string; description: string }> = {
   },
   "/contact": {
     title: "Contact | Alessandro Miracapillo",
-    description: "Email, CV and links. Berlin, EU citizen.",
+    description: "Email, CV and links. Berlin.",
   },
   "/archive": {
     title: "Archive | Alessandro Miracapillo",

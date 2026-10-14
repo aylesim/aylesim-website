@@ -37,7 +37,7 @@ export default function Home() {
           <section className="stage-intro home-intro">
             <h1>{content.home.name}</h1>
             <p>{content.home.role}</p>
-            <p>Berlin, EU citizen</p>
+            <p>Berlin</p>
             <a href="#home-copy">About my work</a>
           </section>
           <article className="section-copy" id="home-copy">

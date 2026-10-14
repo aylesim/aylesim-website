@@ -1,6 +1,6 @@
 ---
 lede: Alessandro Miracapillo
-subtitle: 'Berlin, EU citizen'
+subtitle: 'Berlin'
 ---
 I'm Alessandro Miracapillo. I live in Berlin, I'm Italian, and I work in English and Italian. I make software for sound and image: music instruments and plugins, installations and web interfaces. I design the interfaces and write the code myself.
 
