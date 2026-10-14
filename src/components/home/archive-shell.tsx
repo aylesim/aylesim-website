@@ -1,12 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { ArchiveIndex } from "@/components/home/archive-index";
-import { ProjectDetail } from "@/components/home/portfolio-detail";
-import { SiteHeader } from "@/components/site-header";
+import type { BubbleFocus } from "@/lib/bubble-layout";
 import type { SiteContent } from "@/lib/content";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
+import { CATEGORY_FILTERS, CATEGORY_LABELS } from "@/lib/roles";
 
 function projectSlugFromSearchParams(
   searchParams: URLSearchParams
@@ -15,9 +22,6 @@ function projectSlugFromSearchParams(
   if (projectParam !== null) {
     return projectParam || null;
   }
-  if (searchParams.has("projects")) {
-    return null;
-  }
   return parseLegacyProjectSlug(searchParams);
 }
 
@@ -25,8 +29,9 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
+  const [filter, setFilter] = useState<BubbleFocus>("all");
 
-  const projectSlug = useMemo(
+  const selectedSlug = useMemo(
     () => projectSlugFromSearchParams(searchParams),
     [searchParams]
   );
@@ -40,33 +45,96 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
     [router]
   );
 
-  const visibleProjects = useMemo(
-    () => content.projects.filter((item) => item.showInMenu),
+  const closeProject = useCallback(() => {
+    startTransition(() => {
+      router.replace("/", { scroll: false });
+    });
+  }, [router]);
+
+  const selectFilter = (next: BubbleFocus) => {
+    setFilter(next);
+    if (selectedSlug) {
+      closeProject();
+    }
+  };
+
+  const projects = useMemo(
+    () => content.projects.filter((project) => project.showInMenu),
     [content.projects]
   );
 
-  const showingDetail = Boolean(projectSlug);
+  useEffect(
+    () => () => {
+      for (const node of document.querySelectorAll(".bubble-space")) {
+        node.remove();
+      }
+    },
+    []
+  );
 
   return (
-    <div className="flex min-h-dvh w-full min-w-0 flex-col bg-bg md:pl-16">
-      <SiteHeader active={showingDetail ? undefined : "index"} />
+    <main className="orbital-home">
+      <ArchiveIndex
+        focus={filter}
+        onClose={closeProject}
+        onSelect={openProject}
+        projects={projects}
+        selectedSlug={selectedSlug}
+        site={content.site}
+      />
 
-      <main className="mx-auto w-full max-w-[92rem] flex-1 px-4 py-5 md:px-7 md:py-7">
-        {showingDetail && projectSlug ? (
-          <ProjectDetail
-            projects={content.projects}
-            site={content.site}
-            slug={projectSlug}
-          />
-        ) : (
-          <ArchiveIndex
-            home={content.home}
-            onSelect={openProject}
-            projects={visibleProjects}
-            site={content.site}
-          />
-        )}
-      </main>
-    </div>
+      <aside
+        aria-label="Portfolio navigation"
+        className={
+          selectedSlug ? "orbital-menu orbital-menu--quiet" : "orbital-menu"
+        }
+      >
+        <Link className="orbital-menu-brand" href="/" onClick={closeProject}>
+          {content.home.brand}
+        </Link>
+        <p className="orbital-menu-role">{content.home.role}</p>
+
+        <nav aria-label="Primary" className="orbital-menu-primary">
+          <button
+            aria-current="page"
+            className="orbital-menu-link orbital-menu-link--active"
+            onClick={() => selectFilter("all")}
+            type="button"
+          >
+            Work
+          </button>
+          <Link className="orbital-menu-link" href="/about">
+            About
+          </Link>
+        </nav>
+
+        <nav aria-label="Project collections" className="orbital-menu-filters">
+          <button
+            aria-pressed={filter === "all"}
+            className="orbital-menu-filter"
+            onClick={() => selectFilter("all")}
+            type="button"
+          >
+            All projects <span>{projects.length}</span>
+          </button>
+          {CATEGORY_FILTERS.map((category) => {
+            const count = projects.filter(
+              (project) => project.category === category
+            ).length;
+            return (
+              <button
+                aria-pressed={filter === category}
+                className="orbital-menu-filter"
+                key={category}
+                onClick={() => selectFilter(category)}
+                type="button"
+              >
+                {CATEGORY_LABELS[category]} <span>{count}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </aside>
+    </main>
   );
 }

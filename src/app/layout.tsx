@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { OpenGlassRoot } from "@/components/finder/open-glass-root";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeScript } from "@/components/theme/theme-script";
 import { getAllContent } from "@/lib/content";
@@ -38,7 +39,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh bg-bg antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <OpenGlassRoot>{children}</OpenGlassRoot>
+        </ThemeProvider>
       </body>
     </html>
   );
