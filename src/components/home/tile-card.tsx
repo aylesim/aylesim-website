@@ -72,7 +72,7 @@ export function TileCard({
       />
       {project.previewVideo ? (
         <button
-          aria-label={`Play ${project.title} video with sound`}
+          aria-label={`Play sound: ${project.title} video`}
           className="tile-sound"
           data-preview
           onClick={(event) => keyboardActivate(event, onPreview)}

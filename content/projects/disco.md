@@ -54,4 +54,4 @@ client: Aylesim Devices
 
 ## Links
 
-[Buy on Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)
+[Buy on Gumroad](https://aylesim.gumroad.com/l/disco) · [Isotonik Studios](https://isotonikstudios.com/product/disco-by-aylsim/) · [needs: manual PDF link]

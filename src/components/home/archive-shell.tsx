@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   type ReactNode,
   useCallback,
@@ -37,7 +37,6 @@ export default function ArchiveShell({
   children?: ReactNode;
 }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [filter, setFilter] = useState<WorkFilter>(initialFilter);
   useEffect(() => {
     const previous = savedFilters.get(window.location.pathname);
@@ -65,13 +64,14 @@ export default function ArchiveShell({
     [projects, router]
   );
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
     const slug =
       searchParams.get("project") ?? parseLegacyProjectSlug(searchParams);
     if (slug) {
       const project = projects.find((entry) => entry.slug === slug);
       router.replace(project ? projectHref(project) : "/about");
     }
-  }, [projects, router, searchParams]);
+  }, [projects, router]);
   const workMenuProjects = projects
     .filter((project) => filter === "all" || project.category === filter)
     .map((project) => ({

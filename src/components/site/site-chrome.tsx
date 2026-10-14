@@ -69,7 +69,7 @@ export function SiteChrome({
           <button
             aria-controls="site-menu"
             aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? "Close menu" : "Open index menu"}
             className="site-burger"
             onClick={() => onMenuOpenChange(!menuOpen)}
             ref={menuButton}

@@ -170,6 +170,20 @@ export function TileField({
   >(undefined);
   const { contextSafe } = useGSAP({ scope: stageRef });
   const activateTile = contextSafe((slug: string) => {
+    if (openingSlug.current) {
+      return;
+    }
+    openingSlug.current = slug;
+    const world = worldRef.current;
+    const pivot = pivotRef.current;
+    if (world && pivot) {
+      stageMemory.set(window.location.pathname, {
+        x: Number(gsap.getProperty(world, "x")),
+        y: Number(gsap.getProperty(world, "y")),
+        rotation: Number(gsap.getProperty(pivot, "rotation")),
+        portrait: portraitRef.current,
+      });
+    }
     const tile = tilesRef.current.find((node) => node?.dataset.slug === slug);
     if (!tile || reducedMotion()) {
       onSelectRef.current(slug);
@@ -186,7 +200,8 @@ export function TileField({
   activateRef.current = activateTile;
   const firstLayout = useRef(true);
   const planeReady = useRef(false);
-  const skipViewNudge = useRef(true);
+  const previousView = useRef({ filter, view });
+  const openingSlug = useRef<string | null>(null);
   const portraitRef = useRef(false);
   onSelectRef.current = onSelect;
   selectedRef.current = selectedSlug;
@@ -255,12 +270,6 @@ export function TileField({
         },
       });
       return () => {
-        stageMemory.set(memoryKey, {
-          x: drag.x,
-          y: drag.y,
-          rotation: Number(gsap.getProperty(pivot, "rotation")),
-          portrait: portraitRef.current,
-        });
         drag.kill();
         gsap.killTweensOf(pivot);
       };
@@ -334,10 +343,13 @@ export function TileField({
 
   useGSAP(
     () => {
-      if (skipViewNudge.current) {
-        skipViewNudge.current = false;
+      if (
+        previousView.current.filter === filter &&
+        previousView.current.view === view
+      ) {
         return;
       }
+      previousView.current = { filter, view };
       const pivot = pivotRef.current;
       if (pivot) {
         nudgePlane(pivot);

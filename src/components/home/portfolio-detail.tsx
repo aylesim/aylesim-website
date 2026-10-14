@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { LazyVideo } from "@/components/lazy-video";
-import { Markdown } from "@/components/markdown";
+import { Markdown, NeedsInline } from "@/components/markdown";
 import type { Project, SiteConfig } from "@/lib/content";
 import { projectStills } from "@/lib/project-cover";
 
@@ -47,8 +47,12 @@ export function ProjectDetail({
   return (
     <article className="project-prose">
       <header className="project-title">
-        <h1>{project.title}</h1>
-        <p>{project.summary}</p>
+        <h1>
+          <NeedsInline>{project.title}</NeedsInline>
+        </h1>
+        <p>
+          <NeedsInline>{project.summary ?? ""}</NeedsInline>
+        </p>
       </header>
       <div className="project-lead">{lead}</div>
       <dl className="project-fields">

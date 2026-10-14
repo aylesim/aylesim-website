@@ -49,27 +49,7 @@ export function SectionPage({ section }: { section: ProjectSection }) {
         </section>
         <article className="section-copy" id="section-copy">
           <h2>About {title.toLowerCase()}</h2>
-          {section === "work" ? (
-            projects
-              .filter((project) =>
-                [
-                  "eduardo-pesole",
-                  "max-berlin-network-site",
-                  "glossia",
-                  "shapellm",
-                ].includes(project.slug)
-              )
-              .map((project) => (
-                <div key={project.slug}>
-                  <h2>
-                    <Link href={projectHref(project)}>{project.title}</Link>
-                  </h2>
-                  <Markdown>{project.description}</Markdown>
-                </div>
-              ))
-          ) : (
-            <Markdown>{editorial(section)}</Markdown>
-          )}
+          <Markdown>{editorial(section)}</Markdown>
           {section === "instruments" ? (
             <Markdown>{editorial("instrument-blurbs")}</Markdown>
           ) : null}

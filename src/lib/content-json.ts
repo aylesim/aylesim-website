@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { getAboutSections, getAllContent, type Project } from "@/lib/content";
+import { projectHref } from "@/lib/project-routes";
 import { CATEGORY_LABELS } from "@/lib/roles";
 import { contentJsonPath } from "@/lib/site";
 
@@ -12,6 +13,11 @@ export const contentJsonPublicPath = path.join(
 function projectToJson(project: Project) {
   return {
     slug: project.slug,
+    url: projectHref(project),
+    summary: project.summary,
+    credits: project.credits,
+    status: project.status,
+    imageAlt: project.imageAlt,
     title: project.title,
     year: project.year,
     category: project.category,

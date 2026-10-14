@@ -63,4 +63,4 @@ Carousel, walkthrough, how it's made (YouTube).
 
 ## Links
 
-[Buy on Gumroad](https://aylesim.gumroad.com/l/knobstudio) · [Isotonik Studios](https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/) · [Rekkerd](https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)
+[Buy on Gumroad](https://aylesim.gumroad.com/l/knobstudio) · [Isotonik Studios](https://isotonikstudios.com/product/knob-studio-by-alessandro-aylesim-miracapillo/) · [Rekkerd](https://rekkerd.org/aylesim-releases-knob-studio-experimental-mapping-device-for-live/) · [needs: manual PDF link]

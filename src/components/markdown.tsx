@@ -48,3 +48,22 @@ export function Markdown({ children }: { children: string }) {
     <ReactMarkdown remarkPlugins={[needsMarkers]}>{children}</ReactMarkdown>
   );
 }
+
+export function NeedsInline({ children }: { children: string }) {
+  return (
+    <>
+      {children
+        .split(needsSplit)
+        .filter(Boolean)
+        .map((text, index) =>
+          needsStart.test(text) ? (
+            <mark data-needs key={`${index}-${text}`}>
+              {text}
+            </mark>
+          ) : (
+            text
+          )
+        )}
+    </>
+  );
+}

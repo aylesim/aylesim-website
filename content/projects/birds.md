@@ -16,7 +16,7 @@ featured: true
 order: 1
 showInMenu: true
 canvasImage: /media/Birdsgr.webp
-imageAlt: Birds interface with colourful birds arranged on horizontal wires
+imageAlt: Birds interface with colourful birds arranged on parallel wires
 status: Released
 listTagline: >-
   A generative MIDI sequencer for Ableton Live. It plays a 16-step melody and
@@ -60,4 +60,4 @@ Carousel demo, full walkthrough (YouTube).
 
 ## Links
 
-[Buy on Gumroad](https://aylesim.gumroad.com/l/birds) · [Isotonik Studios](https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/) · [needs: manual PDF link] · [Isotonik Studios](https://isotonikstudios.com/brand/aylesim/)
+[Buy on Gumroad](https://aylesim.gumroad.com/l/birds) · [Isotonik Studios](https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/) · [needs: manual PDF link]
