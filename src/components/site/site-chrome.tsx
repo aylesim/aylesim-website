@@ -53,9 +53,7 @@ export function SiteChrome({
             onClick={() => onMenuOpenChange(!menuOpen)}
             type="button"
           >
-            <i />
-            <i />
-            <i />
+            {menuOpen ? "Close" : "Index"}
           </button>
         </div>
         <ul

@@ -116,48 +116,32 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.65rem 0.8125rem;
+  padding: 0.65rem 0.8125rem 0.65rem 1rem;
 }
 
 .site-brand {
   font-size: 0.75rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: lowercase;
 }
 
 .site-burger {
-  position: relative;
-  width: 0.9375rem;
-  height: 0.5rem;
+  padding-left: 1rem;
+  border-left: 1px solid #fff3;
+  color: #d9d9d9;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   pointer-events: auto;
 }
 
-.site-burger i {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: #a8a8a8;
-}
-
-.site-burger i:nth-child(1) {
-  top: 0;
-}
-
-.site-burger i:nth-child(2) {
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.site-burger i:nth-child(3) {
-  bottom: 0;
-}
-
 .site-menu {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding-top: 2px;
+  display: flex;
+  flex-direction: column;
+  width: min(19rem, 100%);
+  gap: 1px;
+  padding-top: 0.5rem;
+  counter-reset: menu-item;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -170,18 +154,33 @@ textarea:focus-visible {
 }
 
 .site-menu-wide {
-  grid-column: span 2;
+  grid-column: auto;
 }
 
 .site-menu-link {
+  position: relative;
   display: flex;
-  min-height: 3.125rem;
+  min-height: 2.875rem;
   align-items: center;
-  padding: 0.6rem 0.875rem;
+  padding: 0.6rem 1rem 0.6rem 3.4rem;
   font-size: 0.75rem;
   transition:
     color 0.3s var(--ease),
     box-shadow 0.3s var(--ease);
+}
+
+.site-menu li {
+  counter-increment: menu-item;
+}
+
+.site-menu li::before {
+  position: absolute;
+  z-index: 1;
+  padding: 0.6rem 1rem;
+  color: #fff6;
+  content: "0" counter(menu-item);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
 }
 
 .site-menu-link.is-on,
@@ -221,33 +220,6 @@ textarea:focus-visible {
 
 .site-filters:has(.is-on) .site-filter:not(.is-on) {
   color: #fff3;
-}
-
-.site-views {
-  position: fixed;
-  z-index: 3;
-  bottom: 13px;
-  left: 50%;
-  display: flex;
-  transform: translateX(-50%);
-}
-
-.site-view {
-  padding: 3px;
-  opacity: 0.3;
-  color: #d9d9d9;
-  transition: opacity 0.3s var(--ease);
-}
-
-.site-view.is-on,
-.site-view:hover {
-  opacity: 1;
-}
-
-.site-view svg {
-  display: block;
-  height: 0.625rem;
-  width: auto;
 }
 
 .tile-stage {
@@ -772,10 +744,6 @@ textarea:focus-visible {
 }
 
 @media (min-width: 768px) {
-  .site-views {
-    left: 13px;
-    transform: none;
-  }
 
   .about {
     padding-top: 7.25rem;
