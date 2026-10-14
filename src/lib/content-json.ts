@@ -1,8 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
-import { getAboutSections, getAllContent, type Project } from "@/lib/content";
+import {
+  getAboutSections,
+  getAllContent,
+  type Project,
+  type SiteContent,
+} from "@/lib/content";
 import { CATEGORY_LABELS } from "@/lib/roles";
-import { contentJsonPath } from "@/lib/site";
+import { contentJsonUrl } from "@/lib/site";
 
 export const contentJsonPublicPath = path.join(
   process.cwd(),
@@ -37,9 +42,7 @@ function projectToJson(project: Project) {
   };
 }
 
-function toContentPayload() {
-  const { projects, about, home } = getAllContent();
-
+function toContentPayload({ projects, about, home }: SiteContent) {
   return {
     projects: projects.map(projectToJson),
     about: {
@@ -53,10 +56,10 @@ function toContentPayload() {
   };
 }
 
-export function getSiteContentPayload() {
-  const { site } = getAllContent();
+export function getSiteContentPayload(content = getAllContent()) {
+  const { site } = content;
   return {
-    content: toContentPayload(),
+    content: toContentPayload(content),
     site: {
       origin: site.origin,
       description: site.description,
@@ -74,13 +77,13 @@ export function getSiteContentPayload() {
       aylesimDevicesSlug: site.aylesimDevicesSlug,
       aylesimDevicesCustomerCount: site.aylesimDevicesCustomerCount,
       audioDeveloperProductLine: site.audioDeveloperProductLine,
-      contentJsonUrl: `${site.origin}${contentJsonPath}`,
+      contentJsonUrl: contentJsonUrl(site.origin),
     },
   };
 }
 
-export function serializeSiteContentJson() {
-  return JSON.stringify(getSiteContentPayload(), null, 2);
+export function serializeSiteContentJson(content?: SiteContent) {
+  return JSON.stringify(getSiteContentPayload(content), null, 2);
 }
 
 export function writeSiteContentJsonFile() {

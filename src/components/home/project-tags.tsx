@@ -3,7 +3,6 @@ export function ProjectTags({
   className,
 }: {
   tags: string[];
-  category?: string | null;
   className?: string;
 }) {
   if (tags.length === 0) {

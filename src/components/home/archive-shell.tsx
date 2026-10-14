@@ -18,6 +18,7 @@ import {
   CATEGORY_LABELS,
   type WorkFilter,
 } from "@/lib/roles";
+import { buildWorkMenu } from "@/lib/work-menu";
 
 function projectSlugFromSearchParams(
   searchParams: URLSearchParams
@@ -36,10 +37,7 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
   const [filter, setFilter] = useState<WorkFilter>("all");
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const selectedSlug = useMemo(
-    () => projectSlugFromSearchParams(searchParams),
-    [searchParams]
-  );
+  const selectedSlug = projectSlugFromSearchParams(searchParams);
 
   const openProject = useCallback(
     (slug: string) => {
@@ -81,14 +79,8 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
     [content.projects]
   );
 
-  const workMenuProjects = useMemo(
-    () =>
-      projects
-        .filter((project) => filter === "all" || project.category === filter)
-        .map((project) => ({
-          slug: project.slug,
-          label: project.menuLabel ?? project.title,
-        })),
+  const workMenu = useMemo(
+    () => buildWorkMenu(projects, filter),
     [filter, projects]
   );
 
@@ -125,8 +117,8 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
         menuOpen={menuOpen}
         onMenuOpenChange={setMenuOpen}
         workMenu={{
+          ...workMenu,
           onSelect: openProject,
-          projects: workMenuProjects,
           selectedSlug,
         }}
       >
@@ -150,11 +142,7 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
             Close
           </button>
           <div className="site-detail-body">
-            <ProjectDetail
-              projects={projects}
-              site={content.site}
-              slug={selectedProject.slug}
-            />
+            <ProjectDetail project={selectedProject} site={content.site} />
           </div>
         </div>
       ) : null}
