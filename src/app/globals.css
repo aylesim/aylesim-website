@@ -90,7 +90,7 @@ textarea:focus-visible {
 
 .site-header {
   position: fixed;
-  z-index: 11;
+  z-index: 25;
   top: 1rem;
   left: 2rem;
   right: 2rem;
@@ -151,6 +151,10 @@ textarea:focus-visible {
   pointer-events: auto;
   opacity: 1;
   visibility: visible;
+  max-height: calc(100dvh - 5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .site-menu-wide {
@@ -160,17 +164,26 @@ textarea:focus-visible {
 .site-menu-link {
   position: relative;
   display: flex;
+  width: 100%;
   min-height: 2.875rem;
   align-items: center;
   padding: 0.6rem 1rem 0.6rem 3.4rem;
   font-size: 0.75rem;
+  text-align: left;
   transition:
     color 0.3s var(--ease),
     box-shadow 0.3s var(--ease);
 }
 
 .site-menu li {
+  position: relative;
   counter-increment: menu-item;
+}
+
+@media (min-width: 48rem) {
+  .site-menu-project {
+    display: none;
+  }
 }
 
 .site-menu li::before {
@@ -200,6 +213,11 @@ textarea:focus-visible {
   transform: translate3d(-50%, 0, 0);
   font-size: 0.75rem;
   line-height: 1;
+}
+
+.site-header:has(.site-menu.is-open) ~ .site-filters {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .site-filters ul {

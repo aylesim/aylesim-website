@@ -81,6 +81,17 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
     [content.projects]
   );
 
+  const workMenuProjects = useMemo(
+    () =>
+      projects
+        .filter((project) => filter === "all" || project.category === filter)
+        .map((project) => ({
+          slug: project.slug,
+          label: project.menuLabel ?? project.title,
+        })),
+    [filter, projects]
+  );
+
   const selectedProject = selectedSlug
     ? projects.find((project) => project.slug === selectedSlug)
     : null;
@@ -113,6 +124,11 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
         }
         menuOpen={menuOpen}
         onMenuOpenChange={setMenuOpen}
+        workMenu={{
+          onSelect: openProject,
+          projects: workMenuProjects,
+          selectedSlug,
+        }}
       >
         <TileField
           filter={filter}

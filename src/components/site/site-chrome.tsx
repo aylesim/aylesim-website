@@ -5,6 +5,11 @@ import { type ReactNode, useEffect, useState } from "react";
 
 export type SitePage = "work" | "about" | "ask-ai";
 
+export type WorkMenuProject = {
+  slug: string;
+  label: string;
+};
+
 export function SiteChrome({
   brand,
   contactEmail,
@@ -13,6 +18,7 @@ export function SiteChrome({
   onMenuOpenChange,
   children,
   filters,
+  workMenu,
 }: {
   brand: string;
   contactEmail: string;
@@ -21,6 +27,11 @@ export function SiteChrome({
   onMenuOpenChange: (open: boolean) => void;
   children: ReactNode;
   filters?: ReactNode;
+  workMenu?: {
+    projects: WorkMenuProject[];
+    selectedSlug: string | null;
+    onSelect: (slug: string) => void;
+  };
 }) {
   useEffect(() => {
     if (!menuOpen) {
@@ -72,6 +83,24 @@ export function SiteChrome({
               Work
             </Link>
           </li>
+          {workMenu?.projects.map((project) => (
+            <li className="site-menu-project" key={project.slug}>
+              <button
+                className={
+                  workMenu.selectedSlug === project.slug
+                    ? "site-menu-link is-on"
+                    : "site-menu-link"
+                }
+                onClick={() => {
+                  workMenu.onSelect(project.slug);
+                  onMenuOpenChange(false);
+                }}
+                type="button"
+              >
+                {project.label}
+              </button>
+            </li>
+          ))}
           <li className="site-menu-wide">
             <Link
               aria-current={current === "ask-ai" ? "page" : undefined}
