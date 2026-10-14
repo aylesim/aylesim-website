@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { OpenGlassRoot } from "@/components/finder/open-glass-root";
-import { ThemeProvider } from "@/components/theme/theme-provider";
-import { ThemeScript } from "@/components/theme/theme-script";
 import { getAllContent } from "@/lib/content";
-import { SITE_BG } from "@/lib/theme";
 import "./globals.css";
 
 const { site } = getAllContent();
@@ -15,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: SITE_BG.dark,
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -24,9 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html data-theme="dark" lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <ThemeScript />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link
           crossOrigin="anonymous"
@@ -34,15 +29,11 @@ export default function RootLayout({
           rel="preconnect"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-dvh bg-bg antialiased">
-        <ThemeProvider>
-          <OpenGlassRoot>{children}</OpenGlassRoot>
-        </ThemeProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

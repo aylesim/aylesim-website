@@ -11,16 +11,11 @@ export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
   installations: "Artworks",
 };
 
+export type WorkFilter = "all" | ProjectCategory;
+
 export const CATEGORY_FILTERS: ProjectCategory[] = [
   "devices",
   "web-interactive",
   "community",
   "installations",
 ];
-
-export const CATEGORY_ACCENT: Record<ProjectCategory, string> = {
-  devices: "var(--clip-devices)",
-  "web-interactive": "var(--clip-web)",
-  community: "var(--clip-community)",
-  installations: "var(--clip-artworks)",
-};

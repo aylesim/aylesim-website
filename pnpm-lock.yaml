@@ -20,9 +20,6 @@ importers:
       next:
         specifier: ^16.2.1
         version: 16.2.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      open-glass-ui:
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -1158,13 +1155,6 @@ packages:
   onetime@7.0.0:
     resolution: {integrity: sha512-VXJjc87FScF88uafS3JllDgvAm+c/Slfz06lorj2uAY34rlUu0Nt+v8wreiImcrgAjjIHp1rXpTDlLOGw29WwQ==}
     engines: {node: '>=18'}
-
-  open-glass-ui@0.4.0:
-    resolution: {integrity: sha512-xTI245D16/NTv5F2ph6GL6lR0txU/52o77OPBAUO+Zm5tgDKjY4lT9ugG9rLwBlXPaHG/6Fhwtwk/XEPABQEPQ==}
-    engines: {node: '>=18.18'}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
 
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
@@ -2489,11 +2479,6 @@ snapshots:
   onetime@7.0.0:
     dependencies:
       mimic-function: 5.0.1
-
-  open-glass-ui@0.4.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
-    dependencies:
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
 
   package-json-from-dist@1.0.1: {}
 
