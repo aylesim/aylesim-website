@@ -4,7 +4,7 @@ import Link from "next/link";
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import type { WorkMenuEntry } from "@/lib/work-menu";
 
-export type SitePage = "work" | "about" | "ask-ai";
+export type SitePage = "work" | "about";
 
 export function SiteChrome({
   brand,
@@ -109,18 +109,6 @@ export function SiteChrome({
           inert={!menuOpen}
           ref={menuRef}
         >
-          <li className="site-menu-wide">
-            <Link
-              aria-current={current === "ask-ai" ? "page" : undefined}
-              className={
-                current === "ask-ai" ? "site-menu-link is-on" : "site-menu-link"
-              }
-              href="/ask-ai"
-              onClick={() => onMenuOpenChange(false)}
-            >
-              JSON
-            </Link>
-          </li>
           {workMenu ? (
             <li className="site-menu-summary">
               All projects ({workMenu.projectCount})

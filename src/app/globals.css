@@ -240,10 +240,6 @@ textarea:focus-visible {
   touch-action: none;
 }
 
-.site-menu-wide {
-  grid-column: auto;
-}
-
 .site-menu-link {
   position: relative;
   display: flex;
@@ -557,42 +553,7 @@ textarea:focus-visible {
   line-height: 1.45;
 }
 
-.page-copy {
-  display: grid;
-  gap: 2.5rem;
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 6.5rem 2rem 4rem;
-  line-height: 1.45;
-}
-
-.page-copy--plain {
-  max-width: 64rem;
-}
-
-.page-kicker {
-  margin: 0 0 0.75rem;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.page-copy h1 {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.625rem, 4vw, 2.5rem);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-}
-
-.page-lede {
-  margin: 0 0 1.5rem;
-  font-size: clamp(1.125rem, 2.4vw, 1.875rem);
-  font-weight: 500;
-  line-height: 1.06;
-}
-
-.page-prose p,
-.page-copy-body p {
+.page-prose p {
   margin: 0 0 0.9rem;
 }
 
@@ -862,16 +823,6 @@ textarea:focus-visible {
   .about-notes {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .page-copy {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    align-items: start;
-    padding-top: 7.5rem;
-  }
-
-  .page-copy--plain {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  }
 }
 
 @media (max-aspect-ratio: 1 / 1) {
@@ -1071,8 +1022,7 @@ textarea:focus-visible {
     overflow-wrap: anywhere;
   }
 
-  .about,
-  .page-copy {
+  .about {
     padding-right: 1rem;
     padding-left: 1rem;
   }
