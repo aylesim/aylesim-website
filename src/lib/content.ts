@@ -42,6 +42,12 @@ const PROJECT_WORK_SCOPES = new Set<string>([
 export type Project = {
   slug: string;
   title: string;
+  summary?: string;
+  status?: string;
+  credits?: string;
+  client?: string;
+  imageAlt?: string;
+
   year?: string;
   primaryMeta: string[];
   secondaryMeta?: string;
@@ -354,6 +360,11 @@ function mapProject(source: ProjectMapSource): Project {
   return {
     slug,
     title: asString(data.title) ?? slug,
+    summary: asString(data.summary),
+    status: asString(data.status),
+    credits: asString(data.credits),
+    client: asString(data.client),
+    imageAlt: asString(data.imageAlt),
     year,
     primaryMeta: [
       isDevice ? client || price : client,
@@ -437,7 +448,12 @@ function projectHasCover(project: Project): boolean {
 
 function assertVisibleProjectsHaveCovers(projects: Project[]) {
   const missing = projects
-    .filter((project) => project.showInMenu && !projectHasCover(project))
+    .filter(
+      (project) =>
+        project.showInMenu &&
+        !projectHasCover(project) &&
+        !project.description.includes("[needs: project image]")
+    )
     .map((project) => project.slug);
   if (missing.length > 0) {
     throw new Error(

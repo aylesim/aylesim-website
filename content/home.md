@@ -1,6 +1,9 @@
 ---
 name: Alessandro Miracapillo
 brand: aylesim
-role: Full stack developer and creative technologist
-location: Berlin
+role: >-
+  I design and build software for sound and image: music instruments and
+  plugins, installations and web interfaces.
+location: 'Berlin, EU citizen'
 ---
+

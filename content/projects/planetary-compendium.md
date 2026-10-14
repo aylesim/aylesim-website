@@ -1,59 +1,65 @@
 ---
-featured: true
 type: work
 category: web-interactive
+title: 'Planetary Compendium: North Sea chapter'
+year: '2025'
+role: Frontend developer (freelance)
+tech:
+  - Next.js
+  - React
+  - TypeScript
+summary: >-
+  A scrollytelling chapter of the Berggruen Institute's Planetary Compendium, a
+  set of case studies on planetary governance.
+featured: true
 order: 1
-menuLabel: web
-title: Planetary Compendium
-role: Frontend Developer
-client: Berggruen Institute × Dark Matter Labs
-year: 2025
-listTagline: Case studies on planetary governance
+showInMenu: true
+canvasImage: /planetary.png
+imageAlt: '[needs alt text]'
+status: Live
+listTagline: >-
+  A scrollytelling chapter of the Berggruen Institute's Planetary Compendium, a
+  set of case studies on planetary governance.
 listBadges:
   - prefix: Honorary Mention
     label: Prix Ars Electronica 2026
-    url: https://archive.aec.at/prix/320414/
-tech:
-  - Frontend Architecture
-  - Scrollytelling
-  - Data Visualization
-liveLink: https://governtheplanet.org/
-highlights:
-  - Prix Ars Electronica 2026 — Honorary Mention, Digital Humanity
-  - Scrollytelling and spatial data exploration
-  - Audio-driven narrative interfaces
-  - Reduced-motion and other accessibility paths from the first release
-  - Stable rendering during live group sessions and public exhibition
+    url: 'https://archive.aec.at/prix/320414/'
+liveLink: 'https://governtheplanet.org/case-study/north-sea'
+credits: 'Design: Anahat Kaur, Arianna Smaron. Development: Alessandro Miracapillo.'
+client: Berggruen Institute
 ---
+A scrollytelling chapter of the Berggruen Institute's Planetary Compendium, a set of case studies on planetary governance.
 
-## Overview
+- **Role:** Frontend developer (freelance). Design: Anahat Kaur, Arianna Smaron. Development: Alessandro Miracapillo.
+- **Stack:** Next.js, React, TypeScript. Designs handed over in Figma.
+- **Constraints:** It had to be ready for the public launch and for an exhibition in Zürich in November 2025. [needs other constraints, e.g. performance or accessibility targets, if he wants to state them]
+- **What I built:**
+  - The North Sea scrollytelling chapter, from the designers' Figma files
+  - The map visualisations in the chapter
+  - [needs confirmation: draggable document archive for the Hindu Kush chapter]
+- **Outcome:** The Planetary Compendium received an Honorary Mention in Digital Humanity at Prix Ars Electronica 2026 (team project).
+- **Links:** governtheplanet.org/case-study/north-sea · Prix Ars Electronica archive
 
-Planetary Compendium is a web platform made with the Berggruen Institute and Dark Matter Labs. It collects case studies on planetary governance: how institutions, infrastructures, and local experiments try to organise life at Earth scale.
+The Planetary Compendium presents case studies on planetary governance. I worked from the designers' Figma files. The chapter had to be ready for the public launch and for an exhibition in Zürich in November 2025. [needs: other constraints, for example performance, accessibility or exhibition hardware]
 
-The public site is [governtheplanet.org](https://governtheplanet.org/). Visitors move through long-form case studies with scrollytelling, spatial layouts, and audio.
+## What I built
+- The North Sea scrollytelling chapter, from the designers' Figma files
+- The map visualisations in the chapter
+- [needs confirmation: the draggable document archive for the Hindu Kush chapter]
+- [needs confirmation before keeping: reduced-motion support, stable rendering during live group sessions]
 
-![Planetary Compendium - interface](/planetary.png)
+## Outcome
+- The Planetary Compendium received an Honorary Mention in Digital Humanity at Prix Ars Electronica 2026 (team project).
+- Shown at an exhibition in Zürich, November 2025.
 
-## What the platform does
+## Media
+- Screenshot of the immersive part of the chapter (used in the portfolio PDF)
+- Screenshot of the chapter's case page (used in the portfolio PDF)
+- [needs: 3 to 5 more stills, compressed; currently /planetary.png is 3.7 MB]
 
-- Case studies on planetary governance in long-form editorial pages
-- Themes include sovereignty, shared vulnerability, ecology, and more-than-human agency
-- Spatial navigation across related concepts
-- Used in live workshops; the pages stay stable with a group on the same view
+## Links
+[Open the chapter: governtheplanet.org/case-study/north-sea] · Prix Ars Electronica archive (archive.aec.at/prix/320414)
 
-## My contribution
 
-I was a freelance web developer from May to November 2025, remote, in a mixed team. I built:
 
-- **Scrollytelling interfaces**: narrative sequences tied to content and visual transitions
-- **Spatial data exploration**: layouts for related concepts and case studies
-- **Audio-driven narratives**: sound layers on editorial pages
-- **Content modules** for dense text and media
-- **Accessibility**, including reduced-motion paths, from the first release
-
-## Context and outcome
-
-The Compendium launched in November 2025 with a virtual event and a physical exhibition in Zürich. It is a public publication, also used in workshops.
-
-> "The Planetary Compendium serves to entangle not only what the Planetary could be but how it is already manifesting regionally and disciplinarily."  
-> - Zehra Zaidi OBE, Mission Lead for Planetary Civics, Dark Matter Labs
+[needs clip]

@@ -3,12 +3,13 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import ReactMarkdown from "react-markdown";
+import { Markdown } from "@/components/markdown";
 import { PageFrame } from "@/components/site/site-chrome";
 import type { About, SiteConfig } from "@/lib/content";
 import { spiralPoses } from "@/lib/tile-layout";
 
 gsap.registerPlugin(useGSAP);
+const aboutSectionBoundary = /(?=^## )/m;
 
 function reducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -24,7 +25,6 @@ export function AboutPage({
   site: SiteConfig;
 }) {
   const rootRef = useRef<HTMLElement>(null);
-  const hasNotes = site.awards.length > 0 || site.pressMentions.length > 0;
 
   useGSAP(
     () => {
@@ -64,103 +64,29 @@ export function AboutPage({
 
   return (
     <PageFrame brand={brand} contactEmail={site.contactEmail} current="about">
-      <article className="about" ref={rootRef}>
+      <main className="about" ref={rootRef}>
         <header className="about-card about-card--hero">
           <div className="about-card-inner">
-            <p className="about-kicker">About</p>
-            <h1>{about.lede}</h1>
-            {about.subtitle ? (
-              <p className="about-subtitle">{about.subtitle}</p>
-            ) : null}
-            <p className="about-availability">{site.contactAvailability}</p>
-            <p className="about-stack">{site.webDeveloperStack}</p>
+            <h1>About</h1>
+            <p className="about-subtitle">{about.lede}</p>
+            <p className="about-availability">Berlin, EU citizen</p>
           </div>
         </header>
-
-        <section className="about-card about-card--body">
-          <div className="about-card-inner about-prose">
-            <ReactMarkdown>{about.body}</ReactMarkdown>
-          </div>
-        </section>
-
-        <section className="about-card about-card--contact">
-          <div className="about-card-inner">
-            <h2 className="about-section-title">Contact</h2>
-            <div className="about-chips">
-              <a className="about-chip" href={`mailto:${site.contactEmail}`}>
-                {site.contactEmail}
-              </a>
-              {site.contactLinks.map((link) => (
-                <a
-                  className="about-chip"
-                  href={link.href}
-                  key={link.href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {hasNotes ? (
-          <div className="about-notes">
-            {site.awards.length > 0 ? (
-              <section className="about-card about-card--note">
-                <div className="about-card-inner">
-                  <h2 className="about-section-title">Recognition</h2>
-                  <ul className="about-entries">
-                    {site.awards.map((award) => (
-                      <li
-                        className="about-entry"
-                        key={`${award.year}-${award.externalHref}`}
-                      >
-                        <a
-                          href={award.externalHref}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          {award.headline}
-                        </a>
-                        <span>
-                          {award.title}, {award.year}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </section>
-            ) : null}
-
-            {site.pressMentions.length > 0 ? (
-              <section className="about-card about-card--note">
-                <div className="about-card-inner">
-                  <h2 className="about-section-title">Press</h2>
-                  <ul className="about-entries">
-                    {site.pressMentions.map((mention) => (
-                      <li className="about-entry" key={mention.href}>
-                        <a
-                          href={mention.href}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          {mention.outlet}
-                        </a>
-                        <span>
-                          {mention.title}
-                          {mention.year ? `, ${mention.year}` : ""}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </section>
-            ) : null}
-          </div>
-        ) : null}
-      </article>
+        {about.body
+          .split(aboutSectionBoundary)
+          .filter((source) => source.trim())
+          .map((source) => (
+            <section
+              className="about-card about-card--body"
+              id={source.startsWith("## Teaching") ? "teaching" : undefined}
+              key={source.slice(0, 60)}
+            >
+              <div className="about-card-inner about-prose">
+                <Markdown>{source}</Markdown>
+              </div>
+            </section>
+          ))}
+      </main>
     </PageFrame>
   );
 }

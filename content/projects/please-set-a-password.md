@@ -1,43 +1,35 @@
 ---
-featured: true
 type: work
 category: installations
-order: 9
-menuLabel: artwork
 title: Please Set a Password
+year: '[needs: 2021 per award, site says 2022]'
 role: Artist
-client: Independent
-year: "2022"
-tech:
-  - Networked Systems
-  - Real-time Video
-  - Generative Audio
-highlights:
-  - Locates IP addresses exposing unsecured surveillance-camera interfaces and aggregates their live feeds for projection
-  - Real-time audio synthesis driven by analysis of the incoming imagery
-  - Italian National Arts Award XV - first place, Electronic Arts (Sassari, Italy)
-liveLink:
+tech: []
+summary: >-
+  Software searches the internet for surveillance cameras left open without a
+  password and shows their live feeds. The sound is synthesised in real time
+  from analysis of the images, so its timbre and density follow what is on
+  screen. Some feeds are never shown.
+featured: true
+order: 9
+showInMenu: true
 canvasImage: /please-set-a-password.jpg
+imageAlt: '[needs alt text]'
+listTagline: >-
+  Software searches the internet for surveillance cameras left open without a
+  password and shows their live feeds. The sound is synthesised in real time
+  from analysis of the images, so its timbre and density follow what is on
+  screen. Some feeds are never shown.
 videos:
   - title: Alessandro Miracapillo - Please Set a Password
-    url: https://vimeo.com/595763384
-videosAfterHeading: How it works
+    url: 'https://vimeo.com/595763384'
+listBadges: []
 ---
+- Year: [needs: 2021 per award, site says 2022]
+- Medium: audiovisual installation; custom software, live video, real-time audio synthesis
+- Duration / setup: runs continuously [needs: screens or projectors, channel count, room size]
+- Shown: Premio Nazionale delle Arti XV, Accademia di Belle Arti di Sassari, December 2021 [needs other venues]
+- Text: Software searches the internet for surveillance cameras left open without a password and shows their live feeds. The sound is synthesised in real time from analysis of the images, so its timbre and density follow what is on screen. Some feeds are never shown.
+- Recognition: First prize, Electronic Art, Premio Nazionale delle Arti XV (MUR), 2021.
 
-## Overview
-
-Please Set a Password is an audio-visual installation about mass surveillance and personal responsibility online. Private and semi-private spaces become visible when camera software is left open to the network, and that exposure is now ordinary.
-
-The title reads like a forgotten default prompt. It is also a direct request to anyone who installs or maintains these systems: actually secure them.
-
-## How it works
-
-A custom process searches the public internet for hosts serving the web interfaces of unsecured surveillance cameras, then pulls and displays their feeds in real time. What appears on screen is not staged footage. It is live material from cameras reachable without authentication.
-
-Sound is generated in real time through audio synthesis shaped by image analysis of the video stream, so timbre and density follow the image.
-
-The pipeline has to run continuously in a room. Some feeds are not shown.
-
-## Recognition
-
-First place in Electronic Arts at the Italian National Arts Award XV (Premio Nazionale delle Arti Italiane), Sassari, Italy.
+[needs: 3 to 5 stills, duration and excerpt]

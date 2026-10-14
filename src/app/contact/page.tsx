@@ -1,5 +1,7 @@
+import { Markdown } from "@/components/markdown";
 import { PageFrame } from "@/components/site/site-chrome";
 import { getAllContent } from "@/lib/content";
+import { editorial } from "@/lib/editorial";
 export default function Page() {
   const { home, site } = getAllContent();
   return (
@@ -10,10 +12,7 @@ export default function Page() {
     >
       <main className="project-page">
         <h1>Contact</h1>
-        <p>
-          <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
-        </p>
-        <p>Berlin, EU citizen</p>
+        <Markdown>{editorial("contact")}</Markdown>
       </main>
     </PageFrame>
   );

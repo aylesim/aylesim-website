@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { ProjectTags } from "@/components/home/project-tags";
+import { Markdown } from "@/components/markdown";
 import type { Project, ProjectVideo, SiteConfig } from "@/lib/content";
 import { projectStills } from "@/lib/project-cover";
 
@@ -337,9 +338,9 @@ export function ProjectDetail({
           </DetailLinks>
         ) : null}
         <div className="mt-6 text-(--foreground) text-sm leading-relaxed">
-          <ProjectMarkdownBody
-            source={stripHiddenImages(project.description, hiddenSrcs)}
-          />
+          <Markdown>
+            {stripHiddenImages(project.description, hiddenSrcs)}
+          </Markdown>
         </div>
       </div>
       {leadWithVideo || videos.length === 0 ? null : (

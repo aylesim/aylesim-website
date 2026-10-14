@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import ArchiveShell from "@/components/home/archive-shell";
+import { Markdown } from "@/components/markdown";
 import { getAllContent } from "@/lib/content";
+import { editorial } from "@/lib/editorial";
 import {
   type ProjectSection,
   projectHref,
@@ -36,7 +38,35 @@ export function SectionPage({ section }: { section: ProjectSection }) {
         <section className="stage-intro">
           <h1>{title}</h1>
           <p>{intros[section]}</p>
+          <a href="#section-copy">Read about {title.toLowerCase()}</a>
         </section>
+        <article className="section-copy" id="section-copy">
+          <h2>About {title.toLowerCase()}</h2>
+          {section === "work" ? (
+            projects
+              .filter((project) =>
+                [
+                  "eduardo-pesole",
+                  "max-berlin-network-site",
+                  "glossia",
+                  "shapellm",
+                ].includes(project.slug)
+              )
+              .map((project) => (
+                <div key={project.slug}>
+                  <h2>
+                    <Link href={projectHref(project)}>{project.title}</Link>
+                  </h2>
+                  <Markdown>{project.description}</Markdown>
+                </div>
+              ))
+          ) : (
+            <Markdown>{editorial(section)}</Markdown>
+          )}
+          {section === "instruments" ? (
+            <Markdown>{editorial("instrument-blurbs")}</Markdown>
+          ) : null}
+        </article>
         <nav aria-label={`${title} projects`} className="sr-only">
           <ul>
             {projects.map((project) => (

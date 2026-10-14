@@ -1,55 +1,54 @@
 ---
-featured: true
-type: work
+type: device
 category: devices
-workScope: commercial
+title: Birds
+year: '2026'
+role: 'Design, code and user manual.'
+tech:
+  - Max/MSP
+  - JavaScript (jsui/mgraphics)
+  - Max for Live
+  - Live API
+summary: >-
+  A generative MIDI sequencer for Ableton Live. It plays a 16-step melody and
+  changes it while it plays.
+featured: true
 order: 1
-menuLabel: max4live
-listTagline: Generative melody sequencer
+showInMenu: true
+canvasImage: /Birdsgr.png
+imageAlt: '[needs alt text]'
+status: Released
+listTagline: >-
+  A generative MIDI sequencer for Ableton Live. It plays a 16-step melody and
+  changes it while it plays.
+videos:
+  - title: Carousel demo
+    url: 'https://www.youtube.com/watch?v=Eax-kVIUId4'
+  - title: Full walkthrough
+    url: 'https://www.youtube.com/watch?v=0-D_bPzaqfo'
 listBadges:
   - prefix: available on
     label: Gumroad
-    url: https://aylesim.gumroad.com/l/birds
+    url: 'https://aylesim.gumroad.com/l/birds'
   - prefix: available on
     label: Isotonik Studios
-    url: https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/
-title: Birds
-role: Developer & Designer
+    url: >-
+      https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/
+buyLink: 'https://aylesim.gumroad.com/l/birds'
 client: Aylesim Devices
-year: 2025
-tech:
-  - Max/MSP
-  - Audio Engineering
-  - UI/UX Design
-  - Generative Systems
-liveLink:
-videos:
-  - title: Carousel demo
-    url: https://www.youtube.com/watch?v=Eax-kVIUId4
-  - title: Full walkthrough
-    url: https://www.youtube.com/watch?v=0-D_bPzaqfo
-highlights:
-  - Rule-based generative system for melodic variation inside Max for Live
-  - Visual mapping where pitch, timing, and note state stay readable while the sequence changes
-  - Difference Limit model keeps algorithmic output inside musical bounds
 ---
+A generative MIDI sequencer for Ableton Live. It plays a 16-step melody and changes it while it plays.
 
-[Gumroad](https://aylesim.gumroad.com/l/birds) · [Isotonik Studios](https://isotonikstudios.com/product/birds-by-alessandro-aylesim-miracapillo/)
+- **Role:** Design, code and user manual.
+- **Stack:** Max/MSP, JavaScript (jsui/mgraphics), Max for Live, Live API.
+- **Constraints:** The melody changes while it plays, so pitch, timing and note state had to stay readable as it changes. [needs: any other constraints, e.g. panel size]
+- **What I built:**
+  - A display where each note is a bird on one of 12 wires, one wire per pitch class. Clicking a bird switches its step on or off.
+  - Colour states for original, drifted and muted notes. The playing bird is drawn in flight.
+  - A Difference Limit control that sets how far the melody can drift from the original before it returns
+  - Pitch and gate mutation strategies, and the manual
+- **Outcome:** Covered by Rekkerd in April 2026. Sold on Gumroad and Isotonik Studios.
+- **Media:** Carousel demo, full walkthrough (YouTube).
+- **Links:** aylesim.gumroad.com/l/birds · Isotonik · Manual (PDF)
 
-## Overview
-
-Birds is a generative MIDI sequencer for Ableton Live, built as a Max for Live device. It takes a short MIDI phrase and rewrites it in real time, with enough of the original structure left that the result stays usable.
-
-![Birds - Max for Live interface](/Birdsgr.png)
-
-The interface is an animated score: each bird is a note, the wire is pitch, horizontal position is timing. Making that readable was as much of the work as the sequencer logic.
-
-## How it works
-
-A **Difference Limit** measures how far each new generation can move from a reference pattern. Pitch, rhythm, density, and register can shift, but only within a set distance from the source. Variation is a bounded rewrite, not a random scramble.
-
-- **Rule-based melodic generation** with different strategies for rewriting source material
-- **Real-time pitch and rhythm mutation** with controls for gate behavior and instability
-- **Scale-aware and chromatic modes** for different harmonic constraints
-- **Density and range controls** for both musical output and how the system responds
-- **Transport-driven or MIDI-triggered playback** for studio and performance use
+[needs: manual PDF link]
