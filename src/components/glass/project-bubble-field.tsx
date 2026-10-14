@@ -1,5 +1,6 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -20,6 +21,8 @@ import type { Project, SiteConfig } from "@/lib/content";
 import type { ProjectCover } from "@/lib/project-cover";
 import { CATEGORY_ACCENT } from "@/lib/roles";
 
+gsap.registerPlugin(useGSAP);
+
 type BubbleItem = {
   project: Project;
   cover: ProjectCover | null;
@@ -37,8 +40,6 @@ const BOKEH_IDS = [
   "bokeh-8",
 ] as const;
 
-const STAR_IDS = Array.from({ length: 30 }, (_, index) => `star-${index}`);
-
 function layoutItems(items: BubbleItem[]) {
   return items.map((item) => ({
     id: item.project.slug,
@@ -53,6 +54,20 @@ function depthNodes(root: HTMLElement) {
 
 function bokehNodes(root: HTMLElement) {
   return [...root.querySelectorAll<HTMLElement>("[data-soap]")];
+}
+
+function spaceFrame(space: HTMLElement) {
+  const w = Math.round(space.clientWidth || window.innerWidth);
+  const h = Math.round(space.clientHeight || window.innerHeight);
+  return { w, h };
+}
+
+function layoutFrame(space: HTMLElement, frame: { w: number; h: number }) {
+  const measured = spaceFrame(space);
+  return {
+    w: frame.w >= 2 ? frame.w : measured.w,
+    h: frame.h >= 2 ? frame.h : measured.h,
+  };
 }
 
 export function ProjectBubbleField({
@@ -84,10 +99,7 @@ export function ProjectBubbleField({
       return;
     }
     const update = () => {
-      const next = {
-        w: Math.round(space.clientWidth),
-        h: Math.round(space.clientHeight),
-      };
+      const next = spaceFrame(space);
       setFrame((prev) => {
         if (Math.abs(prev.w - next.w) < 2 && Math.abs(prev.h - next.h) < 2) {
           return prev;
@@ -101,17 +113,21 @@ export function ProjectBubbleField({
     return () => observer.disconnect();
   }, []);
 
-  useLayoutEffect(() => {
-    const space = spaceRef.current;
-    if (!space) {
-      return;
-    }
-    const stopTicker = startDepthTicker(space);
-    return () => {
-      stopTicker();
-      teardownBubbleMotion(space);
-    };
-  }, []);
+  useGSAP(
+    () => {
+      const space = spaceRef.current;
+      if (!space) {
+        return;
+      }
+      gsap.ticker.wake();
+      const stopTicker = startDepthTicker(space);
+      return () => {
+        stopTicker();
+        teardownBubbleMotion(space);
+      };
+    },
+    { scope: spaceRef }
+  );
 
   useEffect(() => {
     if (!(selectedSlug && onClose)) {
@@ -128,83 +144,99 @@ export function ProjectBubbleField({
     };
   }, [selectedSlug, onClose]);
 
-  useLayoutEffect(() => {
-    const world = worldRef.current;
-    if (!world || selectedSlug) {
-      return;
-    }
-    return attachParallax(world);
-  }, [selectedSlug]);
-
-  useLayoutEffect(() => {
-    const space = spaceRef.current;
-    if (!space || frame.w === 0) {
-      return;
-    }
-    ensureBokehFloats(bokehNodes(space), frame.w, frame.h);
-  }, [frame]);
-
-  useLayoutEffect(() => {
-    const space = spaceRef.current;
-    if (!space || selectedSlug || frame.w === 0) {
-      return;
-    }
-    const nodes = depthNodes(space);
-    const poses = layoutBubbles(layoutItems(items), focus, frame.w, frame.h);
-    applyIdleLayout(nodes, poses, motionDuration(1.05));
-    return () => {
-      gsap.killTweensOf(nodes);
-    };
-  }, [items, focus, selectedSlug, frame]);
-
-  useLayoutEffect(() => {
-    const space = spaceRef.current;
-    const previous = selectedRef.current;
-    selectedRef.current = selectedSlug;
-    if (!selectedSlug) {
-      collapseDetail(previous ? detailRef.current : null);
-      if (space) {
-        releaseDepthLocks(space);
+  useGSAP(
+    () => {
+      const world = worldRef.current;
+      if (!world || selectedSlug) {
+        return;
       }
-      return;
-    }
-    if (!space || frame.w === 0) {
-      return;
-    }
-    const world = worldRef.current;
-    if (world) {
-      gsap.to(world, {
-        rotationX: 0,
-        rotationY: 0,
-        duration: 0.6,
-        overwrite: true,
+      return attachParallax(world);
+    },
+    { scope: worldRef, dependencies: [selectedSlug] }
+  );
+
+  useGSAP(
+    () => {
+      const space = spaceRef.current;
+      if (!space) {
+        return;
+      }
+      const { w, h } = layoutFrame(space, frame);
+      if (w < 2 || h < 2) {
+        return;
+      }
+      ensureBokehFloats(bokehNodes(space), w, h);
+    },
+    { scope: spaceRef, dependencies: [frame] }
+  );
+
+  useGSAP(
+    () => {
+      const space = spaceRef.current;
+      if (!space || selectedSlug) {
+        return;
+      }
+      const { w, h } = layoutFrame(space, frame);
+      if (w < 2 || h < 2) {
+        return;
+      }
+      const nodes = depthNodes(space);
+      const poses = layoutBubbles(layoutItems(items), focus, w, h);
+      applyIdleLayout(nodes, poses, motionDuration(1.05));
+      return () => {
+        gsap.killTweensOf(nodes);
+      };
+    },
+    { scope: spaceRef, dependencies: [items, focus, selectedSlug, frame] }
+  );
+
+  useGSAP(
+    () => {
+      const space = spaceRef.current;
+      const previous = selectedRef.current;
+      selectedRef.current = selectedSlug;
+      if (!selectedSlug) {
+        collapseDetail(previous ? detailRef.current : null);
+        if (space) {
+          releaseDepthLocks(space);
+        }
+        return;
+      }
+      if (!space) {
+        return;
+      }
+      const { w, h } = layoutFrame(space, frame);
+      if (w < 2 || h < 2) {
+        return;
+      }
+      const world = worldRef.current;
+      if (world) {
+        gsap.to(world, {
+          rotationX: 0,
+          rotationY: 0,
+          duration: 0.6,
+          overwrite: true,
+        });
+      }
+      const timeline = expandSelectedBubble({
+        stage: space,
+        detail: detailRef.current,
+        selectedSlug,
+        width: w,
+        height: h,
       });
-    }
-    const timeline = expandSelectedBubble({
-      stage: space,
-      detail: detailRef.current,
-      selectedSlug,
-      width: frame.w,
-      height: frame.h,
-    });
-    return () => {
-      timeline.kill();
-    };
-  }, [selectedSlug, frame]);
+      return () => {
+        timeline.kill();
+      };
+    },
+    { scope: spaceRef, dependencies: [selectedSlug, frame] }
+  );
 
   return (
     <div className="bubble-space" ref={spaceRef}>
       <div aria-hidden="true" className="bubble-void">
         <span className="bubble-aurora bubble-aurora--one" />
         <span className="bubble-aurora bubble-aurora--two" />
-        <span className="bubble-orbit bubble-orbit--one" />
-        <span className="bubble-orbit bubble-orbit--two" />
-        <span className="bubble-orbit bubble-orbit--three" />
-        <span className="bubble-starfield">
-          {STAR_IDS.map((id) => (
-            <i className="bubble-star" key={id} />
-          ))}
-        </span>
       </div>
       <div className="bubble-world" ref={worldRef}>
         {BOKEH_IDS.map((id) => (
@@ -235,7 +267,7 @@ export function ProjectBubbleField({
               }}
               type="button"
             >
-              <span className="bubble-node-disk">
+              <span className="bubble-node-disk relative">
                 {cover ? (
                   <Image
                     alt=""

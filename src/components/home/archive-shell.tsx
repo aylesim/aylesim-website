@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { ArchiveIndex } from "@/components/home/archive-index";
 import type { BubbleFocus } from "@/lib/bubble-layout";
 import type { SiteContent } from "@/lib/content";
@@ -61,15 +55,6 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
   const projects = useMemo(
     () => content.projects.filter((project) => project.showInMenu),
     [content.projects]
-  );
-
-  useEffect(
-    () => () => {
-      for (const node of document.querySelectorAll(".bubble-space")) {
-        node.remove();
-      }
-    },
-    []
   );
 
   return (

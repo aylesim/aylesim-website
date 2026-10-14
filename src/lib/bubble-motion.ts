@@ -1,8 +1,26 @@
 import gsap from "gsap";
 import { type BubblePose, depthLook } from "@/lib/bubble-layout";
 
+type MotionTimeline = ReturnType<typeof gsap.timeline>;
+
+type AppliedLook = {
+  blur: number;
+  opacity: number;
+  zIndex: number;
+  sharp: boolean;
+  pointerEvents: string;
+};
+
+type NodeParts = {
+  disk: HTMLElement | null;
+  label: HTMLElement | null;
+};
+
+const appliedLook = new WeakMap<HTMLElement, AppliedLook>();
+const nodeParts = new WeakMap<HTMLElement, NodeParts>();
+
 export function prefersReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return false;
 }
 
 export function motionDuration(seconds: number) {
@@ -20,12 +38,35 @@ function labelOf(node: HTMLElement) {
   return node.querySelector<HTMLElement>(".bubble-node-label");
 }
 
+function partsOf(node: HTMLElement): NodeParts {
+  const cached = nodeParts.get(node);
+  if (cached) {
+    return cached;
+  }
+  const parts = { disk: diskOf(node), label: labelOf(node) };
+  nodeParts.set(node, parts);
+  return parts;
+}
+
 function baseOpacityOf(node: HTMLElement) {
   const raw = Number(node.dataset.baseOpacity);
   if (Number.isFinite(raw) && raw > 0) {
     return raw;
   }
   return 1;
+}
+
+function nodesIn(root: HTMLElement, selector: string) {
+  return gsap.utils.toArray<HTMLElement>(selector, root);
+}
+
+function pauseTweensOf(nodes: HTMLElement[]) {
+  if (nodes.length === 0) {
+    return;
+  }
+  for (const tween of gsap.getTweensOf(nodes)) {
+    tween.pause();
+  }
 }
 
 export function lockDepth(nodes: HTMLElement[]) {
@@ -35,27 +76,62 @@ export function lockDepth(nodes: HTMLElement[]) {
 }
 
 export function releaseDepthLocks(root: HTMLElement) {
-  const nodes = root.querySelectorAll<HTMLElement>("[data-depth]");
-  for (const node of nodes) {
+  for (const node of nodesIn(root, "[data-depth]")) {
     node.dataset.lockDepth = "0";
   }
 }
 
 export function teardownBubbleMotion(root: HTMLElement) {
   const targets = [
-    ...root.querySelectorAll<HTMLElement>("[data-depth]"),
-    ...root.querySelectorAll<HTMLElement>("[data-bubble-id]"),
-    ...root.querySelectorAll<HTMLElement>(".bubble-node-disk"),
+    ...nodesIn(root, "[data-depth]"),
+    ...nodesIn(root, "[data-bubble-id]"),
+    ...nodesIn(root, ".bubble-node-disk"),
   ];
   gsap.killTweensOf(targets);
   const world = root.querySelector<HTMLElement>(".bubble-world");
   if (world) {
     gsap.killTweensOf(world);
-    gsap.set(world, { rotationX: 0, rotationY: 0 });
+    gsap.set(world, { rotationX: 0, rotationY: 0, x: 0, y: 0 });
   }
   const detail = root.querySelector<HTMLElement>(".bubble-detail-panel");
   if (detail) {
     gsap.killTweensOf(detail);
+  }
+}
+
+function pointerEventsFor(
+  node: HTMLElement,
+  look: ReturnType<typeof depthLook>
+) {
+  if (node.dataset.soap === "true") {
+    return "none";
+  }
+  if (look.opacity > 0.42 && look.blur < 16) {
+    return "auto";
+  }
+  return "none";
+}
+
+function writeLook(
+  node: HTMLElement,
+  look: AppliedLook,
+  previous: AppliedLook | undefined
+) {
+  const { disk, label } = partsOf(node);
+  if (!previous || previous.zIndex !== look.zIndex) {
+    node.style.zIndex = String(look.zIndex);
+  }
+  if (!previous || previous.opacity !== look.opacity) {
+    node.style.opacity = String(look.opacity);
+  }
+  if (!previous || previous.blur !== look.blur) {
+    (disk ?? node).style.filter = `blur(${look.blur}px)`;
+  }
+  if (label && (!previous || previous.sharp !== look.sharp)) {
+    label.style.opacity = look.sharp ? "1" : "0";
+  }
+  if (!previous || previous.pointerEvents !== look.pointerEvents) {
+    node.style.pointerEvents = look.pointerEvents;
   }
 }
 
@@ -65,25 +141,19 @@ export function syncDepth(node: HTMLElement) {
   }
   const z = Number(gsap.getProperty(node, "z")) || 0;
   const look = depthLook(z, baseOpacityOf(node));
-  node.style.zIndex = String(look.zIndex);
-  node.style.opacity = String(look.opacity);
-  const target = diskOf(node) ?? node;
-  target.style.filter = `blur(${look.blur.toFixed(2)}px)`;
-  const label = labelOf(node);
-  if (label) {
-    label.style.opacity = look.sharp ? "1" : "0";
-  }
-  if (node.dataset.soap === "true") {
-    node.style.pointerEvents = "none";
-    return;
-  }
-  const clickable = look.opacity > 0.42 && look.blur < 16;
-  node.style.pointerEvents = clickable ? "auto" : "none";
+  const next: AppliedLook = {
+    blur: Math.round(look.blur * 100) / 100,
+    opacity: Math.round(look.opacity * 1000) / 1000,
+    zIndex: look.zIndex,
+    sharp: look.sharp,
+    pointerEvents: pointerEventsFor(node, look),
+  };
+  writeLook(node, next, appliedLook.get(node));
+  appliedLook.set(node, next);
 }
 
 export function syncDepthTree(root: HTMLElement) {
-  const nodes = root.querySelectorAll<HTMLElement>("[data-depth]");
-  for (const node of nodes) {
+  for (const node of nodesIn(root, "[data-depth]")) {
     syncDepth(node);
   }
 }
@@ -96,10 +166,22 @@ export function startDepthTicker(root: HTMLElement) {
     };
   }
   const tick = () => {
+    if (document.visibilityState !== "visible") {
+      return;
+    }
     syncDepthTree(root);
   };
   gsap.ticker.add(tick);
+  const onVisible = () => {
+    if (document.visibilityState === "visible") {
+      gsap.ticker.wake();
+      return;
+    }
+    gsap.ticker.sleep();
+  };
+  document.addEventListener("visibilitychange", onVisible);
   return () => {
+    document.removeEventListener("visibilitychange", onVisible);
     gsap.ticker.remove(tick);
   };
 }
@@ -120,6 +202,7 @@ function poseToVars(pose: BubblePose) {
 }
 
 export function startDreamFloat(node: HTMLElement, pose: BubblePose) {
+  gsap.set(node, { transformOrigin: "50% 50%", force3D: true });
   if (prefersReducedMotion()) {
     syncDepth(node);
     return;
@@ -142,6 +225,7 @@ export function startDreamFloat(node: HTMLElement, pose: BubblePose) {
     repeat: -1,
     ease: "sine.inOut",
     delay: unit(8) * 2.2,
+    overwrite: "auto",
   });
   gsap.to(node, {
     z: pose.z + toward,
@@ -150,8 +234,9 @@ export function startDreamFloat(node: HTMLElement, pose: BubblePose) {
     repeat: -1,
     ease: "sine.inOut",
     delay: unit(9) * 1.8,
+    overwrite: "auto",
   });
-  const disk = diskOf(node);
+  const disk = partsOf(node).disk;
   if (disk) {
     gsap.to(disk, {
       rotateZ: directionX * (2.5 + unit(10) * 3.5),
@@ -160,6 +245,7 @@ export function startDreamFloat(node: HTMLElement, pose: BubblePose) {
       repeat: -1,
       ease: "sine.inOut",
       delay: unit(11) * 1.4,
+      overwrite: "auto",
     });
   }
 }
@@ -169,13 +255,13 @@ export function startBokehFloat(
   width: number,
   height: number
 ) {
-  const size = 70 + Math.random() * 220;
+  const size = gsap.utils.random(70, 290);
   const pose: BubblePose = {
-    x: (Math.random() - 0.5) * width * 0.92,
-    y: (Math.random() - 0.5) * height * 0.82,
-    z: -480 + Math.random() * 720,
+    x: gsap.utils.random(-0.5, 0.5) * width * 0.92,
+    y: gsap.utils.random(-0.5, 0.5) * height * 0.82,
+    z: gsap.utils.random(-480, 240),
     size,
-    opacity: 0.4 + Math.random() * 0.4,
+    opacity: gsap.utils.random(0.4, 0.8),
   };
   node.dataset.baseOpacity = String(pose.opacity);
   gsap.set(node, poseToVars(pose));
@@ -201,7 +287,7 @@ export function tweenNodeToPose(
   duration: number
 ) {
   gsap.killTweensOf(node);
-  const disk = diskOf(node);
+  const disk = partsOf(node).disk;
   if (disk) {
     gsap.killTweensOf(disk);
   }
@@ -227,6 +313,7 @@ export function tweenNodeToPose(
       borderRadius: "50%",
       duration: first ? 0 : duration,
       ease: "power3.inOut",
+      overwrite: true,
     });
   }
 }
@@ -249,10 +336,8 @@ export function collapseDetail(detail: HTMLElement | null) {
   if (!detail) {
     return;
   }
-  gsap.to(detail, { opacity: 0, duration: 0.22, overwrite: true });
+  gsap.to(detail, { autoAlpha: 0, duration: 0.22, overwrite: true });
 }
-
-type MotionTimeline = ReturnType<typeof gsap.timeline>;
 
 function recedeOthers(
   timeline: MotionTimeline,
@@ -269,7 +354,7 @@ function recedeOthers(
       stagger: 0.012,
       pointerEvents: "none",
     },
-    0
+    "expand"
   );
 }
 
@@ -283,8 +368,7 @@ function expandActive(options: {
   if (!options.active) {
     return;
   }
-  const disk = diskOf(options.active);
-  const label = labelOf(options.active);
+  const { disk, label } = partsOf(options.active);
   options.timeline.to(
     options.active,
     {
@@ -299,7 +383,7 @@ function expandActive(options: {
       opacity: 1,
       duration: options.duration,
     },
-    0
+    "expand"
   );
   if (disk) {
     options.timeline.to(
@@ -309,11 +393,11 @@ function expandActive(options: {
         filter: "blur(0px)",
         duration: options.duration,
       },
-      0
+      "expand"
     );
   }
   if (label) {
-    options.timeline.to(label, { opacity: 0, duration: 0.18 }, 0);
+    options.timeline.to(label, { opacity: 0, duration: 0.18 }, "expand");
   }
 }
 
@@ -325,8 +409,8 @@ function revealDetail(
   if (!detail) {
     return;
   }
-  gsap.set(detail, { opacity: 0, pointerEvents: "auto" });
-  timeline.to(detail, { opacity: 1, duration }, 0.38);
+  gsap.set(detail, { autoAlpha: 0, pointerEvents: "auto" });
+  timeline.to(detail, { autoAlpha: 1, duration }, "detail");
 }
 
 export function expandSelectedBubble(options: {
@@ -336,9 +420,7 @@ export function expandSelectedBubble(options: {
   width: number;
   height: number;
 }) {
-  const nodes = [
-    ...options.stage.querySelectorAll<HTMLElement>("[data-bubble-id]"),
-  ];
+  const nodes = nodesIn(options.stage, "[data-bubble-id]");
   const active = nodes.find(
     (node) => node.dataset.bubbleId === options.selectedSlug
   );
@@ -346,8 +428,13 @@ export function expandSelectedBubble(options: {
     (node) => node.dataset.bubbleId !== options.selectedSlug
   );
   gsap.killTweensOf(nodes);
+  pauseTweensOf(nodesIn(options.stage, "[data-soap]"));
   lockDepth(nodes);
-  const timeline = gsap.timeline({ defaults: { ease: "power3.inOut" } });
+  const timeline = gsap.timeline({
+    defaults: { ease: "power3.inOut" },
+  });
+  timeline.addLabel("expand", 0);
+  timeline.addLabel("detail", 0.38);
   recedeOthers(timeline, others, motionDuration(0.55));
   expandActive({
     timeline,
@@ -363,9 +450,19 @@ export function expandSelectedBubble(options: {
 export function attachParallax(world: HTMLElement) {
   if (prefersReducedMotion()) {
     return () => {
-      gsap.set(world, { rotationX: 0, rotationY: 0 });
+      gsap.set(world, { rotationX: 0, rotationY: 0, x: 0, y: 0 });
     };
   }
+  const stage = world.parentElement;
+  if (!stage) {
+    return () => {
+      gsap.set(world, { rotationX: 0, rotationY: 0, x: 0, y: 0 });
+    };
+  }
+  let bounds = stage.getBoundingClientRect();
+  const refreshBounds = () => {
+    bounds = stage.getBoundingClientRect();
+  };
   const rotateX = gsap.quickTo(world, "rotationX", {
     duration: 1.15,
     ease: "power3.out",
@@ -383,13 +480,19 @@ export function attachParallax(world: HTMLElement) {
     ease: "power3.out",
   });
   const onMove = (event: PointerEvent) => {
-    const stage = world.parentElement;
-    if (!stage) {
+    if (bounds.width === 0 || bounds.height === 0) {
       return;
     }
-    const bounds = stage.getBoundingClientRect();
-    const nx = (event.clientX - bounds.left) / bounds.width - 0.5;
-    const ny = (event.clientY - bounds.top) / bounds.height - 0.5;
+    const nx = gsap.utils.clamp(
+      -0.5,
+      0.5,
+      (event.clientX - bounds.left) / bounds.width - 0.5
+    );
+    const ny = gsap.utils.clamp(
+      -0.5,
+      0.5,
+      (event.clientY - bounds.top) / bounds.height - 0.5
+    );
     rotateY(nx * 13);
     rotateX(-ny * 9);
     shiftX(nx * -22);
@@ -401,9 +504,12 @@ export function attachParallax(world: HTMLElement) {
     shiftX(0);
     shiftY(0);
   };
-  window.addEventListener("pointermove", onMove);
+  const observer = new ResizeObserver(refreshBounds);
+  observer.observe(stage);
+  window.addEventListener("pointermove", onMove, { passive: true });
   window.addEventListener("blur", reset);
   return () => {
+    observer.disconnect();
     window.removeEventListener("pointermove", onMove);
     window.removeEventListener("blur", reset);
     gsap.to(world, {
@@ -412,6 +518,7 @@ export function attachParallax(world: HTMLElement) {
       x: 0,
       y: 0,
       duration: 0.6,
+      overwrite: true,
     });
   };
 }

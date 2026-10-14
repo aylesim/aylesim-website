@@ -791,9 +791,7 @@ textarea:focus-visible {
 }
 
 .bubble-void,
-.bubble-aurora,
-.bubble-orbit,
-.bubble-starfield {
+.bubble-aurora {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -838,177 +836,6 @@ textarea:focus-visible {
   background: rgba(153, 104, 236, 0.18);
   transform: translate(26%, 20%) rotate(23deg);
   animation-delay: -9s;
-}
-
-.bubble-orbit {
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  width: min(78vw, 1080px);
-  aspect-ratio: 1.9;
-  border: 1px solid rgba(184, 238, 255, 0.15);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) rotateX(67deg) rotateZ(-20deg);
-  box-shadow: 0 0 45px rgba(89, 191, 255, 0.07);
-  animation: bubble-orbit-spin 28s linear infinite;
-}
-
-.bubble-orbit--two {
-  width: min(62vw, 850px);
-  border-color: rgba(204, 180, 255, 0.14);
-  animation-duration: 35s;
-  animation-direction: reverse;
-}
-
-.bubble-orbit--three {
-  width: min(47vw, 620px);
-  border-color: rgba(139, 233, 255, 0.12);
-  animation-duration: 22s;
-}
-
-.bubble-starfield {
-  opacity: 0.76;
-}
-
-.bubble-star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: #e6f8ff;
-  box-shadow: 0 0 10px 2px rgba(174, 231, 255, 0.7);
-  animation: bubble-star-pulse 3.5s ease-in-out infinite alternate;
-}
-
-.bubble-star:nth-child(3n) {
-  width: 3px;
-  height: 3px;
-  animation-delay: -1.5s;
-}
-.bubble-star:nth-child(4n) {
-  background: #d9ccff;
-  animation-delay: -2.4s;
-}
-.bubble-star:nth-child(1) {
-  left: 8%;
-  top: 12%;
-}
-.bubble-star:nth-child(2) {
-  left: 17%;
-  top: 67%;
-}
-.bubble-star:nth-child(3) {
-  left: 29%;
-  top: 23%;
-}
-.bubble-star:nth-child(4) {
-  left: 38%;
-  top: 84%;
-}
-.bubble-star:nth-child(5) {
-  left: 47%;
-  top: 11%;
-}
-.bubble-star:nth-child(6) {
-  left: 58%;
-  top: 71%;
-}
-.bubble-star:nth-child(7) {
-  left: 69%;
-  top: 19%;
-}
-.bubble-star:nth-child(8) {
-  left: 78%;
-  top: 56%;
-}
-.bubble-star:nth-child(9) {
-  left: 91%;
-  top: 30%;
-}
-.bubble-star:nth-child(10) {
-  left: 12%;
-  top: 44%;
-}
-.bubble-star:nth-child(11) {
-  left: 23%;
-  top: 91%;
-}
-.bubble-star:nth-child(12) {
-  left: 34%;
-  top: 51%;
-}
-.bubble-star:nth-child(13) {
-  left: 44%;
-  top: 32%;
-}
-.bubble-star:nth-child(14) {
-  left: 53%;
-  top: 92%;
-}
-.bubble-star:nth-child(15) {
-  left: 63%;
-  top: 42%;
-}
-.bubble-star:nth-child(16) {
-  left: 72%;
-  top: 82%;
-}
-.bubble-star:nth-child(17) {
-  left: 84%;
-  top: 13%;
-}
-.bubble-star:nth-child(18) {
-  left: 95%;
-  top: 73%;
-}
-.bubble-star:nth-child(19) {
-  left: 4%;
-  top: 82%;
-}
-.bubble-star:nth-child(20) {
-  left: 20%;
-  top: 4%;
-}
-.bubble-star:nth-child(21) {
-  left: 31%;
-  top: 68%;
-}
-.bubble-star:nth-child(22) {
-  left: 41%;
-  top: 63%;
-}
-.bubble-star:nth-child(23) {
-  left: 50%;
-  top: 6%;
-}
-.bubble-star:nth-child(24) {
-  left: 60%;
-  top: 27%;
-}
-.bubble-star:nth-child(25) {
-  left: 70%;
-  top: 66%;
-}
-.bubble-star:nth-child(26) {
-  left: 80%;
-  top: 39%;
-}
-.bubble-star:nth-child(27) {
-  left: 89%;
-  top: 88%;
-}
-.bubble-star:nth-child(28) {
-  left: 7%;
-  top: 28%;
-}
-.bubble-star:nth-child(29) {
-  left: 55%;
-  top: 55%;
-}
-.bubble-star:nth-child(30) {
-  left: 93%;
-  top: 8%;
 }
 
 .bubble-world {
@@ -1163,23 +990,8 @@ textarea:focus-visible {
   }
 }
 
-@keyframes bubble-orbit-spin {
-  to {
-    transform: translate(-50%, -50%) rotateX(67deg) rotateZ(340deg);
-  }
-}
-
-@keyframes bubble-star-pulse {
-  to {
-    opacity: 0.2;
-    transform: scale(0.45);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .bubble-aurora,
-  .bubble-orbit,
-  .bubble-star {
+  .bubble-aurora {
     animation: none;
   }
 }
