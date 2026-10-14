@@ -3,8 +3,9 @@ import { AboutPage } from "@/components/about/about-page";
 import { getAllContent } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "About | Aylesim",
-  description: "Full stack developer and creative technologist. Berlin.",
+  title: "About | Alessandro Miracapillo",
+  description:
+    "Trained in electronic music, based in Berlin. Founder of Aylesim Devices and of the Max Berlin Network.",
 };
 
 export default function About() {

@@ -294,7 +294,7 @@ export function ProjectDetail({
     altFromMarkdown(
       markdownSource,
       src,
-      `${project.title} — still ${index + 1} of ${stills.length}`
+      `${project.title}, still ${index + 1} of ${stills.length}`
     )
   );
   const metaParts = [

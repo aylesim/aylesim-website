@@ -285,9 +285,9 @@ function deviceLinkLabel(
   price: string | undefined
 ) {
   if (buyLink?.includes("github.com")) {
-    return "Repository / download";
+    return "View code";
   }
-  return price === "Free" ? "Download" : "Buy";
+  return price === "Free" ? "Download free" : "Buy on Gumroad";
 }
 
 function extractMarkdownImages(body: string): string[] {
@@ -355,7 +355,7 @@ function mapProject(source: ProjectMapSource): Project {
   const buyLink = asString(data.buyLink);
   const liveLink = asString(data.liveLink);
   const link = isDevice ? buyLink : (liveLink ?? null);
-  const linkLabel = isDevice ? deviceLinkLabel(buyLink, price) : "Visit live";
+  const linkLabel = isDevice ? deviceLinkLabel(buyLink, price) : "Open site";
 
   return {
     slug,
