@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   useCallback,
@@ -13,6 +14,7 @@ import { TileField } from "@/components/home/tile-field";
 import { SiteChrome } from "@/components/site/site-chrome";
 import type { SiteContent } from "@/lib/content";
 import { parseLegacyProjectSlug } from "@/lib/legacy-routes";
+import { projectHref } from "@/lib/project-routes";
 import {
   CATEGORY_FILTERS,
   CATEGORY_LABELS,
@@ -150,6 +152,9 @@ export default function ArchiveShell({ content }: { content: SiteContent }) {
             Close
           </button>
           <div className="site-detail-body">
+            <Link className="about-chip" href={projectHref(selectedProject)}>
+              Open project page
+            </Link>
             <ProjectDetail
               projects={projects}
               site={content.site}

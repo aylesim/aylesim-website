@@ -13,3 +13,4 @@ PASS: `src/app/globals.css` defines the black/white/grey/red palette, frosted ch
 ## Acceptance log
 
 - Step 1: PASS, data, routing, all redirects, detail renderer, cards, animation, styles, fonts, and PDF locations documented above.
+- Step 2: PASS, static category-specific project routes build successfully; Birds title and description appear in initial HTML; unknown instrument returns HTTP 404; old `/projects/<slug>` redirects to its category URL. Existing stage and panel code remain, with a full-page link added. Community entries intentionally belong to About. Manual motion checks are scheduled for step 9b.

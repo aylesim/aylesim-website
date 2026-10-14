@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+import { getAllContent } from "./src/lib/content";
+import { projectHref } from "./src/lib/project-routes";
 
 const nextConfig: NextConfig = {
   images: {
@@ -27,12 +29,16 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/work", destination: "/", permanent: true },
-      { source: "/work/:path*", destination: "/", permanent: true },
+      ...getAllContent()
+        .projects.filter((project) => project.category !== "community")
+        .map((project) => ({
+          source: `/projects/${project.slug}`,
+          destination: projectHref(project),
+          permanent: true,
+        })),
       { source: "/devices", destination: "/", permanent: true },
       { source: "/devices/:path*", destination: "/", permanent: true },
       { source: "/projects", destination: "/", permanent: true },
-      { source: "/projects/:path*", destination: "/", permanent: true },
       { source: "/selected-works", destination: "/", permanent: true },
       { source: "/selected-works/:path*", destination: "/", permanent: true },
       { source: "/generative-projects", destination: "/", permanent: true },
