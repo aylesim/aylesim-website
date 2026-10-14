@@ -271,19 +271,12 @@ function ProjectMarkdownBody({ source }: { source: string }) {
 }
 
 export function ProjectDetail({
-  slug,
-  projects,
+  project,
   site,
 }: {
-  slug: string;
-  projects: Project[];
+  project: Project;
   site: SiteConfig;
 }) {
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) {
-    return null;
-  }
-  const [primaryLabel, ...remainingPrimaryMeta] = project.primaryMeta;
   const stills = projectStills(project);
   const hiddenSrcs = new Set(stills);
   const markdownSource = [project.description, project.descriptionAfterVideos]
@@ -296,11 +289,9 @@ export function ProjectDetail({
       `${project.title} — still ${index + 1} of ${stills.length}`
     )
   );
-  const metaParts = [
-    primaryLabel,
-    ...remainingPrimaryMeta,
-    project.secondaryMeta,
-  ].filter(Boolean);
+  const metaParts = [...project.primaryMeta, project.secondaryMeta].filter(
+    Boolean
+  );
   const videos = project.videos ?? [];
   const leadWithVideo = stills.length === 0 && videos.length > 0;
   return (
@@ -318,11 +309,7 @@ export function ProjectDetail({
           <Meta>{site.audioDeveloperProductLine}</Meta>
         ) : null}
         {project.tags.length > 0 ? (
-          <ProjectTags
-            category={project.category}
-            className="mt-3 mb-1"
-            tags={project.tags}
-          />
+          <ProjectTags className="mt-3 mb-1" tags={project.tags} />
         ) : null}
         {project.link ? (
           <DetailLinks>

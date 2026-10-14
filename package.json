@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome lint .",
+    "test": "tsx --test tests/*.test.ts",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
     "check": "pnpm content:json:check && biome check .",

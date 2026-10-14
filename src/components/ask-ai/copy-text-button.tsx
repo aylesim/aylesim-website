@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  type CopyLabels,
   copyButtonLabel,
   useCopyText,
 } from "@/components/ask-ai/use-copy-text";
@@ -8,22 +9,19 @@ import {
 const buttonClass =
   "shrink-0 text-sm text-(--text-muted) underline underline-offset-3 hover:text-(--foreground) disabled:opacity-50";
 
+const defaultLabels: CopyLabels = {
+  idle: "Copy",
+  loading: "Copying…",
+  done: "Copied ✓",
+  error: "Failed",
+};
+
 export function CopyTextButton({
   text,
-  labels = {
-    idle: "Copy",
-    loading: "Copying…",
-    done: "Copied ✓",
-    error: "Failed",
-  },
+  labels = defaultLabels,
 }: {
   text: string;
-  labels?: {
-    idle: string;
-    loading: string;
-    done: string;
-    error: string;
-  };
+  labels?: CopyLabels;
 }) {
   const { status, copy } = useCopyText();
 
