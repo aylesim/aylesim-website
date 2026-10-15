@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { MouseEvent, Ref } from "react";
+import { withoutNeeds } from "@/lib/needs";
 import type { ProjectCover } from "@/lib/project-cover";
 import type { ProjectPreview } from "@/lib/project-preview";
 import { CATEGORY_LABELS } from "@/lib/roles";
@@ -15,11 +16,7 @@ function keyboardActivate(
 }
 
 function NeedsText({ text }: { text: string }) {
-  return text.includes("[needs") ? (
-    <mark data-needs>{text}</mark>
-  ) : (
-    <span>{text}</span>
-  );
+  return <span>{withoutNeeds(text)}</span>;
 }
 
 export function TileCard({
@@ -28,7 +25,6 @@ export function TileCard({
   visible,
   tileRef,
   onOpen,
-  onPreview,
 }: {
   project: ProjectPreview;
   cover: ProjectCover | null;
@@ -49,7 +45,7 @@ export function TileCard({
     >
       {cover ? (
         <Image
-          alt={project.imageAlt ?? "[needs alt text]"}
+          alt={withoutNeeds(project.imageAlt ?? "")}
           className="tile-image"
           height={500}
           loading={project.featured ? "eager" : "lazy"}
@@ -67,22 +63,11 @@ export function TileCard({
         {project.category ? CATEGORY_LABELS[project.category] : ""}
       </span>
       <button
-        aria-label={`Open ${project.title}`}
+        aria-label={`Open ${withoutNeeds(project.title) || "project"}`}
         className="tile-open"
         onClick={(event) => keyboardActivate(event, onOpen)}
         type="button"
       />
-      {project.previewVideo ? (
-        <button
-          aria-label={`Play sound: ${project.title} video`}
-          className="tile-sound"
-          data-preview
-          onClick={(event) => keyboardActivate(event, onPreview)}
-          type="button"
-        >
-          Play sound
-        </button>
-      ) : null}
       <mark className="tile-clip" data-needs>
         [needs clip]
       </mark>

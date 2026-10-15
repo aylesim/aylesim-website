@@ -2,6 +2,7 @@ import Image from "next/image";
 import { LazyVideo } from "@/components/lazy-video";
 import { Markdown, NeedsInline } from "@/components/markdown";
 import type { Project, SiteConfig } from "@/lib/content";
+import { withoutNeeds } from "@/lib/needs";
 import { projectStills } from "@/lib/project-cover";
 
 const sectionBoundary = /\n(?=## )/;
@@ -18,7 +19,7 @@ export function ProjectDetail({
   const videos = project.videos ?? [];
   const image = stills[0] ? (
     <Image
-      alt={project.imageAlt ?? "[needs alt text]"}
+      alt={withoutNeeds(project.imageAlt ?? "")}
       height={1000}
       priority
       sizes="(max-width: 800px) 100vw, 960px"
@@ -72,7 +73,7 @@ export function ProjectDetail({
                 <div className="project-gallery">
                   {stills.map((src) => (
                     <Image
-                      alt={project.imageAlt ?? "[needs alt text]"}
+                      alt={withoutNeeds(project.imageAlt ?? "")}
                       height={1000}
                       key={src}
                       sizes="(max-width: 800px) 100vw, 600px"
@@ -91,11 +92,8 @@ export function ProjectDetail({
         );
       })}
       <p className="project-contact">
-        <a href={`mailto:${site.contactEmail}`}>Email</a> ·{" "}
-        <a href={site.resumeHref}>Download CV</a> ·{" "}
-        <a href="/portfolio.pdf">Portfolio (PDF)</a>
+        <a href={`mailto:${site.contactEmail}`}>Email</a>
       </p>
-      <Markdown>{"[needs: CV PDF file]"}</Markdown>
     </article>
   );
 }

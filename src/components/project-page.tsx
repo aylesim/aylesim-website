@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ProjectDetail } from "@/components/home/portfolio-detail";
+import { NeedsInline } from "@/components/markdown";
 import { PageFrame } from "@/components/site/site-chrome";
 import type { Project, SiteContent } from "@/lib/content";
 import {
@@ -42,12 +43,15 @@ export function ProjectPage({
     >
       <main className="project-page">
         <nav aria-label="Breadcrumb">
-          <Link href={`/${section}`}>{section}</Link> / {project.title}
+          <Link href={`/${section}`}>{section}</Link> /{" "}
+          <NeedsInline>{project.title}</NeedsInline>
         </nav>
         <ProjectDetail project={project} site={content.site} />
         {next ? (
           <nav aria-label="Next project" className="project-next">
-            <Link href={projectHref(next)}>Next project: {next.title}</Link>
+            <Link href={projectHref(next)}>
+              Next project: <NeedsInline>{next.title}</NeedsInline>
+            </Link>
             <Link href="/">Back to stage</Link>
           </nav>
         ) : null}

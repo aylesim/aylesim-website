@@ -32,7 +32,7 @@ function needsMarkers() {
               type: "needs",
               data: {
                 hName: "mark",
-                hProperties: { "data-needs": "" },
+                hProperties: { "data-needs": "", hidden: true },
                 hChildren: [{ type: "text", value }],
               },
             };
@@ -57,7 +57,7 @@ export function NeedsInline({ children }: { children: string }) {
         .filter(Boolean)
         .map((text, index) =>
           needsStart.test(text) ? (
-            <mark data-needs key={`${index}-${text}`}>
+            <mark data-needs hidden key={`${index}-${text}`}>
               {text}
             </mark>
           ) : (

@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata("/");
 
 import { Suspense } from "react";
+import { AboutPanel } from "@/components/home/about-panel";
 import ArchiveShell from "@/components/home/archive-shell";
 import { Markdown } from "@/components/markdown";
 import { getAllContent } from "@/lib/content";
@@ -38,18 +39,14 @@ export default function Home() {
             <h1>{content.home.name}</h1>
             <p>{content.home.role}</p>
             <p>Berlin</p>
-            <a href="#home-copy">About my work</a>
+            <AboutPanel>
+              <Markdown>{editorial("home")}</Markdown>
+              <p>
+                <a href={`mailto:${content.site.contactEmail}`}>Email</a> ·{" "}
+                <a href="https://github.com/aylesim">GitHub</a>
+              </p>
+            </AboutPanel>
           </section>
-          <article className="section-copy" id="home-copy">
-            <Markdown>{editorial("home")}</Markdown>
-            <p>
-              <a href={`mailto:${content.site.contactEmail}`}>Email</a> ·{" "}
-              <a href="/cv.pdf">CV (PDF)</a> ·{" "}
-              <a href="/portfolio.pdf">Portfolio (PDF)</a> ·{" "}
-              <a href="https://github.com/aylesim">GitHub</a>
-            </p>
-            <Markdown>{"[needs: CV PDF file]"}</Markdown>
-          </article>
         </ArchiveShell>
       </Suspense>
     </>

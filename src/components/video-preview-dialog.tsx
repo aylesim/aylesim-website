@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { LazyVideo } from "@/components/lazy-video";
 import type { ProjectVideo } from "@/lib/content";
+import { withoutNeeds } from "@/lib/needs";
 
 export function VideoPreviewDialog({
   title,
@@ -25,7 +26,7 @@ export function VideoPreviewDialog({
   }, []);
   return (
     <dialog
-      aria-label={`${title} video preview`}
+      aria-label={`${withoutNeeds(title)} video preview`}
       className="sound-preview"
       onCancel={onClose}
       ref={ref}
@@ -33,7 +34,7 @@ export function VideoPreviewDialog({
       <button className="sound-preview-close" onClick={onClose} type="button">
         Close preview
       </button>
-      <h2>{title}</h2>
+      <h2>{withoutNeeds(title)}</h2>
       <LazyVideo autoStart video={video} />
     </dialog>
   );
