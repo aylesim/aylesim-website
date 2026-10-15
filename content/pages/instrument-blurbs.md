@@ -7,7 +7,3 @@
 **Freesound4Live** (2020). Search and load samples from Freesound.org inside Ableton Live, with Freesound account login. Covered by Create Digital Music. [needs: current store link; whether it is open source] [Watch video](/instruments/freesound4live)
 
 **Lucky Notes** (free) [needs year]. MIDI effect that lets notes through by probability, so a pattern can start sparse and get denser without editing clips. Listed in the ELPHNT Max for Live Curated Collection. [Download free](https://aylesim.gumroad.com/l/luckynotes)
-
-## Plugins (VST)
-
-**[needs: name]** ([needs: release date]). A plugin version of Disco, the spinning delay: 16 delay voices that rotate in a circular layout, with a rotation LFO. Formats: [needs: formats]. [needs: link]
