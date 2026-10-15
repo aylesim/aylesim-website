@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import ArchiveShell from "@/components/home/archive-shell";
-import { Markdown } from "@/components/markdown";
+import { Markdown, NeedsInline } from "@/components/markdown";
 import { getAllContent } from "@/lib/content";
 import { editorial } from "@/lib/editorial";
 import { projectPreview } from "@/lib/project-preview";
@@ -59,7 +59,9 @@ export function SectionPage({ section }: { section: ProjectSection }) {
             {projects.map((project) => (
               <li key={project.slug}>
                 <Link href={projectHref(project)}>
-                  {project.title}, {project.year}
+                  <NeedsInline>
+                    {`${project.title}, ${project.year ?? ""}`}
+                  </NeedsInline>
                 </Link>
               </li>
             ))}

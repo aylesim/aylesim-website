@@ -114,8 +114,6 @@ export type SiteConfig = {
   contactEmail: string;
   contactAvailability: string;
   webDeveloperStack: string;
-  resumeHref: string;
-  resumeLabel: string;
   aylesimDevicesSlug: string;
   aylesimDevicesCustomerCount: number;
   audioDeveloperProductLine: string;
@@ -584,8 +582,6 @@ function getSiteConfig(): SiteConfig {
       data.webDeveloperStack,
       "webDeveloperStack"
     ),
-    resumeHref: requireString(data.resumeHref, "resumeHref"),
-    resumeLabel: requireString(data.resumeLabel, "resumeLabel"),
     aylesimDevicesSlug: requireString(
       data.aylesimDevicesSlug,
       "aylesimDevicesSlug"

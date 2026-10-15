@@ -69,11 +69,7 @@ body {
 }
 
 mark[data-needs] {
-  color: #fff;
-  background: #141414;
-  box-shadow: inset 0 -2px #fb2c36;
-  padding: 0.1em 0.25em;
-  overflow-wrap: anywhere;
+  display: none;
 }
 .stage-intro details {
   margin-top: 0.75rem;
@@ -82,6 +78,7 @@ mark[data-needs] {
 .stage-intro summary {
   cursor: pointer;
 }
+
 :where(.stage-intro p + p),
 :where(.stage-intro details p) {
   margin-top: 0.75rem;
@@ -213,7 +210,6 @@ textarea:focus-visible {
 }
 
 .site-header-bar,
-.site-menu-link,
 .site-filter,
 .intro-card {
   background: #000000bf;
@@ -356,15 +352,32 @@ textarea:focus-visible {
 }
 
 .site-menu-project-count {
-  float: right;
   color: #b3b3b3;
+  font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
+}
+
+.project-list-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #fff3;
+  background: #000;
+}
+
+.project-list-header h2 {
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .site-menu-project-list {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  padding: 0 0.5rem 0.5rem;
 }
 
 #contact {
@@ -372,12 +385,16 @@ textarea:focus-visible {
 }
 
 .site-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: min(42rem, calc(100vw - 2rem));
+  transform: translateX(-50%);
   margin: 0.5rem 0 0;
   gap: 0.375rem;
-  padding: 0.75rem;
+  padding: 0;
   border: 1px solid #fff3;
   border-radius: 0.375rem;
   background: #000;
@@ -409,14 +426,21 @@ textarea:focus-visible {
   position: relative;
   display: flex;
   width: 100%;
-  min-height: 2.875rem;
+  min-height: 3.5rem;
   align-items: center;
-  padding: 0.6rem 1rem;
-  font-size: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid #fff2;
+  border-radius: 0;
+  background: transparent;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
   text-align: left;
-  transition:
-    color 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
+  transition: background-color 0.2s var(--ease);
+}
+
+.site-menu-project:last-child .site-menu-link {
+  border-bottom: 0;
 }
 
 .site-menu li {
@@ -441,7 +465,10 @@ textarea:focus-visible {
 }
 
 .site-menu-link.is-on,
-.site-menu-link:hover,
+.site-menu-link:hover {
+  background: var(--surface-subtle);
+}
+
 .site-filter.is-on,
 .site-filter:hover {
   box-shadow: inset 0 0 6px #fff;
@@ -466,20 +493,13 @@ textarea:focus-visible {
 
 .site-filters ul {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr 1.5fr 1fr;
   gap: 3px;
-}
-
-.site-filters li {
-  grid-column: span 2;
-}
-
-.site-filters li:nth-last-child(-n + 2) {
-  grid-column: span 3;
 }
 
 .site-filter {
   width: 100%;
+  white-space: nowrap;
   min-height: 2.75rem;
   padding: 0.55rem 0.625rem;
   text-align: center;
@@ -1039,9 +1059,11 @@ textarea:focus-visible {
   .site-menu {
     position: absolute;
     top: 100%;
+    left: 0;
     width: 100%;
     margin: 0.5rem 0 0;
-    padding: 0.75rem;
+    padding: 0;
+    transform: none;
     gap: 0.375rem;
     list-style: none;
     border: 1px solid #fff3;
@@ -1063,11 +1085,11 @@ textarea:focus-visible {
   }
 
   .site-menu-link {
-    min-height: 3rem;
-    padding: 0.75rem;
-    font-size: 0.9375rem;
+    min-height: 3.5rem;
+    padding: 1rem 0.75rem;
+    font-size: 1rem;
     line-height: 1.3;
-    background: var(--surface-subtle);
+    background: transparent;
     backdrop-filter: none;
   }
 
@@ -1446,13 +1468,6 @@ textarea:focus-visible {
   background: #000c;
 }
 
-.site-filters ul {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.site-filters li,
-.site-filters li:nth-last-child(-n + 2) {
-  grid-column: auto;
-}
 @media (max-width: 47.999rem), (hover: none), (pointer: coarse) {
   .site-home {
     display: flex;
@@ -1491,4 +1506,90 @@ textarea:focus-visible {
     top: calc((100vw - 2rem) * 215 / 300 - 3.5rem);
     bottom: auto;
   }
+}
+
+.about-panel-trigger {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.about-panel {
+  position: fixed;
+  inset: 0;
+  width: min(44rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #fff3;
+  border-radius: 0.375rem;
+  background: #000;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.6;
+  box-shadow: 0 1.5rem 6rem #0009;
+}
+
+.about-panel[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-panel::backdrop {
+  background: #0009;
+  backdrop-filter: blur(8px);
+}
+
+.about-panel-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #fff3;
+}
+
+.about-panel-header button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+}
+
+.about-panel-header button span {
+  font-size: 1.5rem;
+}
+
+.about-panel-copy {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.25rem 1.5rem 1.5rem;
+}
+
+.about-panel-copy :where(p, ul) {
+  margin: 1rem 0;
+}
+
+.about-panel-copy ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.about-panel-copy h2 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.about-panel-trigger:focus-visible,
+.about-panel :where(a, button):focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.about-panel .about-panel-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
 }

@@ -23,10 +23,6 @@ Diploma Accademico di I livello (bachelor's level) in Electronic Music, Conserva
 ## Languages
 Italian (native), English (professional)
 
-[CV (PDF)](/cv.pdf) [Portfolio (PDF)](/portfolio.pdf)
-
-[needs: CV PDF file]
-
 ## Community
 
 **Max Berlin Network** (2025 to now). Founder & Organiser. I organise in-person meetups for Max/MSP users in Berlin, with demos, troubleshooting and shared patching, and I built the website, maxberlin.network.

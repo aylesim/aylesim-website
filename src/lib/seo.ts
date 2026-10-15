@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Project } from "@/lib/content";
+import { withoutNeeds } from "@/lib/needs";
 import { getProjectCover } from "@/lib/project-cover";
 import { projectHref } from "@/lib/project-routes";
 
@@ -70,11 +71,15 @@ const origin = "https://aylesim.com";
 
 export function pageMetadata(path: string, project?: Project): Metadata {
   const fallbackTitle = project
-    ? `${project.title}, ${project.year ?? "[needs year]"} | Alessandro Miracapillo`
+    ? `${[withoutNeeds(project.title), withoutNeeds(project.year ?? "")].filter(Boolean).join(", ")} | Alessandro Miracapillo`
     : "Alessandro Miracapillo";
-  const copy = pageCopy[path] ?? {
+  const source = pageCopy[path] ?? {
     title: fallbackTitle,
     description: project?.summary ?? "Software for sound and image.",
+  };
+  const copy = {
+    title: withoutNeeds(source.title),
+    description: withoutNeeds(source.description),
   };
   const image = project
     ? (getProjectCover(project)?.src ?? "/media/portrait.webp")
@@ -88,7 +93,10 @@ export function pageMetadata(path: string, project?: Project): Metadata {
       type: "website",
       url,
       images: [
-        { url: image, alt: project?.imageAlt ?? "Alessandro Miracapillo" },
+        {
+          url: image,
+          alt: withoutNeeds(project?.imageAlt ?? "Alessandro Miracapillo"),
+        },
       ],
     },
     twitter: { card: "summary_large_image", ...copy, images: [image] },

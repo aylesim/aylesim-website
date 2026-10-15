@@ -2,6 +2,7 @@
 
 import { type ReactNode, useEffect, useId, useState } from "react";
 import type { ProjectVideo } from "@/lib/content";
+import { withoutNeeds } from "@/lib/needs";
 
 function embedUrl(url: string) {
   const source = new URL(url);
@@ -42,7 +43,7 @@ export function LazyVideo({
           allowFullScreen
           loading="lazy"
           src={embedUrl(video.url)}
-          title={video.title}
+          title={withoutNeeds(video.title) || "Project video"}
         />
       ) : (
         <div className="video-preview">
@@ -56,12 +57,12 @@ export function LazyVideo({
             }}
             type="button"
           >
-            Play {video.title} with sound
+            Play {withoutNeeds(video.title)} with sound
           </button>
         </div>
       )}
       <figcaption>
-        <a href={video.url}>Watch video: {video.title}</a>
+        <a href={video.url}>Watch video: {withoutNeeds(video.title)}</a>
       </figcaption>
     </figure>
   );
