@@ -14,7 +14,8 @@ summary: >-
 featured: false
 order: 30
 showInMenu: true
-imageAlt: '[needs alt text]'
+canvasImage: /media/shapellm.webp
+imageAlt: ShapeLLM website with a text input and an interactive 3D ball
 status: Proof of concept
 listTagline: >-
   A language model rates how angry a text sounds, from 0 to 1, and a three.js
@@ -35,10 +36,6 @@ A language model rates how angry a text sounds, from 0 to 1, and a three.js shap
 Proof of concept. [needs: outcome]
 
 ## Media
-
-[needs: screenshots or screen recording]
-
-[needs: project image]
 
 [needs clip]
 

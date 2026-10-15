@@ -17,7 +17,8 @@ summary: >-
 featured: false
 order: 30
 showInMenu: true
-imageAlt: '[needs alt text]'
+canvasImage: /media/transluoghi-ecomuseo.webp
+imageAlt: Transluoghi Ecomuseo homepage with a forest stream and its Italian navigation
 status: Live
 listTagline: >-
   Website for Transluoghi, an ecomuseum in Morigerati, Campania: walking and
@@ -36,13 +37,9 @@ The frontend and the PayloadCMS setup, including its auth configuration and cust
 
 ## Outcome
 
-Live at transluoghiecomuseo.it. [needs screenshots]
+Live at transluoghiecomuseo.it.
 
 ## Media
-
-[needs screenshots]
-
-[needs: project image]
 
 [needs clip]
 
