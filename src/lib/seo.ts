@@ -17,10 +17,15 @@ const pageCopy: Record<string, { title: string; description: string }> = {
       "Web projects: Planetary Compendium for the Berggruen Institute, client sites and proofs of concept. Next.js, React, TypeScript.",
   },
   "/work/planetary-compendium": {
-    title:
-      "Planetary Compendium, North Sea chapter (2025) | Alessandro Miracapillo",
+    title: "Planetary Compendium: North Sea (2025) | Alessandro Miracapillo",
     description:
-      "Scrollytelling chapter developed from the designers' Figma files. Honorary Mention, Prix Ars Electronica 2026.",
+      "An immersive collection of speculative artifacts about North Sea governance in 2045. Developed for the Berggruen Institute's Planetary Compendium.",
+  },
+  "/work/planetary-compendium-glacier-governance": {
+    title:
+      "Planetary Compendium: Glacier Governance (2025) | Alessandro Miracapillo",
+    description:
+      "An immersive map of glacier governance in the Hindu Kush Himalayas, with research boards and geographic layers. Part of the Planetary Compendium.",
   },
   "/work/transluoghi-ecomuseo": {
     title: "Transluoghi Ecomuseo website (2024) | Alessandro Miracapillo",
