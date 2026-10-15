@@ -1,7 +1,7 @@
 ---
 type: work
 category: web-interactive
-title: 'Planetary Compendium: North Sea chapter'
+title: 'Planetary Compendium: North Sea'
 year: '2025'
 role: Frontend developer (freelance)
 tech:
@@ -9,22 +9,22 @@ tech:
   - React
   - TypeScript
 summary: >-
-  A scrollytelling chapter of the Berggruen Institute's Planetary Compendium, a
-  set of case studies on planetary governance.
+  An immersive collection of speculative artifacts about North Sea governance
+  in 2045.
 featured: true
 order: 1
 showInMenu: true
-canvasImage: /media/planetary.webp
-imageAlt: Planetary Compendium interface with connected topic labels over a globe
+canvasImage: /media/planetary-north-sea.webp
+imageAlt: North Sea immersive experience with sea, eel, kelp, sand, Dogger Bank and air bubbles captured in motion over an animated ocean
 status: Live
 listTagline: >-
-  A scrollytelling chapter of the Berggruen Institute's Planetary Compendium, a
-  set of case studies on planetary governance.
+  An immersive collection of speculative artifacts about North Sea governance
+  in 2045.
 listBadges:
   - prefix: Honorary Mention
     label: Prix Ars Electronica 2026
     url: 'https://archive.aec.at/prix/320414/'
-liveLink: 'https://governtheplanet.org/case-study/north-sea'
+liveLink: 'https://governtheplanet.org/case-study/north-sea/immerse'
 credits: 'Design: Anahat Kaur, Arianna Smaron. Development: Alessandro Miracapillo.'
 client: Berggruen Institute
 ---
@@ -34,26 +34,19 @@ The Planetary Compendium presents case studies on planetary governance. I worked
 
 ## What I built
 
-- The North Sea scrollytelling chapter, from the designers' Figma files
-- The map visualisations in the chapter
-- [needs confirmation: the draggable document archive for the Hindu Kush chapter]
+- The North Sea immersive experience, from the designers' Figma files
+- An interface that groups the artifacts by sea, eel, kelp, sand, Dogger Bank and air
 - [needs confirmation before keeping: reduced-motion support, stable rendering during live group sessions]
 
 ## Outcome
 
-- The Planetary Compendium received an Honorary Mention in Digital Humanity at Prix Ars Electronica 2026 (team project).
+- The Planetary Compendium received an [Honorary Mention in Digital Humanity at Prix Ars Electronica 2026](https://archive.aec.at/prix/320414/) (team project).
 - Shown at an exhibition in Zürich, November 2025.
 
 ## Media
 
-[needs: screen recording of the chapter scroll; confirmation whether the chapter has audio]
-
-[needs: screenshot of the immersive part of the chapter and its case page]
-
-[needs: 3 to 5 more stills, compressed]
-
-[needs clip]
+Visitors select floating bubbles over an animated ocean to open each group of artifacts.
 
 ## Links
 
-[Open site](https://governtheplanet.org/case-study/north-sea) · [Prix Ars Electronica 2026](https://archive.aec.at/prix/320414/) · [Prix Ars Electronica archive](https://archive.aec.at/prix/320414)
+[Enter the immersive experience](https://governtheplanet.org/case-study/north-sea/immerse) · [Read the case study](https://governtheplanet.org/case-study/north-sea) · [Prix Ars Electronica 2026](https://archive.aec.at/prix/320414/)
