@@ -39,7 +39,6 @@ export default function RootLayout({
       <body>
         {children}
         <aside aria-label="Site notice" className="construction-notice">
-          <span aria-hidden="true" className="construction-notice-dot" />
           <p>
             <strong>Under construction</strong>
             <span>You might notice weird things here.</span>
