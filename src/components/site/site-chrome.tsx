@@ -29,6 +29,7 @@ export function SiteChrome({
   children,
   filters,
   workMenu,
+  projectListId,
 }: {
   brand: string;
   current: SitePage;
@@ -37,8 +38,17 @@ export function SiteChrome({
   children: ReactNode;
   filters?: ReactNode;
   workMenu?: WorkMenu;
+  projectListId?: string;
 }) {
   const menuId = useId();
+  const toggleLabel = projectListId ? "Compact view" : "List";
+  const closeLabel = projectListId ? "Card view" : "Close";
+  const toggleAction = projectListId
+    ? "Switch to compact view"
+    : "Open project list";
+  const closeAction = projectListId
+    ? "Switch to card view"
+    : "Close project list";
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
   const menuProjects =
@@ -47,7 +57,9 @@ export function SiteChrome({
     if (!menuOpen) {
       return;
     }
-    menuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
+    if (!projectListId) {
+      menuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
+    }
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onMenuOpenChange(false);
@@ -58,11 +70,11 @@ export function SiteChrome({
       window.removeEventListener("keydown", onKey);
       menuButtonRef.current?.focus();
     };
-  }, [menuOpen, onMenuOpenChange]);
+  }, [menuOpen, onMenuOpenChange, projectListId]);
 
   return (
     <>
-      {menuOpen ? (
+      {menuOpen && !projectListId ? (
         <button
           aria-label="Dismiss project list"
           className="site-menu-backdrop"
@@ -89,9 +101,9 @@ export function SiteChrome({
               About
             </Link>
             <button
-              aria-controls={menuId}
+              aria-controls={projectListId ?? menuId}
               aria-expanded={menuOpen}
-              aria-label={menuOpen ? "Close project list" : "Open project list"}
+              aria-label={menuOpen ? closeAction : toggleAction}
               className="site-burger"
               onClick={() => onMenuOpenChange(!menuOpen)}
               ref={menuButtonRef}
@@ -103,55 +115,57 @@ export function SiteChrome({
                   menuOpen ? "site-menu-icon is-open" : "site-menu-icon"
                 }
               />
-              {menuOpen ? "Close" : "List"}
+              {menuOpen ? closeLabel : toggleLabel}
             </button>
           </nav>
         </div>
-        <nav
-          aria-hidden={!menuOpen}
-          aria-label="Project list"
-          className={menuOpen ? "site-menu is-open" : "site-menu"}
-          id={menuId}
-          inert={!menuOpen}
-          ref={menuRef}
-        >
-          <div className="project-list-header">
-            <h2>Projects</h2>
-            <span className="site-menu-project-count">
-              {menuProjects.length}
-            </span>
-          </div>
-          <ul className="site-menu-project-list">
-            {menuProjects.map((entry) => (
-              <li className="site-menu-project" key={entry.slug}>
-                {workMenu?.onSelect ? (
-                  <button
-                    className={
-                      workMenu.selectedSlug === entry.slug
-                        ? "site-menu-link is-on"
-                        : "site-menu-link"
-                    }
-                    onClick={() => {
-                      workMenu.onSelect?.(entry.slug);
-                      onMenuOpenChange(false);
-                    }}
-                    type="button"
-                  >
-                    {withoutNeeds(entry.label) || "Untitled project"}
-                  </button>
-                ) : (
-                  <Link
-                    className="site-menu-link"
-                    href={entry.href}
-                    onClick={() => onMenuOpenChange(false)}
-                  >
-                    {withoutNeeds(entry.label) || "Untitled project"}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {!projectListId && (
+          <nav
+            aria-hidden={!menuOpen}
+            aria-label="Project list"
+            className={menuOpen ? "site-menu is-open" : "site-menu"}
+            id={menuId}
+            inert={!menuOpen}
+            ref={menuRef}
+          >
+            <div className="project-list-header">
+              <h2>Projects</h2>
+              <span className="site-menu-project-count">
+                {menuProjects.length}
+              </span>
+            </div>
+            <ul className="site-menu-project-list">
+              {menuProjects.map((entry) => (
+                <li className="site-menu-project" key={entry.slug}>
+                  {workMenu?.onSelect ? (
+                    <button
+                      className={
+                        workMenu.selectedSlug === entry.slug
+                          ? "site-menu-link is-on"
+                          : "site-menu-link"
+                      }
+                      onClick={() => {
+                        workMenu.onSelect?.(entry.slug);
+                        onMenuOpenChange(false);
+                      }}
+                      type="button"
+                    >
+                      {withoutNeeds(entry.label) || "Untitled project"}
+                    </button>
+                  ) : (
+                    <Link
+                      className="site-menu-link"
+                      href={entry.href}
+                      onClick={() => onMenuOpenChange(false)}
+                    >
+                      {withoutNeeds(entry.label) || "Untitled project"}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </header>
       {filters}
       {children}
