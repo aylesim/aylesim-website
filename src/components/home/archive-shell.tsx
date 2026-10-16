@@ -6,6 +6,7 @@ import {
   type ReactNode,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useState,
 } from "react";
@@ -20,8 +21,6 @@ import {
   CATEGORY_LABELS,
   type WorkFilter,
 } from "@/lib/roles";
-
-import { buildWorkMenu } from "@/lib/work-menu";
 
 const savedFilters = new Map<string, WorkFilter>();
 
@@ -49,6 +48,7 @@ export default function ArchiveShell({
     savedFilters.set(window.location.pathname, filter);
   }, [filter]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const projectListId = useId();
   const [previewSlug, setPreviewSlug] = useState<string | null>(null);
   const preview = entries.find((entry) => entry.slug === previewSlug);
   const projects = useMemo(
@@ -73,7 +73,6 @@ export default function ArchiveShell({
       router.replace(project ? projectHref(project) : "/about");
     }
   }, [projects, router]);
-  const workMenu = useMemo(() => buildWorkMenu(projects), [projects]);
   return (
     <main className="site-home">
       <SiteChrome
@@ -101,22 +100,26 @@ export default function ArchiveShell({
         }
         menuOpen={menuOpen}
         onMenuOpenChange={setMenuOpen}
-        workMenu={{
-          ...workMenu,
-          selectedSlug: null,
-          onSelect: openProject,
-        }}
+        projectListId={projectListId}
       >
         <TileField
           filter={filter}
+          menuId={projectListId}
+          menuOpen={menuOpen}
           onPreview={setPreviewSlug}
           onSelect={openProject}
           projects={projects}
           selectedSlug={null}
           view="spiral"
         />
-        {children}
-        <footer className="stage-footer">
+        <div aria-hidden={menuOpen} className="stage-copy" inert={menuOpen}>
+          {children}
+        </div>
+        <footer
+          aria-hidden={menuOpen}
+          className="stage-footer"
+          inert={menuOpen}
+        >
           <Link href="/archive">Archive</Link>
         </footer>
       </SiteChrome>

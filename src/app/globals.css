@@ -675,7 +675,7 @@ textarea:focus-visible {
     z-index: 2;
   }
 
-  .tile-stage:has(.tile:hover) .tile:not(:hover) {
+  .tile-stage:not(.is-card-menu):has(.tile:hover) .tile:not(:hover) {
     --tile-dim: 0.8;
     filter: blur(0.5rem);
   }
@@ -1228,8 +1228,8 @@ textarea:focus-visible {
     display: none;
   }
 
-  .tile-image,
-  .tile-fallback {
+  .tile-stage:not(.is-card-menu) .tile-image,
+  .tile-stage:not(.is-card-menu) .tile-fallback {
     position: relative !important;
     height: auto !important;
     aspect-ratio: 300 / 215;
@@ -1296,7 +1296,7 @@ textarea:focus-visible {
     filter: none;
   }
 
-  .tile-stage:has(.tile:hover) .tile:not(:hover) {
+  .tile-stage:not(.is-card-menu):has(.tile:hover) .tile:not(:hover) {
     filter: none;
   }
 }
@@ -1649,4 +1649,152 @@ textarea:focus-visible {
 .about-panel .about-panel-header h2 {
   margin: 0;
   font-size: 1.25rem;
+}
+
+.stage-copy {
+  display: contents;
+}
+
+.tile-menu-heading,
+.tile-menu-meta {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tile-menu-heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.tile-menu-heading > span {
+  color: var(--text-muted);
+}
+
+.tile-menu-meta {
+  position: absolute;
+  inset: 0 16px 0 calc(var(--card-menu-thumb, 80px) + 28px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  text-align: left;
+}
+
+.tile-menu-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tile-menu-detail {
+  display: flex;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.site-home .tile-stage.is-card-menu {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  padding: 0;
+  overflow: hidden;
+  perspective: none;
+  touch-action: none;
+}
+
+.site-home .tile-stage.is-card-menu[data-menu-ready] {
+  overflow-y: auto;
+  touch-action: pan-y;
+  scroll-padding: 136px 0 24px;
+}
+
+.tile-stage.is-card-menu::after {
+  display: block;
+  height: var(--card-menu-height);
+  content: "";
+  pointer-events: none;
+}
+
+.is-card-menu .tile-pivot,
+.is-card-menu .tile-world {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: block;
+  width: 0;
+  height: 0;
+  perspective: none;
+  transform-style: flat;
+}
+
+.is-card-menu .tile {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: block;
+  aspect-ratio: auto;
+  overflow: hidden;
+  border-radius: 0;
+  filter: none;
+  cursor: pointer;
+}
+
+.is-card-menu .tile-image,
+.is-card-menu .tile-fallback {
+  position: absolute;
+  inset: 0 auto auto 0;
+  aspect-ratio: auto;
+  border-radius: 3px;
+}
+
+.is-card-menu .tile-meta,
+.is-card-menu .tile-category,
+.is-card-menu .tile-veil,
+.is-card-menu .tile-clip {
+  visibility: hidden;
+}
+
+.is-card-menu[data-menu-ready] .tile:hover,
+.is-card-menu[data-menu-ready] .tile:focus-within {
+  background-color: #181818 !important;
+}
+
+.is-card-menu[data-menu-ready] .tile:focus-within {
+  outline: 1px solid #fff;
+  outline-offset: -1px;
+}
+
+.site-home :is(.stage-intro, .stage-footer) {
+  transition:
+    opacity 0.32s var(--ease),
+    translate 0.32s var(--ease),
+    visibility 0s;
+}
+
+.site-home:has(.is-card-menu) :is(.stage-intro, .stage-footer) {
+  opacity: 0;
+  translate: 0 8px;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.18s var(--ease),
+    translate 0.18s var(--ease),
+    visibility 0s 0.18s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-home :is(.stage-intro, .stage-footer) {
+    transition: none;
+  }
 }
