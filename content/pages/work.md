@@ -2,6 +2,6 @@
 
 **Max Berlin Network website (2025).** Public site for the Max Berlin Network meetups: next meetup on the homepage, event pages, newsletter signup and archive. Organisers update it through PagesCMS without a developer. Next.js, TypeScript, Tailwind. maxberlin.network
 
-**Glossia (2026, proof of concept).** Turns a plain-language workflow description into a node graph. A domain file defines the allowed node types, ports and parameters. The model writes graph JSON, zod validates it, and React Flow renders only validated graphs. It does not run the workflows. glossia-seven.vercel.app · github.com/aylesim/Glossia
+**Glossia (2026, proof of concept).** Compiles a written request into a typed workflow, checks the graph, and records each step as it runs. A deterministic analyzer and bounded repair pass check generated graphs before execution. The studio includes recorded examples that run without an API key, with an inspector and execution traces. glossia-seven.vercel.app · github.com/aylesim/Glossia
 
-**ShapeLLM (2026, proof of concept).** A language model rates how angry a text sounds, from 0 to 1, and a three.js shape gets sharper and redder as the score rises. The call goes through a Next.js API route and zod validates the reply. The live demo needs an OpenAI or OpenRouter key. shape-llm.vercel.app · github.com/aylesim/ShapeLLM
+**ShapeLLM (2026, proof of concept).** Reads the tone of a text across six dimensions and maps that reading to a 3D form, with source quotes behind the scores. The Reading Room follows changing tone through longer texts with animated forms and optional speech. Sample readings and a local fallback work without an API key. shape-llm.vercel.app · github.com/aylesim/ShapeLLM
